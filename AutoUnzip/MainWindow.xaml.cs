@@ -21,9 +21,6 @@ using System.Windows.Shapes;
 
 namespace AutoUnzip
 {
-    /// <summary>
-    /// Interaktionslogik für MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public ObservableCollection<string> LastExtractedFiles { get; set; } = new ObservableCollection<string> ();
@@ -57,7 +54,6 @@ namespace AutoUnzip
         public void ShowExtractedFiles (List<string> fileCollection)
         {
             const int MAX_FILES_TO_SHOW = 5;
-            int selectedFiles = 0;
 
 
             this.LastExtractedFiles.Clear ();
@@ -67,14 +63,12 @@ namespace AutoUnzip
                 Random rnd = new Random ();
 
 
-                while (selectedFiles <= MAX_FILES_TO_SHOW)
+                while (this.LastExtractedFiles.Count < MAX_FILES_TO_SHOW)
                 {
                     int rndFileIndex = rnd.Next (fileCollection.Count);
 
 
                     this.LastExtractedFiles.Add (fileCollection[rndFileIndex]);
-
-                    selectedFiles++;
                 }
             }
             else
@@ -124,7 +118,7 @@ namespace AutoUnzip
                 Duration = new Duration (TimeSpan.FromSeconds (1.5))
             };
 
-            //fadeInAnimation.Completed += (s, e) => StartFadeoutAnimationWithDelay ();
+            fadeInAnimation.Completed += (s, e) => StartFadeoutAnimationWithDelay ();
 
             this.BeginAnimation (UIElement.OpacityProperty, fadeInAnimation);
         }

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Reflection;    // Für Icon
 using System.Threading.Tasks;
 using System.Windows;
-using System.IO.Compression;
 using System.Windows.Forms; // Für NotifyIcon
-using System.Drawing;
-using System.Reflection;    // Für Icon
 
 
 
@@ -20,33 +20,13 @@ namespace AutoUnzip
     /// </summary>
     public partial class App : System.Windows.Application
     {
-        private enum FileProcessingCheckpoint
-        {
-            [System.ComponentModel.Description ("Kein Schritt")]
-            None = 0,
-            [System.ComponentModel.Description ("Warte auf freien Dateihandle")]
-            WaitForFreeFileHandle,
-            [System.ComponentModel.Description ("Vorbereitung des temporären Ordners")]
-            PrepareTempfolder,
-            [System.ComponentModel.Description ("ZIP-Datei entpacken")]
-            ExtractZipFile,
-            [System.ComponentModel.Description ("ZIP-Datei sichern")]
-            BackupZipFile,
-            [System.ComponentModel.Description ("Dateien in Zielordner verschieben")]
-            MoveExtractFilesToTargetfolder,
-            [System.ComponentModel.Description ("Temporären Ordner löschen")]
-            DeleteTempfolder,
-            [System.ComponentModel.Description ("Backup-Ordner bereinigen")]
-            CleanupBacklupFolder,
-            [System.ComponentModel.Description ("Fertig")]
-            Finished,
-        }
+        public const string APP_TITLE = "iCloudHelper";
 
 
 
         private FileSystemWatcher _Watcher;
         private NotifyIcon _NotifyIcon;
-        private FileProcessingCheckpoint _Checkpoint = FileProcessingCheckpoint.None;
+        private WorkStuffClass.FileProcessingCheckpoint _Checkpoint;
 
 
 
@@ -72,19 +52,22 @@ namespace AutoUnzip
 
         private void App_Startup (object sender, StartupEventArgs e)
         {
-            // Start file monitoring
+            // Start file monitor.
             Init_FileMonitoring ();
 
-            // Start system tray icon
+            // Show system tray icon.
             Init_TrayNotifyIcon ();
         }
 
 
 
+        /// <summary>
+        /// Show system try icon and add context menu items to it,
+        /// </summary>
         private void Init_TrayNotifyIcon ()
         {
             Icon icon = SystemIcons.Information;
-            var assembly = Assembly.GetExecutingAssembly ();
+            Assembly assembly = Assembly.GetExecutingAssembly ();
 
 
             using (Stream stream = assembly.GetManifestResourceStream ("AutoUnzip.Resources.icloud-logo-49272-Windows.ico"))
@@ -100,9 +83,25 @@ namespace AutoUnzip
             _NotifyIcon.Visible = true;
             _NotifyIcon.Text = "AutoUnzip (Running in background)";
 
-            // Kontextmenü für das Tray-Icon
+            // Make and add context menu items to the tray icon.
             var contextMenu = new ContextMenu ();
-            contextMenu.MenuItems.Add ("Exit application", (s, ev) =>
+            contextMenu.MenuItems.Add ("Einstellungen", (s, ev) =>
+            {
+                this.Dispatcher.Invoke (() =>
+                {
+                    ConfigWindow win = new ConfigWindow ();
+                    win.ShowDialog ();
+
+                    if (win.DialogResult == true)
+                    {
+                        // User closed the config window by pressing the save button --> new configuration.
+
+                        Init_FileMonitoring (); // Restart file monitoring with new settings.
+                    }
+                });
+            });
+            contextMenu.MenuItems.Add ("-");
+            contextMenu.MenuItems.Add ("Anwendung beenden", (s, ev) =>
             {
                 _NotifyIcon.Visible = false;
                 Shutdown ();
@@ -112,26 +111,47 @@ namespace AutoUnzip
 
 
 
+        /// <summary>
+        /// Start file monitor by using a FileSystemWatcher instance.
+        /// </summary>
+        /// <exception cref="DirectoryNotFoundException"></exception>
         private void Init_FileMonitoring ()
         {
-            try
-            {
-                // Sicherstellen, dass die Zielordner existieren
-                Directory.CreateDirectory (AutoUnzip.Properties.Settings.Default.ExtractPath);
-                Directory.CreateDirectory (AutoUnzip.Properties.Settings.Default.BackupPath);
+            START:
 
-                if (Directory.Exists (AutoUnzip.Properties.Settings.Default.WatchPath) == false)
+            if (WorkStuffClass.CheckFolder (false) != true)
+            {
+                if (System.Windows.MessageBox.Show ($"At least one required directory is missing.\nFor this program to work properly, " +
+                    $"the directories / folders must be configured correctly.\n\n" +
+                    $"Should the configuration window be displayed so that the settings can be adjusted?",
+                    $"{APP_TITLE} - Warning",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    throw new DirectoryNotFoundException ("Folder \"" + AutoUnzip.Properties.Settings.Default.WatchPath + "\" not exists.");
+                    ConfigWindow win = new ConfigWindow ();
+                    win.ShowDialog ();
+
+                    if (win.DialogResult == false)
+                    {
+                        // User closed the config window without saving the config.
+
+                        Shutdown ();
+                        return;
+                    }
+
+                    goto START;
+                }
+                else
+                {
+                    Shutdown ();
+                    return;
                 }
             }
-            catch (Exception ex)
+
+            if (_Watcher != null)
             {
-                System.Windows.MessageBox.Show ("An error ocurred while creating / checking required folders.\n\nMessage: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                Shutdown ();
-
-                return;
+                _Watcher.EnableRaisingEvents = false;
+                _Watcher.Dispose ();
             }
 
             _Watcher = new FileSystemWatcher (AutoUnzip.Properties.Settings.Default.WatchPath, AutoUnzip.Properties.Settings.Default.FilenameToSearch)
@@ -143,12 +163,7 @@ namespace AutoUnzip
             {
                 try
                 {
-                    List<String> extractFiles = new List<string> ();
-
-
-                    _Checkpoint = FileProcessingCheckpoint.WaitForFreeFileHandle;
-
-                    // Warten, bis die Datei nicht mehr gesperrt ist
+                    // Wait until the files becomes unlocked.
                     for (int i = 0; i < 10; i++)
                     {
                         try
@@ -164,107 +179,30 @@ namespace AutoUnzip
                         }
                     }
 
-
-                    _Checkpoint = FileProcessingCheckpoint.PrepareTempfolder;
-
-
-                    // Temporären Ordner erstellen
-                    string tempPath = Path.Combine (Path.GetTempPath (), AutoUnzip.Properties.Settings.Default.TempFolderPrefix + Path.GetRandomFileName ().Replace (".", string.Empty).Substring (0, 8));
-                    if (Directory.Exists (tempPath))
-                    {
-                        Directory.Delete (tempPath, true);
-                    }
-                    Directory.CreateDirectory (tempPath);
-
-
-                    _Checkpoint = FileProcessingCheckpoint.ExtractZipFile;
-
-
-                    // Entpacken in temporären Ordner
-                    ZipFile.ExtractToDirectory (ev.FullPath, tempPath);
-
-
-                    _Checkpoint = FileProcessingCheckpoint.BackupZipFile;
-
-
-                    // ZIP-Datei in Backupordner verschieben
-                    if (AutoUnzip.Properties.Settings.Default.BackupRetentionPeriod >= 0)
-                    {
-                        string backupZipFileName = Path.GetFileNameWithoutExtension (ev.FullPath) + "_" + DateTime.Now.ToString ("yyyyMMdd_HHmmss") + ".zip";
-                        string backupZipFile = Path.Combine (AutoUnzip.Properties.Settings.Default.BackupPath, backupZipFileName);
-                        if (File.Exists (backupZipFile))
-                        {
-                            File.Delete (backupZipFile);
-                        }
-                        File.Move (ev.FullPath, backupZipFile);
-                    }
-
-
-                    _Checkpoint = FileProcessingCheckpoint.MoveExtractFilesToTargetfolder;
-
-
-                    // Entpackte Dateien vom Tempordner in den Zielordner verschieben
-                    string[] fileList = Directory.GetFiles (tempPath, "*", SearchOption.AllDirectories);
-                    foreach (var file in fileList)
-                    {
-                        string newTargetFile = Path.Combine (AutoUnzip.Properties.Settings.Default.ExtractPath, Path.GetFileName (file));
-
-
-                        if (File.Exists (newTargetFile))
-                        {
-                            string randomSuffix = Path.GetRandomFileName ().Replace (".", string.Empty).Substring (0, 3); // 3-stelliger zufälliger Suffix
-                            newTargetFile = Path.Combine (AutoUnzip.Properties.Settings.Default.ExtractPath, $"{Path.GetFileNameWithoutExtension (file)}_{randomSuffix}{Path.GetExtension (file)}");
-                        }
-
-                        File.Move (file, Path.Combine (AutoUnzip.Properties.Settings.Default.ExtractPath, Path.GetFileName (newTargetFile)));
-
-                        extractFiles.Add (newTargetFile);
-                    }
-
-
-                    _Checkpoint = FileProcessingCheckpoint.DeleteTempfolder;
-
-
-                    // Temporären Ordner löschen
-                    Directory.Delete (tempPath, true);
-
-
-                    _Checkpoint = FileProcessingCheckpoint.CleanupBacklupFolder;
-
-
-                    // Lösche alle Dateien im Backup-Ordner, die älter als xx Tage sind
-                    if (AutoUnzip.Properties.Settings.Default.BackupRetentionPeriod > 0)
-                    {
-                        var files = Directory.GetFiles (AutoUnzip.Properties.Settings.Default.BackupPath, "*.zip", SearchOption.TopDirectoryOnly);
-                        foreach (var backupFile in files)
-                        {
-                            try
-                            {
-                                if (File.GetCreationTime (backupFile) < DateTime.Now.AddDays (AutoUnzip.Properties.Settings.Default.BackupRetentionPeriod * -1))
-                                {
-                                    File.Delete (backupFile);
-                                }
-                            }
-                            catch
-                            {
-                                ; // Ignoriere Fehler beim Löschen von alten Backup-Dateien
-                            }
-                        }
-                    }
-
-
-                    _Checkpoint = FileProcessingCheckpoint.Finished;
-
-
-                    ShowMainWindow (extractFiles);
                 }
                 catch (Exception ex)
                 {
-                    System.Windows.MessageBox.Show ($"An error occurred while processing a new \"{ev.Name}\" file in \"{AutoUnzip.Properties.Settings.Default.WatchPath}\" folder.\n" +
-                        $"The error occurred at the following processing step: {GetEnumDescription (_Checkpoint)}.\n\n" +
-                        $"Backup files exist in the folder \"{AutoUnzip.Properties.Settings.Default.BackupPath}\".\n\n" +
+                    System.Windows.MessageBox.Show ($"An error occurred while waiting for file access to \"{ev.Name}\" located in folder \"{AutoUnzip.Properties.Settings.Default.WatchPath}\".\n\n" +
+                        $"No backup files was created!" +
                         $"System error message is \"{ex.Message}\"",
-                        "Error",
+                        $"{APP_TITLE} - Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+
+                // Process the new file.
+                var workResult = WorkStuffClass.DoWork (ev.FullPath);
+                if (workResult.WorkSuccess)
+                {
+                    ShowMainWindow (workResult.ExtractedFiles);
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show ($"An error occurred while processing a new \"{ev.Name}\" file in \"{AutoUnzip.Properties.Settings.Default.WatchPath}\" folder.\n" +
+                        $"The error occurred at the following processing step: {GetEnumDescription (workResult.LastCheckpoint)}.\n\n" +
+                        $"Backup files exist in the folder \"{AutoUnzip.Properties.Settings.Default.BackupPath}\".\n\n" +
+                        $"Optional error message \"{workResult.ErrorMessage}\"",
+                        $"{APP_TITLE} - Error",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
                 }
@@ -302,7 +240,7 @@ namespace AutoUnzip
         private static string GetEnumDescription (Enum value)
         {
             var fi = value.GetType ().GetField (value.ToString ());
-            var attributes = (System.ComponentModel.DescriptionAttribute[])fi.GetCustomAttributes (typeof (System.ComponentModel.DescriptionAttribute), false);
+            var attributes = (System.ComponentModel.DescriptionAttribute[]) fi.GetCustomAttributes (typeof (System.ComponentModel.DescriptionAttribute), false);
 
 
             return (attributes.Length > 0) ? attributes[0].Description : value.ToString ();

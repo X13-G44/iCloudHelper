@@ -6,13 +6,13 @@
       <Value Profile="(Default)">iCloud.zip</Value>
     </Setting>
     <Setting Name="WatchPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">c:\test</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ExtractPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">c:\test\extracted</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="BackupPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">c:\test\backup</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="BackupRetentionPeriod" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">90</Value>

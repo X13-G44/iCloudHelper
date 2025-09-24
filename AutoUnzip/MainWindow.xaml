@@ -5,13 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoUnzip"
         mc:Ignorable="d"
-        Title="AutoUnzip" Height="150" Width="400"
+        Title="iCloudHelper" 
+        Height="150" 
+        Width="400"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         Background="Transparent"         
         Topmost="True"
         AllowsTransparency="True"
-        ShowInTaskbar="False" Icon="/icloud-logo-49272-Windows.ico">
+        ShowInTaskbar="False" 
+        Icon="/icloud-logo-49272-Windows.ico">
 
     <Border Background="#FF26282B"
             BorderBrush="CadetBlue"

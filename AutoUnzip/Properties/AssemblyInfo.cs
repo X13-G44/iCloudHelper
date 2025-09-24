@@ -11,7 +11,7 @@ using System.Windows;
 [assembly: AssemblyDescription ("")]
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("X13-G44.com")]
-[assembly: AssemblyProduct ("iCloudTools")]
+[assembly: AssemblyProduct ("iCloudHelper")]
 [assembly: AssemblyCopyright ("Copyright © X13-G44 2025")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
