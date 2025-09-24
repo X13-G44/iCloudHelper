@@ -1,0 +1,949 @@
+﻿<Window x:Class="QuickSort.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuickSort"
+        xmlns:myView="clr-namespace:QuickSort.ui_element"
+        mc:Ignorable="d"
+        Title="Dateiauswahl" 
+        Height="850" 
+        Width="1300"
+        Background="#FF1B1D1F"
+        WindowStyle="None"
+        ResizeMode="CanResizeWithGrip" Icon="/icloud-logo-49272-Windows.ico" >
+
+    <Window.Resources>
+
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+        <!-- File Titles Context Menu Style -->
+        <Style x:Key="CustomContextMenuStyle" TargetType="ContextMenu">
+            <Setter Property="Background" Value="#FF26282B"/>
+            <Setter Property="BorderBrush" Value="#FF3A3E42"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Grid.IsSharedSizeScope" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContextMenu">
+
+                        <Border x:Name="Border"
+                                BorderBrush="CadetBlue" 
+                                BorderThickness="1" 
+                                Background="#FF26282B"
+                                Padding="10">
+
+                            <StackPanel IsItemsHost="True"
+                                        KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                        </Border>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+        <Style x:Key="CustomMenuItemStyle" TargetType="MenuItem">
+            <Setter Property="Background" Value="#FF616469"/>
+            <Setter Property="Foreground" Value="#FFD8D8D8"/>
+            <Setter Property="BorderBrush" Value="#FF7D7D86"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Border x:Name="OUTER_BORDER"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="3">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <TextBlock Text="{TemplateBinding Tag}" 
+                                           Foreground="{TemplateBinding Foreground}" 
+                                           FontFamily="Segoe UI Symbol" 
+                                           FontSize="{TemplateBinding FontSize}" 
+                                           Margin="0"
+                                           VerticalAlignment="Center"/>
+
+                                <ContentPresenter Margin="{TemplateBinding Padding}" 
+                                                  VerticalAlignment="Center"
+                                                  ContentSource="Header"/>
+
+                            </StackPanel>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="#FF4A90E2"/>
+                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="#FF2A578C"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="OUTER_BORDER" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- TargetFolder Tooltip-Style -->
+        <Style x:Key="{x:Type ToolTip}" TargetType="ToolTip">
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="HasDropShadow" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToolTip">
+
+                        <Border Name="Border"
+                                BorderBrush="CadetBlue" 
+                                BorderThickness="1" 
+                                Background="#FF26282B"
+                                Padding="10"
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}">
+
+                            <ContentPresenter Margin="4"                                                  
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasDropShadow" Value="true">
+                                <Setter TargetName="Border" Property="CornerRadius" Value="4" />
+                                <Setter TargetName="Border" Property="SnapsToDevicePixels" Value="true" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- TargetFolder Edit Button-Style -->
+        <Style x:Key="TargetFolderEditButtonStyle" TargetType="Button">
+            <Setter Property="BorderBrush" Value="#FF7D7D86"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#FFD8D8D8"/>
+            <Setter Property="Background" Value="#FF616469"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="OUTER_BORDER"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="3">
+                            <StackPanel Orientation="Vertical" 
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center">
+
+                                <TextBlock Text="&#xE1DA;" 
+                                           Foreground="{TemplateBinding Foreground}" 
+                                           FontSize="20" 
+                                           FontFamily="Segoe UI Symbol" 
+                                           Margin="0,0,0,5"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Text="{TemplateBinding Content}" 
+                                           Foreground="{TemplateBinding Foreground}" 
+                                           FontSize="{TemplateBinding FontSize}" 
+                                           FontFamily="{TemplateBinding FontFamily}" 
+                                           Margin="0"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="#FF4A90E2"/>
+                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="#FF2A578C"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- TargetFolder Item Button-Style -->
+        <Style x:Key="TargetFolderItemButtonStyle" TargetType="myView:TargetFolderButton">
+            <Setter Property="BorderBrush" Value="#FF7D7D86"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#FFD8D8D8"/>
+            <Setter Property="Background" Value="#FF616469"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="MinWidth" Value="75"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="myView:TargetFolderButton">
+                        <Border x:Name="OUTER_BORDER"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="3">
+                            <Grid>
+                                <Path Data="M10,2 L12.94,7.63 L19,8.27 L14,12.14 L15.18,18.02 L10,15 L4.82,18.02 L6,12.14 L1,8.27 L7.06,7.63 Z"
+                                      Stroke="#FFE6C010"
+                                      StrokeThickness="2"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Top"                                      
+                                      Visibility="{Binding IsPinned, Converter={StaticResource BoolToVis}}"/>
+
+                                <StackPanel Orientation="Vertical" 
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center">
+
+                                    <TextBlock Text="&#xE1C1;" 
+                                           Foreground="{TemplateBinding Foreground}" 
+                                           FontSize="20" 
+                                           FontFamily="Segoe UI Symbol" 
+                                           Margin="0,0,0,5"
+                                           VerticalAlignment="Center"/>
+
+                                    <TextBlock Text="{TemplateBinding Content}" 
+                                           Foreground="{TemplateBinding Foreground}" 
+                                           FontSize="{TemplateBinding FontSize}" 
+                                           FontFamily="{TemplateBinding FontFamily}" 
+                                           Margin="0"
+                                           VerticalAlignment="Center"/>
+
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="#FF4A90E2"/>
+                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="#FF2A578C"/>
+                            </Trigger>
+
+                            <DataTrigger Binding="{Binding IsPinned}" Value="True">
+                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="#FFE6C010"/>
+                            </DataTrigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Dialogbox Button-Style -->
+        <Style x:Key="DialogboxButtonStyle" TargetType="Button">
+            <Setter Property="BorderBrush" Value="#FF7D7D86"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#FFD8D8D8"/>
+            <Setter Property="Background" Value="#FF616469"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="OUTER_BORDER"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="3">
+                            <StackPanel Orientation="Horizontal" 
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center">
+
+                                <TextBlock Text="{TemplateBinding Tag}" 
+                                           Foreground="{TemplateBinding Foreground}" 
+                                           FontFamily="Segoe UI Symbol" 
+                                           FontSize="{TemplateBinding FontSize}" 
+                                           Margin="5,5,0,5"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Text="{TemplateBinding Content}" 
+                                           Foreground="{TemplateBinding Foreground}" 
+                                           FontSize="{TemplateBinding FontSize}" 
+                                           FontFamily="{TemplateBinding FontFamily}" 
+                                           Margin="5,5,5,5"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="#FF4A90E2"/>
+                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="#FF2A578C"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- File Title Button-Style -->
+        <Style x:Key="FileTitleButtonStyle" TargetType="myView:FileTitleButton">
+            <Setter Property="BorderBrush" Value="#FF7D7D86"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="#FF616469"/>
+            <Setter Property="Foreground" Value="#FFD8D8D8"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="myView:FileTitleButton">
+
+                        <Border x:Name="OUTER_BORDER" 
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="5"
+                                Padding="{TemplateBinding Padding}" 
+                                Margin="{TemplateBinding Margin}">
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Path Grid.Row="0"
+                                      Grid.RowSpan="2"
+                                      Margin="1"
+                                      Data="M2,8 L6,12 L14,4"
+                                      Stroke="LimeGreen"
+                                      StrokeThickness="2"                                      
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Top"
+                                      Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}"/>
+
+                                <Image Grid.Row="0" 
+                                       Source="{Binding Thumbnail}" 
+                                               Stretch="Uniform"/>
+                                <!--Width="{Binding ImgWidth}" 
+                                Height="{Binding ImgHeight}"-->
+
+                                <TextBlock x:Name="FILENAME_TEXT"
+                                           Grid.Row="1"
+                                           Text="{Binding DisplayName}" 
+                                           Margin="0,5,0,0"
+                                           TextAlignment="Center" 
+                                           Foreground="WhiteSmoke" 
+                                           FontSize="12" 
+                                           TextTrimming="CharacterEllipsis"/>
+
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="LimeGreen"/>
+                                <Setter TargetName="OUTER_BORDER" Property="BorderThickness" Value="2"/>
+                                <Setter TargetName="OUTER_BORDER" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStop Color="LimeGreen" Offset="1" />
+                                                <GradientStop Color="#00000000" Offset=".5" />
+                                                <GradientStop Color="#00000000" Offset="0" />
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="#FF4A90E2"/>
+                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="#FF2A578C"/>
+                            </Trigger>                            
+                            
+                            <DataTrigger Binding="{Binding HideFilenameText}" Value="True">
+                                <Setter TargetName="FILENAME_TEXT" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+    </Window.Resources>
+
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+A" Command="{Binding Cmd_ContextMenu_SelectAllFileTitles}" />
+        <!--<KeyBinding Key="A" Modifiers="Ctrl" Command="{Binding Cmd_ContextMenu_SelectAllFileTitles}" />-->
+    </Window.InputBindings>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" MinHeight="100"/>
+        </Grid.RowDefinitions>
+
+
+        <!-- Window Title bar section -->
+        <Grid Grid.Row="0"
+              MouseLeftButtonDown="Grid_MouseLeftButtonDown"
+              Cursor="Hand">
+
+            <Grid.Background>
+                <SolidColorBrush Color="CadetBlue"/>
+            </Grid.Background>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5">
+
+                <!-- Minimieren -->
+                <Button Width="32" Height="32" Margin="0,0,5,0"
+                        Background="Transparent" BorderThickness="0"
+                        Command="{Binding Cmd_ApplicationMinimize}">
+
+                    <TextBlock Text="━" FontSize="18" 
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Center" 
+                               Foreground="White"/>
+                </Button>
+
+                <!-- Verkleinern/Maximieren -->
+                <Button Width="32" Height="32"
+                        Background="Transparent" BorderThickness="0"
+                        Command="{Binding Cmd_ApplicationMaximizeRestore}">
+                    <TextBlock Text="▢" 
+                               FontSize="16" 
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Center" 
+                               Foreground="White"/>
+                </Button>
+
+                <!-- Schließen -->
+                <Button Width="32" Height="32" Margin="0,0,5,0"
+                        Background="Transparent" BorderThickness="0"
+                        Command="{Binding Cmd_ApplicationClose}">
+
+                    <TextBlock Text="✕" 
+                               FontSize="18" 
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Center" 
+                               Foreground="White"/>
+                </Button>
+            </StackPanel>
+
+        </Grid>
+
+        <!-- File Titles Section -->
+        <Border Grid.Row="1"
+                Margin="15"
+                Background="#FF26282B"
+                BorderThickness="2"
+                BorderBrush="#FF3A3E42"
+                CornerRadius="5">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Margin="10,10,0,5"
+                           Foreground="CadetBlue"
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left">
+                    Dateiauswahl:
+                </TextBlock>
+
+                <TextBlock Grid.Row="0"
+                           Margin="10,10,10,5"
+                           Foreground="CadetBlue"
+                           FontSize="18"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right" 
+                           FontFamily="Segoe UI Light" 
+                           FontStyle="Italic"
+                           Text="{Binding RootPath}"/>
+
+
+                <Rectangle Grid.Row="1"                           
+                           Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"                           
+                           Height="1" 
+                           Fill="CadetBlue" 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Left"/>
+
+                <ScrollViewer Grid.Row="2" 
+                              Margin="5,10,5,10">
+                    <ScrollViewer.Resources>
+
+                        <Style TargetType="ScrollBar">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Width" Value="8"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ScrollBar">
+                                        <Grid x:Name="BgGrid" 
+                                          Background="Transparent"
+                                          SnapsToDevicePixels="true">
+
+                                            <Border x:Name="ThumbLine"
+                                                Width="1" 
+                                                Background="#FF7D7D86" 
+                                                HorizontalAlignment="Center"/>
+
+                                            <Track x:Name="PART_Track"
+                                               IsDirectionReversed="true" 
+                                               Focusable="False">
+                                                <Track.DecreaseRepeatButton>
+                                                    <RepeatButton Command="ScrollBar.LineUpCommand" 
+                                                              Style="{x:Null}" 
+                                                              IsTabStop="False" 
+                                                              Opacity="0"/>
+                                                </Track.DecreaseRepeatButton>
+                                                <Track.Thumb>
+
+                                                    <Thumb x:Name="Thumb"
+                                                       OverridesDefaultStyle ="True"
+                                                       IsTabStop ="False"
+                                                       Foreground="#FF616469">
+
+                                                        <Thumb.Template>
+                                                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                                                <Rectangle x:Name="ThumbRec"
+                                                                       Height="35" 
+                                                                       Width="8" 
+                                                                       Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Thumb}}" 
+                                                                       RadiusX="5" 
+                                                                       RadiusY="5">
+                                                                    <Rectangle.Effect>
+                                                                        <DropShadowEffect ShadowDepth="0" 
+                                                                                      BlurRadius="10" 
+                                                                                      Color="#FF616469" />
+                                                                    </Rectangle.Effect>
+                                                                </Rectangle>
+                                                            </ControlTemplate>
+                                                        </Thumb.Template>
+                                                    </Thumb>
+
+                                                </Track.Thumb>
+                                                <Track.IncreaseRepeatButton>
+                                                    <RepeatButton Command="ScrollBar.LineDownCommand" 
+                                                              Style="{x:Null}" 
+                                                              IsTabStop="False" 
+                                                              Opacity="0"/>
+                                                </Track.IncreaseRepeatButton>
+                                            </Track>
+
+                                        </Grid>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Thumb" Property="Foreground" Value="#FF4A90E2"/>
+                                                <Setter TargetName="ThumbLine" Property="Background" Value="#FF2A578C"/>
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="Thumb" Property="Opacity" Value="0.3"/>
+                                                <Setter TargetName="ThumbLine" Property="Visibility" Value="Hidden"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+
+
+                    </ScrollViewer.Resources>
+
+                    <ItemsControl ItemsSource="{Binding FileTileList}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+
+                                <myView:FileTitleButton Style="{StaticResource FileTitleButtonStyle}"
+                                                        Width="{Binding Width}"
+                                                        Height="{Binding Height}"
+                                                        Margin="5"                                                        
+                                                        
+                                                        DisplayName="{Binding DisplayName}"
+                                                        Thumbnail="{Binding Thumbnail}"
+                                                        IsSelected="{Binding IsSelected}"
+                                                        HideFilenameText ="{Binding HideFilenameText}"
+                                                        SizeLevel ="{Binding SizeLevel}"
+                                                        
+                                                        ToolTip="{Binding ToolTip}"
+                                                        
+                                                        Command="{Binding DataContext.Cmd_ClickOnFileTitleItem, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                        CommandParameter="{Binding}"/>
+
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                    </ItemsControl>
+
+                </ScrollViewer>
+
+            </Grid>
+
+            <Border.ContextMenu>
+                <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
+                    <MenuItem Header="Alles markieren" 
+                              Style="{StaticResource CustomMenuItemStyle}" 
+                              Tag="&#xE1EF;"
+                              Command="{Binding Cmd_ContextMenu_SelectAllFileTitles}"/>
+
+                    <MenuItem Header="Auswahl aufheben" 
+                              Style="{StaticResource CustomMenuItemStyle}" 
+                              
+                              Command="{Binding Cmd_ContextMenu_UnSelectAllFileTitles}"/>
+
+                    <MenuItem Header="Kleine Symbolgröße" 
+                              Style="{StaticResource CustomMenuItemStyle}" 
+                              Tag="&#xE12E;"
+                              Command="{Binding Cmd_ContextMenu_SetFileTitleSize}" 
+                              CommandParameter="0"/>
+
+                    <MenuItem Header="Mittlere Symbolgröße" 
+                              Style="{StaticResource CustomMenuItemStyle}" 
+                              Tag="&#xE12E;"
+                              Command="{Binding Cmd_ContextMenu_SetFileTitleSize}"
+                              CommandParameter="1"/>
+
+                    <MenuItem Header="Große Symbolgröße" 
+                              Style="{StaticResource CustomMenuItemStyle}" 
+                              Tag="&#xE12E;"
+                              Command="{Binding Cmd_ContextMenu_SetFileTitleSize}" 
+                              CommandParameter="2"/>
+
+                    <MenuItem Header="Neu einlesen" 
+                              Style="{StaticResource CustomMenuItemStyle}" 
+                              Tag="&#xE117;"
+                              Command="{Binding Cmd_ContextMenu_RefreshFileTitleList}"
+                              CommandParameter="2"/>
+                </ContextMenu>
+            </Border.ContextMenu>
+        </Border>
+
+        <!-- Target Folder Section -->
+        <Border Grid.Row="2"
+                Margin="15"
+                Background="#FF26282B"
+                BorderThickness="2"
+                BorderBrush="#FF3A3E42"
+                CornerRadius="5">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Margin="10,10,0,5"
+                           Foreground="CadetBlue"
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left">
+                    Zielordner:
+                </TextBlock>
+
+                <Rectangle Grid.Row="1"                           
+                           Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"                           
+                           Height="1" 
+                           Fill="CadetBlue" 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Left"/>
+
+                <StackPanel Grid.Row="2"
+                            Margin="5,10,5,10"
+                            Orientation="Horizontal">
+
+                    <Button Style="{StaticResource TargetFolderEditButtonStyle}" 
+                            Content="Ordner hinzufügen"
+                            Command="{Binding Cmd_AddNewTargetFolder}"
+                            ToolTip="Ausgewählte Dateien in einen neuen Ordner verschieben"/>
+
+                    <ItemsControl ItemsSource="{Binding TargetFolderList}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+
+                                <myView:TargetFolderButton Style="{StaticResource TargetFolderItemButtonStyle}"
+                                                Margin="5" 
+                                                Padding="5"                                                
+                                                Content="{Binding DisplayName}"
+                                                Command="{Binding Cmd_OpenFolderCommand}"
+                                                CommandParameter="{Binding Path}"
+                                                ToolTip="{Binding ToolTip}"
+                                                IsPinned="{Binding IsPinned}">
+                                    
+                                    <myView:TargetFolderButton.ContextMenu>
+                                        <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
+
+                                            <!-- Irgenwie funktioniert das mit dem CommandoBinding nicht: Die Kommando-Properties sind im Viewmodel abgelegt. 
+                                            um darauf zuzugreifen, muss mus der Datencontext der Items, die in der ItemsControl-Liste
+                                            Angezeit werden, geändert werden. Diese Items haben (DataTemplate) einen geänderten Datencontext; der zeigt jeweils auf 
+                                            eine Instanz des FileTile-Model. Irgenwie kann das Binding nicht aufgelöst werden. 
+                                            Workaround: Die FileTile-Model Klasse stellt ebenfalls die Kommando-Properties bereit. -->
+
+                                            <!--<MenuItem Header="Favorit Test"
+                                                  Style="{StaticResource CustomMenuItemStyle}"
+                                                  Command="{Binding DataContext.Cmd_ContextMenu_RemoveTargetFolder, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                  CommandParameter="{Binding}" />-->
+
+                                            <!--<MenuItem Header="Favorit Test"
+                                                  Style="{StaticResource CustomMenuItemStyle}"
+                                                  DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                  Command="{Binding Cmd_ContextMenu_RemoveTargetFolder}"
+                                                  CommandParameter="{Binding}" />-->
+
+                                            <MenuItem Header="Eintrag entfernen"
+                                                      Style="{StaticResource CustomMenuItemStyle}"
+                                                      Tag="&#xE107;"
+                                                      Command="{Binding Cmd_RemoveFolderFromListCommand}"
+                                                      CommandParameter="{Binding}"/>
+
+                                            <MenuItem Header="Als Favoriert festlegen"
+                                                      Style="{StaticResource CustomMenuItemStyle}"
+                                                      Tag="&#xE1CF;"
+                                                      Command="{Binding Cmd_SetTargetFolderAsFavorite}"/>
+
+                                            <!-- Alternative: &#xE1CE; -->
+                                            <MenuItem Header="Als Favoriert entfernen"
+                                                      Style="{StaticResource CustomMenuItemStyle}"
+                                                      Tag="&#xE195;"
+                                                      Command="{Binding Cmd_ClearTargetFolderFavorite}"/>
+
+                                        </ContextMenu>
+                                    </myView:TargetFolderButton.ContextMenu>
+                                    
+                                </myView:TargetFolderButton>
+                                
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+
+        <!-- Overlay: File Moveprocess Popup Notification List -->
+        <ItemsControl Grid.RowSpan="3"
+                      ItemsSource="{Binding FileMoveProcPopupNotificationList}">
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="0,0,0,10" 
+                            Background="LightYellow" 
+                            CornerRadius="5" 
+                            Padding="10" 
+                            Width="300">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="15"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                           Grid.Row="0"
+                                           Text="Zielordner:" 
+                                           HorizontalAlignment="Left"/>
+
+                            <TextBlock Grid.Column="1"
+                                           Grid.Row="0"
+                                           Text="{Binding TargetPath}" 
+                                           HorizontalAlignment="Left"/>
+
+                            <TextBlock Grid.Column="0"
+                                           Grid.Row="1"
+                                           Text="Datei:" 
+                                           HorizontalAlignment="Left"/>
+
+                            <TextBlock Grid.Column="1"
+                                           Grid.Row="1"
+                                           Text="{Binding CurrentFileName}" 
+                                           HorizontalAlignment="Left"/>
+
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="1"
+                                       HorizontalAlignment="Right">>
+                                 <Run Text="("/>
+                                 <Run Text="{Binding FileProcessed}"/>
+                                 <Run Text="/"/>
+                                 <Run Text="{Binding FileCount}"/>
+                                 <Run Text=")"/>
+                            </TextBlock>
+
+
+                            <Button Grid.Column="1"
+                                        Grid.Row="0"
+                                        Margin="0,0,0,0" 
+                                        HorizontalAlignment="Right"
+                                        Content="×" 
+                                        Command="{Binding Cmd_ClosePopup}" />
+
+                            <ProgressBar Grid.Column="0"
+                                         Grid.Row="3" 
+                                         Grid.ColumnSpan="2"
+                                         Height="10"
+                                         Value="{Binding FileProcessed}" 
+                                         Maximum="{Binding FileCount}"/>
+
+                        </Grid>
+                    </Border>
+
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsFadingOut}" Value="true">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+            <ItemsControl.Style>
+                <Style TargetType="ItemsControl">
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="Margin" Value="0,0,20,20"/>
+                </Style>
+            </ItemsControl.Style>
+        </ItemsControl>
+
+        <!-- Overlay: Start File Move process dialog -->
+        <Grid Grid.RowSpan="3"
+              Background="#EF1B1D1F"
+              Visibility="{Binding DlgShow, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
+
+            <Border BorderThickness="2"
+                    BorderBrush="CadetBlue"
+                    Background="#FF26282B"                
+                    CornerRadius="15"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    MinWidth="20"
+                    MinHeight="20"
+                    Padding="15" 
+                    SnapsToDevicePixels="True">
+
+                <StackPanel Orientation="Horizontal">
+
+                    <TextBlock Grid.Column="1"
+                               Grid.Row="1"
+                               Text="❔"
+                               VerticalAlignment="Top"
+                               FontSize="92"
+                               Foreground="CadetBlue"/>
+
+                    <Grid Margin="20,0,0,0">
+                        <Grid.RowDefinitions>
+                            <!--Top distance -->
+                            <RowDefinition Height="*"/>
+                            <!--Titel-->
+                            <RowDefinition Height="Auto"/>
+                            <!--Top distance-->
+                            <RowDefinition Height="15"/>
+                            <!--Message Text-->
+                            <RowDefinition Height="Auto"/>
+                            <!--Top distance-->
+                            <RowDefinition Height="25"/>
+                            <!--Buttons-->
+                            <RowDefinition Height="Auto"/>
+                            <!--Bottom distance -->
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="Frage"
+                                   FontSize="20" 
+                                   Foreground="CadetBlue"
+                                   FontWeight="Bold"/>
+
+                        <TextBlock Grid.Row="3"
+                                   MaxWidth="300"
+                                   Foreground="#FFD8D8D8"
+                                   TextWrapping="Wrap">
+
+                             <Run Text="Sollen die ausgewählten "/>
+                             <Run Text="{Binding DlgFileCount}"/>
+                             <Run Text=" Dateien nach "/>
+                             <Run Text="{Binding DlgDisplayTargetPath}"/>
+                             <Run Text=" verschoben werden?"/>
+                        </TextBlock>
+
+                        <Button Grid.Row="5"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource DialogboxButtonStyle}" 
+                                Tag="&#xE10B;"
+                                Content="Verschieben"
+                                Command="{Binding Cmd_StartFileMoveProcess}"/>
+
+                        <Button Grid.Row="5"
+                                HorizontalAlignment="Right"
+                                Style="{StaticResource DialogboxButtonStyle}" 
+                                Tag="&#xE10A;"
+                                Content="Abbrechen"
+                                Command="{Binding Cmd_AbortStartFileMoveProcess}"/>
+
+                    </Grid>
+
+                </StackPanel>
+
+                <!--<Border.Effect>
+                <DropShadowEffect ShadowDepth="0"                                                 
+                                      BlurRadius="10"                                                                                       
+                                      Color="WhiteSmoke"/>
+            </Border.Effect>-->
+
+            </Border>
+
+        </Grid>
+
+    </Grid>
+</Window>

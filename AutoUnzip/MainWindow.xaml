@@ -1,0 +1,74 @@
+﻿<Window x:Class="AutoUnzip.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoUnzip"
+        mc:Ignorable="d"
+        Title="AutoUnzip" Height="150" Width="400"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Background="Transparent"         
+        Topmost="True"
+        AllowsTransparency="True"
+        ShowInTaskbar="False" Icon="/icloud-logo-49272-Windows.ico">
+
+    <Border Background="#FF26282B"
+            BorderBrush="CadetBlue"
+            BorderThickness="4"
+            CornerRadius="15"
+            MouseLeftButtonUp="Border_MouseLeftButtonUp">
+        <Grid x:Name="Bordergrid">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="10" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="10" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Column="1" 
+                Grid.Row="1"
+                Orientation="Vertical">
+
+                <TextBlock Foreground="#FFD8D8D8" 
+                           FontSize="20"
+                           Text="{Binding Message, FallbackValue=iCloud Bilder extrahiert.}">
+                </TextBlock>
+
+                <ItemsControl ItemsSource="{Binding LastExtractedFiles, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="0,10,0,0">
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <Image Source="{Binding}" 
+                                    Width="64" Height="64" 
+                                    Stretch="UniformToFill" 
+                                    Margin="0,0,10,0"/>
+                                
+                                <!--<TextBlock Text="{Binding}" 
+                                    Foreground="WhiteSmoke" 
+                                    VerticalAlignment="Center"/>-->
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
+
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</Window>
