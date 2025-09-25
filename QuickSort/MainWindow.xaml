@@ -9,7 +9,7 @@
         Title="Dateiauswahl" 
         Height="850" 
         Width="1300"
-        Background="#FF1B1D1F"
+        Background="{DynamicResource MainWindowBackground}"
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip" Icon="/icloud-logo-49272-Windows.ico" >
 
@@ -19,9 +19,6 @@
 
         <!-- File Titles Context Menu Style -->
         <Style x:Key="CustomContextMenuStyle" TargetType="ContextMenu">
-            <Setter Property="Background" Value="#FF26282B"/>
-            <Setter Property="BorderBrush" Value="#FF3A3E42"/>
-            <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="SnapsToDevicePixels" Value="True" />
             <Setter Property="OverridesDefaultStyle" Value="True" />
             <Setter Property="Grid.IsSharedSizeScope" Value="true" />
@@ -30,9 +27,9 @@
                     <ControlTemplate TargetType="ContextMenu">
 
                         <Border x:Name="Border"
-                                BorderBrush="CadetBlue" 
-                                BorderThickness="1" 
-                                Background="#FF26282B"
+                                BorderBrush="{DynamicResource CommonBorderBrushColor}" 
+                                BorderThickness="2" 
+                                Background="{DynamicResource ContextMenuBackgroundColor}"
                                 Padding="10">
 
                             <StackPanel IsItemsHost="True"
@@ -45,10 +42,8 @@
 
         </Style>
         <Style x:Key="CustomMenuItemStyle" TargetType="MenuItem">
-            <Setter Property="Background" Value="#FF616469"/>
-            <Setter Property="Foreground" Value="#FFD8D8D8"/>
-            <Setter Property="BorderBrush" Value="#FF7D7D86"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="{DynamicResource ContextMenuBtnBackgroundColor}"/>
+            <Setter Property="Foreground" Value="{DynamicResource ContextMenuBtnTextColor}"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Margin" Value="2"/>
             <Setter Property="Padding" Value="10,5"/>
@@ -60,20 +55,27 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
                                 Padding="{TemplateBinding Padding}"
-                                CornerRadius="3">
+                                CornerRadius="10">
 
                             <StackPanel Orientation="Horizontal">
 
-                                <TextBlock Text="{TemplateBinding Tag}" 
-                                           Foreground="{TemplateBinding Foreground}" 
+                                <TextBlock x:Name="SYMBOL_TEXT"
+                                           Text="{TemplateBinding Tag}" 
+                                           Foreground="{DynamicResource CommonBorderBrushColor}" 
                                            FontFamily="Segoe UI Symbol" 
                                            FontSize="{TemplateBinding FontSize}" 
                                            Margin="0"
                                            VerticalAlignment="Center"/>
 
+                                <TextBlock x:Name="TEXT"
+                                           Margin="0"
+                                           Padding="0">
+                                    
                                 <ContentPresenter Margin="{TemplateBinding Padding}" 
                                                   VerticalAlignment="Center"
                                                   ContentSource="Header"/>
+
+                                </TextBlock>
 
                             </StackPanel>
 
@@ -81,8 +83,9 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="True">
-                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="#FF4A90E2"/>
-                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="#FF2A578C"/>
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource CommonBorderBrushColor}"/>
+                                <Setter TargetName="SYMBOL_TEXT" Property="Foreground" Value="{DynamicResource ContextMenuBtnTextMouseOverColor}"/>
+                                <Setter TargetName="TEXT" Property="Foreground" Value="{DynamicResource ContextMenuBtnTextMouseOverColor}"/>
                             </Trigger>
 
                             <Trigger Property="IsEnabled" Value="False">
@@ -105,9 +108,9 @@
                     <ControlTemplate TargetType="ToolTip">
 
                         <Border Name="Border"
-                                BorderBrush="CadetBlue" 
-                                BorderThickness="1" 
-                                Background="#FF26282B"
+                                BorderBrush="{DynamicResource CommonBorderBrushColor}" 
+                                BorderThickness="2" 
+                                Background="{DynamicResource ToolTipBackgroundColor}"
                                 Padding="10"
                                 Width="{TemplateBinding Width}"
                                 Height="{TemplateBinding Height}">
@@ -131,35 +134,33 @@
 
         <!-- TargetFolder Edit Button-Style -->
         <Style x:Key="TargetFolderEditButtonStyle" TargetType="Button">
-            <Setter Property="BorderBrush" Value="#FF7D7D86"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <!--This setter is need for ToolTip-->
+            <Setter Property="Foreground" Value="{DynamicResource ToolTipTextColor}"/>
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#FFD8D8D8"/>
-            <Setter Property="Background" Value="#FF616469"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="OUTER_BORDER"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}"
+                                BorderBrush="{DynamicResource TargetFolderBtnSelectedColor}"
+                                BorderThickness="1"
+                                Background="{DynamicResource TargetFolderBtnBackgroundColor}"
                                 Padding="{TemplateBinding Padding}"
-                                CornerRadius="3">
+                                CornerRadius="10">
                             <StackPanel Orientation="Vertical" 
                                         HorizontalAlignment="Center" 
                                         VerticalAlignment="Center">
 
                                 <TextBlock Text="&#xE1DA;" 
-                                           Foreground="{TemplateBinding Foreground}" 
+                                           Foreground="{DynamicResource TargetFolderBtnSymbolColor}" 
                                            FontSize="20" 
                                            FontFamily="Segoe UI Symbol" 
                                            Margin="0,0,0,5"
                                            VerticalAlignment="Center"/>
 
                                 <TextBlock Text="{TemplateBinding Content}" 
-                                           Foreground="{TemplateBinding Foreground}" 
+                                           Foreground="{DynamicResource TargetFolderBtnTextColor}" 
                                            FontSize="{TemplateBinding FontSize}" 
                                            FontFamily="{TemplateBinding FontFamily}" 
                                            Margin="0"
@@ -168,8 +169,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="#FF4A90E2"/>
-                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="#FF2A578C"/>
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource TargetFolderBtnMouseOverColor}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -179,11 +179,9 @@
 
         <!-- TargetFolder Item Button-Style -->
         <Style x:Key="TargetFolderItemButtonStyle" TargetType="myView:TargetFolderButton">
-            <Setter Property="BorderBrush" Value="#FF7D7D86"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <!--This setter is need for ToolTip-->
+            <Setter Property="Foreground" Value="{DynamicResource ToolTipTextColor}"/>
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#FFD8D8D8"/>
-            <Setter Property="Background" Value="#FF616469"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="MinWidth" Value="75"/>
@@ -191,11 +189,11 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="myView:TargetFolderButton">
                         <Border x:Name="OUTER_BORDER"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}"
+                                BorderBrush="{DynamicResource TargetFolderBtnSelectedColor}"
+                                BorderThickness="1"
+                                Background="{DynamicResource TargetFolderBtnBackgroundColor}"
                                 Padding="{TemplateBinding Padding}"
-                                CornerRadius="3">
+                                CornerRadius="10">
                             <Grid>
                                 <Path Data="M10,2 L12.94,7.63 L19,8.27 L14,12.14 L15.18,18.02 L10,15 L4.82,18.02 L6,12.14 L1,8.27 L7.06,7.63 Z"
                                       Stroke="#FFE6C010"
@@ -209,14 +207,14 @@
                                         VerticalAlignment="Center">
 
                                     <TextBlock Text="&#xE1C1;" 
-                                           Foreground="{TemplateBinding Foreground}" 
+                                           Foreground="{DynamicResource TargetFolderBtnSymbolColor}" 
                                            FontSize="20" 
                                            FontFamily="Segoe UI Symbol" 
                                            Margin="0,0,0,5"
                                            VerticalAlignment="Center"/>
 
                                     <TextBlock Text="{TemplateBinding Content}" 
-                                           Foreground="{TemplateBinding Foreground}" 
+                                           Foreground="{DynamicResource TargetFolderBtnTextColor}" 
                                            FontSize="{TemplateBinding FontSize}" 
                                            FontFamily="{TemplateBinding FontFamily}" 
                                            Margin="0"
@@ -227,8 +225,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="#FF4A90E2"/>
-                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="#FF2A578C"/>
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource TargetFolderBtnMouseOverColor}"/>
                             </Trigger>
 
                             <DataTrigger Binding="{Binding IsPinned}" Value="True">
@@ -243,11 +240,9 @@
 
         <!-- Dialogbox Button-Style -->
         <Style x:Key="DialogboxButtonStyle" TargetType="Button">
-            <Setter Property="BorderBrush" Value="#FF7D7D86"/>
-            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="#FFD8D8D8"/>
-            <Setter Property="Background" Value="#FF616469"/>
+            <Setter Property="Foreground" Value="{DynamicResource TargetFolderBtnTextColor}"/>
+            <Setter Property="Background" Value="{DynamicResource TargetFolderBtnSelectedColor}"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Template">
@@ -258,13 +253,13 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
                                 Padding="{TemplateBinding Padding}"
-                                CornerRadius="3">
+                                CornerRadius="10">
                             <StackPanel Orientation="Horizontal" 
                                         HorizontalAlignment="Center" 
                                         VerticalAlignment="Center">
 
                                 <TextBlock Text="{TemplateBinding Tag}" 
-                                           Foreground="{TemplateBinding Foreground}" 
+                                           Foreground="{DynamicResource TargetFolderBtnSymbolColor}" 
                                            FontFamily="Segoe UI Symbol" 
                                            FontSize="{TemplateBinding FontSize}" 
                                            Margin="5,5,0,5"
@@ -281,8 +276,7 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="#FF4A90E2"/>
-                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="#FF2A578C"/>
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource TargetFolderBtnMouseOverColor}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
 
@@ -293,11 +287,9 @@
 
         <!-- File Title Button-Style -->
         <Style x:Key="FileTitleButtonStyle" TargetType="myView:FileTitleButton">
-            <Setter Property="BorderBrush" Value="#FF7D7D86"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <!--This setter is need for ToolTip-->
+            <Setter Property="Foreground" Value="{DynamicResource ToolTipTextColor}"/>
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Background" Value="#FF616469"/>
-            <Setter Property="Foreground" Value="#FFD8D8D8"/>
             <Setter Property="Padding" Value="0"/>
             <Setter Property="Margin" Value="0"/>
             <Setter Property="Template">
@@ -305,9 +297,6 @@
                     <ControlTemplate TargetType="myView:FileTitleButton">
 
                         <Border x:Name="OUTER_BORDER" 
-                                Background="{TemplateBinding Background}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
                                 CornerRadius="5"
                                 Padding="{TemplateBinding Padding}" 
                                 Margin="{TemplateBinding Margin}">
@@ -322,7 +311,7 @@
                                       Grid.RowSpan="2"
                                       Margin="1"
                                       Data="M2,8 L6,12 L14,4"
-                                      Stroke="LimeGreen"
+                                      Stroke="{DynamicResource CommonBorderBrushColor}"
                                       StrokeThickness="2"                                      
                                       HorizontalAlignment="Left"
                                       VerticalAlignment="Top"
@@ -330,16 +319,14 @@
 
                                 <Image Grid.Row="0" 
                                        Source="{Binding Thumbnail}" 
-                                               Stretch="Uniform"/>
-                                <!--Width="{Binding ImgWidth}" 
-                                Height="{Binding ImgHeight}"-->
+                                       Stretch="Uniform"/>
 
                                 <TextBlock x:Name="FILENAME_TEXT"
                                            Grid.Row="1"
                                            Text="{Binding DisplayName}" 
                                            Margin="0,5,0,0"
                                            TextAlignment="Center" 
-                                           Foreground="WhiteSmoke" 
+                                           Foreground="{DynamicResource CommonForegroundColor}" 
                                            FontSize="12" 
                                            TextTrimming="CharacterEllipsis"/>
 
@@ -348,13 +335,13 @@
 
                         <ControlTemplate.Triggers>
                             <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="LimeGreen"/>
-                                <Setter TargetName="OUTER_BORDER" Property="BorderThickness" Value="2"/>
+                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="{DynamicResource CommonBorderBrushColor}"/>
+                                <Setter TargetName="OUTER_BORDER" Property="BorderThickness" Value="5"/>
                                 <Setter TargetName="OUTER_BORDER" Property="Background">
                                     <Setter.Value>
                                         <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                                             <LinearGradientBrush.GradientStops>
-                                                <GradientStop Color="LimeGreen" Offset="1" />
+                                                <GradientStop Color="{DynamicResource CommonBorderBrushColorColor}" Offset="1" />
                                                 <GradientStop Color="#00000000" Offset=".5" />
                                                 <GradientStop Color="#00000000" Offset="0" />
                                             </LinearGradientBrush.GradientStops>
@@ -364,8 +351,7 @@
                             </DataTrigger>
 
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="#FF4A90E2"/>
-                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="#FF2A578C"/>
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource FileTitleBtnMouseOverColor}"/>
                             </Trigger>                            
                             
                             <DataTrigger Binding="{Binding HideFilenameText}" Value="True">
@@ -393,15 +379,12 @@
             <RowDefinition Height="Auto" MinHeight="100"/>
         </Grid.RowDefinitions>
 
-
         <!-- Window Title bar section -->
         <Grid Grid.Row="0"
               MouseLeftButtonDown="Grid_MouseLeftButtonDown"
-              Cursor="Hand">
+              Cursor="Hand"
+              Background="{DynamicResource CommonBorderBrushColor}">
 
-            <Grid.Background>
-                <SolidColorBrush Color="CadetBlue"/>
-            </Grid.Background>
 
             <!-- Configwindow -->
             <Button Width="32" Height="32" Margin="0,0,5,0"
@@ -409,7 +392,8 @@
                     HorizontalAlignment="Left"
                     Command="{Binding Cmd_ShowConfigWindow}">
 
-                <TextBlock Text="..."
+                <TextBlock Text="&#xE0C3;"
+                           FontFamily="Segoe UI Symbol" 
                            FontSize="16" 
                            VerticalAlignment="Center" 
                            HorizontalAlignment="Center" 
@@ -459,9 +443,9 @@
         <!-- File Titles Section -->
         <Border Grid.Row="1"
                 Margin="15"
-                Background="#FF26282B"
+                Background="{DynamicResource CommonBackgroundColor}"
                 BorderThickness="2"
-                BorderBrush="#FF3A3E42"
+                BorderBrush="{DynamicResource SectionBorderBrushColor}"
                 CornerRadius="5">
 
             <Grid>
@@ -473,7 +457,7 @@
 
                 <TextBlock Grid.Row="0"
                            Margin="10,10,0,5"
-                           Foreground="CadetBlue"
+                           Foreground="{DynamicResource CommonForegroundColor}"
                            FontSize="18" 
                            FontWeight="Bold"
                            VerticalAlignment="Center"
@@ -483,7 +467,7 @@
 
                 <TextBlock Grid.Row="0"
                            Margin="10,10,10,5"
-                           Foreground="CadetBlue"
+                           Foreground="{DynamicResource CommonForegroundColor}"
                            FontSize="18"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Right" 
@@ -495,7 +479,7 @@
                 <Rectangle Grid.Row="1"                           
                            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"                           
                            Height="1" 
-                           Fill="CadetBlue" 
+                           Fill="{DynamicResource HeadlineBorderBrushColor}" 
                            VerticalAlignment="Center" 
                            HorizontalAlignment="Left"/>
 
@@ -625,8 +609,7 @@
                               Command="{Binding Cmd_ContextMenu_SelectAllFileTitles}"/>
 
                     <MenuItem Header="Auswahl aufheben" 
-                              Style="{StaticResource CustomMenuItemStyle}" 
-                              
+                              Style="{StaticResource CustomMenuItemStyle}"                               
                               Command="{Binding Cmd_ContextMenu_UnSelectAllFileTitles}"/>
 
                     <MenuItem Header="Kleine Symbolgröße" 
@@ -659,9 +642,9 @@
         <!-- Target Folder Section -->
         <Border Grid.Row="2"
                 Margin="15"
-                Background="#FF26282B"
+                Background="{DynamicResource CommonBackgroundColor}"
                 BorderThickness="2"
-                BorderBrush="#FF3A3E42"
+                BorderBrush="{DynamicResource SectionBorderBrushColor}"
                 CornerRadius="5">
 
             <Grid>
@@ -673,7 +656,7 @@
 
                 <TextBlock Grid.Row="0"
                            Margin="10,10,0,5"
-                           Foreground="CadetBlue"
+                           Foreground="{DynamicResource CommonForegroundColor}"
                            FontSize="18" 
                            FontWeight="Bold"
                            VerticalAlignment="Center"
@@ -684,7 +667,7 @@
                 <Rectangle Grid.Row="1"                           
                            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"                           
                            Height="1" 
-                           Fill="CadetBlue" 
+                           Fill="{DynamicResource HeadlineBorderBrushColor}" 
                            VerticalAlignment="Center" 
                            HorizontalAlignment="Left"/>
 
@@ -780,7 +763,9 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border Margin="0,0,0,10" 
-                            Background="LightYellow" 
+                            Background="{DynamicResource MainWindowBackground}" 
+                            BorderThickness="2"
+                            BorderBrush="{DynamicResource CommonBorderBrushColor}"
                             CornerRadius="5" 
                             Padding="10" 
                             Width="300">
@@ -799,28 +784,33 @@
                             </Grid.RowDefinitions>
 
                             <TextBlock Grid.Column="0"
-                                           Grid.Row="0"
-                                           Text="Zielordner:" 
-                                           HorizontalAlignment="Left"/>
+                                       Grid.Row="0"
+                                       Text="Zielordner: " 
+                                       HorizontalAlignment="Left"
+                                       Foreground="{DynamicResource CommonForegroundColor}"/>
 
                             <TextBlock Grid.Column="1"
-                                           Grid.Row="0"
-                                           Text="{Binding TargetPath}" 
-                                           HorizontalAlignment="Left"/>
+                                       Grid.Row="0"
+                                       Text="{Binding TargetPath}" 
+                                       HorizontalAlignment="Left"
+                                       Foreground="{DynamicResource CommonForegroundColor}"/>
 
                             <TextBlock Grid.Column="0"
-                                           Grid.Row="1"
-                                           Text="Datei:" 
-                                           HorizontalAlignment="Left"/>
-
-                            <TextBlock Grid.Column="1"
-                                           Grid.Row="1"
-                                           Text="{Binding CurrentFileName}" 
-                                           HorizontalAlignment="Left"/>
+                                       Grid.Row="1"
+                                       Text="Datei: " 
+                                       HorizontalAlignment="Left"
+                                       Foreground="{DynamicResource CommonForegroundColor}"/>
 
                             <TextBlock Grid.Column="1"
                                        Grid.Row="1"
-                                       HorizontalAlignment="Right">>
+                                       Text="{Binding CurrentFileName}" 
+                                       HorizontalAlignment="Left"
+                                       Foreground="{DynamicResource CommonForegroundColor}"/>
+
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="1"
+                                       HorizontalAlignment="Right"
+                                       Foreground="{DynamicResource CommonForegroundColor}">
                                  <Run Text="("/>
                                  <Run Text="{Binding FileProcessed}"/>
                                  <Run Text="/"/>
@@ -828,13 +818,12 @@
                                  <Run Text=")"/>
                             </TextBlock>
 
-
-                            <Button Grid.Column="1"
+                            <!--<Button Grid.Column="1"
                                         Grid.Row="0"
                                         Margin="0,0,0,0" 
                                         HorizontalAlignment="Right"
                                         Content="×" 
-                                        Command="{Binding Cmd_ClosePopup}" />
+                                        Command="{Binding Cmd_ClosePopup}" />-->
 
                             <ProgressBar Grid.Column="0"
                                          Grid.Row="3" 
@@ -876,8 +865,8 @@
               Visibility="{Binding DlgShow, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
 
             <Border BorderThickness="2"
-                    BorderBrush="CadetBlue"
-                    Background="#FF26282B"                
+                    BorderBrush="{DynamicResource CommonBorderBrushColor}"
+                    Background="{DynamicResource MainWindowBackground}"                
                     CornerRadius="15"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
@@ -893,7 +882,7 @@
                                Text="❔"
                                VerticalAlignment="Top"
                                FontSize="92"
-                               Foreground="CadetBlue"/>
+                               Foreground="{DynamicResource CommonBorderBrushColor}"/>
 
                     <Grid Margin="20,0,0,0">
                         <Grid.RowDefinitions>
@@ -916,12 +905,12 @@
                         <TextBlock Grid.Row="1"
                                    Text="Frage"
                                    FontSize="20" 
-                                   Foreground="CadetBlue"
+                                   Foreground="{DynamicResource CommonBorderBrushColor}"
                                    FontWeight="Bold"/>
 
                         <TextBlock Grid.Row="3"
                                    MaxWidth="300"
-                                   Foreground="#FFD8D8D8"
+                                   Foreground="{DynamicResource CommonForegroundColor}"
                                    TextWrapping="Wrap">
 
                              <Run Text="Sollen die ausgewählten "/>

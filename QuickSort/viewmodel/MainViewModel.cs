@@ -74,6 +74,11 @@ namespace QuickSort.viewmodel
 
 
                         win.ShowDialog ();
+
+                        if (win.DialogResult.Value)
+                        {
+                            SetColorTheme ();
+                        }
                     },
                     param => true
                 );
@@ -377,8 +382,9 @@ namespace QuickSort.viewmodel
             _Dispatcher = dispatcher;
             _RootPath = path;
 
+            SetColorTheme ();
             LoadFilesTitles ();
-            LoadTargetFolder ();
+            LoadTargetFolder ();            
         }
 
 
@@ -415,15 +421,15 @@ namespace QuickSort.viewmodel
                     default:
                         {
                             // Middle symbol size.
-                            height = width = 100;
-                            hideFilenameText = false;
+                            height = width = 275;
+                            hideFilenameText = true;
                             break;
                         }
 
                     case 0:
                         {
                             // Small symbol size.
-                            height = width = 48;
+                            height = width = 180;
                             hideFilenameText = true;
                             break;
                         }
@@ -431,8 +437,8 @@ namespace QuickSort.viewmodel
                     case 2:
                         {
                             // Large symbol size.
-                            height = width = 400;
-                            hideFilenameText = false;
+                            height = width = 560;
+                            hideFilenameText = true;
                             break;
                         }
                 }
@@ -445,7 +451,7 @@ namespace QuickSort.viewmodel
                     ImageSource thumb;
 
 
-                    if (ext == ".jpg" || ext == ".png" || ext == ".bmp")
+                    if (ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".bmp" || ext == ".heic")
                     {
                         thumb = new BitmapImage (new Uri (file));
                     }
@@ -465,7 +471,7 @@ namespace QuickSort.viewmodel
                         SizeLevel = Properties.Settings.Default.FolderTitleSizeLevel,
 
                         File = file,
-                        Filesize = (int)(new FileInfo (file).Length / 1024), // Convert to kB.
+                        Filesize = (int) (new FileInfo (file).Length / 1024), // Convert to kB.
                         CreationTime = File.GetCreationTime (file),
                         LastAccessTime = File.GetLastAccessTime (file),
                     });
@@ -553,7 +559,7 @@ namespace QuickSort.viewmodel
                     return;
                 }
 
-                // Remove selectet items from FileTileList.
+                // Remove selected items from FileTileList.
                 foreach (var item in querrySelectedFileList)
                 {
                     FileTileList.Remove (item);
@@ -624,6 +630,41 @@ namespace QuickSort.viewmodel
                     Process.Start ("explorer.exe", targetPath);
                 }
             }
+        }
+
+
+
+        private void SetColorTheme ()
+        {
+            string themeFile;
+            switch (QuickSort.Properties.Settings.Default.ColorThemeId)
+            {
+                default:
+                case 0:
+                    {
+                        themeFile = "/view/theme/ColorThemeLightMode.xaml";
+                        break;
+                    }
+
+                case 1:
+                    {
+                        themeFile = "/view/theme/ColorThemeDarkMode.xaml";
+                        break;
+                    }
+            }
+            var dict = new ResourceDictionary { Source = new Uri (themeFile, UriKind.Relative) };
+
+
+            // Remove the old (initial) theme.
+            var oldDict = Application.Current.Resources.MergedDictionaries.FirstOrDefault (d => d.Source != null && (d.Source.OriginalString.Contains ("/view/theme/ColorThemeDarkMode.xaml") ||
+                                                                                                                     d.Source.OriginalString.Contains ("/view/theme/ColorThemeLightMode.xaml")));
+            if (oldDict != null)
+            {
+                Application.Current.Resources.MergedDictionaries.Remove (oldDict);
+            }
+
+            // Add new theme.
+            Application.Current.Resources.MergedDictionaries.Add (dict);
         }
 
 
