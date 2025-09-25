@@ -14,10 +14,11 @@ using System.ComponentModel;
 using QuickSort.viewmodel;
 using QuickSort.model;
 using QuickSort.help;
+using QuickSort.view;
 
 
 
-namespace QuickSort.view
+namespace QuickSort.viewmodel
 {
     public class MainViewModel : IDisposable, INotifyPropertyChanged
     {
@@ -61,6 +62,23 @@ namespace QuickSort.view
         }
 
 
+
+        public RelayCommand Cmd_ShowConfigWindow
+        {
+            get
+            {
+                return new RelayCommand (
+                    _ =>
+                    {
+                        var win = new ConfigView ();
+
+
+                        win.ShowDialog ();
+                    },
+                    param => true
+                );
+            }
+        }
 
         public RelayCommand Cmd_ApplicationClose
         {

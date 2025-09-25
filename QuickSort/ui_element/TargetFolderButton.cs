@@ -24,7 +24,5 @@ namespace QuickSort.ui_element
                 typeof (TargetFolderButton),
                 new PropertyMetadata (string.Empty)
             );
-
-
     }
 }

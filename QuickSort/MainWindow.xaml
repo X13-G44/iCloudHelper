@@ -403,20 +403,34 @@
                 <SolidColorBrush Color="CadetBlue"/>
             </Grid.Background>
 
+            <!-- Configwindow -->
+            <Button Width="32" Height="32" Margin="0,0,5,0"
+                    Background="Transparent" BorderThickness="0"
+                    HorizontalAlignment="Left"
+                    Command="{Binding Cmd_ShowConfigWindow}">
+
+                <TextBlock Text="..."
+                           FontSize="16" 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" 
+                           Foreground="White"/>
+            </Button>
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5">
 
-                <!-- Minimieren -->
+                <!-- Minimize -->
                 <Button Width="32" Height="32" Margin="0,0,5,0"
                         Background="Transparent" BorderThickness="0"
                         Command="{Binding Cmd_ApplicationMinimize}">
 
-                    <TextBlock Text="━" FontSize="18" 
+                    <TextBlock Text="━"
+                               FontSize="16" 
                                VerticalAlignment="Center" 
                                HorizontalAlignment="Center" 
                                Foreground="White"/>
                 </Button>
 
-                <!-- Verkleinern/Maximieren -->
+                <!-- Maximize / Restore -->
                 <Button Width="32" Height="32"
                         Background="Transparent" BorderThickness="0"
                         Command="{Binding Cmd_ApplicationMaximizeRestore}">
@@ -427,7 +441,7 @@
                                Foreground="White"/>
                 </Button>
 
-                <!-- Schließen -->
+                <!-- Close -->
                 <Button Width="32" Height="32" Margin="0,0,5,0"
                         Background="Transparent" BorderThickness="0"
                         Command="{Binding Cmd_ApplicationClose}">

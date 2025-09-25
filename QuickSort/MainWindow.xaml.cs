@@ -19,9 +19,6 @@ using QuickSort.model;
 
 namespace QuickSort
 {
-    /// <summary>
-    /// Interaktionslogik für MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow ()
@@ -31,7 +28,7 @@ namespace QuickSort
 
             InitializeComponent ();
 
-            this.DataContext = new view.MainViewModel (Dispatcher, app.StartPfad);
+            this.DataContext = new viewmodel.MainViewModel (Dispatcher, app.StartPfad);
             this.Closing += (s, ev) => { (this.DataContext as IDisposable)?.Dispose (); };
         }
 

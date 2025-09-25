@@ -11,11 +11,12 @@ using System.Windows;
 
 namespace QuickSort
 {
-    /// <summary>
-    /// Interaktionslogik für "App.xaml"
-    /// </summary>
     public partial class App : Application
     {
+        public const string APP_TITLE = "iCloudHelper";
+
+
+
         public string StartPfad { get; private set; }
 
 
