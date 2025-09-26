@@ -15,6 +15,7 @@ using QuickSort.viewmodel;
 using QuickSort.model;
 using QuickSort.help;
 using QuickSort.view;
+using System.ComponentModel.Design;
 
 
 
@@ -26,32 +27,39 @@ namespace QuickSort.viewmodel
         public ObservableCollection<TargetFolder> TargetFolderList { get; set; } = new ObservableCollection<TargetFolder> ();
         public ObservableCollection<FileMoveProcPopupNotification> FileMoveProcPopupNotificationList { get; } = new ObservableCollection<FileMoveProcPopupNotification> ();
 
-        private bool _DlgShow = false;
-        public bool DlgShow
+        private bool _DialogOverlay_MoveFiles_Show = false;
+        public bool DialogOverlay_MoveFiles_Show
         {
-            get { return _DlgShow; }
-            set { _DlgShow = value; OnPropertyChanged (nameof (DlgShow)); }
+            get { return _DialogOverlay_MoveFiles_Show; }
+            set { _DialogOverlay_MoveFiles_Show = value; OnPropertyChanged (nameof (DialogOverlay_MoveFiles_Show)); }
         }
 
-        private int _DlgFileCount = 0;
-        public int DlgFileCount
+        private int _DialogOverlay_MoveFiles_FileCount = 0;
+        public int DialogOverlay_MoveFiles_FileCount
         {
-            get { return _DlgFileCount; }
-            set { _DlgFileCount = value; OnPropertyChanged (nameof (DlgFileCount)); }
+            get { return _DialogOverlay_MoveFiles_FileCount; }
+            set { _DialogOverlay_MoveFiles_FileCount = value; OnPropertyChanged (nameof (DialogOverlay_MoveFiles_FileCount)); }
         }
 
-        private string _DlgTargetPath = "";
-        public string DlgTargetPath
+        private string _DialogOverlay_MoveFiles_TargetPath;
+        public string DialogOverlay_MoveFiles_TargetPath
         {
-            get { return _DlgTargetPath; }
-            set { _DlgTargetPath = value; OnPropertyChanged (nameof (DlgTargetPath)); }
+            get { return _DialogOverlay_MoveFiles_TargetPath; }
+            set { _DialogOverlay_MoveFiles_TargetPath = value; OnPropertyChanged (nameof (DialogOverlay_MoveFiles_TargetPath)); }
         }
 
-        private string _DlgDisplayTargetPath = "";
-        public string DlgDisplayTargetPath
+        private string _DialogOverlay_MoveFiles_ShortTargetPath = "";
+        public string DialogOverlay_MoveFiles_ShortTargetPath
         {
-            get { return _DlgDisplayTargetPath; }
-            set { _DlgDisplayTargetPath = value; OnPropertyChanged (nameof (DlgDisplayTargetPath)); }
+            get { return _DialogOverlay_MoveFiles_ShortTargetPath; }
+            set { _DialogOverlay_MoveFiles_ShortTargetPath = value; OnPropertyChanged (nameof (DialogOverlay_MoveFiles_ShortTargetPath)); }
+        }
+
+        private bool _DialogOverlay_ProcessHeicImages_Show = false;
+        public bool DialogOverlay_ProcessHeicImages_Show
+        {
+            get { return _DialogOverlay_ProcessHeicImages_Show; }
+            set { _DialogOverlay_ProcessHeicImages_Show = value; OnPropertyChanged (nameof (DialogOverlay_ProcessHeicImages_Show)); }
         }
 
         private string _RootPath = "";
@@ -70,12 +78,12 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     _ =>
                     {
-                        var win = new ConfigView ();
+                        var dialog = new ConfigView ();
 
 
-                        win.ShowDialog ();
+                        dialog.ShowDialog ();
 
-                        if (win.DialogResult.Value)
+                        if (dialog.DialogResult.Value)
                         {
                             SetColorTheme ();
                         }
@@ -175,24 +183,28 @@ namespace QuickSort.viewmodel
 
                                 if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace (dialog.SelectedPath))
                                 {
-                                    string selectedFolder = dialog.SelectedPath;
-                                    string folderName = Path.GetFileName (selectedFolder);
+                                    string selectedPath = dialog.SelectedPath;
+                                    string folderName = Path.GetFileName (selectedPath);
 
 
                                     // Create a new TargetFolderList instance and add it to the collection.
                                     TargetFolderList.Add (new TargetFolder
                                     {
                                         DisplayName = folderName,
-                                        Path = selectedFolder,
+                                        Path = selectedPath,
                                         AddDate = DateTime.Now.ToFileTimeUtc (),
-                                        IsPinned = false,
-                                        Cmd_OpenFolderCommand = new RelayCommand (param => CommandExecute_MoveFiles (param as string))
+                                        IsPinned = true,
+                                        Cmd_OpenFolderCommand = new RelayCommand (param => CommandExecute_PrepareMoveFiles (param as string)),
+                                        Cmd_RemoveFolderFromListCommand = new RelayCommand (item =>
+                                        {
+                                            if (item is TargetFolder)
+                                            {
+                                                this.TargetFolderList.Remove (item as TargetFolder);
+                                            }
+                                        }),
                                     });
 
-                                    // Also, the selected files will be moved to the selected folder.
-                                    CommandExecute_MoveFiles (selectedFolder);
-
-                                    Properties.Settings.Default.LastTargetFolderAdded = selectedFolder;
+                                    Properties.Settings.Default.LastTargetFolderAdded = selectedPath;
                                 }
                             }
                         }
@@ -256,7 +268,7 @@ namespace QuickSort.viewmodel
                         {
                             Properties.Settings.Default.FolderTitleSizeLevel = fileTitleSizeLevel;
 
-                            LoadFilesTitles ();
+                            PrepareLoadFileTitles ();
                         }
                     },
                     param => true
@@ -271,36 +283,36 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     _ =>
                     {
-                        LoadFilesTitles ();
+                        PrepareLoadFileTitles ();
                     },
                     param => true
                 );
             }
         }
 
-        public RelayCommand Cmd_StartFileMoveProcess
+        public RelayCommand Cmd_Dlg_StartFileMoveProcess
         {
             get
             {
                 return new RelayCommand (
                     _ =>
                     {
-                        this.DlgShow = false;
-                        this.CommandExecute_MoveFiles (this.DlgTargetPath, true);
+                        this.DialogOverlay_MoveFiles_Show = false;
+                        this.CommandExecute_MoveFiles (this.DialogOverlay_MoveFiles_TargetPath);
                     },
                     param => true
                 );
             }
         }
 
-        public RelayCommand Cmd_AbortStartFileMoveProcess
+        public RelayCommand Cmd_Dlg_AbortStartFileMoveProcess
         {
             get
             {
                 return new RelayCommand (
                     _ =>
                     {
-                        this.DlgShow = false;
+                        this.DialogOverlay_MoveFiles_Show = false;
                     },
                     param => true
                 );
@@ -365,6 +377,38 @@ namespace QuickSort.viewmodel
             }
         }
 
+        public RelayCommand Cmd_Dlg_ProcessHeicImages
+        {
+            get
+            {
+                return new RelayCommand (
+                    _ =>
+                    {
+                        this.DialogOverlay_ProcessHeicImages_Show = false;
+                        this._ProcessHeicImages = true;
+                        this.LoadFileTitles ();
+                    },
+                    param => true
+                );
+            }
+        }
+
+        public RelayCommand Cmd_Dlg_DontProcessHeicImages
+        {
+            get
+            {
+                return new RelayCommand (
+                    _ =>
+                    {
+                        this.DialogOverlay_ProcessHeicImages_Show = false;
+                        this._ProcessHeicImages = false;
+                        this.LoadFileTitles ();
+                    },
+                    param => true
+                );
+            }
+        }
+
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -375,6 +419,8 @@ namespace QuickSort.viewmodel
         private int _StartSelectionStartIndex = -1;
         private int _EndSelectionStartIndex = -1;
 
+        private bool _ProcessHeicImages = true;
+
 
 
         public MainViewModel (Dispatcher dispatcher, String path)
@@ -383,8 +429,8 @@ namespace QuickSort.viewmodel
             _RootPath = path;
 
             SetColorTheme ();
-            LoadFilesTitles ();
-            LoadTargetFolder ();            
+            PrepareLoadFileTitles ();
+            LoadTargetFolder ();
         }
 
 
@@ -405,32 +451,50 @@ namespace QuickSort.viewmodel
 
 
 
-        private void LoadFilesTitles ()
+        private void PrepareLoadFileTitles ()
+        {
+            try
+            {
+                if (IsHeicImagePresent () == false)
+                {
+                    LoadFileTitles ();
+                }
+                else
+                {
+                    this.DialogOverlay_ProcessHeicImages_Show = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine ($"Error loading files from path {this.RootPath}: {ex.Message}");
+            }
+        }
+
+
+
+        private void LoadFileTitles ()
         {
             try
             {
                 var files = Directory.GetFiles (this.RootPath);
                 int height = 0;
                 int width = 0;
-                bool hideFilenameText = false;
 
 
                 switch (Properties.Settings.Default.FolderTitleSizeLevel)
                 {
-                    case 1:
-                    default:
-                        {
-                            // Middle symbol size.
-                            height = width = 275;
-                            hideFilenameText = true;
-                            break;
-                        }
-
                     case 0:
                         {
                             // Small symbol size.
                             height = width = 180;
-                            hideFilenameText = true;
+                            break;
+                        }
+
+                    default:
+                    case 1:
+                        {
+                            // Middle symbol size.
+                            height = width = 275;
                             break;
                         }
 
@@ -438,7 +502,6 @@ namespace QuickSort.viewmodel
                         {
                             // Large symbol size.
                             height = width = 560;
-                            hideFilenameText = true;
                             break;
                         }
                 }
@@ -451,7 +514,11 @@ namespace QuickSort.viewmodel
                     ImageSource thumb;
 
 
-                    if (ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".bmp" || ext == ".heic")
+                    if (ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".bmp")
+                    {
+                        thumb = new BitmapImage (new Uri (file));
+                    }
+                    else if (ext == ".heic" && _ProcessHeicImages)
                     {
                         thumb = new BitmapImage (new Uri (file));
                     }
@@ -467,11 +534,11 @@ namespace QuickSort.viewmodel
                         Thumbnail = thumb,
                         Height = height,
                         Width = width,
-                        HideFilenameText = hideFilenameText,
+                        HideFilenameText = !Properties.Settings.Default.ShowImageFileName,
                         SizeLevel = Properties.Settings.Default.FolderTitleSizeLevel,
 
                         File = file,
-                        Filesize = (int) (new FileInfo (file).Length / 1024), // Convert to kB.
+                        Filesize = (int) (new FileInfo (file).Length / 1024), // Convert site from byte to kB.
                         CreationTime = File.GetCreationTime (file),
                         LastAccessTime = File.GetLastAccessTime (file),
                     });
@@ -481,6 +548,27 @@ namespace QuickSort.viewmodel
             {
                 Debug.WriteLine ($"Error loading files from path {this.RootPath}: {ex.Message}");
             }
+        }
+
+
+
+        private bool IsHeicImagePresent ()
+        {
+            var files = Directory.GetFiles (this.RootPath);
+
+
+            foreach (var file in files)
+            {
+                String ext = Path.GetExtension (file).ToLower ();
+
+
+                if (ext == ".heic")
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
 
@@ -523,7 +611,7 @@ namespace QuickSort.viewmodel
                         Path = querryItem.Path,
                         AddDate = querryItem.Date,
                         IsPinned = querryItem.IsPinned,
-                        Cmd_OpenFolderCommand = new RelayCommand (param => CommandExecute_MoveFiles (param as string)),
+                        Cmd_OpenFolderCommand = new RelayCommand (param => CommandExecute_PrepareMoveFiles (param as string)),
                         Cmd_RemoveFolderFromListCommand = new RelayCommand (item =>
                         {
                             if (item is TargetFolder)
@@ -542,23 +630,43 @@ namespace QuickSort.viewmodel
 
 
 
-        private void CommandExecute_MoveFiles (string targetPath, bool calledByRelayCmd = false)
+        private void CommandExecute_PrepareMoveFiles (string targetPath)
         {
             var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTile> ();
 
 
             if (querrySelectedFileList.Count () > 0)
             {
-                if (Properties.Settings.Default.ShowMoveDlg && calledByRelayCmd == false)
+                if (Properties.Settings.Default.ShowMoveDlg)
                 {
-                    this.DlgFileCount = querrySelectedFileList.Count;
-                    this.DlgShow = true;
-                    this.DlgTargetPath = targetPath;
-                    this.DlgDisplayTargetPath = Path.GetFileName (targetPath);
-
-                    return;
+                    this.DialogOverlay_MoveFiles_Show = true;
+                    this.DialogOverlay_MoveFiles_FileCount = querrySelectedFileList.Count;
+                    this.DialogOverlay_MoveFiles_TargetPath = targetPath;
+                    this.DialogOverlay_MoveFiles_ShortTargetPath = Path.GetFileName (targetPath);
                 }
+                else
+                {
+                    CommandExecute_MoveFiles (targetPath);
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty (targetPath) && Directory.Exists (targetPath))
+                {
+                    Process.Start ("explorer.exe", targetPath);
+                }
+            }
+        }
 
+
+
+        private void CommandExecute_MoveFiles (string targetPath)
+        {
+            var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTile> ();
+
+
+            if (querrySelectedFileList.Count () > 0)
+            {
                 // Remove selected items from FileTileList.
                 foreach (var item in querrySelectedFileList)
                 {
@@ -601,6 +709,7 @@ namespace QuickSort.viewmodel
                                 _Dispatcher.Invoke (() => popup.FileProcessed++);
                                 _Dispatcher.Invoke (() => popup.CurrentFileName = fileItem.DisplayName);
 
+#warning Testcode active
                                 //File.Move (fileItem.FullPath, targetFile);
                                 //File.Delete (fileItem.FullPath);
                                 Task.Delay (2000).Wait ();  // Simulate a delay for moving files.
@@ -620,7 +729,7 @@ namespace QuickSort.viewmodel
                         Debug.WriteLine ($"Error moving files: {t.Exception?.Message}");
                     }
 
-                    _Dispatcher.Invoke (() => LoadFilesTitles ());
+                    _Dispatcher.Invoke (() => PrepareLoadFileTitles ());
                 });
             }
             else

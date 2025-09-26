@@ -93,5 +93,17 @@ namespace QuickSort.Properties {
                 this["ColorThemeId"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowImageFileName {
+            get {
+                return ((bool)(this["ShowImageFileName"]));
+            }
+            set {
+                this["ShowImageFileName"] = value;
+            }
+        }
     }
 }

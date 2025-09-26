@@ -307,7 +307,7 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
-                                <Path Grid.Row="0"
+                                <!--<Path Grid.Row="0"
                                       Grid.RowSpan="2"
                                       Margin="1"
                                       Data="M2,8 L6,12 L14,4"
@@ -315,7 +315,7 @@
                                       StrokeThickness="2"                                      
                                       HorizontalAlignment="Left"
                                       VerticalAlignment="Top"
-                                      Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}"/>
+                                      Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}"/>-->
 
                                 <Image Grid.Row="0" 
                                        Source="{Binding Thumbnail}" 
@@ -859,10 +859,10 @@
             </ItemsControl.Style>
         </ItemsControl>
 
-        <!-- Overlay: Start File Move process dialog -->
+        <!-- Overlay Dlg: Start File Move process dialog -->
         <Grid Grid.RowSpan="3"
               Background="#EF1B1D1F"
-              Visibility="{Binding DlgShow, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
+              Visibility="{Binding DialogOverlay_MoveFiles_Show, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
 
             <Border BorderThickness="2"
                     BorderBrush="{DynamicResource CommonBorderBrushColor}"
@@ -909,14 +909,14 @@
                                    FontWeight="Bold"/>
 
                         <TextBlock Grid.Row="3"
-                                   MaxWidth="300"
+                                   Width="300"
                                    Foreground="{DynamicResource CommonForegroundColor}"
                                    TextWrapping="Wrap">
 
                              <Run Text="Sollen die ausgewählten "/>
-                             <Run Text="{Binding DlgFileCount}"/>
+                             <Run Text="{Binding DialogOverlay_MoveFiles_FileCount}"/>
                              <Run Text=" Dateien nach "/>
-                             <Run Text="{Binding DlgDisplayTargetPath}"/>
+                             <Run Text="{Binding DialogOverlay_MoveFiles_ShortTargetPath}"/>
                              <Run Text=" verschoben werden?"/>
                         </TextBlock>
 
@@ -925,14 +925,14 @@
                                 Style="{StaticResource DialogboxButtonStyle}" 
                                 Tag="&#xE10B;"
                                 Content="Verschieben"
-                                Command="{Binding Cmd_StartFileMoveProcess}"/>
+                                Command="{Binding Cmd_Dlg_StartFileMoveProcess}"/>
 
                         <Button Grid.Row="5"
                                 HorizontalAlignment="Right"
                                 Style="{StaticResource DialogboxButtonStyle}" 
                                 Tag="&#xE10A;"
                                 Content="Abbrechen"
-                                Command="{Binding Cmd_AbortStartFileMoveProcess}"/>
+                                Command="{Binding Cmd_Dlg_AbortStartFileMoveProcess}"/>
 
                     </Grid>
 
@@ -948,5 +948,93 @@
 
         </Grid>
 
+        <!-- Overlay Dlg: Ask for HECI file process dialog -->
+
+        <Grid Grid.RowSpan="3"
+            Background="#EF1B1D1F"
+            Visibility="{Binding DialogOverlay_ProcessHeicImages_Show, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
+
+            <Border BorderThickness="2"
+                BorderBrush="{DynamicResource CommonBorderBrushColor}"
+                Background="{DynamicResource MainWindowBackground}"                
+                CornerRadius="15"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                MinWidth="20"
+                MinHeight="20"
+                Padding="15" 
+                SnapsToDevicePixels="True">
+
+                <StackPanel Orientation="Horizontal">
+
+                    <TextBlock Grid.Column="1"
+                       Grid.Row="1"
+                       Text="❔"
+                       VerticalAlignment="Top"
+                       FontSize="92"
+                       Foreground="{DynamicResource CommonBorderBrushColor}"/>
+
+                    <Grid Margin="20,0,0,0">
+                        <Grid.RowDefinitions>
+                            <!--Top distance -->
+                            <RowDefinition Height="*"/>
+                            <!--Titel-->
+                            <RowDefinition Height="Auto"/>
+                            <!--Top distance-->
+                            <RowDefinition Height="15"/>
+                            <!--Message Text-->
+                            <RowDefinition Height="Auto"/>
+                            <!--Top distance-->
+                            <RowDefinition Height="25"/>
+                            <!--Buttons-->
+                            <RowDefinition Height="Auto"/>
+                            <!--Bottom distance -->
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="1"
+                           Text="Frage"
+                           FontSize="20" 
+                           Foreground="{DynamicResource CommonBorderBrushColor}"
+                           FontWeight="Bold"/>
+
+                        <TextBlock Grid.Row="3"
+                           Width="300"
+                           Foreground="{DynamicResource CommonForegroundColor}"
+                           TextWrapping="Wrap">
+                            
+                            <Run Text="Es sind Apple HiRes Bilder (HEIC) vorhanden. Das erstmalige laden dieser Bilder kann einige Zeit in Anspruch nehmen."/>
+                            <LineBreak/>
+                            <Run Text="Soll der Inhalt diese Bilder angezeigt werden?"/>
+                                                        
+                        </TextBlock>
+
+                        <Button Grid.Row="5"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource DialogboxButtonStyle}" 
+                            Tag="&#xE10B;"
+                            Content="Ja"
+                            Command="{Binding Cmd_Dlg_ProcessHeicImages}"/>
+
+                        <Button Grid.Row="5"
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource DialogboxButtonStyle}" 
+                            Tag="&#xE10A;"
+                            Content="Nein"
+                            Command="{Binding Cmd_Dlg_DontProcessHeicImages}"/>
+
+                    </Grid>
+
+                </StackPanel>
+
+                <!--<Border.Effect>
+                    <DropShadowEffect ShadowDepth="0"                                                 
+                        BlurRadius="10"                                                                                       
+                        Color="WhiteSmoke"/>
+                </Border.Effect>-->
+
+            </Border>
+
+        </Grid>
     </Grid>
 </Window>

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using QuickSort.viewmodel;
 using QuickSort.model;
+using System.Diagnostics;
 
 
 

@@ -7,7 +7,7 @@
         xmlns:validate_rules="clr-namespace:QuickSort.validationrules"
         mc:Ignorable="d"
         Title="iCloudHelper - Einstellungen"
-        Height="300" 
+        Height="325" 
         Width="600" 
         Icon="/icloud-logo-49272-Windows.ico" 
         ResizeMode="CanMinimize">
@@ -98,6 +98,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
@@ -138,19 +139,26 @@
 
             <Label Grid.Row="3"
                    Grid.Column="0"
-                   Content="ShowMoveDlg"/>
+                   Content="Verschiebebestätigung"/>
             <CheckBox Grid.Row="3"
                       Grid.Column="2"
                       IsChecked="{Binding ShowMoveDlg, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Grid.Row="4"
                    Grid.Column="0"
-                   Content="Benutze DarkMode Theme"/>
+                   Content="Bild-Dateinamen anzeigen"/>
             <CheckBox Grid.Row="4"
+                      Grid.Column="2"
+                      IsChecked="{Binding ShowImgFileName, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Label Grid.Row="5"
+                   Grid.Column="0"
+                   Content="Benutze DarkMode Theme"/>
+            <CheckBox Grid.Row="5"
                       Grid.Column="2"
                       IsChecked="{Binding UseDarkModeColorTheme, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <Button Grid.Row="6"
+            <Button Grid.Row="7"
                     Grid.Column="2"
                     Grid.ColumnSpan="3"
                     x:Name="SaveButton"
