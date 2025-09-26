@@ -121,7 +121,7 @@ namespace AutoUnzip
                     dialog.SelectedPath = _LastUsedPath;
                 }
 
-dialog.Description = $"Zielordner für entpackte Dateien auswählen";
+                dialog.Description = $"Zielordner für entpackte Dateien auswählen";
 
                 if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
                 {
@@ -149,7 +149,7 @@ dialog.Description = $"Zielordner für entpackte Dateien auswählen";
                     dialog.SelectedPath = _LastUsedPath;
                 }
 
-dialog.Description = $"Zielordner für Backup-Dateien auswählen";
+                dialog.Description = $"Zielordner für Backup-Dateien auswählen";
 
                 if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
                 {

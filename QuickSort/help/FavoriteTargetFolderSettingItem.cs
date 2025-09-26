@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QuickSort.help
 {
-    public class TargetFolderSettingItem
+    public class FavoriteTargetFolderSettingItem
     {
         public string Path { get; set; } = "";
         public long Date { get; set; } = 0;
@@ -17,14 +17,14 @@ namespace QuickSort.help
 
 
 
-        public TargetFolderSettingItem () 
+        public FavoriteTargetFolderSettingItem () 
         {
             ;               
         }
 
 
 
-        public TargetFolderSettingItem (string path, string data, string displayName, bool isPinned)
+        public FavoriteTargetFolderSettingItem (string path, string data, string displayName, bool isPinned)
         {
             this.Path = path;
             this.Date = long.Parse (data);
@@ -34,7 +34,7 @@ namespace QuickSort.help
 
 
 
-        public TargetFolderSettingItem (string path, long data, string displayName, bool isPinned)
+        public FavoriteTargetFolderSettingItem (string path, long data, string displayName, bool isPinned)
         {
             this.Path = path;
             this.Date = data;
@@ -51,7 +51,7 @@ namespace QuickSort.help
 
 
 
-        public static TargetFolderSettingItem Parse (string asString)
+        public static FavoriteTargetFolderSettingItem Parse (string asString)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace QuickSort.help
 
                 if (elements.Length == 4)
                 {
-                    return new TargetFolderSettingItem ()
+                    return new FavoriteTargetFolderSettingItem ()
                     {
                         Path = elements[0],
                         Date = long.Parse (elements[1]),
@@ -69,7 +69,7 @@ namespace QuickSort.help
                     };
                 }
 
-                throw new FormatException ("Invalid format for TargetFolderSettingItem. Expected format: Path?Date?DisplayName");
+                throw new FormatException ("Invalid format for FavoriteTargetFolderSettingItem. Expected format: Path?Date?DisplayName");
             }
             catch
             {

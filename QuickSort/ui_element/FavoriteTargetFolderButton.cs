@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace QuickSort.ui_element
 {
-    public class TargetFolderButton : System.Windows.Controls.Button
+    public class FavoriteTargetFolderButton : System.Windows.Controls.Button
     {
         public string IsPinned
         {
@@ -21,7 +21,7 @@ namespace QuickSort.ui_element
             System.Windows.DependencyProperty.Register (
                 "IsPinned",
                 typeof (string),
-                typeof (TargetFolderButton),
+                typeof (FavoriteTargetFolderButton),
                 new PropertyMetadata (string.Empty)
             );
     }

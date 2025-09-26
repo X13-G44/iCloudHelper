@@ -444,7 +444,7 @@ namespace QuickSort.viewmodel
 
             foreach (var targetFolder in TargetFolderList)
             {
-                var item = new TargetFolderSettingItem (targetFolder.Path, targetFolder.AddDate, targetFolder.DisplayName, targetFolder.IsPinned);
+                var item = new FavoriteTargetFolderSettingItem (targetFolder.Path, targetFolder.AddDate, targetFolder.DisplayName, targetFolder.IsPinned);
 
                 Properties.Settings.Default.LastTargetFolderCollection.Add (item.ToString ());
             }
@@ -578,7 +578,7 @@ namespace QuickSort.viewmodel
         {
             try
             {
-                List<TargetFolderSettingItem> targetFolderList = new List<TargetFolderSettingItem> ();
+                List<FavoriteTargetFolderSettingItem> targetFolderList = new List<FavoriteTargetFolderSettingItem> ();
 
 
                 // Check if the Properties.Settings.LastTargetFolderCollection setting exists, if not, create it.
@@ -593,7 +593,7 @@ namespace QuickSort.viewmodel
                 // Transfer the Properties.Settings.Default.LastTargetFolderCollection entries into the targetFolderList for linq operations.
                 foreach (var targetFolderItemString in Properties.Settings.Default.LastTargetFolderCollection)
                 {
-                    targetFolderList.Add (TargetFolderSettingItem.Parse (targetFolderItemString));
+                    targetFolderList.Add (FavoriteTargetFolderSettingItem.Parse (targetFolderItemString));
                 }
 
                 // Order and sort the list.
@@ -710,10 +710,8 @@ namespace QuickSort.viewmodel
                                 _Dispatcher.Invoke (() => popup.FileProcessed++);
                                 _Dispatcher.Invoke (() => popup.CurrentFileName = fileItem.DisplayName);
 
-#warning Testcode active
-                                //File.Move (fileItem.FullPath, targetFile);
-                                //File.Delete (fileItem.FullPath);
-                                Task.Delay (2000).Wait ();  // Simulate a delay for moving files.
+                                File.Move (fileItem.File, targetFile);
+                                File.Delete (fileItem.File);
                             }
                             catch (Exception ex)
                             {

@@ -99,7 +99,7 @@
             </Setter>
         </Style>
 
-        <!-- TargetFolder Tooltip-Style -->
+        <!-- Tooltip-Style -->
         <Style x:Key="{x:Type ToolTip}" TargetType="ToolTip">
             <Setter Property="OverridesDefaultStyle" Value="true" />
             <Setter Property="HasDropShadow" Value="True" />
@@ -132,13 +132,14 @@
             </Setter>
         </Style>
 
-        <!-- TargetFolder Edit Button-Style -->
-        <Style x:Key="TargetFolderEditButtonStyle" TargetType="Button">
+        <!-- Favorite Target Folder Edit Button-Style -->
+        <Style x:Key="FavoriteTargetFolderEditButtonStyle" TargetType="Button">
             <!--This setter is need for ToolTip-->
             <Setter Property="Foreground" Value="{DynamicResource ToolTipTextColor}"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Margin" Value="5"/>
+            <Setter Property="Width" Value="175"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -148,15 +149,15 @@
                                 Background="{DynamicResource TargetFolderBtnBackgroundColor}"
                                 Padding="{TemplateBinding Padding}"
                                 CornerRadius="10">
-                            <StackPanel Orientation="Vertical" 
-                                        HorizontalAlignment="Center" 
+                            <StackPanel Orientation="Horizontal" 
+                                        HorizontalAlignment="Left" 
                                         VerticalAlignment="Center">
 
                                 <TextBlock Text="&#xE1DA;" 
                                            Foreground="{DynamicResource TargetFolderBtnSymbolColor}" 
-                                           FontSize="20" 
+                                           FontSize="{TemplateBinding FontSize}" 
                                            FontFamily="Segoe UI Symbol" 
-                                           Margin="0,0,0,5"
+                                           Margin="0,0,10,0"
                                            VerticalAlignment="Center"/>
 
                                 <TextBlock Text="{TemplateBinding Content}" 
@@ -177,17 +178,17 @@
             </Setter>
         </Style>
 
-        <!-- TargetFolder Item Button-Style -->
-        <Style x:Key="TargetFolderItemButtonStyle" TargetType="myView:TargetFolderButton">
+        <!-- Favorite Target Folder Item Button-Style -->
+        <Style x:Key="FavoriteTargetFolderItemButtonStyle" TargetType="myView:FavoriteTargetFolderButton">
             <!--This setter is need for ToolTip-->
             <Setter Property="Foreground" Value="{DynamicResource ToolTipTextColor}"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Margin" Value="5"/>
-            <Setter Property="MinWidth" Value="75"/>
+            <Setter Property="Width" Value="175"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="myView:TargetFolderButton">
+                    <ControlTemplate TargetType="myView:FavoriteTargetFolderButton">
                         <Border x:Name="OUTER_BORDER"
                                 BorderBrush="{DynamicResource TargetFolderBtnSelectedColor}"
                                 BorderThickness="1"
@@ -202,15 +203,15 @@
                                       VerticalAlignment="Top"                                      
                                       Visibility="{Binding IsPinned, Converter={StaticResource BoolToVis}}"/>
 
-                                <StackPanel Orientation="Vertical" 
-                                        HorizontalAlignment="Center" 
+                                <StackPanel Orientation="Horizontal" 
+                                        HorizontalAlignment="Left" 
                                         VerticalAlignment="Center">
 
                                     <TextBlock Text="&#xE1C1;" 
                                            Foreground="{DynamicResource TargetFolderBtnSymbolColor}" 
-                                           FontSize="20" 
+                                           FontSize="{TemplateBinding FontSize}" 
                                            FontFamily="Segoe UI Symbol" 
-                                           Margin="0,0,0,5"
+                                           Margin="0,0,10,0"
                                            VerticalAlignment="Center"/>
 
                                     <TextBlock Text="{TemplateBinding Content}" 
@@ -364,7 +365,6 @@
             </Setter>
         </Style>
 
-
     </Window.Resources>
 
     <Window.InputBindings>
@@ -376,11 +376,18 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto" MinHeight="100"/>
+            <!--<RowDefinition Height="Auto" MinHeight="100"/>-->
         </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="230"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
         <!-- Window Title bar section -->
         <Grid Grid.Row="0"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
               MouseLeftButtonDown="Grid_MouseLeftButtonDown"
               Cursor="Hand"
               Background="{DynamicResource CommonBorderBrushColor}">
@@ -440,8 +447,125 @@
 
         </Grid>
 
+        <!-- Favorite Target Folder Section -->
+        <Border Grid.Row="1"
+                Grid.Column="0"
+                Margin="15"                
+                HorizontalAlignment="Left"
+                Background="{DynamicResource CommonBackgroundColor}"
+                BorderThickness="2"
+                BorderBrush="{DynamicResource SectionBorderBrushColor}"
+                CornerRadius="5">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Margin="10,10,0,5"
+                           Foreground="{DynamicResource CommonForegroundColor}"
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Left">
+                    Favoriten:
+                </TextBlock>
+
+                <Rectangle Grid.Row="1"                           
+                           Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"                           
+                           Height="1" 
+                           Fill="{DynamicResource HeadlineBorderBrushColor}" 
+                           VerticalAlignment="Top" 
+                           HorizontalAlignment="Left"/>
+
+                <StackPanel Grid.Row="2"
+                            Margin="5,10,5,10"
+                            Orientation="Vertical">
+
+                    <Button Style="{StaticResource FavoriteTargetFolderEditButtonStyle}" 
+                            HorizontalAlignment="Left"
+                            Content="Ordner hinzufügen"
+                            Command="{Binding Cmd_AddNewTargetFolder}"
+                            ToolTip="Ausgewählte Dateien in einen neuen Ordner verschieben"/>
+
+                    <ItemsControl ItemsSource="{Binding TargetFolderList}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" 
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+
+                                <myView:FavoriteTargetFolderButton Style="{StaticResource FavoriteTargetFolderItemButtonStyle}"
+                                                Margin="5" 
+                                                Padding="5"                                                
+                                                Content="{Binding DisplayName}"
+                                                Command="{Binding Cmd_OpenFolderCommand}"
+                                                CommandParameter="{Binding Path}"
+                                                ToolTip="{Binding ToolTip}"
+                                                IsPinned="{Binding IsPinned}">
+
+                                    <myView:FavoriteTargetFolderButton.ContextMenu>
+                                        <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
+
+                                            <!--Irgenwie funktioniert das mit dem CommandoBinding nicht: Die Kommando-Properties sind im Viewmodel abgelegt. 
+                                            um darauf zuzugreifen, muss mus der Datencontext der Items, die in der ItemsControl-Liste
+                                            Angezeit werden, geändert werden. Diese Items haben (DataTemplate) einen geänderten Datencontext; der zeigt jeweils auf 
+                                            eine Instanz des FileTile-Model. Irgenwie kann das Binding nicht aufgelöst werden. 
+                                            Workaround: Die FileTile-Model Klasse stellt ebenfalls die Kommando-Properties bereit.-->
+
+                                            <!--<MenuItem Header="Favorit Test"
+                                                  Style="{StaticResource CustomMenuItemStyle}"
+                                                  Command="{Binding DataContext.Cmd_ContextMenu_RemoveTargetFolder, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                  CommandParameter="{Binding}" />-->
+
+                                            <!--<MenuItem Header="Favorit Test"
+                                                  Style="{StaticResource CustomMenuItemStyle}"
+                                                  DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                  Command="{Binding Cmd_ContextMenu_RemoveTargetFolder}"
+                                                  CommandParameter="{Binding}" />-->
+
+                                            <MenuItem Header="Eintrag entfernen"
+                                                      Style="{StaticResource CustomMenuItemStyle}"
+                                                      Tag="&#xE107;"
+                                                      Command="{Binding Cmd_RemoveFolderFromListCommand}"
+                                                      CommandParameter="{Binding}"/>
+
+                                            <MenuItem Header="Als Favoriert festlegen"
+                                                      Style="{StaticResource CustomMenuItemStyle}"
+                                                      Tag="&#xE1CF;"
+                                                      Command="{Binding Cmd_SetTargetFolderAsFavorite}"/>
+
+                                            <!--Alternative symbol: &#xE1CE;-->
+                                            <MenuItem Header="Als Favoriert entfernen"
+                                                      Style="{StaticResource CustomMenuItemStyle}"
+                                                      Tag="&#xE195;"
+                                                      Command="{Binding Cmd_ClearTargetFolderFavorite}"/>
+
+                                        </ContextMenu>
+                                    </myView:FavoriteTargetFolderButton.ContextMenu>
+
+                                </myView:FavoriteTargetFolderButton>
+
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+
         <!-- File Titles Section -->
         <Border Grid.Row="1"
+                Grid.Column="1"
                 Margin="15"
                 Background="{DynamicResource CommonBackgroundColor}"
                 BorderThickness="2"
@@ -474,7 +598,6 @@
                            FontFamily="Segoe UI Light" 
                            FontStyle="Italic"
                            Text="{Binding RootPath}"/>
-
 
                 <Rectangle Grid.Row="1"                           
                            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"                           
@@ -639,119 +762,10 @@
             </Border.ContextMenu>
         </Border>
 
-        <!-- Target Folder Section -->
-        <Border Grid.Row="2"
-                Margin="15"
-                Background="{DynamicResource CommonBackgroundColor}"
-                BorderThickness="2"
-                BorderBrush="{DynamicResource SectionBorderBrushColor}"
-                CornerRadius="5">
-
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Grid.Row="0"
-                           Margin="10,10,0,5"
-                           Foreground="{DynamicResource CommonForegroundColor}"
-                           FontSize="18" 
-                           FontWeight="Bold"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left">
-                    Zielordner:
-                </TextBlock>
-
-                <Rectangle Grid.Row="1"                           
-                           Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"                           
-                           Height="1" 
-                           Fill="{DynamicResource HeadlineBorderBrushColor}" 
-                           VerticalAlignment="Center" 
-                           HorizontalAlignment="Left"/>
-
-                <StackPanel Grid.Row="2"
-                            Margin="5,10,5,10"
-                            Orientation="Horizontal">
-
-                    <Button Style="{StaticResource TargetFolderEditButtonStyle}" 
-                            Content="Ordner hinzufügen"
-                            Command="{Binding Cmd_AddNewTargetFolder}"
-                            ToolTip="Ausgewählte Dateien in einen neuen Ordner verschieben"/>
-
-                    <ItemsControl ItemsSource="{Binding TargetFolderList}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-
-                                <myView:TargetFolderButton Style="{StaticResource TargetFolderItemButtonStyle}"
-                                                Margin="5" 
-                                                Padding="5"                                                
-                                                Content="{Binding DisplayName}"
-                                                Command="{Binding Cmd_OpenFolderCommand}"
-                                                CommandParameter="{Binding Path}"
-                                                ToolTip="{Binding ToolTip}"
-                                                IsPinned="{Binding IsPinned}">
-                                    
-                                    <myView:TargetFolderButton.ContextMenu>
-                                        <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
-
-                                            <!-- Irgenwie funktioniert das mit dem CommandoBinding nicht: Die Kommando-Properties sind im Viewmodel abgelegt. 
-                                            um darauf zuzugreifen, muss mus der Datencontext der Items, die in der ItemsControl-Liste
-                                            Angezeit werden, geändert werden. Diese Items haben (DataTemplate) einen geänderten Datencontext; der zeigt jeweils auf 
-                                            eine Instanz des FileTile-Model. Irgenwie kann das Binding nicht aufgelöst werden. 
-                                            Workaround: Die FileTile-Model Klasse stellt ebenfalls die Kommando-Properties bereit. -->
-
-                                            <!--<MenuItem Header="Favorit Test"
-                                                  Style="{StaticResource CustomMenuItemStyle}"
-                                                  Command="{Binding DataContext.Cmd_ContextMenu_RemoveTargetFolder, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                  CommandParameter="{Binding}" />-->
-
-                                            <!--<MenuItem Header="Favorit Test"
-                                                  Style="{StaticResource CustomMenuItemStyle}"
-                                                  DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                  Command="{Binding Cmd_ContextMenu_RemoveTargetFolder}"
-                                                  CommandParameter="{Binding}" />-->
-
-                                            <MenuItem Header="Eintrag entfernen"
-                                                      Style="{StaticResource CustomMenuItemStyle}"
-                                                      Tag="&#xE107;"
-                                                      Command="{Binding Cmd_RemoveFolderFromListCommand}"
-                                                      CommandParameter="{Binding}"/>
-
-                                            <MenuItem Header="Als Favoriert festlegen"
-                                                      Style="{StaticResource CustomMenuItemStyle}"
-                                                      Tag="&#xE1CF;"
-                                                      Command="{Binding Cmd_SetTargetFolderAsFavorite}"/>
-
-                                            <!-- Alternative: &#xE1CE; -->
-                                            <MenuItem Header="Als Favoriert entfernen"
-                                                      Style="{StaticResource CustomMenuItemStyle}"
-                                                      Tag="&#xE195;"
-                                                      Command="{Binding Cmd_ClearTargetFolderFavorite}"/>
-
-                                        </ContextMenu>
-                                    </myView:TargetFolderButton.ContextMenu>
-                                    
-                                </myView:TargetFolderButton>
-                                
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                </StackPanel>
-
-            </Grid>
-
-        </Border>
-
         <!-- Overlay: File Moveprocess Popup Notification List -->
-        <ItemsControl Grid.RowSpan="3"
+        <ItemsControl Grid.Row="1"
+                      Grid.RowSpan="2"
+                      Grid.ColumnSpan="2"
                       ItemsSource="{Binding FileMoveProcPopupNotificationList}">
 
             <ItemsControl.ItemsPanel>
@@ -860,7 +874,9 @@
         </ItemsControl>
 
         <!-- Overlay Dlg: Start File Move process dialog -->
-        <Grid Grid.RowSpan="3"
+        <Grid Grid.Row="1"
+              Grid.RowSpan="2"
+              Grid.ColumnSpan="2"
               Background="#EF1B1D1F"
               Visibility="{Binding DialogOverlay_MoveFiles_Show, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
 
@@ -950,9 +966,11 @@
         </Grid>
 
         <!-- Overlay Dlg: Ask for HECI file process dialog -->
-        <Grid Grid.RowSpan="3"
-            Background="#EF1B1D1F"
-            Visibility="{Binding DialogOverlay_ProcessHeicImages_Show, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
+        <Grid Grid.Row="1"
+              Grid.RowSpan="2"
+              Grid.ColumnSpan="2"
+              Background="#EF1B1D1F"
+              Visibility="{Binding DialogOverlay_ProcessHeicImages_Show, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
 
             <Border BorderThickness="2"
                 BorderBrush="{DynamicResource CommonBorderBrushColor}"
