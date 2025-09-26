@@ -46,7 +46,44 @@ namespace AutoUnzip
             InitializeComponent ();
 
             DataContext = this;
-            this.Opacity = 0; // Unsichtbar starten
+            this.Opacity = 0;   // Start hidden
+
+            SetColorTheme ();
+        }
+
+
+
+        private void SetColorTheme ()
+        {
+            string themeFile;
+            switch (AutoUnzip.Properties.Settings.Default.ColorThemeId)
+            {
+                default:
+                case 0:
+                    {
+                        themeFile = "/view/theme/ColorThemeLightMode.xaml";
+                        break;
+                    }
+
+                case 1:
+                    {
+                        themeFile = "/view/theme/ColorThemeDarkMode.xaml";
+                        break;
+                    }
+            }
+            var dict = new ResourceDictionary { Source = new Uri (themeFile, UriKind.Relative) };
+
+
+            // Remove the old (initial) theme.
+            var oldDict = Application.Current.Resources.MergedDictionaries.FirstOrDefault (d => d.Source != null && (d.Source.OriginalString.Contains ("/view/theme/ColorThemeDarkMode.xaml") ||
+                                                                                                                     d.Source.OriginalString.Contains ("/view/theme/ColorThemeLightMode.xaml")));
+            if (oldDict != null)
+            {
+                Application.Current.Resources.MergedDictionaries.Remove (oldDict);
+            }
+
+            // Add new theme.
+            Application.Current.Resources.MergedDictionaries.Add (dict);
         }
 
 

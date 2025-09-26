@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Dark Mode Color Theme -->
+
+    <SolidColorBrush x:Key="CommonBackgroundColor" Color="#FF1C1C1E"/>
+    <SolidColorBrush x:Key="CommonBorderBrushColor" Color="#ff0071E3"/>
+    <Color x:Key="CommonBorderBrushColorColor">#ff0071E3</Color>    
+    <SolidColorBrush x:Key="CommonForegroundColor" Color="#FFFBFBFB"/>
+
+    <SolidColorBrush x:Key="HeadlineBorderBrushColor" Color="#FF333333"/>
+    <SolidColorBrush x:Key="MainWindowBackground" Color="#FF202023"/>
+    <SolidColorBrush x:Key="SectionBorderBrushColor" Color="#FF333333"/>
+
+    <SolidColorBrush x:Key="TargetFolderBtnBackgroundColor" Color="#FF1C1C1E"/>
+    <SolidColorBrush x:Key="TargetFolderBtnTextColor" Color="#FFE6E6E6"/>
+    <SolidColorBrush x:Key="TargetFolderBtnSymbolColor" Color="#FF0099FF"/>
+    <SolidColorBrush x:Key="TargetFolderBtnMouseOverColor" Color="#FF35353A"/>
+    <SolidColorBrush x:Key="TargetFolderBtnSelectedColor" Color="#FF444446"/>
+
+    <SolidColorBrush x:Key="FileTitleBtnMouseOverColor" Color="#FF35353A"/>
+
+    <SolidColorBrush x:Key="ToolTipBackgroundColor" Color="#FF323236"/>
+    <SolidColorBrush x:Key="ToolTipTextColor" Color="#FFE6E6E6"/>
+
+    <SolidColorBrush x:Key="ContextMenuBackgroundColor" Color="#FF323236"/>
+    <SolidColorBrush x:Key="ContextMenuBtnBackgroundColor" Color="#FF444446"/>
+    <SolidColorBrush x:Key="ContextMenuBtnTextColor" Color="#FFE6E6E6"/>
+    <SolidColorBrush x:Key="ContextMenuBtnTextMouseOverColor" Color="#FFE6E6E6"/>
+
+</ResourceDictionary>

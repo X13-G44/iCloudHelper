@@ -43,6 +43,7 @@ namespace AutoUnzip
             tbBackupPath.Text = AutoUnzip.Properties.Settings.Default.BackupPath;
             tbBackupRetentionPeriod.Text = AutoUnzip.Properties.Settings.Default.BackupRetentionPeriod.ToString ();
             tbQuickSortApp.Text = AutoUnzip.Properties.Settings.Default.QuickSortApp;
+            cbColorTheme.IsChecked = AutoUnzip.Properties.Settings.Default.ColorThemeId == 1 ? true : false;
 
             CheckConfig ();
         }
@@ -69,6 +70,7 @@ namespace AutoUnzip
             AutoUnzip.Properties.Settings.Default.BackupPath = tbBackupPath.Text;
             AutoUnzip.Properties.Settings.Default.BackupRetentionPeriod = int.Parse (tbBackupRetentionPeriod.Text);
             AutoUnzip.Properties.Settings.Default.QuickSortApp = tbQuickSortApp.Text;
+            AutoUnzip.Properties.Settings.Default.ColorThemeId = (uint) (cbColorTheme.IsChecked.Value == true ? 1 : 0);
 
             AutoUnzip.Properties.Settings.Default.Save ();
 
@@ -80,22 +82,24 @@ namespace AutoUnzip
 
         private void btnBrowseWatchPath_Click (object sender, RoutedEventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog ())
+            using (var dialog = new FolderBrowserDialog ())
             {
                 if (Directory.Exists (tbWatchPath.Text))
                 {
-                    fbd.SelectedPath = tbWatchPath.Text;
+                    dialog.SelectedPath = tbWatchPath.Text;
                 }
                 else if (Directory.Exists (_LastUsedPath))
                 {
-                    fbd.SelectedPath = _LastUsedPath;
+                    dialog.SelectedPath = _LastUsedPath;
                 }
 
-                if (fbd.ShowDialog () == System.Windows.Forms.DialogResult.OK)
-                {
-                    tbWatchPath.Text = fbd.SelectedPath;
+                dialog.Description = $"Zu überwachenden Ordner auswählen";
 
-                    _LastUsedPath = fbd.SelectedPath;
+                if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
+                {
+                    tbWatchPath.Text = dialog.SelectedPath;
+
+                    _LastUsedPath = dialog.SelectedPath;
 
                     CheckConfig ();
                 }
@@ -106,22 +110,24 @@ namespace AutoUnzip
 
         private void btnBrowseExtractPath_Click (object sender, RoutedEventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog ())
+            using (var dialog = new FolderBrowserDialog ())
             {
                 if (Directory.Exists (tbExtractPath.Text))
                 {
-                    fbd.SelectedPath = tbExtractPath.Text;
+                    dialog.SelectedPath = tbExtractPath.Text;
                 }
                 else if (Directory.Exists (_LastUsedPath))
                 {
-                    fbd.SelectedPath = _LastUsedPath;
+                    dialog.SelectedPath = _LastUsedPath;
                 }
 
-                if (fbd.ShowDialog () == System.Windows.Forms.DialogResult.OK)
-                {
-                    tbExtractPath.Text = fbd.SelectedPath;
+dialog.Description = $"Zielordner für entpackte Dateien auswählen";
 
-                    _LastUsedPath = fbd.SelectedPath;
+                if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
+                {
+                    tbExtractPath.Text = dialog.SelectedPath;
+
+                    _LastUsedPath = dialog.SelectedPath;
 
                     CheckConfig ();
                 }
@@ -132,22 +138,24 @@ namespace AutoUnzip
 
         private void btnBrowseBackupPath_Click (object sender, RoutedEventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog ())
+            using (var dialog = new FolderBrowserDialog ())
             {
                 if (Directory.Exists (tbBackupPath.Text))
                 {
-                    fbd.SelectedPath = tbBackupPath.Text;
+                    dialog.SelectedPath = tbBackupPath.Text;
                 }
                 else if (Directory.Exists (_LastUsedPath))
                 {
-                    fbd.SelectedPath = _LastUsedPath;
+                    dialog.SelectedPath = _LastUsedPath;
                 }
 
-                if (fbd.ShowDialog () == System.Windows.Forms.DialogResult.OK)
-                {
-                    tbBackupPath.Text = fbd.SelectedPath;
+dialog.Description = $"Zielordner für Backup-Dateien auswählen";
 
-                    _LastUsedPath = fbd.SelectedPath;
+                if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
+                {
+                    tbBackupPath.Text = dialog.SelectedPath;
+
+                    _LastUsedPath = dialog.SelectedPath;
 
                     CheckConfig ();
                 }
@@ -158,26 +166,25 @@ namespace AutoUnzip
 
         private void btnBrowseQuickSortApp_Click (object sender, RoutedEventArgs e)
         {
-            using (var ofd = new OpenFileDialog ())
+            using (var dialog = new OpenFileDialog ())
             {
-                ofd.Title = $"{App.APP_TITLE} - Select QuickSort application";
-                ofd.Filter = "Executable files (*.exe)|*.exe|All files (*.*)|*.*";
-                ofd.InitialDirectory = Environment.GetFolderPath (Environment.SpecialFolder.ProgramFiles);
-                ofd.CheckFileExists = true;
+                dialog.Title = $"{App.APP_TITLE} - Select QuickSort application";
+                dialog.Filter = "Executable files (*.exe)|*.exe|All files (*.*)|*.*";
+                dialog.InitialDirectory = Environment.GetFolderPath (Environment.SpecialFolder.ProgramFiles);
+                dialog.CheckFileExists = true;
 
                 if (File.Exists (tbQuickSortApp.Text))
                 {
-                    ofd.InitialDirectory = tbQuickSortApp.Text;
+                    dialog.InitialDirectory = tbQuickSortApp.Text;
                 }
 
-                if (ofd.ShowDialog () == System.Windows.Forms.DialogResult.OK)
+                if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
                 {
-                    tbQuickSortApp.Text = ofd.FileName;
+                    tbQuickSortApp.Text = dialog.FileName;
 
                     CheckConfig ();
                 }
             }
-
         }
 
 
@@ -289,7 +296,5 @@ namespace AutoUnzip
 
             return settingsOk;
         }
-
-
     }
 }

@@ -89,10 +89,10 @@ namespace AutoUnzip
             {
                 this.Dispatcher.Invoke (() =>
                 {
-                    ConfigWindow win = new ConfigWindow ();
-                    win.ShowDialog ();
+                    ConfigWindow dialog = new ConfigWindow ();
+                    dialog.ShowDialog ();
 
-                    if (win.DialogResult == true)
+                    if (dialog.DialogResult == true)
                     {
                         // User closed the config window by pressing the save button --> new configuration.
 
@@ -128,10 +128,10 @@ namespace AutoUnzip
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    ConfigWindow win = new ConfigWindow ();
-                    win.ShowDialog ();
+                    ConfigWindow dialog = new ConfigWindow ();
+                    dialog.ShowDialog ();
 
-                    if (win.DialogResult == false)
+                    if (dialog.DialogResult == false)
                     {
                         // User closed the config window without saving the config.
 

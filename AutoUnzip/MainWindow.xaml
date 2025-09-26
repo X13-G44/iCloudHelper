@@ -16,8 +16,8 @@
         ShowInTaskbar="False" 
         Icon="/icloud-logo-49272-Windows.ico">
 
-    <Border Background="#FF26282B"
-            BorderBrush="CadetBlue"
+    <Border Background="{DynamicResource CommonBackgroundColor}"
+            BorderBrush="{DynamicResource CommonBorderBrushColor}"
             BorderThickness="4"
             CornerRadius="15"
             MouseLeftButtonUp="Border_MouseLeftButtonUp">
@@ -39,7 +39,7 @@
                 Grid.Row="1"
                 Orientation="Vertical">
 
-                <TextBlock Foreground="#FFD8D8D8" 
+                <TextBlock Foreground="{DynamicResource CommonForegroundColor}" 
                            FontSize="20"
                            Text="{Binding Message, FallbackValue=iCloud Bilder extrahiert.}">
                 </TextBlock>

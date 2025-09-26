@@ -6,31 +6,14 @@
         xmlns:local="clr-namespace:AutoUnzip"
         mc:Ignorable="d"
         Title="iCloudHelper - Einstellungen"
-        Height="500" 
+        Height="550" 
         Width="600" 
         Icon="/icloud-logo-49272-Windows.ico" 
         ResizeMode="CanMinimize">
 
     <Window.Resources>
-        <Style TargetType="TextBox">
-            <Setter Property="BorderBrush" Value="#FF6D6D6D"/>
-            <!--<Setter Property="BorderThickness" Value="1"/>-->
-            <Setter Property="Background" Value="#FFF0F0F0"/>
-            <Setter Property="Foreground" Value="#FF3C3C3C"/>
-            <!--<Setter Property="FontSize" Value="14"/>-->
-            <!--<Setter Property="FontWeight" Value="Normal"/>-->
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Padding" Value="3"/>
-        </Style>
-        
-        <Style TargetType="Label">
-            <!--<Setter Property="FontSize" Value="14"/>-->
-            <!--<Setter Property="FontWeight" Value="Normal"/>-->
-            <Setter Property="Foreground" Value="#FF3C3C3C"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="10,0"/>
-        </Style>
+
+        <!--Headline Styles-->
 
         <Style TargetType="Label" x:Key="HeadLine">
             <!--<Setter Property="FontSize" Value="14"/>-->
@@ -42,6 +25,46 @@
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Margin" Value="0,15,0,0"/>
         </Style>
+
+        <!--Text Styles-->
+        
+        <Style TargetType="Label">
+            <!--<Setter Property="FontSize" Value="14"/>-->
+            <!--<Setter Property="FontWeight" Value="Normal"/>-->
+            <Setter Property="Foreground" Value="#FF3C3C3C"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="10,0"/>
+        </Style>
+
+        <!--TextBox Styles-->
+
+        <Style TargetType="TextBox">
+            <Setter Property="BorderBrush" Value="#FF6D6D6D"/>
+            <!--<Setter Property="BorderThickness" Value="1"/>-->
+            <Setter Property="Background" Value="#FFF0F0F0"/>
+            <Setter Property="Foreground" Value="#FF3C3C3C"/>
+            <!--<Setter Property="FontSize" Value="14"/>-->
+            <!--<Setter Property="FontWeight" Value="Normal"/>-->
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="3"/>
+        </Style>
+
+        <!--Checkbox Styles-->
+
+        <Style TargetType="CheckBox">
+            <Setter Property="BorderBrush" Value="#FF6D6D6D"/>
+            <!--<Setter Property="BorderThickness" Value="1"/>-->
+            <Setter Property="Background" Value="#FFF0F0F0"/>
+            <Setter Property="Foreground" Value="#FF3C3C3C"/>
+            <!--<Setter Property="FontSize" Value="14"/>-->
+            <!--<Setter Property="FontWeight" Value="Normal"/>-->
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="3"/>
+        </Style>
+
+        <!--Button Styles-->
 
         <Style TargetType="Button">
             <Setter Property="BorderBrush" Value="#FF6D6D6D"/>
@@ -68,6 +91,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -168,15 +192,22 @@
                    Content="QuickSort App"/>
             <TextBox Grid.Row="9"
                      Grid.Column="2"
-                     x:Name="tbQuickSortApp"                     
+                     x:Name="tbQuickSortApp"
                      LostFocus="tbXXX_LostFocus"/>
             <Button Grid.Row="9"
                     Grid.Column="4"
                     x:Name="btnBrowseQuickSortApp"
                     Content="Durchsuchen..."
-                    Click="btnBrowseQuickSortApp_Click"/>            
+                    Click="btnBrowseQuickSortApp_Click"/>
 
-            <Button Grid.Row="11"
+            <Label Grid.Row="10"
+                   Grid.Column="0"
+                   Content="Benutze DarkMode Theme"/>
+            <CheckBox Grid.Row="10"
+                     Grid.Column="2"
+                     x:Name="cbColorTheme"/>
+
+            <Button Grid.Row="12"
                     Grid.Column="2"
                     Grid.ColumnSpan="3"
                     x:Name="SaveButton"

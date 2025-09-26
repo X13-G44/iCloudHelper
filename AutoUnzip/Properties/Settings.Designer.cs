@@ -106,5 +106,17 @@ namespace AutoUnzip.Properties {
                 this["QuickSortApp"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public uint ColorThemeId {
+            get {
+                return ((uint)(this["ColorThemeId"]));
+            }
+            set {
+                this["ColorThemeId"] = value;
+            }
+        }
     }
 }
