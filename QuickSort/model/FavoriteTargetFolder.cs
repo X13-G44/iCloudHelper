@@ -12,7 +12,7 @@ using QuickSort.viewmodel;
 
 namespace QuickSort.model
 {
-    public class TargetFolder : INotifyPropertyChanged
+    public class FavoriteTargetFolder : INotifyPropertyChanged
     {
         private string _DisplayName;
         public string DisplayName

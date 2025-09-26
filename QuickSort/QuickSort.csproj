@@ -82,7 +82,7 @@
     <Compile Include="help\FavoriteTargetFolderSettingItem.cs" />
     <Compile Include="model\FileTile.cs" />
     <Compile Include="model\FileMoveProcPopupNotification.cs" />
-    <Compile Include="model\TargetFolder.cs" />
+    <Compile Include="model\FavoriteTargetFolder.cs" />
     <Compile Include="ui_element\FileTitleButton.cs" />
     <Compile Include="validationrules\CheckPathExistsValidationRule.cs" />
     <Compile Include="viewmodel\ConfigViewModel.cs" />

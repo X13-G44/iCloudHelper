@@ -24,7 +24,7 @@ namespace QuickSort.viewmodel
     public class MainViewModel : IDisposable, INotifyPropertyChanged
     {
         public ObservableCollection<FileTile> FileTileList { get; set; } = new ObservableCollection<FileTile> ();
-        public ObservableCollection<TargetFolder> TargetFolderList { get; set; } = new ObservableCollection<TargetFolder> ();
+        public ObservableCollection<FavoriteTargetFolder> FavoriteTargetFolderList { get; set; } = new ObservableCollection<FavoriteTargetFolder> ();
         public ObservableCollection<FileMoveProcPopupNotification> FileMoveProcPopupNotificationList { get; } = new ObservableCollection<FileMoveProcPopupNotification> ();
 
         private bool _DialogOverlay_MoveFiles_Show = false;
@@ -69,6 +69,13 @@ namespace QuickSort.viewmodel
             set { _RootPath = value; OnPropertyChanged (nameof (RootPath)); }
         }
 
+        private string _FileTileStatusText = "";
+        public string FileTileStatusText
+        {
+            get { return _FileTileStatusText; }
+            set { _FileTileStatusText = value; OnPropertyChanged (nameof (FileTileStatusText)); }
+        }
+
 
 
         public RelayCommand Cmd_ShowConfigWindow
@@ -85,6 +92,8 @@ namespace QuickSort.viewmodel
 
                         if (dialog.DialogResult.Value)
                         {
+                            this.RootPath = QuickSort.Properties.Settings.Default.StartPath;
+
                             SetColorTheme ();
                             LoadFileTitles ();
                         }
@@ -188,8 +197,8 @@ namespace QuickSort.viewmodel
                                     string folderName = Path.GetFileName (selectedPath);
 
 
-                                    // Create a new TargetFolderList instance and add it to the collection.
-                                    TargetFolderList.Add (new TargetFolder
+                                    // Create a new FavoriteTargetFolderList instance and add it to the collection.
+                                    FavoriteTargetFolderList.Add (new FavoriteTargetFolder
                                     {
                                         DisplayName = folderName,
                                         Path = selectedPath,
@@ -198,9 +207,9 @@ namespace QuickSort.viewmodel
                                         Cmd_OpenFolderCommand = new RelayCommand (param => CommandExecute_PrepareMoveFiles (param as string)),
                                         Cmd_RemoveFolderFromListCommand = new RelayCommand (item =>
                                         {
-                                            if (item is TargetFolder)
+                                            if (item is FavoriteTargetFolder)
                                             {
-                                                this.TargetFolderList.Remove (item as TargetFolder);
+                                                this.FavoriteTargetFolderList.Remove (item as FavoriteTargetFolder);
                                             }
                                         }),
                                     });
@@ -228,9 +237,10 @@ namespace QuickSort.viewmodel
                     {
                         foreach (var item in this.FileTileList)
                         {
-                            if (item.IsSelected != true)
-                                item.IsSelected = true;
+                            item.IsSelected = true;
                         }
+
+                        UpdateFileTitelStatusText ();
                     },
                     param => true
                 );
@@ -246,9 +256,10 @@ namespace QuickSort.viewmodel
                     {
                         foreach (var item in this.FileTileList)
                         {
-                            if (item.IsSelected == true)
-                                item.IsSelected = false;
+                            item.IsSelected = false;
                         }
+
+                        UpdateFileTitelStatusText ();
                     },
                     param => true
                 );
@@ -371,6 +382,8 @@ namespace QuickSort.viewmodel
                                     _StartSelectionStartIndex = this.FileTileList.IndexOf (item as FileTile);
                                 }
                             }
+
+                            UpdateFileTitelStatusText ();
                         }
                     },
                     param => true
@@ -427,7 +440,8 @@ namespace QuickSort.viewmodel
         public MainViewModel (Dispatcher dispatcher, String path)
         {
             _Dispatcher = dispatcher;
-            _RootPath = path;
+            this.RootPath = path;
+            this.FileTileStatusText = this.RootPath;
 
             SetColorTheme ();
             PrepareLoadFileTitles ();
@@ -442,7 +456,7 @@ namespace QuickSort.viewmodel
 
             Properties.Settings.Default.LastTargetFolderCollection.Clear ();
 
-            foreach (var targetFolder in TargetFolderList)
+            foreach (var targetFolder in FavoriteTargetFolderList)
             {
                 var item = new FavoriteTargetFolderSettingItem (targetFolder.Path, targetFolder.AddDate, targetFolder.DisplayName, targetFolder.IsPinned);
 
@@ -588,7 +602,7 @@ namespace QuickSort.viewmodel
                 }
 
                 // Clear the UI collection.
-                TargetFolderList.Clear ();
+                FavoriteTargetFolderList.Clear ();
 
                 // Transfer the Properties.Settings.Default.LastTargetFolderCollection entries into the targetFolderList for linq operations.
                 foreach (var targetFolderItemString in Properties.Settings.Default.LastTargetFolderCollection)
@@ -606,7 +620,7 @@ namespace QuickSort.viewmodel
                     .OrderByDescending (x => x.Date);
                 foreach (var querryItem in querryList)
                 {
-                    TargetFolderList.Add (new TargetFolder
+                    FavoriteTargetFolderList.Add (new FavoriteTargetFolder
                     {
                         DisplayName = querryItem.DisplayName,
                         Path = querryItem.Path,
@@ -615,9 +629,9 @@ namespace QuickSort.viewmodel
                         Cmd_OpenFolderCommand = new RelayCommand (param => CommandExecute_PrepareMoveFiles (param as string)),
                         Cmd_RemoveFolderFromListCommand = new RelayCommand (item =>
                         {
-                            if (item is TargetFolder)
+                            if (item is FavoriteTargetFolder)
                             {
-                                this.TargetFolderList.Remove (item as TargetFolder);
+                                this.FavoriteTargetFolderList.Remove (item as FavoriteTargetFolder);
                             }
                         }),
                     });
@@ -773,6 +787,25 @@ namespace QuickSort.viewmodel
 
             // Add new theme.
             Application.Current.Resources.MergedDictionaries.Add (dict);
+        }
+
+
+
+        private void UpdateFileTitelStatusText ()
+        {
+            var count = this.FileTileList.Count (x => x.IsSelected);
+            if (count > 1)
+            {
+                this.FileTileStatusText = $"{count} Bilder ausgewählt";
+            }
+            else if (count == 1)
+            {
+                this.FileTileStatusText = $"{count} Bild ausgewählt";
+            }
+            else
+            {
+                this.FileTileStatusText = this.RootPath;
+            }
         }
 
 

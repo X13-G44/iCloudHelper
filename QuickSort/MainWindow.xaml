@@ -491,7 +491,7 @@
                             Command="{Binding Cmd_AddNewTargetFolder}"
                             ToolTip="Ausgewählte Dateien in einen neuen Ordner verschieben"/>
 
-                    <ItemsControl ItemsSource="{Binding TargetFolderList}">
+                    <ItemsControl ItemsSource="{Binding FavoriteTargetFolderList}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Vertical" 
@@ -597,7 +597,7 @@
                            HorizontalAlignment="Right" 
                            FontFamily="Segoe UI Light" 
                            FontStyle="Italic"
-                           Text="{Binding RootPath}"/>
+                           Text="{Binding FileTileStatusText}"/>
 
                 <Rectangle Grid.Row="1"                           
                            Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"                           

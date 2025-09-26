@@ -73,17 +73,15 @@ namespace QuickSort.model
             set { _SizeLevel = value; OnPropertyChanged (nameof (SizeLevel)); }
         }
 
+        private string _File = "";
         public string Filename
         {
             get { return System.IO.Path.GetFileName (this.File); }
         }
-
         public string Filepath
         {
             get { return System.IO.Path.GetFullPath(this.File); }
         }
-
-        private string _File = "";
         public string File
         {
             get { return _File; }
