@@ -72,7 +72,7 @@ namespace QuickSort.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\c.harscher\\Documents")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string StartPath {
             get {
                 return ((string)(this["StartPath"]));

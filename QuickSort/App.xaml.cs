@@ -35,7 +35,6 @@ namespace QuickSort
 
             base.OnStartup (e);
 
-
             if (string.IsNullOrEmpty (startPfad))
             {
                 startPfad = QuickSort.Properties.Settings.Default.StartPath;
@@ -43,7 +42,7 @@ namespace QuickSort
 
             if (string.IsNullOrEmpty (startPfad) || Directory.Exists(startPfad) == false)
             {
-                startPfad = Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
+                startPfad = Environment.GetFolderPath (Environment.SpecialFolder.MyPictures);
             }
 
             this.StartPfad = startPfad;

@@ -909,7 +909,8 @@
                                    FontWeight="Bold"/>
 
                         <TextBlock Grid.Row="3"
-                                   Width="300"
+                                   MinWidth="100"
+                                   MaxWidth="400"
                                    Foreground="{DynamicResource CommonForegroundColor}"
                                    TextWrapping="Wrap">
 
@@ -949,7 +950,6 @@
         </Grid>
 
         <!-- Overlay Dlg: Ask for HECI file process dialog -->
-
         <Grid Grid.RowSpan="3"
             Background="#EF1B1D1F"
             Visibility="{Binding DialogOverlay_ProcessHeicImages_Show, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
@@ -999,11 +999,13 @@
                            FontWeight="Bold"/>
 
                         <TextBlock Grid.Row="3"
-                           Width="300"
+                           MinWidth="100"
+                           MaxWidth="400"
                            Foreground="{DynamicResource CommonForegroundColor}"
                            TextWrapping="Wrap">
                             
                             <Run Text="Es sind Apple HiRes Bilder (HEIC) vorhanden. Das erstmalige laden dieser Bilder kann einige Zeit in Anspruch nehmen."/>
+                            <LineBreak/>
                             <LineBreak/>
                             <Run Text="Soll der Inhalt diese Bilder angezeigt werden?"/>
                                                         

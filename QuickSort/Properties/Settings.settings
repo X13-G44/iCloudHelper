@@ -15,7 +15,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="StartPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\c.harscher\Documents</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ColorThemeId" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">0</Value>

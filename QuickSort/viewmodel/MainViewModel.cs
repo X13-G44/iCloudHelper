@@ -86,6 +86,7 @@ namespace QuickSort.viewmodel
                         if (dialog.DialogResult.Value)
                         {
                             SetColorTheme ();
+                            LoadFileTitles ();
                         }
                     },
                     param => true
@@ -268,7 +269,7 @@ namespace QuickSort.viewmodel
                         {
                             Properties.Settings.Default.FolderTitleSizeLevel = fileTitleSizeLevel;
 
-                            PrepareLoadFileTitles ();
+                            LoadFileTitles ();
                         }
                     },
                     param => true
