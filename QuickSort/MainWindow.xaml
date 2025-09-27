@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuickSort"
         xmlns:myView="clr-namespace:QuickSort.ui"
+        xmlns:myConverter="clr-namespace:QuickSort.converter"
         mc:Ignorable="d"
         Title="Dateiauswahl" 
         Height="800" 
@@ -16,6 +17,9 @@
     <Window.Resources>
 
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+        <myConverter:CollectionCount2GridLengthConverter x:Key="ColCntToGridLen"/>
+        <myConverter:CollectionCount2GridLengthConverter2 x:Key="ColCntToGridLen2"/>
 
         <!-- File Titles Context Menu Style -->
         <Style x:Key="CustomContextMenuStyle" TargetType="ContextMenu">
@@ -220,6 +224,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="myView:FavoriteTargetFolderButtonUi">
+
                         <Border x:Name="OUTER_BORDER"
                                 BorderBrush="{DynamicResource TargetFolderBtnSelectedColor}"
                                 BorderThickness="1"
@@ -255,6 +260,7 @@
                                 </StackPanel>
                             </Grid>
                         </Border>
+
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource TargetFolderBtnMouseOverColor}"/>
@@ -263,8 +269,8 @@
                             <DataTrigger Binding="{Binding IsPinned}" Value="True">
                                 <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="#FFE6C010"/>
                             </DataTrigger>
-
                         </ControlTemplate.Triggers>
+
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -354,32 +360,38 @@
             <!--This setter is need for ToolTip-->
             <Setter Property="Foreground" Value="{DynamicResource ToolTipTextColor}"/>
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="myView:VirtualRootDirectoryButtonUi">
 
-                        <Border x:Name="OUTER_BORDER" 
-                        CornerRadius="5"
-                        Padding="{TemplateBinding Padding}" 
-                        Margin="{TemplateBinding Margin}">
-
+                        <Border x:Name="OUTER_BORDER"
+                                BorderBrush="{DynamicResource TargetFolderBtnSelectedColor}"
+                                BorderThickness="1"
+                                Background="{DynamicResource TargetFolderBtnBackgroundColor}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="10">
                             <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" 
+                                        HorizontalAlignment="Left" 
+                                        VerticalAlignment="Center">
 
-                                <TextBlock x:Name="FILENAME_TEXT"
-                                   Grid.Row="1"
-                                   Text="{Binding DisplayName}" 
-                                   Margin="0,5,0,0"
-                                   TextAlignment="Center" 
-                                   Foreground="{DynamicResource CommonForegroundColor}" 
-                                   FontSize="12" 
-                                   TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="&#xE1C1;" 
+                                           Foreground="{DynamicResource TargetFolderBtnSymbolColor}" 
+                                           FontSize="{TemplateBinding FontSize}" 
+                                           FontFamily="Segoe UI Symbol" 
+                                           Margin="0,0,10,0"
+                                           VerticalAlignment="Center"/>
 
+                                    <TextBlock Text="{TemplateBinding Content}" 
+                                           Foreground="{DynamicResource TargetFolderBtnTextColor}" 
+                                           FontSize="{TemplateBinding FontSize}" 
+                                           FontFamily="{TemplateBinding FontFamily}" 
+                                           Margin="0"
+                                           VerticalAlignment="Center"/>
+
+                                </StackPanel>
                             </Grid>
                         </Border>
 
@@ -387,26 +399,11 @@
                             <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                 <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="{DynamicResource CommonBorderBrushColor}"/>
                                 <Setter TargetName="OUTER_BORDER" Property="BorderThickness" Value="5"/>
-                                <Setter TargetName="OUTER_BORDER" Property="Background">
-                                    <Setter.Value>
-                                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                                            <LinearGradientBrush.GradientStops>
-                                                <GradientStop Color="{DynamicResource CommonBorderBrushColorColor}" Offset="1" />
-                                                <GradientStop Color="#00000000" Offset=".5" />
-                                                <GradientStop Color="#00000000" Offset="0" />
-                                            </LinearGradientBrush.GradientStops>
-                                        </LinearGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
                             </DataTrigger>
 
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource FileTitleBtnMouseOverColor}"/>
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource TargetFolderBtnMouseOverColor}"/>
                             </Trigger>
-
-                            <DataTrigger Binding="{Binding HideDirectoryText}" Value="True">
-                                <Setter TargetName="FILENAME_TEXT" Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
                         </ControlTemplate.Triggers>
 
                     </ControlTemplate>
@@ -603,7 +600,7 @@
                                     ToolTip="{Binding ToolTip}"
                                                                      
                                     Command="{Binding DataContext.Cmd_ClickOnFavoriteTargetFolderClick, RelativeSource={RelativeSource AncestorType=Window}}"
-                                    CommandParameter="{Binding Path}">
+                                    CommandParameter="{Binding}">
 
                                 <myView:FavoriteTargetFolderButtonUi.ContextMenu>
                                     <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
@@ -625,15 +622,21 @@
                                                   Command="{Binding Cmd_ContextMenu_RemoveTargetFolder}"
                                                   CommandParameter="{Binding}" />-->
 
+                                        <MenuItem Header="Bilder hier her verschieben"
+                                            Style="{StaticResource CustomMenuItemStyle}"
+                                            Tag="&#xE16D;"
+                                            Command="{Binding Cmd_MoveImagesCommand}"
+                                            CommandParameter="{Binding}"/>
+
                                         <MenuItem Header="Eintrag hinzufügen"
-                                                Style="{StaticResource CustomMenuItemStyle}"
-                                                Tag="&#xE1DA;"
-                                                Command="{Binding Cmd_AddFolderFromListCommand}"
-                                                CommandParameter="{Binding}"/>
+                                            Style="{StaticResource CustomMenuItemStyle}"
+                                            Tag="&#xE0C5;"
+                                            Command="{Binding Cmd_AddFolderFromListCommand}"
+                                            CommandParameter="{Binding}"/>
 
                                         <MenuItem Header="Eintrag entfernen"
                                                 Style="{StaticResource CustomMenuItemStyle}"
-                                                Tag="&#xE107;"
+                                                Tag="&#xE0C6;"
                                                 Command="{Binding Cmd_RemoveFolderFromListCommand}"
                                                 CommandParameter="{Binding}"/>
 
@@ -665,7 +668,7 @@
 
                     <MenuItem Header="Eintrag hinzufügen"
                                     Style="{StaticResource CustomMenuItemStyle}"
-                                    Tag="&#xE1DA;"
+                                    Tag="&#xE0C5;"
                                     Command="{Binding Cmd_ContextMenu_AddFavoriteTargetFolderItem}"
                                     CommandParameter="{Binding}"/>
 
@@ -719,8 +722,8 @@
 
                 <ScrollViewer Grid.Row="2" 
                               Margin="5,10">
-
                     <ItemsControl ItemsSource="{Binding FileTileList}">
+
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel/>
@@ -750,7 +753,6 @@
                         </ItemsControl.ItemTemplate>
 
                     </ItemsControl>
-
                 </ScrollViewer>
 
             </Grid>
@@ -793,9 +795,6 @@
             </Border.ContextMenu>
         </Border>
 
-
-
-
         <!-- File Explorer Section -->
         <Border Grid.Row="2"
                 Grid.Column="0"
@@ -830,11 +829,16 @@
                            VerticalAlignment="Center" 
                            HorizontalAlignment="Left"/>
 
-                <StackPanel Grid.Row="2" 
-                            Orientation="Horizontal">
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding VirtualRootDirectoryList.Count, Converter={StaticResource ColCntToGridLen2}, ConverterParameter='100*;Auto', FallbackValue='Auto'}"/>
+                        <ColumnDefinition Width="{Binding VirtualFirstStageDirectoryList.Count, Converter={StaticResource ColCntToGridLen2}, ConverterParameter='0*;100*', FallbackValue='100*'}"/>
+                        <ColumnDefinition Width="{Binding VirtualSecundStageDirectoryList.Count, Converter={StaticResource ColCntToGridLen2}, ConverterParameter='0*;100*', FallbackValue='100*'}"/>
+                    </Grid.ColumnDefinitions>
 
                     <!-- Virtual Root Directory List -->
-                    <ScrollViewer Margin="5,10">
+                    <ScrollViewer Grid.Column="0"
+                                  Margin="5,10">
                         <ItemsControl ItemsSource="{Binding VirtualRootDirectoryList}">
 
                             <ItemsControl.ItemsPanel>
@@ -851,11 +855,10 @@
                                         Height="{Binding Height}"
                                         Margin="5"                                                        
                                                                                                     
-                                        DisplayName="{Binding DisplayName}"
+                                        Content="{Binding DisplayName}"
 
                                         IsSelected="{Binding IsSelected}"
-                                        HideDirectoryText ="{Binding HideDirectoryText}"
-                                        
+                                                                                
                                         ToolTip="{Binding ToolTip}"
                                         
                                         Command="{Binding DataContext.Cmd_ClickOnVirtualRootDirectoryItem, RelativeSource={RelativeSource AncestorType=Window}}"
@@ -881,15 +884,27 @@
                                                 Command="{Binding Cmd_ContextMenu_RemoveTargetFolder}"
                                                 CommandParameter="{Binding}" />-->
 
+                                                <MenuItem Header="Bilder hier her verschieben"
+                                                    Style="{StaticResource CustomMenuItemStyle}"
+                                                    Tag="&#xE16D;"
+                                                    Command="{Binding Cmd_MoveImagesCommand}"
+                                                    CommandParameter="{Binding}"/>
+
+                                                <MenuItem Header="Ordner öffnen"
+                                                    Style="{StaticResource CustomMenuItemStyle}"
+                                                    Tag="&#xE19C;"
+                                                    Command="{Binding Cmd_ShowSubDirsCommand}"
+                                                    CommandParameter="{Binding}"/>
+
                                                 <MenuItem Header="Eintrag hinzufügen"
                                                     Style="{StaticResource CustomMenuItemStyle}"
-                                                    Tag="&#xE107;"
+                                                    Tag="&#xE0C5;"
                                                     Command="{Binding Cmd_AddToListCommand}"
                                                     CommandParameter="{Binding}"/>
 
                                                 <MenuItem Header="Eintrag entfernen"
                                                     Style="{StaticResource CustomMenuItemStyle}"
-                                                    Tag="&#xE107;"
+                                                    Tag="&#xE0C6;"
                                                     Command="{Binding Cmd_RemoveItemFromListCommand}"
                                                     CommandParameter="{Binding}"/>
 
@@ -908,7 +923,7 @@
 
                                 <MenuItem Header="Eintrag hinzufügen"
                                     Style="{StaticResource CustomMenuItemStyle}"
-                                    Tag="&#xE107;"
+                                    Tag="&#xE0C5;"
                                     Command="{Binding Cmd_ContextMenu_AddVirtualRootDirectoryItem}"
                                     CommandParameter="{Binding}"/>
 
@@ -917,8 +932,10 @@
                     </ScrollViewer>
 
                     <!-- 1st Stage Directory Content List -->
-                    <ScrollViewer Margin="5,10,5,10">
-                        <ItemsControl ItemsSource="{Binding FileTileList}">
+                    <ScrollViewer Grid.Column="1"
+                                  Margin="5,10">
+                        <ItemsControl ItemsSource="{Binding VirtualFirstStageDirectoryList}">
+
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel/>
@@ -928,31 +945,90 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
 
-                                    <myView:FileTitleButtonUi Style="{StaticResource FileTitleButtonStyle}"
-                                                        Width="{Binding Width}"
-                                                        Height="{Binding Height}"
-                                                        Margin="5"                                                        
-                                                        
-                                                        DisplayName="{Binding DisplayName}"
-                                                        Thumbnail="{Binding Thumbnail}"
-                                                        IsSelected="{Binding IsSelected}"
-                                                        HideFilenameText ="{Binding HideFilenameText}"
-                                                        SizeLevel ="{Binding SizeLevel}"
-                                                        
-                                                        ToolTip="{Binding ToolTip}"
-                                                        
-                                                        Command="{Binding DataContext.Cmd_ClickOnFileTitleItem, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                        CommandParameter="{Binding}"/>
+                                    <myView:VirtualRootDirectoryButtonUi Style="{StaticResource VirtualRootDirectoryButtonStyle}"
+                                        Margin="5"                                                        
+                                                                                                    
+                                        Content="{Binding DisplayName}"
+
+                                        IsSelected="{Binding IsSelected}"
+                                        
+                                        ToolTip="{Binding ToolTip}"
+                                        
+                                        Command="{Binding DataContext.Cmd_ClickOnVirtualFirstStagDirectoryItem, RelativeSource={RelativeSource AncestorType=Window}}"
+                                        CommandParameter="{Binding}">
+
+                                        <myView:VirtualRootDirectoryButtonUi.ContextMenu>
+                                            <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
+
+                                                <!--Irgenwie funktioniert das mit dem CommandoBinding nicht: Die Kommando-Properties sind im Viewmodel abgelegt. 
+                                                um darauf zuzugreifen, muss mus der Datencontext der Items, die in der ItemsControl-Liste
+                                                Angezeit werden, geändert werden. Diese Items haben (DataTemplate) einen geänderten Datencontext; der zeigt jeweils auf 
+                                                eine Instanz des FileTile-Model. Irgenwie kann das Binding nicht aufgelöst werden. 
+                                                Workaround: Die FileTile-Model Klasse stellt ebenfalls die Kommando-Properties bereit.-->
+
+                                                <!--<MenuItem Header="Favorit Test"
+                                                Style="{StaticResource CustomMenuItemStyle}"
+                                                Command="{Binding DataContext.Cmd_ContextMenu_RemoveTargetFolder, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}" />-->
+
+                                                <!--<MenuItem Header="Favorit Test"
+                                                Style="{StaticResource CustomMenuItemStyle}"
+                                                DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                Command="{Binding Cmd_ContextMenu_RemoveTargetFolder}"
+                                                CommandParameter="{Binding}" />-->
+
+                                                <MenuItem Header="Bilder hier her verschieben"
+                                                    Style="{StaticResource CustomMenuItemStyle}"
+                                                    Tag="&#xE16D;"
+                                                    Command="{Binding Cmd_MoveImagesCommand}"
+                                                    CommandParameter="{Binding}"/>
+
+                                                <MenuItem Header="Ordner öffnen"
+                                                    Style="{StaticResource CustomMenuItemStyle}"
+                                                    Tag="&#xE19C;"
+                                                    Command="{Binding Cmd_ShowSubDirsCommand}"
+                                                    CommandParameter="{Binding}"/>
+
+                                                <MenuItem Header="Neuen Unterordner erstellen"
+                                                    Style="{StaticResource CustomMenuItemStyle}"
+                                                    Tag="&#xE1DA;"
+                                                    Command="{Binding Cmd_AddToListCommand}"
+                                                    CommandParameter="{Binding}"/>
+
+                                                <MenuItem Header="Ordner löschen"
+                                                    Style="{StaticResource CustomMenuItemStyle}"
+                                                    Tag="&#xE107;"
+                                                    Command="{Binding Cmd_RemoveItemFromListCommand}"
+                                                    CommandParameter="{Binding}"/>
+
+                                            </ContextMenu>
+                                        </myView:VirtualRootDirectoryButtonUi.ContextMenu>
+
+                                    </myView:VirtualRootDirectoryButtonUi>
 
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
 
                         </ItemsControl>
+
+                        <ScrollViewer.ContextMenu>
+                            <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
+
+                                <MenuItem Header="Neuen Ordner erstellen"
+                                    Style="{StaticResource CustomMenuItemStyle}"
+                                    Tag="&#xE1DA;"
+                                    Command="{Binding Cmd_ContextMenu_VirtualFirstStageCreateDirectory}"
+                                    CommandParameter="{Binding}"/>
+
+                            </ContextMenu>
+                        </ScrollViewer.ContextMenu>
                     </ScrollViewer>
 
                     <!-- 2nd Stage Directory Content List -->
-                    <ScrollViewer Margin="5,10,5,10">
-                        <ItemsControl ItemsSource="{Binding FileTileList}">
+                    <ScrollViewer Grid.Column="2"
+                                  Margin="5,10">
+                        <ItemsControl ItemsSource="{Binding VirtualSecundStageDirectoryList}">
+
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel/>
@@ -962,35 +1038,78 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
 
-                                    <myView:FileTitleButtonUi Style="{StaticResource FileTitleButtonStyle}"
-                                                        Width="{Binding Width}"
-                                                        Height="{Binding Height}"
-                                                        Margin="5"                                                        
-                                                        
-                                                        DisplayName="{Binding DisplayName}"
-                                                        Thumbnail="{Binding Thumbnail}"
-                                                        IsSelected="{Binding IsSelected}"
-                                                        HideFilenameText ="{Binding HideFilenameText}"
-                                                        SizeLevel ="{Binding SizeLevel}"
-                                                        
-                                                        ToolTip="{Binding ToolTip}"
-                                                        
-                                                        Command="{Binding DataContext.Cmd_ClickOnFileTitleItem, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                        CommandParameter="{Binding}"/>
+                                    <myView:VirtualRootDirectoryButtonUi Style="{StaticResource VirtualRootDirectoryButtonStyle}"
+                                        Margin="5"                                                        
+                                                                                
+                                        Content="{Binding DisplayName}"
+
+                                        IsSelected="{Binding IsSelected}"
+                                                                               
+                                        ToolTip="{Binding ToolTip}"
+                    
+                                        Command="{Binding DataContext.Cmd_ClickOnVirtualSecondStagDirectoryItem, RelativeSource={RelativeSource AncestorType=Window}}"
+                                        CommandParameter="{Binding}">
+
+                                        <myView:VirtualRootDirectoryButtonUi.ContextMenu>
+                                            <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
+
+                                                <!--Irgenwie funktioniert das mit dem CommandoBinding nicht: Die Kommando-Properties sind im Viewmodel abgelegt. 
+                                                um darauf zuzugreifen, muss mus der Datencontext der Items, die in der ItemsControl-Liste
+                                                Angezeit werden, geändert werden. Diese Items haben (DataTemplate) einen geänderten Datencontext; der zeigt jeweils auf 
+                                                eine Instanz des FileTile-Model. Irgenwie kann das Binding nicht aufgelöst werden. 
+                                                Workaround: Die FileTile-Model Klasse stellt ebenfalls die Kommando-Properties bereit.-->
+
+                                                <!--<MenuItem Header="Favorit Test"
+                                                Style="{StaticResource CustomMenuItemStyle}"
+                                                Command="{Binding DataContext.Cmd_ContextMenu_RemoveTargetFolder, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}" />-->
+
+                                                <!--<MenuItem Header="Favorit Test"
+                                                Style="{StaticResource CustomMenuItemStyle}"
+                                                DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                Command="{Binding Cmd_ContextMenu_RemoveTargetFolder}"
+                                                CommandParameter="{Binding}" />-->
+
+                                                <MenuItem Header="Bilder hier her verschieben"
+                                                    Style="{StaticResource CustomMenuItemStyle}"
+                                                    Tag="&#xE16D;"
+                                                    Command="{Binding Cmd_MoveImagesCommand}"
+                                                    CommandParameter="{Binding}"/>
+
+                                                <MenuItem Header="Ordner löschen"
+                                                    Style="{StaticResource CustomMenuItemStyle}"
+                                                    Tag="&#xE107;"
+                                                    Command="{Binding Cmd_RemoveItemFromListCommand}"
+                                                    CommandParameter="{Binding}"/>
+
+                                            </ContextMenu>
+                                        </myView:VirtualRootDirectoryButtonUi.ContextMenu>
+
+                                    </myView:VirtualRootDirectoryButtonUi>
 
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
 
                         </ItemsControl>
+
+                        <ScrollViewer.ContextMenu>
+                            <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
+
+                                <MenuItem Header="Neuen Ordner erstellen"
+                                    Style="{StaticResource CustomMenuItemStyle}"
+                                    Tag="&#xE1DA;"
+                                    Command="{Binding Cmd_ContextMenu_VirtualSecondStageCreateDirectory}"
+                                    CommandParameter="{Binding}"/>
+
+                            </ContextMenu>
+                        </ScrollViewer.ContextMenu>
                     </ScrollViewer>
 
-                </StackPanel>
+                </Grid>
 
             </Grid>
 
         </Border>
-
-
 
         <!-- Overlay: File Moveprocess Popup Notification List -->
         <ItemsControl Grid.Row="1"

@@ -78,13 +78,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="converter\CollectionCount2GridLengthConverter.cs" />
     <Compile Include="help\IconHelper.cs" />
     <Compile Include="help\FavoriteTargetFolderSettingItem.cs" />
     <Compile Include="help\VirtualRootDirectorySettingItem.cs" />
     <Compile Include="model\FileTileModel.cs" />
     <Compile Include="model\FileMoveProcPopupNotificationModel.cs" />
     <Compile Include="model\FavoriteTargetFolderModel.cs" />
-    <Compile Include="model\VirtualRootDirectoryModel.cs" />
+    <Compile Include="model\VirtualDirectoryModel.cs" />
     <Compile Include="ui\FileTitleButtonUi.cs" />
     <Compile Include="ui\VirtualRootDirectoryButtonUi.cs" />
     <Compile Include="validationrules\CheckPathExistsValidationRule.cs" />

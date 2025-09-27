@@ -34,9 +34,9 @@ namespace QuickSort.help
 
 
 
-        public VirtualRootDirectorySettingItem (VirtualRootDirectoryModel model)
+        public VirtualRootDirectorySettingItem (VirtualDirectoryModel model)
         {
-            this.Path = model.RealPath;
+            this.Path = model.Path;
             this.DisplayName = model.DisplayName;
         }
 
