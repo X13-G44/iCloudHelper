@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuickSort"
-        xmlns:myView="clr-namespace:QuickSort.ui_element"
+        xmlns:myView="clr-namespace:QuickSort.ui"
         mc:Ignorable="d"
         Title="Dateiauswahl" 
-        Height="850" 
-        Width="1300"
+        Height="800" 
+        Width="1000"
         Background="{DynamicResource MainWindowBackground}"
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip" Icon="/icloud-logo-49272-Windows.ico" >
@@ -132,54 +132,85 @@
             </Setter>
         </Style>
 
-        <!-- Favorite Target Folder Edit Button-Style -->
-        <Style x:Key="FavoriteTargetFolderEditButtonStyle" TargetType="Button">
-            <!--This setter is need for ToolTip-->
-            <Setter Property="Foreground" Value="{DynamicResource ToolTipTextColor}"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Width" Value="175"/>
+        <!-- ScrollBar-Style -->
+        <Style TargetType="ScrollBar">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Width" Value="8"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="OUTER_BORDER"
-                                BorderBrush="{DynamicResource TargetFolderBtnSelectedColor}"
-                                BorderThickness="1"
-                                Background="{DynamicResource TargetFolderBtnBackgroundColor}"
-                                Padding="{TemplateBinding Padding}"
-                                CornerRadius="10">
-                            <StackPanel Orientation="Horizontal" 
-                                        HorizontalAlignment="Left" 
-                                        VerticalAlignment="Center">
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid x:Name="BgGrid" 
+                                          Background="Transparent"
+                                          SnapsToDevicePixels="true">
 
-                                <TextBlock Text="&#xE1DA;" 
-                                           Foreground="{DynamicResource TargetFolderBtnSymbolColor}" 
-                                           FontSize="{TemplateBinding FontSize}" 
-                                           FontFamily="Segoe UI Symbol" 
-                                           Margin="0,0,10,0"
-                                           VerticalAlignment="Center"/>
+                            <Border x:Name="ThumbLine"
+                                                Width="1" 
+                                                Background="#FF7D7D86" 
+                                                HorizontalAlignment="Center"/>
 
-                                <TextBlock Text="{TemplateBinding Content}" 
-                                           Foreground="{DynamicResource TargetFolderBtnTextColor}" 
-                                           FontSize="{TemplateBinding FontSize}" 
-                                           FontFamily="{TemplateBinding FontFamily}" 
-                                           Margin="0"
-                                           VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
+                            <Track x:Name="PART_Track"
+                                               IsDirectionReversed="true" 
+                                               Focusable="False">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.LineUpCommand" 
+                                                              Style="{x:Null}" 
+                                                              IsTabStop="False" 
+                                                              Opacity="0"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.Thumb>
+
+                                    <Thumb x:Name="Thumb"
+                                                       OverridesDefaultStyle ="True"
+                                                       IsTabStop ="False"
+                                                       Foreground="#FF616469">
+
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                                <Rectangle x:Name="ThumbRec"
+                                                                       Height="35" 
+                                                                       Width="8" 
+                                                                       Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Thumb}}" 
+                                                                       RadiusX="5" 
+                                                                       RadiusY="5">
+                                                    <Rectangle.Effect>
+                                                        <DropShadowEffect ShadowDepth="0" 
+                                                                                      BlurRadius="10" 
+                                                                                      Color="#FF616469" />
+                                                    </Rectangle.Effect>
+                                                </Rectangle>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="ScrollBar.LineDownCommand" 
+                                                              Style="{x:Null}" 
+                                                              IsTabStop="False" 
+                                                              Opacity="0"/>
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+
+                        </Grid>
+
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource TargetFolderBtnMouseOverColor}"/>
+                                <Setter TargetName="Thumb" Property="Foreground" Value="#FF4A90E2"/>
+                                <Setter TargetName="ThumbLine" Property="Background" Value="#FF2A578C"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Thumb" Property="Opacity" Value="0.3"/>
+                                <Setter TargetName="ThumbLine" Property="Visibility" Value="Hidden"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
+
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
         <!-- Favorite Target Folder Item Button-Style -->
-        <Style x:Key="FavoriteTargetFolderItemButtonStyle" TargetType="myView:FavoriteTargetFolderButton">
+        <Style x:Key="FavoriteTargetFolderItemButtonStyle" TargetType="myView:FavoriteTargetFolderButtonUi">
             <!--This setter is need for ToolTip-->
             <Setter Property="Foreground" Value="{DynamicResource ToolTipTextColor}"/>
             <Setter Property="FontSize" Value="14"/>
@@ -188,7 +219,7 @@
             <Setter Property="Width" Value="175"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="myView:FavoriteTargetFolderButton">
+                    <ControlTemplate TargetType="myView:FavoriteTargetFolderButtonUi">
                         <Border x:Name="OUTER_BORDER"
                                 BorderBrush="{DynamicResource TargetFolderBtnSelectedColor}"
                                 BorderThickness="1"
@@ -239,7 +270,151 @@
             </Setter>
         </Style>
 
-        <!-- Dialogbox Button-Style -->
+        <!-- File Title Button-Style -->
+        <Style x:Key="FileTitleButtonStyle" TargetType="myView:FileTitleButtonUi">
+            <!--This setter is need for ToolTip-->
+            <Setter Property="Foreground" Value="{DynamicResource ToolTipTextColor}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="myView:FileTitleButtonUi">
+
+                        <Border x:Name="OUTER_BORDER" 
+                        CornerRadius="5"
+                        Padding="{TemplateBinding Padding}" 
+                        Margin="{TemplateBinding Margin}">
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!--<Path Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Margin="1"
+                                Data="M2,8 L6,12 L14,4"
+                                Stroke="{DynamicResource CommonBorderBrushColor}"
+                                StrokeThickness="2"                                      
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}"/>-->
+
+                                <Image Grid.Row="0" 
+                                    Source="{Binding Thumbnail}" 
+                                    Stretch="Uniform"/>
+
+                                <TextBlock x:Name="FILENAME_TEXT"
+                                   Grid.Row="1"
+                                   Text="{Binding DisplayName}" 
+                                   Margin="0,5,0,0"
+                                   TextAlignment="Center" 
+                                   Foreground="{DynamicResource CommonForegroundColor}" 
+                                   FontSize="12" 
+                                   TextTrimming="CharacterEllipsis"/>
+
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="{DynamicResource CommonBorderBrushColor}"/>
+                                <Setter TargetName="OUTER_BORDER" Property="BorderThickness" Value="5"/>
+                                <Setter TargetName="OUTER_BORDER" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStop Color="{DynamicResource CommonBorderBrushColorColor}" Offset="1" />
+                                                <GradientStop Color="#00000000" Offset=".5" />
+                                                <GradientStop Color="#00000000" Offset="0" />
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource FileTitleBtnMouseOverColor}"/>
+                            </Trigger>
+
+                            <DataTrigger Binding="{Binding HideFilenameText}" Value="True">
+                                <Setter TargetName="FILENAME_TEXT" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Virtual Root Directory Button-Style -->
+        <Style x:Key="VirtualRootDirectoryButtonStyle" TargetType="myView:VirtualRootDirectoryButtonUi">
+            <!--This setter is need for ToolTip-->
+            <Setter Property="Foreground" Value="{DynamicResource ToolTipTextColor}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="myView:VirtualRootDirectoryButtonUi">
+
+                        <Border x:Name="OUTER_BORDER" 
+                        CornerRadius="5"
+                        Padding="{TemplateBinding Padding}" 
+                        Margin="{TemplateBinding Margin}">
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock x:Name="FILENAME_TEXT"
+                                   Grid.Row="1"
+                                   Text="{Binding DisplayName}" 
+                                   Margin="0,5,0,0"
+                                   TextAlignment="Center" 
+                                   Foreground="{DynamicResource CommonForegroundColor}" 
+                                   FontSize="12" 
+                                   TextTrimming="CharacterEllipsis"/>
+
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="{DynamicResource CommonBorderBrushColor}"/>
+                                <Setter TargetName="OUTER_BORDER" Property="BorderThickness" Value="5"/>
+                                <Setter TargetName="OUTER_BORDER" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStop Color="{DynamicResource CommonBorderBrushColorColor}" Offset="1" />
+                                                <GradientStop Color="#00000000" Offset=".5" />
+                                                <GradientStop Color="#00000000" Offset="0" />
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource FileTitleBtnMouseOverColor}"/>
+                            </Trigger>
+
+                            <DataTrigger Binding="{Binding HideDirectoryText}" Value="True">
+                                <Setter TargetName="FILENAME_TEXT" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- DialogBox Button-Style -->
         <Style x:Key="DialogboxButtonStyle" TargetType="Button">
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="{DynamicResource TargetFolderBtnTextColor}"/>
@@ -286,85 +461,6 @@
             </Setter>
         </Style>
 
-        <!-- File Title Button-Style -->
-        <Style x:Key="FileTitleButtonStyle" TargetType="myView:FileTitleButton">
-            <!--This setter is need for ToolTip-->
-            <Setter Property="Foreground" Value="{DynamicResource ToolTipTextColor}"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="Margin" Value="0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="myView:FileTitleButton">
-
-                        <Border x:Name="OUTER_BORDER" 
-                                CornerRadius="5"
-                                Padding="{TemplateBinding Padding}" 
-                                Margin="{TemplateBinding Margin}">
-
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
-                                <!--<Path Grid.Row="0"
-                                      Grid.RowSpan="2"
-                                      Margin="1"
-                                      Data="M2,8 L6,12 L14,4"
-                                      Stroke="{DynamicResource CommonBorderBrushColor}"
-                                      StrokeThickness="2"                                      
-                                      HorizontalAlignment="Left"
-                                      VerticalAlignment="Top"
-                                      Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}"/>-->
-
-                                <Image Grid.Row="0" 
-                                       Source="{Binding Thumbnail}" 
-                                       Stretch="Uniform"/>
-
-                                <TextBlock x:Name="FILENAME_TEXT"
-                                           Grid.Row="1"
-                                           Text="{Binding DisplayName}" 
-                                           Margin="0,5,0,0"
-                                           TextAlignment="Center" 
-                                           Foreground="{DynamicResource CommonForegroundColor}" 
-                                           FontSize="12" 
-                                           TextTrimming="CharacterEllipsis"/>
-
-                            </Grid>
-                        </Border>
-
-                        <ControlTemplate.Triggers>
-                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="{DynamicResource CommonBorderBrushColor}"/>
-                                <Setter TargetName="OUTER_BORDER" Property="BorderThickness" Value="5"/>
-                                <Setter TargetName="OUTER_BORDER" Property="Background">
-                                    <Setter.Value>
-                                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                                            <LinearGradientBrush.GradientStops>
-                                                <GradientStop Color="{DynamicResource CommonBorderBrushColorColor}" Offset="1" />
-                                                <GradientStop Color="#00000000" Offset=".5" />
-                                                <GradientStop Color="#00000000" Offset="0" />
-                                            </LinearGradientBrush.GradientStops>
-                                        </LinearGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource FileTitleBtnMouseOverColor}"/>
-                            </Trigger>                            
-                            
-                            <DataTrigger Binding="{Binding HideFilenameText}" Value="True">
-                                <Setter TargetName="FILENAME_TEXT" Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </ControlTemplate.Triggers>
-
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
     </Window.Resources>
 
     <Window.InputBindings>
@@ -376,6 +472,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="250"/>
             <!--<RowDefinition Height="Auto" MinHeight="100"/>-->
         </Grid.RowDefinitions>
 
@@ -383,7 +480,7 @@
             <ColumnDefinition Width="230"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
+
         <!-- Window Title bar section -->
         <Grid Grid.Row="0"
               Grid.Column="0"
@@ -481,85 +578,99 @@
                            VerticalAlignment="Top" 
                            HorizontalAlignment="Left"/>
 
-                <StackPanel Grid.Row="2"
-                            Margin="5,10,5,10"
-                            Orientation="Vertical">
+                <ItemsControl Grid.Row="2"
+                              Margin="5,10"
+                              ItemsSource="{Binding FavoriteTargetFolderList}">
 
-                    <Button Style="{StaticResource FavoriteTargetFolderEditButtonStyle}" 
-                            HorizontalAlignment="Left"
-                            Content="Ordner hinzufügen"
-                            Command="{Binding Cmd_AddNewTargetFolder}"
-                            ToolTip="Ausgewählte Dateien in einen neuen Ordner verschieben"/>
-
-                    <ItemsControl ItemsSource="{Binding FavoriteTargetFolderList}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical" 
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" 
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Top"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-                                <myView:FavoriteTargetFolderButton Style="{StaticResource FavoriteTargetFolderItemButtonStyle}"
-                                                Margin="5" 
-                                                Padding="5"                                                
-                                                Content="{Binding DisplayName}"
-                                                Command="{Binding Cmd_OpenFolderCommand}"
-                                                CommandParameter="{Binding Path}"
-                                                ToolTip="{Binding ToolTip}"
-                                                IsPinned="{Binding IsPinned}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
 
-                                    <myView:FavoriteTargetFolderButton.ContextMenu>
-                                        <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
+                            <myView:FavoriteTargetFolderButtonUi Style="{StaticResource FavoriteTargetFolderItemButtonStyle}"
+                                    Margin="5" 
+                                    Padding="5"                    
+                                                                                                         
+                                    Content="{Binding DisplayName}"
+                                                                     
+                                    IsPinned="{Binding IsPinned}"
+                                    ToolTip="{Binding ToolTip}"
+                                                                     
+                                    Command="{Binding DataContext.Cmd_ClickOnFavoriteTargetFolderClick, RelativeSource={RelativeSource AncestorType=Window}}"
+                                    CommandParameter="{Binding Path}">
 
-                                            <!--Irgenwie funktioniert das mit dem CommandoBinding nicht: Die Kommando-Properties sind im Viewmodel abgelegt. 
+                                <myView:FavoriteTargetFolderButtonUi.ContextMenu>
+                                    <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
+
+                                        <!--Irgenwie funktioniert das mit dem CommandoBinding nicht: Die Kommando-Properties sind im Viewmodel abgelegt. 
                                             um darauf zuzugreifen, muss mus der Datencontext der Items, die in der ItemsControl-Liste
                                             Angezeit werden, geändert werden. Diese Items haben (DataTemplate) einen geänderten Datencontext; der zeigt jeweils auf 
                                             eine Instanz des FileTile-Model. Irgenwie kann das Binding nicht aufgelöst werden. 
                                             Workaround: Die FileTile-Model Klasse stellt ebenfalls die Kommando-Properties bereit.-->
 
-                                            <!--<MenuItem Header="Favorit Test"
+                                        <!--<MenuItem Header="Favorit Test"
                                                   Style="{StaticResource CustomMenuItemStyle}"
                                                   Command="{Binding DataContext.Cmd_ContextMenu_RemoveTargetFolder, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                                   CommandParameter="{Binding}" />-->
 
-                                            <!--<MenuItem Header="Favorit Test"
+                                        <!--<MenuItem Header="Favorit Test"
                                                   Style="{StaticResource CustomMenuItemStyle}"
                                                   DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}"
                                                   Command="{Binding Cmd_ContextMenu_RemoveTargetFolder}"
                                                   CommandParameter="{Binding}" />-->
 
-                                            <MenuItem Header="Eintrag entfernen"
-                                                      Style="{StaticResource CustomMenuItemStyle}"
-                                                      Tag="&#xE107;"
-                                                      Command="{Binding Cmd_RemoveFolderFromListCommand}"
-                                                      CommandParameter="{Binding}"/>
+                                        <MenuItem Header="Eintrag hinzufügen"
+                                                Style="{StaticResource CustomMenuItemStyle}"
+                                                Tag="&#xE1DA;"
+                                                Command="{Binding Cmd_AddFolderFromListCommand}"
+                                                CommandParameter="{Binding}"/>
 
-                                            <MenuItem Header="Als Favoriert festlegen"
-                                                      Style="{StaticResource CustomMenuItemStyle}"
-                                                      Tag="&#xE1CF;"
-                                                      Command="{Binding Cmd_SetTargetFolderAsFavorite}"/>
+                                        <MenuItem Header="Eintrag entfernen"
+                                                Style="{StaticResource CustomMenuItemStyle}"
+                                                Tag="&#xE107;"
+                                                Command="{Binding Cmd_RemoveFolderFromListCommand}"
+                                                CommandParameter="{Binding}"/>
 
-                                            <!--Alternative symbol: &#xE1CE;-->
-                                            <MenuItem Header="Als Favoriert entfernen"
-                                                      Style="{StaticResource CustomMenuItemStyle}"
-                                                      Tag="&#xE195;"
-                                                      Command="{Binding Cmd_ClearTargetFolderFavorite}"/>
+                                        <MenuItem Header="Eintrag fixieren"
+                                                Style="{StaticResource CustomMenuItemStyle}"
+                                                Tag="&#xE1CF;"
+                                                Command="{Binding Cmd_SetTargetFolderAsFavorite}"/>
 
-                                        </ContextMenu>
-                                    </myView:FavoriteTargetFolderButton.ContextMenu>
+                                        <!--Alternative symbol: &#xE1CE;-->
+                                        <MenuItem Header="Fixierung aufheben"
+                                                Style="{StaticResource CustomMenuItemStyle}"
+                                                Tag="&#xE195;"
+                                                Command="{Binding Cmd_ClearTargetFolderFavorite}"/>
 
-                                </myView:FavoriteTargetFolderButton>
+                                    </ContextMenu>
+                                </myView:FavoriteTargetFolderButtonUi.ContextMenu>
 
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                            </myView:FavoriteTargetFolderButtonUi>
 
-                </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
 
             </Grid>
+
+            <Border.ContextMenu>
+                <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
+
+                    <MenuItem Header="Eintrag hinzufügen"
+                                    Style="{StaticResource CustomMenuItemStyle}"
+                                    Tag="&#xE1DA;"
+                                    Command="{Binding Cmd_ContextMenu_AddFavoriteTargetFolderItem}"
+                                    CommandParameter="{Binding}"/>
+
+                </ContextMenu>
+            </Border.ContextMenu>
 
         </Border>
 
@@ -586,7 +697,7 @@
                            FontWeight="Bold"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left">
-                    Dateiauswahl:
+                    Bildauswahl:
                 </TextBlock>
 
                 <TextBlock Grid.Row="0"
@@ -607,87 +718,7 @@
                            HorizontalAlignment="Left"/>
 
                 <ScrollViewer Grid.Row="2" 
-                              Margin="5,10,5,10">
-                    <ScrollViewer.Resources>
-
-                        <Style TargetType="ScrollBar">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="Width" Value="8"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ScrollBar">
-                                        <Grid x:Name="BgGrid" 
-                                          Background="Transparent"
-                                          SnapsToDevicePixels="true">
-
-                                            <Border x:Name="ThumbLine"
-                                                Width="1" 
-                                                Background="#FF7D7D86" 
-                                                HorizontalAlignment="Center"/>
-
-                                            <Track x:Name="PART_Track"
-                                               IsDirectionReversed="true" 
-                                               Focusable="False">
-                                                <Track.DecreaseRepeatButton>
-                                                    <RepeatButton Command="ScrollBar.LineUpCommand" 
-                                                              Style="{x:Null}" 
-                                                              IsTabStop="False" 
-                                                              Opacity="0"/>
-                                                </Track.DecreaseRepeatButton>
-                                                <Track.Thumb>
-
-                                                    <Thumb x:Name="Thumb"
-                                                       OverridesDefaultStyle ="True"
-                                                       IsTabStop ="False"
-                                                       Foreground="#FF616469">
-
-                                                        <Thumb.Template>
-                                                            <ControlTemplate TargetType="{x:Type Thumb}">
-                                                                <Rectangle x:Name="ThumbRec"
-                                                                       Height="35" 
-                                                                       Width="8" 
-                                                                       Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Thumb}}" 
-                                                                       RadiusX="5" 
-                                                                       RadiusY="5">
-                                                                    <Rectangle.Effect>
-                                                                        <DropShadowEffect ShadowDepth="0" 
-                                                                                      BlurRadius="10" 
-                                                                                      Color="#FF616469" />
-                                                                    </Rectangle.Effect>
-                                                                </Rectangle>
-                                                            </ControlTemplate>
-                                                        </Thumb.Template>
-                                                    </Thumb>
-
-                                                </Track.Thumb>
-                                                <Track.IncreaseRepeatButton>
-                                                    <RepeatButton Command="ScrollBar.LineDownCommand" 
-                                                              Style="{x:Null}" 
-                                                              IsTabStop="False" 
-                                                              Opacity="0"/>
-                                                </Track.IncreaseRepeatButton>
-                                            </Track>
-
-                                        </Grid>
-
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="Thumb" Property="Foreground" Value="#FF4A90E2"/>
-                                                <Setter TargetName="ThumbLine" Property="Background" Value="#FF2A578C"/>
-                                            </Trigger>
-                                            <Trigger Property="IsEnabled" Value="False">
-                                                <Setter TargetName="Thumb" Property="Opacity" Value="0.3"/>
-                                                <Setter TargetName="ThumbLine" Property="Visibility" Value="Hidden"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-
-
-                    </ScrollViewer.Resources>
+                              Margin="5,10">
 
                     <ItemsControl ItemsSource="{Binding FileTileList}">
                         <ItemsControl.ItemsPanel>
@@ -699,21 +730,21 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
 
-                                <myView:FileTitleButton Style="{StaticResource FileTitleButtonStyle}"
-                                                        Width="{Binding Width}"
-                                                        Height="{Binding Height}"
-                                                        Margin="5"                                                        
-                                                        
-                                                        DisplayName="{Binding DisplayName}"
-                                                        Thumbnail="{Binding Thumbnail}"
-                                                        IsSelected="{Binding IsSelected}"
-                                                        HideFilenameText ="{Binding HideFilenameText}"
-                                                        SizeLevel ="{Binding SizeLevel}"
-                                                        
-                                                        ToolTip="{Binding ToolTip}"
-                                                        
-                                                        Command="{Binding DataContext.Cmd_ClickOnFileTitleItem, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                        CommandParameter="{Binding}"/>
+                                <myView:FileTitleButtonUi Style="{StaticResource FileTitleButtonStyle}"
+                                    Width="{Binding Width}"
+                                    Height="{Binding Height}"
+                                    Margin="5"                                                        
+                                    
+                                    DisplayName="{Binding DisplayName}"
+                                    Thumbnail="{Binding Thumbnail}"
+                                    IsSelected="{Binding IsSelected}"
+                                    HideFilenameText ="{Binding HideFilenameText}"
+                                    SizeLevel ="{Binding SizeLevel}"
+                                    
+                                    ToolTip="{Binding ToolTip}"
+                                    
+                                    Command="{Binding DataContext.Cmd_ClickOnFileTitleItem, RelativeSource={RelativeSource AncestorType=Window}}"
+                                    CommandParameter="{Binding}"/>
 
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -761,6 +792,205 @@
                 </ContextMenu>
             </Border.ContextMenu>
         </Border>
+
+
+
+
+        <!-- File Explorer Section -->
+        <Border Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="15"
+                Background="{DynamicResource CommonBackgroundColor}"
+                BorderThickness="2"
+                BorderBrush="{DynamicResource SectionBorderBrushColor}"
+                CornerRadius="5">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Margin="10,10,0,5"
+                           Foreground="{DynamicResource CommonForegroundColor}"
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left">
+                    Zielordner Auswahl:
+                </TextBlock>
+
+                <Rectangle Grid.Row="1"                           
+                           Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"                           
+                           Height="1" 
+                           Fill="{DynamicResource HeadlineBorderBrushColor}" 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Left"/>
+
+                <StackPanel Grid.Row="2" 
+                            Orientation="Horizontal">
+
+                    <!-- Virtual Root Directory List -->
+                    <ScrollViewer Margin="5,10">
+                        <ItemsControl ItemsSource="{Binding VirtualRootDirectoryList}">
+
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+
+                                    <myView:VirtualRootDirectoryButtonUi Style="{StaticResource VirtualRootDirectoryButtonStyle}"
+                                        Width="{Binding Width}"
+                                        Height="{Binding Height}"
+                                        Margin="5"                                                        
+                                                                                                    
+                                        DisplayName="{Binding DisplayName}"
+
+                                        IsSelected="{Binding IsSelected}"
+                                        HideDirectoryText ="{Binding HideDirectoryText}"
+                                        
+                                        ToolTip="{Binding ToolTip}"
+                                        
+                                        Command="{Binding DataContext.Cmd_ClickOnVirtualRootDirectoryItem, RelativeSource={RelativeSource AncestorType=Window}}"
+                                        CommandParameter="{Binding}">
+
+                                        <myView:VirtualRootDirectoryButtonUi.ContextMenu>
+                                            <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
+
+                                                <!--Irgenwie funktioniert das mit dem CommandoBinding nicht: Die Kommando-Properties sind im Viewmodel abgelegt. 
+                                                um darauf zuzugreifen, muss mus der Datencontext der Items, die in der ItemsControl-Liste
+                                                Angezeit werden, geändert werden. Diese Items haben (DataTemplate) einen geänderten Datencontext; der zeigt jeweils auf 
+                                                eine Instanz des FileTile-Model. Irgenwie kann das Binding nicht aufgelöst werden. 
+                                                Workaround: Die FileTile-Model Klasse stellt ebenfalls die Kommando-Properties bereit.-->
+
+                                                <!--<MenuItem Header="Favorit Test"
+                                                Style="{StaticResource CustomMenuItemStyle}"
+                                                Command="{Binding DataContext.Cmd_ContextMenu_RemoveTargetFolder, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}" />-->
+
+                                                <!--<MenuItem Header="Favorit Test"
+                                                Style="{StaticResource CustomMenuItemStyle}"
+                                                DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                Command="{Binding Cmd_ContextMenu_RemoveTargetFolder}"
+                                                CommandParameter="{Binding}" />-->
+
+                                                <MenuItem Header="Eintrag hinzufügen"
+                                                    Style="{StaticResource CustomMenuItemStyle}"
+                                                    Tag="&#xE107;"
+                                                    Command="{Binding Cmd_AddToListCommand}"
+                                                    CommandParameter="{Binding}"/>
+
+                                                <MenuItem Header="Eintrag entfernen"
+                                                    Style="{StaticResource CustomMenuItemStyle}"
+                                                    Tag="&#xE107;"
+                                                    Command="{Binding Cmd_RemoveItemFromListCommand}"
+                                                    CommandParameter="{Binding}"/>
+
+                                            </ContextMenu>
+                                        </myView:VirtualRootDirectoryButtonUi.ContextMenu>
+
+                                    </myView:VirtualRootDirectoryButtonUi>
+
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+
+                        </ItemsControl>
+
+                        <ScrollViewer.ContextMenu>
+                            <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
+
+                                <MenuItem Header="Eintrag hinzufügen"
+                                    Style="{StaticResource CustomMenuItemStyle}"
+                                    Tag="&#xE107;"
+                                    Command="{Binding Cmd_ContextMenu_AddVirtualRootDirectoryItem}"
+                                    CommandParameter="{Binding}"/>
+
+                            </ContextMenu>
+                        </ScrollViewer.ContextMenu>
+                    </ScrollViewer>
+
+                    <!-- 1st Stage Directory Content List -->
+                    <ScrollViewer Margin="5,10,5,10">
+                        <ItemsControl ItemsSource="{Binding FileTileList}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+
+                                    <myView:FileTitleButtonUi Style="{StaticResource FileTitleButtonStyle}"
+                                                        Width="{Binding Width}"
+                                                        Height="{Binding Height}"
+                                                        Margin="5"                                                        
+                                                        
+                                                        DisplayName="{Binding DisplayName}"
+                                                        Thumbnail="{Binding Thumbnail}"
+                                                        IsSelected="{Binding IsSelected}"
+                                                        HideFilenameText ="{Binding HideFilenameText}"
+                                                        SizeLevel ="{Binding SizeLevel}"
+                                                        
+                                                        ToolTip="{Binding ToolTip}"
+                                                        
+                                                        Command="{Binding DataContext.Cmd_ClickOnFileTitleItem, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                        CommandParameter="{Binding}"/>
+
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <!-- 2nd Stage Directory Content List -->
+                    <ScrollViewer Margin="5,10,5,10">
+                        <ItemsControl ItemsSource="{Binding FileTileList}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+
+                                    <myView:FileTitleButtonUi Style="{StaticResource FileTitleButtonStyle}"
+                                                        Width="{Binding Width}"
+                                                        Height="{Binding Height}"
+                                                        Margin="5"                                                        
+                                                        
+                                                        DisplayName="{Binding DisplayName}"
+                                                        Thumbnail="{Binding Thumbnail}"
+                                                        IsSelected="{Binding IsSelected}"
+                                                        HideFilenameText ="{Binding HideFilenameText}"
+                                                        SizeLevel ="{Binding SizeLevel}"
+                                                        
+                                                        ToolTip="{Binding ToolTip}"
+                                                        
+                                                        Command="{Binding DataContext.Cmd_ClickOnFileTitleItem, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                        CommandParameter="{Binding}"/>
+
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+
+
 
         <!-- Overlay: File Moveprocess Popup Notification List -->
         <ItemsControl Grid.Row="1"
@@ -1026,7 +1256,7 @@
                             <LineBreak/>
                             <LineBreak/>
                             <Run Text="Soll der Inhalt diese Bilder angezeigt werden?"/>
-                                                        
+
                         </TextBlock>
 
                         <Button Grid.Row="5"

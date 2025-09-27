@@ -13,7 +13,7 @@ using QuickSort.viewmodel;
 
 namespace QuickSort.model
 {
-    public class FileTile : INotifyPropertyChanged
+    public class FileTileModel : INotifyPropertyChanged
     {
         private string _DisplayName;
         public string DisplayName
@@ -85,28 +85,28 @@ namespace QuickSort.model
         public string File
         {
             get { return _File; }
-            set { _File = value; OnPropertyChanged (nameof (File)); OnPropertyChanged (nameof (ToolBar)); }
+            set { _File = value; OnPropertyChanged (nameof (File)); OnPropertyChanged (nameof (ToolTip)); }
         }
 
         private long _Filesize = 0;
         public long Filesize
         {
             get { return _Filesize; }
-            set { _Filesize = value; OnPropertyChanged (nameof (Filesize)); OnPropertyChanged (nameof (ToolBar)); }
+            set { _Filesize = value; OnPropertyChanged (nameof (Filesize)); OnPropertyChanged (nameof (ToolTip)); }
         }
 
         private DateTime _CreationTime = new DateTime();
         public DateTime CreationTime
         {
             get { return _CreationTime; }
-            set { _CreationTime = value; OnPropertyChanged (nameof (CreationTime)); OnPropertyChanged (nameof (ToolBar)); }
+            set { _CreationTime = value; OnPropertyChanged (nameof (CreationTime)); OnPropertyChanged (nameof (ToolTip)); }
         }
 
         private DateTime _LastAccessTime = new DateTime ();
         public DateTime LastAccessTime
         {
             get { return _LastAccessTime; }
-            set { _LastAccessTime = value; OnPropertyChanged (nameof (LastAccessTime)); OnPropertyChanged (nameof (ToolBar)); }
+            set { _LastAccessTime = value; OnPropertyChanged (nameof (LastAccessTime)); OnPropertyChanged (nameof (ToolTip)); }
         }
 
 

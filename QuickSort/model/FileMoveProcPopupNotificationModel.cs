@@ -13,7 +13,7 @@ using QuickSort.viewmodel;
 
 namespace QuickSort.model
 {
-    public class FileMoveProcPopupNotification : INotifyPropertyChanged
+    public class FileMoveProcPopupNotificationModel : INotifyPropertyChanged
     {
         private string _TargetPath = "";
         public string TargetPath

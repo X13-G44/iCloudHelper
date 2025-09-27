@@ -12,7 +12,7 @@ using QuickSort.viewmodel;
 
 namespace QuickSort.model
 {
-    public class FavoriteTargetFolder : INotifyPropertyChanged
+    public class FavoriteTargetFolderModel : INotifyPropertyChanged
     {
         private string _DisplayName;
         public string DisplayName
@@ -84,9 +84,10 @@ namespace QuickSort.model
             }
         }
 
-        public ICommand Cmd_OpenFolderCommand { get; set; } // Property will be setup during creating a new instance of this object in function "Cmd_AddNewTargetFolder".
 
-        public ICommand Cmd_RemoveFolderFromListCommand { get; set; } // Property will be setup during creating a new instance of this object in function "Cmd_AddNewTargetFolder".
+
+        public ICommand Cmd_AddFolderFromListCommand { get; set; } // Property will be setup during creating a new instance of this object in function "Cmd_ContextMenu_AddFavoriteTargetFolderItem" and "LoadTargetFolder".
+        public ICommand Cmd_RemoveFolderFromListCommand { get; set; } // Property will be setup during creating a new instance of this object in function "Cmd_ContextMenu_AddFavoriteTargetFolderItem" and "LoadTargetFolder".
 
 
 

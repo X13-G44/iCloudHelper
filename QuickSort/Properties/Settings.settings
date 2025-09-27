@@ -2,13 +2,13 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="QuickSort.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="LastTargetFolderCollection" Type="System.Collections.Specialized.StringCollection" Scope="User">
+    <Setting Name="FavoriteTargetFolderCollection" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="FolderTitleSizeLevel" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="LastTargetFolderAdded" Type="System.String" Scope="User">
+    <Setting Name="LastUsedPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">c:\</Value>
     </Setting>
     <Setting Name="ShowMoveDlg" Type="System.Boolean" Scope="User">
@@ -22,6 +22,9 @@
     </Setting>
     <Setting Name="ShowImageFileName" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="VirtualRootDirectoryCollection" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

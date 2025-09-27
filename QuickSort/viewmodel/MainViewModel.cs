@@ -23,9 +23,15 @@ namespace QuickSort.viewmodel
 {
     public class MainViewModel : IDisposable, INotifyPropertyChanged
     {
-        public ObservableCollection<FileTile> FileTileList { get; set; } = new ObservableCollection<FileTile> ();
-        public ObservableCollection<FavoriteTargetFolder> FavoriteTargetFolderList { get; set; } = new ObservableCollection<FavoriteTargetFolder> ();
-        public ObservableCollection<FileMoveProcPopupNotification> FileMoveProcPopupNotificationList { get; } = new ObservableCollection<FileMoveProcPopupNotification> ();
+        public ObservableCollection<FavoriteTargetFolderModel> FavoriteTargetFolderList { get; set; } = new ObservableCollection<FavoriteTargetFolderModel> ();
+
+        public ObservableCollection<FileTileModel> FileTileList { get; set; } = new ObservableCollection<FileTileModel> ();
+
+        public ObservableCollection<VirtualRootDirectoryModel> VirtualRootDirectoryList { get; set; } = new ObservableCollection<VirtualRootDirectoryModel> ();
+
+        public ObservableCollection<FileMoveProcPopupNotificationModel> FileMoveProcPopupNotificationList { get; } = new ObservableCollection<FileMoveProcPopupNotificationModel> ();
+
+
 
         private bool _DialogOverlay_MoveFiles_Show = false;
         public bool DialogOverlay_MoveFiles_Show
@@ -174,7 +180,98 @@ namespace QuickSort.viewmodel
             }
         }
 
-        public RelayCommand Cmd_AddNewTargetFolder
+        public RelayCommand Cmd_ClickOnFavoriteTargetFolderClick
+        {
+            get
+            {
+                return new RelayCommand (
+                    param =>
+                    {
+                        CommandExecute_PrepareMoveFiles (param as string);
+                    },
+                    param => true
+                );
+            }
+        }
+
+        public RelayCommand Cmd_ClickOnFileTitleItem
+        {
+            get
+            {
+                return new RelayCommand (
+                    item =>
+                    {
+                        if (item is FileTileModel)
+                        {
+                            bool shiftKeyIsPressed = false;
+
+
+                            (item as FileTileModel).IsSelected = !(item as FileTileModel).IsSelected;
+
+                            if (Keyboard.IsKeyDown (Key.LeftShift) || Keyboard.IsKeyDown (Key.RightShift))
+                            {
+                                shiftKeyIsPressed = true;
+                            }
+
+                            if (shiftKeyIsPressed == false)
+                            {
+                                _StartSelectionStartIndex = this.FileTileList.IndexOf (item as FileTileModel);
+                            }
+
+                            else if (shiftKeyIsPressed == true)
+                            {
+                                if (_StartSelectionStartIndex > -1)
+                                {
+                                    int deltaIndex;
+                                    int lowIndex;
+
+
+                                    _EndSelectionStartIndex = this.FileTileList.IndexOf (item as FileTileModel);
+
+                                    deltaIndex = Math.Abs (_EndSelectionStartIndex - _StartSelectionStartIndex);
+                                    lowIndex = Math.Min (_EndSelectionStartIndex, _StartSelectionStartIndex);
+
+                                    for (int i = 0; i <= deltaIndex; i++)
+                                    {
+                                        this.FileTileList[i + lowIndex].IsSelected = true;
+                                    }
+
+                                    _StartSelectionStartIndex = -1;
+                                    _EndSelectionStartIndex = -1;
+                                }
+                                else
+                                {
+                                    // If the start selection index is not set, just select the current item.
+                                    _StartSelectionStartIndex = this.FileTileList.IndexOf (item as FileTileModel);
+                                }
+                            }
+
+                            UpdateFileTitelStatusText ();
+                        }
+                    },
+                    param => true
+                );
+            }
+        }
+
+        public RelayCommand Cmd_ClickOnVirtualRootDirectoryItem
+        {
+            get
+            {
+                return new RelayCommand (
+                    item =>
+                    {
+                        if (item is VirtualRootDirectoryModel)
+                        {
+                            // ToDo...
+                        }
+                    },
+                    param => true
+                );
+            }
+        }
+
+        public RelayCommand Cmd_ContextMenu_AddFavoriteTargetFolderItem
         {
             get
             {
@@ -185,42 +282,122 @@ namespace QuickSort.viewmodel
                         {
                             using (var dialog = new System.Windows.Forms.FolderBrowserDialog ())
                             {
+                                string initialPath = Directory.Exists (Properties.Settings.Default.LastUsedPath) ?
+                                                     Properties.Settings.Default.LastUsedPath :
+                                                     Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
+
+
                                 dialog.Description = "Zielordner auswählen";
                                 dialog.ShowNewFolderButton = true;
-                                dialog.SelectedPath = Properties.Settings.Default.LastTargetFolderAdded ?? Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
-                                System.Windows.Forms.DialogResult result = dialog.ShowDialog ();
+                                dialog.SelectedPath = initialPath;
 
-
-                                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace (dialog.SelectedPath))
+                                if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace (dialog.SelectedPath))
                                 {
                                     string selectedPath = dialog.SelectedPath;
                                     string folderName = Path.GetFileName (selectedPath);
 
 
                                     // Create a new FavoriteTargetFolderList instance and add it to the collection.
-                                    FavoriteTargetFolderList.Add (new FavoriteTargetFolder
+                                    FavoriteTargetFolderList.Add (new FavoriteTargetFolderModel
                                     {
                                         DisplayName = folderName,
                                         Path = selectedPath,
                                         AddDate = DateTime.Now.ToFileTimeUtc (),
                                         IsPinned = true,
-                                        Cmd_OpenFolderCommand = new RelayCommand (param => CommandExecute_PrepareMoveFiles (param as string)),
-                                        Cmd_RemoveFolderFromListCommand = new RelayCommand (item =>
-                                        {
-                                            if (item is FavoriteTargetFolder)
-                                            {
-                                                this.FavoriteTargetFolderList.Remove (item as FavoriteTargetFolder);
-                                            }
-                                        }),
+                                        Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
+                                        Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
                                     });
 
-                                    Properties.Settings.Default.LastTargetFolderAdded = selectedPath;
+                                    Properties.Settings.Default.LastUsedPath = selectedPath;
                                 }
                             }
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine ($"Exeption in func Cmd_AddNewTargetFolder: {ex.Message}");
+                            Debug.WriteLine ($"Exception in func Cmd_ContextMenu_AddFavoriteTargetFolderItem: {ex.Message}");
+                        }
+                    },
+                    param => true
+                );
+            }
+        }
+
+        public RelayCommand Cmd_ContextMenu_RemoveFavoriteTargetFolderItem
+        {
+            get
+            {
+                return new RelayCommand (
+                    item =>
+                    {
+                        if (item is FavoriteTargetFolderModel)
+                        {
+                            this.FavoriteTargetFolderList.Remove (item as FavoriteTargetFolderModel);
+                        }
+                    },
+                    param => true
+                );
+            }
+        }
+
+        public RelayCommand Cmd_ContextMenu_AddVirtualRootDirectoryItem
+        {
+            get
+            {
+                return new RelayCommand (
+                    _ =>
+                    {
+                        try
+                        {
+                            using (var dialog = new System.Windows.Forms.FolderBrowserDialog ())
+                            {
+                                string initialPath = Directory.Exists (Properties.Settings.Default.LastUsedPath) ?
+                                                     Properties.Settings.Default.LastUsedPath :
+                                                     Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
+
+
+                                dialog.Description = "Zielordner auswählen";
+                                dialog.ShowNewFolderButton = true;
+                                dialog.SelectedPath = initialPath;
+
+                                if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace (dialog.SelectedPath))
+                                {
+                                    string selectedPath = dialog.SelectedPath;
+                                    string folderName = Path.GetFileName (selectedPath);
+
+
+                                    // Create a new VirtualRootDirectoryList instance and add it to the collection.
+                                    VirtualRootDirectoryList.Add (new VirtualRootDirectoryModel
+                                    {
+                                        DisplayName = folderName,
+                                        RealPath = selectedPath,
+                                        Cmd_AddToListCommand = Cmd_ContextMenu_AddVirtualRootDirectoryItem,
+                                        Cmd_RemoveItemFromListCommand = Cmd_ContextMenu_RemoveVirtualRootDirectoryItem
+                                    });
+
+                                    Properties.Settings.Default.LastUsedPath = selectedPath;
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine ($"Exception in func Cmd_ContextMenu_AddVirtualRootDirectoryItem: {ex.Message}");
+                        }
+                    },
+                    param => true
+                );
+            }
+        }
+
+        public RelayCommand Cmd_ContextMenu_RemoveVirtualRootDirectoryItem
+        {
+            get
+            {
+                return new RelayCommand (
+                    item =>
+                    {
+                        if (item is VirtualRootDirectoryModel)
+                        {
+                            VirtualRootDirectoryList.Remove (item as VirtualRootDirectoryModel);
                         }
                     },
                     param => true
@@ -331,66 +508,6 @@ namespace QuickSort.viewmodel
             }
         }
 
-        public RelayCommand Cmd_ClickOnFileTitleItem
-        {
-            get
-            {
-                return new RelayCommand (
-                    item =>
-                    {
-                        if (item is FileTile)
-                        {
-                            bool shiftKeyIsPressed = false;
-
-
-                            (item as FileTile).IsSelected = !(item as FileTile).IsSelected;
-
-                            if (Keyboard.IsKeyDown (Key.LeftShift) || Keyboard.IsKeyDown (Key.RightShift))
-                            {
-                                shiftKeyIsPressed = true;
-                            }
-
-                            if (shiftKeyIsPressed == false)
-                            {
-                                _StartSelectionStartIndex = this.FileTileList.IndexOf (item as FileTile);
-                            }
-
-                            else if (shiftKeyIsPressed == true)
-                            {
-                                if (_StartSelectionStartIndex > -1)
-                                {
-                                    int deltaIndex;
-                                    int lowIndex;
-
-
-                                    _EndSelectionStartIndex = this.FileTileList.IndexOf (item as FileTile);
-
-                                    deltaIndex = Math.Abs (_EndSelectionStartIndex - _StartSelectionStartIndex);
-                                    lowIndex = Math.Min (_EndSelectionStartIndex, _StartSelectionStartIndex);
-
-                                    for (int i = 0; i <= deltaIndex; i++)
-                                    {
-                                        this.FileTileList[i + lowIndex].IsSelected = true;
-                                    }
-
-                                    _StartSelectionStartIndex = -1;
-                                    _EndSelectionStartIndex = -1;
-                                }
-                                else
-                                {
-                                    // If the start selection index is not set, just select the current item.
-                                    _StartSelectionStartIndex = this.FileTileList.IndexOf (item as FileTile);
-                                }
-                            }
-
-                            UpdateFileTitelStatusText ();
-                        }
-                    },
-                    param => true
-                );
-            }
-        }
-
         public RelayCommand Cmd_Dlg_ProcessHeicImages
         {
             get
@@ -454,13 +571,22 @@ namespace QuickSort.viewmodel
         {
             // Store the selected folder in the settings.
 
-            Properties.Settings.Default.LastTargetFolderCollection.Clear ();
+            Properties.Settings.Default.FavoriteTargetFolderCollection.Clear ();
 
-            foreach (var targetFolder in FavoriteTargetFolderList)
+            foreach (var favTargetFolder in FavoriteTargetFolderList)
             {
-                var item = new FavoriteTargetFolderSettingItem (targetFolder.Path, targetFolder.AddDate, targetFolder.DisplayName, targetFolder.IsPinned);
+                var item = new FavoriteTargetFolderSettingItem (favTargetFolder);
 
-                Properties.Settings.Default.LastTargetFolderCollection.Add (item.ToString ());
+                Properties.Settings.Default.FavoriteTargetFolderCollection.Add (item.ToString ());
+            }
+
+            Properties.Settings.Default.VirtualRootDirectoryCollection.Clear ();
+
+            foreach (var virtRootDir in VirtualRootDirectoryList)
+            {
+                var item = new VirtualRootDirectorySettingItem (virtRootDir);
+
+                Properties.Settings.Default.VirtualRootDirectoryCollection.Add (item.ToString ());
             }
         }
 
@@ -543,7 +669,7 @@ namespace QuickSort.viewmodel
                         thumb = IconHelper.GetFileIcon (file);
                     }
 
-                    FileTileList.Add (new FileTile
+                    FileTileList.Add (new FileTileModel
                     {
                         DisplayName = Path.GetFileName (file),
                         Thumbnail = thumb,
@@ -592,48 +718,69 @@ namespace QuickSort.viewmodel
         {
             try
             {
-                List<FavoriteTargetFolderSettingItem> targetFolderList = new List<FavoriteTargetFolderSettingItem> ();
+                List<FavoriteTargetFolderSettingItem> favTargetFolderList = new List<FavoriteTargetFolderSettingItem> ();
+                List<VirtualRootDirectorySettingItem> virtRootDirList = new List<VirtualRootDirectorySettingItem> ();
 
 
-                // Check if the Properties.Settings.LastTargetFolderCollection setting exists, if not, create it.
-                if (Properties.Settings.Default.LastTargetFolderCollection == null)
+                // Check if the Properties.Settings.FavoriteTargetFolderCollection setting exists, if not, create it.
+                if (Properties.Settings.Default.FavoriteTargetFolderCollection == null)
                 {
-                    Properties.Settings.Default.LastTargetFolderCollection = new System.Collections.Specialized.StringCollection ();
+                    Properties.Settings.Default.FavoriteTargetFolderCollection = new System.Collections.Specialized.StringCollection ();
                 }
 
-                // Clear the UI collection.
-                FavoriteTargetFolderList.Clear ();
-
-                // Transfer the Properties.Settings.Default.LastTargetFolderCollection entries into the targetFolderList for linq operations.
-                foreach (var targetFolderItemString in Properties.Settings.Default.LastTargetFolderCollection)
+                // Check if the Properties.Settings.VirtualRootDirectoryCollection setting exists, if not, create it.
+                if (Properties.Settings.Default.VirtualRootDirectoryCollection == null)
                 {
-                    targetFolderList.Add (FavoriteTargetFolderSettingItem.Parse (targetFolderItemString));
+                    Properties.Settings.Default.VirtualRootDirectoryCollection = new System.Collections.Specialized.StringCollection ();
+                }
+
+                // Clear the UI collections.
+                FavoriteTargetFolderList.Clear ();
+                VirtualRootDirectoryList.Clear ();
+
+                // Transfer the Properties.Settings.Default.FavoriteTargetFolderCollection entries into the favTargetFolderList for linq operations.
+                foreach (var targetFolderItemString in Properties.Settings.Default.FavoriteTargetFolderCollection)
+                {
+                    favTargetFolderList.Add (FavoriteTargetFolderSettingItem.Parse (targetFolderItemString));
+                }
+
+                // Transfer the Properties.Settings.Default.VirtualRootDirectoryCollection entries into the virtRootDirList for linq operations.
+                foreach (var virtRootDirItemstring in Properties.Settings.Default.VirtualRootDirectoryCollection)
+                {
+                    virtRootDirList.Add (VirtualRootDirectorySettingItem.Parse (virtRootDirItemstring));
                 }
 
                 // Order and sort the list.
-                // Update the UI.
-                //var querryList = targetFolderList.Where (x => Directory.Exists (x.Path)).OrderByDescending (x => x.Date);
-                // Nur Einträge, die neuer als 30 Tage sind
-                var grenze = DateTime.UtcNow.AddDays (-30).ToFileTimeUtc ();
-                var querryList = targetFolderList
-                    .Where (x => Directory.Exists (x.Path) && (x.Date > grenze) || (x.IsPinned))
+                // Only entries that are younger / newer then 30 days or pinned entries are shown.
+                long dayLimitThreshold = DateTime.UtcNow.AddDays (-30).ToFileTimeUtc ();
+                var querryList = favTargetFolderList
+                    .Where (x => Directory.Exists (x.Path) && (x.Date > dayLimitThreshold) || (x.IsPinned))
                     .OrderByDescending (x => x.Date);
+
                 foreach (var querryItem in querryList)
                 {
-                    FavoriteTargetFolderList.Add (new FavoriteTargetFolder
+                    FavoriteTargetFolderList.Add (new FavoriteTargetFolderModel
                     {
                         DisplayName = querryItem.DisplayName,
                         Path = querryItem.Path,
                         AddDate = querryItem.Date,
                         IsPinned = querryItem.IsPinned,
-                        Cmd_OpenFolderCommand = new RelayCommand (param => CommandExecute_PrepareMoveFiles (param as string)),
-                        Cmd_RemoveFolderFromListCommand = new RelayCommand (item =>
-                        {
-                            if (item is FavoriteTargetFolder)
-                            {
-                                this.FavoriteTargetFolderList.Remove (item as FavoriteTargetFolder);
-                            }
-                        }),
+                        Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
+                        Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
+                    });
+                }
+
+                // Order and sort the list.
+                var querryList2 = virtRootDirList.Where (x => Directory.Exists (x.Path));
+
+                foreach (var querryItem in querryList2)
+                {
+                    VirtualRootDirectoryList.Add (new VirtualRootDirectoryModel
+                    {
+                        DisplayName = querryItem.DisplayName,
+                        RealPath = querryItem.Path,
+                        Cmd_AddToListCommand = Cmd_ContextMenu_AddVirtualRootDirectoryItem,
+                        Cmd_RemoveItemFromListCommand = Cmd_ContextMenu_RemoveVirtualRootDirectoryItem,
                     });
                 }
             }
@@ -647,7 +794,7 @@ namespace QuickSort.viewmodel
 
         private void CommandExecute_PrepareMoveFiles (string targetPath)
         {
-            var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTile> ();
+            var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTileModel> ();
 
 
             if (querrySelectedFileList.Count () > 0)
@@ -677,7 +824,7 @@ namespace QuickSort.viewmodel
 
         private void CommandExecute_MoveFiles (string targetPath)
         {
-            var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTile> ();
+            var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTileModel> ();
 
 
             if (querrySelectedFileList.Count () > 0)
@@ -690,10 +837,10 @@ namespace QuickSort.viewmodel
 
                 Task.Run (() =>
                 {
-                    List<FileTile> querrySelectedFileList_Local = querrySelectedFileList;
+                    List<FileTileModel> querrySelectedFileList_Local = querrySelectedFileList;
 
 
-                    var popup = new FileMoveProcPopupNotification ()
+                    var popup = new FileMoveProcPopupNotificationModel ()
                     {
                         TargetPath = Path.GetFileName (targetPath),
                         FileCount = querrySelectedFileList_Local.Count (),

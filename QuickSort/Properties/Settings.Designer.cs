@@ -25,12 +25,12 @@ namespace QuickSort.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection LastTargetFolderCollection {
+        public global::System.Collections.Specialized.StringCollection FavoriteTargetFolderCollection {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["LastTargetFolderCollection"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["FavoriteTargetFolderCollection"]));
             }
             set {
-                this["LastTargetFolderCollection"] = value;
+                this["FavoriteTargetFolderCollection"] = value;
             }
         }
         
@@ -49,12 +49,12 @@ namespace QuickSort.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("c:\\")]
-        public string LastTargetFolderAdded {
+        public string LastUsedPath {
             get {
-                return ((string)(this["LastTargetFolderAdded"]));
+                return ((string)(this["LastUsedPath"]));
             }
             set {
-                this["LastTargetFolderAdded"] = value;
+                this["LastUsedPath"] = value;
             }
         }
         
@@ -103,6 +103,17 @@ namespace QuickSort.Properties {
             }
             set {
                 this["ShowImageFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection VirtualRootDirectoryCollection {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["VirtualRootDirectoryCollection"]));
+            }
+            set {
+                this["VirtualRootDirectoryCollection"] = value;
             }
         }
     }

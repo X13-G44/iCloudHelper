@@ -8,9 +8,9 @@ using System.Windows.Media;
 
 
 
-namespace QuickSort.ui_element
+namespace QuickSort.ui
 {
-    public class FileTitleButton : System.Windows.Controls.Button
+    public class FileTitleButtonUi : System.Windows.Controls.Button
     {
         public string DisplayName
         {
@@ -19,7 +19,7 @@ namespace QuickSort.ui_element
         }
 
         public static readonly DependencyProperty DisplayNamePropertyProperty =
-            DependencyProperty.Register ("DisplayName", typeof (string), typeof (FileTitleButton), new PropertyMetadata (string.Empty));
+            DependencyProperty.Register ("DisplayName", typeof (string), typeof (FileTitleButtonUi), new PropertyMetadata (string.Empty));
 
 
 
@@ -30,7 +30,7 @@ namespace QuickSort.ui_element
         }
 
         public static readonly DependencyProperty ThumbnailPropertyProperty =
-            DependencyProperty.Register ("Thumbnail", typeof (ImageSource), typeof (FileTitleButton), new PropertyMetadata (null));
+            DependencyProperty.Register ("Thumbnail", typeof (ImageSource), typeof (FileTitleButtonUi), new PropertyMetadata (null));
 
 
 
@@ -41,7 +41,7 @@ namespace QuickSort.ui_element
         }
 
         public static readonly DependencyProperty IsSelectedPropertyProperty =
-            DependencyProperty.Register ("IsSelected", typeof (bool), typeof (FileTitleButton), new PropertyMetadata (false));
+            DependencyProperty.Register ("IsSelected", typeof (bool), typeof (FileTitleButtonUi), new PropertyMetadata (false));
 
 
 
@@ -52,7 +52,7 @@ namespace QuickSort.ui_element
         }
 
         public static readonly DependencyProperty HideFilenameTextProperty =
-            DependencyProperty.Register ("HideFilenameText", typeof (bool), typeof (FileTitleButton), new PropertyMetadata (false));
+            DependencyProperty.Register ("HideFilenameText", typeof (bool), typeof (FileTitleButtonUi), new PropertyMetadata (false));
 
 
 
@@ -63,6 +63,6 @@ namespace QuickSort.ui_element
         }
        
         public static readonly DependencyProperty SizeLevelProperty =
-            DependencyProperty.Register ("SizeLevel", typeof (int), typeof (FileTitleButton), new PropertyMetadata (1));
+            DependencyProperty.Register ("SizeLevel", typeof (int), typeof (FileTitleButtonUi), new PropertyMetadata (1));
     }
 }

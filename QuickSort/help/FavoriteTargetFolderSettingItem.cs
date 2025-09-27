@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuickSort.model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace QuickSort.help
 {
+    /// <summary>
+    /// Help class to convert "Favorite Target Folder Model" object settings into a string and back.
+    /// It is used to store the date in application settings (string collection).
+    /// </summary>
     public class FavoriteTargetFolderSettingItem
     {
         public string Path { get; set; } = "";
@@ -24,24 +29,24 @@ namespace QuickSort.help
 
 
 
-        public FavoriteTargetFolderSettingItem (string path, string data, string displayName, bool isPinned)
+        public FavoriteTargetFolderSettingItem (string path, long date, string displayName, bool isPinned)
         {
             this.Path = path;
-            this.Date = long.Parse (data);
+            this.Date = date;
             this.DisplayName = displayName;
             this.IsPinned = isPinned;
         }
 
 
 
-        public FavoriteTargetFolderSettingItem (string path, long data, string displayName, bool isPinned)
+        public FavoriteTargetFolderSettingItem (FavoriteTargetFolderModel model)
         {
-            this.Path = path;
-            this.Date = data;
-            this.DisplayName = displayName;
-            this.IsPinned = isPinned;
+            this.Path = model.Path;
+            this.Date = model.AddDate;
+            this.DisplayName = model.DisplayName;
+            this.IsPinned = model.IsPinned;
         }
-
+        
 
 
         public override string ToString ()
@@ -69,7 +74,7 @@ namespace QuickSort.help
                     };
                 }
 
-                throw new FormatException ("Invalid format for FavoriteTargetFolderSettingItem. Expected format: Path?Date?DisplayName");
+                throw new FormatException ("Invalid format for FavoriteTargetFolderSettingItem. Expected format: Path?Date?DisplayName?IsPinned");
             }
             catch
             {
