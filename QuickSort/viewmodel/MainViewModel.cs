@@ -1245,12 +1245,43 @@ namespace QuickSort.viewmodel
 
             if (querrySelectedFileList.Count () > 0)
             {
+                // Append the target path to the favorite target folder list - or update the add date if already existing.
+                var existingFavTargetFolderItem = FavoriteTargetFolderList.Where (x => x.Path == targetPath).FirstOrDefault ();
+                if (existingFavTargetFolderItem != null)
+                {
+                    existingFavTargetFolderItem.AddDate = DateTime.Now.ToFileTimeUtc ();
+                }
+                else
+                {
+                    if (FavoriteTargetFolderList.Count >= QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionLimit)
+                    {
+                        // Remove the oldest entry that is not pinned.
+                        var itemToRemove = FavoriteTargetFolderList.Where (x => x.IsPinned == false).OrderBy (x => x.AddDate).FirstOrDefault ();
+                        if (itemToRemove != null)
+                        {
+                            FavoriteTargetFolderList.Remove (itemToRemove);
+                        }
+                    }
+
+                    FavoriteTargetFolderList.Add (new FavoriteTargetFolderModel
+                    {
+                        DisplayName = Path.GetFileName (targetPath),
+                        Path = targetPath,
+                        AddDate = DateTime.Now.ToFileTimeUtc (),
+                        IsPinned = false,
+                        Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
+                        Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
+                        Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
+                    });
+                }
+
                 // Remove selected items from FileTileList.
                 foreach (var item in querrySelectedFileList)
                 {
                     FileTileList.Remove (item);
                 }
 
+                // Move the image files.
                 Task.Run (() =>
                 {
                     List<FileTileModel> querrySelectedFileList_Local = querrySelectedFileList;
@@ -1305,6 +1336,7 @@ namespace QuickSort.viewmodel
                         Debug.WriteLine ($"Error moving files: {t.Exception?.Message}");
                     }
 
+                    // Refresh the file title list.
                     _Dispatcher.Invoke (() => PrepareLoadFileTitles ());
                 });
             }

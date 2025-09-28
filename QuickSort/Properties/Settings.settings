@@ -26,5 +26,8 @@
     <Setting Name="VirtualRootDirectoryCollection" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="FavoriteTargetFolderCollectionLimit" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">16</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

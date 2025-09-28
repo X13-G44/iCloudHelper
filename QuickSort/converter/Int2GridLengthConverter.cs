@@ -9,36 +9,16 @@ using System.Windows.Data;
 
 namespace QuickSort.converter
 {
-    public class CollectionCount2GridLengthConverter : IValueConverter
-    {
-        public object Convert (object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            int count = 0;
-
-
-            if (value is int)
-            {
-                count = (int) value;
-            }
-
-            // If count == 0 => GridLength = 0* (0%)
-            // If count != 0 => GridLength = 1* (100%)
-            return count == 0 ? new GridLength (0, GridUnitType.Star) : new GridLength (1, GridUnitType.Star);
-        }
-
-
-
-        public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException ();
-        }
-    }
-
-
-
-    public class CollectionCount2GridLengthConverter2 : IValueConverter
+    public class Int2GridLengthConverter : IValueConverter
     {
         /// <summary>
+        /// Converter from integer (count) to GridLength.
+        /// 
+        /// Note: A parameter string must be defined and have the format "X;Y":
+        ///     X = GridLength if count == 0
+        ///     Y = GridLength if count != 0
+        ///     
+        /// GridLength can be "Auto", "100", "100*", "2*", "0.5*", etc.
         /// 
         /// </summary>
         /// <param name="value">Integer value</param>

@@ -18,8 +18,7 @@
 
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
 
-        <myConverter:CollectionCount2GridLengthConverter x:Key="ColCntToGridLen"/>
-        <myConverter:CollectionCount2GridLengthConverter2 x:Key="ColCntToGridLen2"/>
+        <myConverter:Int2GridLengthConverter x:Key="IntToGridLen"/>
 
         <!-- File Titles Context Menu Style -->
         <Style x:Key="CustomContextMenuStyle" TargetType="ContextMenu">
@@ -356,7 +355,7 @@
         </Style>
 
         <!-- Virtual Root Directory Button-Style -->
-        <Style x:Key="VirtualRootDirectoryButtonStyle" TargetType="myView:VirtualRootDirectoryButtonUi">
+        <Style x:Key="VirtualRootDirectoryButtonStyle" TargetType="myView:VirtualDirectoryButtonUi">
             <!--This setter is need for ToolTip-->
             <Setter Property="Foreground" Value="{DynamicResource ToolTipTextColor}"/>
             <Setter Property="FontSize" Value="14"/>
@@ -364,7 +363,7 @@
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="myView:VirtualRootDirectoryButtonUi">
+                    <ControlTemplate TargetType="myView:VirtualDirectoryButtonUi">
 
                         <Border x:Name="OUTER_BORDER"
                                 BorderBrush="{DynamicResource TargetFolderBtnSelectedColor}"
@@ -831,9 +830,9 @@
 
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding VirtualRootDirectoryList.Count, Converter={StaticResource ColCntToGridLen2}, ConverterParameter='100*;Auto', FallbackValue='Auto'}"/>
-                        <ColumnDefinition Width="{Binding VirtualFirstStageDirectoryList.Count, Converter={StaticResource ColCntToGridLen2}, ConverterParameter='0*;100*', FallbackValue='100*'}"/>
-                        <ColumnDefinition Width="{Binding VirtualSecundStageDirectoryList.Count, Converter={StaticResource ColCntToGridLen2}, ConverterParameter='0*;100*', FallbackValue='100*'}"/>
+                        <ColumnDefinition Width="{Binding VirtualRootDirectoryList.Count, Converter={StaticResource IntToGridLen}, ConverterParameter='100*;Auto', FallbackValue='Auto'}"/>
+                        <ColumnDefinition Width="{Binding VirtualFirstStageDirectoryList.Count, Converter={StaticResource IntToGridLen}, ConverterParameter='0*;100*', FallbackValue='100*'}"/>
+                        <ColumnDefinition Width="{Binding VirtualSecundStageDirectoryList.Count, Converter={StaticResource IntToGridLen}, ConverterParameter='0*;100*', FallbackValue='100*'}"/>
                     </Grid.ColumnDefinitions>
 
                     <!-- Virtual Root Directory List -->
@@ -850,9 +849,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
 
-                                    <myView:VirtualRootDirectoryButtonUi Style="{StaticResource VirtualRootDirectoryButtonStyle}"
-                                        Width="{Binding Width}"
-                                        Height="{Binding Height}"
+                                    <myView:VirtualDirectoryButtonUi Style="{StaticResource VirtualRootDirectoryButtonStyle}"
                                         Margin="5"                                                        
                                                                                                     
                                         Content="{Binding DisplayName}"
@@ -864,7 +861,7 @@
                                         Command="{Binding DataContext.Cmd_ClickOnVirtualRootDirectoryItem, RelativeSource={RelativeSource AncestorType=Window}}"
                                         CommandParameter="{Binding}">
 
-                                        <myView:VirtualRootDirectoryButtonUi.ContextMenu>
+                                        <myView:VirtualDirectoryButtonUi.ContextMenu>
                                             <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
 
                                                 <!--Irgenwie funktioniert das mit dem CommandoBinding nicht: Die Kommando-Properties sind im Viewmodel abgelegt. 
@@ -909,9 +906,9 @@
                                                     CommandParameter="{Binding}"/>
 
                                             </ContextMenu>
-                                        </myView:VirtualRootDirectoryButtonUi.ContextMenu>
+                                        </myView:VirtualDirectoryButtonUi.ContextMenu>
 
-                                    </myView:VirtualRootDirectoryButtonUi>
+                                    </myView:VirtualDirectoryButtonUi>
 
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -945,7 +942,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
 
-                                    <myView:VirtualRootDirectoryButtonUi Style="{StaticResource VirtualRootDirectoryButtonStyle}"
+                                    <myView:VirtualDirectoryButtonUi Style="{StaticResource VirtualRootDirectoryButtonStyle}"
                                         Margin="5"                                                        
                                                                                                     
                                         Content="{Binding DisplayName}"
@@ -957,7 +954,7 @@
                                         Command="{Binding DataContext.Cmd_ClickOnVirtualFirstStagDirectoryItem, RelativeSource={RelativeSource AncestorType=Window}}"
                                         CommandParameter="{Binding}">
 
-                                        <myView:VirtualRootDirectoryButtonUi.ContextMenu>
+                                        <myView:VirtualDirectoryButtonUi.ContextMenu>
                                             <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
 
                                                 <!--Irgenwie funktioniert das mit dem CommandoBinding nicht: Die Kommando-Properties sind im Viewmodel abgelegt. 
@@ -1002,9 +999,9 @@
                                                     CommandParameter="{Binding}"/>
 
                                             </ContextMenu>
-                                        </myView:VirtualRootDirectoryButtonUi.ContextMenu>
+                                        </myView:VirtualDirectoryButtonUi.ContextMenu>
 
-                                    </myView:VirtualRootDirectoryButtonUi>
+                                    </myView:VirtualDirectoryButtonUi>
 
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -1038,7 +1035,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
 
-                                    <myView:VirtualRootDirectoryButtonUi Style="{StaticResource VirtualRootDirectoryButtonStyle}"
+                                    <myView:VirtualDirectoryButtonUi Style="{StaticResource VirtualRootDirectoryButtonStyle}"
                                         Margin="5"                                                        
                                                                                 
                                         Content="{Binding DisplayName}"
@@ -1050,7 +1047,7 @@
                                         Command="{Binding DataContext.Cmd_ClickOnVirtualSecondStagDirectoryItem, RelativeSource={RelativeSource AncestorType=Window}}"
                                         CommandParameter="{Binding}">
 
-                                        <myView:VirtualRootDirectoryButtonUi.ContextMenu>
+                                        <myView:VirtualDirectoryButtonUi.ContextMenu>
                                             <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
 
                                                 <!--Irgenwie funktioniert das mit dem CommandoBinding nicht: Die Kommando-Properties sind im Viewmodel abgelegt. 
@@ -1083,9 +1080,9 @@
                                                     CommandParameter="{Binding}"/>
 
                                             </ContextMenu>
-                                        </myView:VirtualRootDirectoryButtonUi.ContextMenu>
+                                        </myView:VirtualDirectoryButtonUi.ContextMenu>
 
-                                    </myView:VirtualRootDirectoryButtonUi>
+                                    </myView:VirtualDirectoryButtonUi>
 
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

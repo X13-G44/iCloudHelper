@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace QuickSort.ui
 {
-    public class VirtualRootDirectoryButtonUi : System.Windows.Controls.Button
+    public class VirtualDirectoryButtonUi : System.Windows.Controls.Button
     {
         public bool IsSelected
         {
@@ -19,7 +19,7 @@ namespace QuickSort.ui
         }
 
         public static readonly DependencyProperty IsSelectedPropertyProperty =
-            DependencyProperty.Register ("IsSelected", typeof (bool), typeof (VirtualRootDirectoryButtonUi), new PropertyMetadata (false));
+            DependencyProperty.Register ("IsSelected", typeof (bool), typeof (VirtualDirectoryButtonUi), new PropertyMetadata (false));
 
     }
 }

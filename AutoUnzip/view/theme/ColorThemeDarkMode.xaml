@@ -12,11 +12,15 @@
     <SolidColorBrush x:Key="MainWindowBackground" Color="#FF202023"/>
     <SolidColorBrush x:Key="SectionBorderBrushColor" Color="#FF333333"/>
 
-    <SolidColorBrush x:Key="TargetFolderBtnBackgroundColor" Color="#FF1C1C1E"/>
-    <SolidColorBrush x:Key="TargetFolderBtnTextColor" Color="#FFE6E6E6"/>
-    <SolidColorBrush x:Key="TargetFolderBtnSymbolColor" Color="#FF0099FF"/>
-    <SolidColorBrush x:Key="TargetFolderBtnMouseOverColor" Color="#FF35353A"/>
-    <SolidColorBrush x:Key="TargetFolderBtnSelectedColor" Color="#FF444446"/>
+    
+    
+    <SolidColorBrush x:Key="FavoriteTargetFolderBtnBackgroundColor" Color="#FF1C1C1E"/>
+    <SolidColorBrush x:Key="FavoriteTargetFolderBtnTextColor" Color="#FFE6E6E6"/>
+    <SolidColorBrush x:Key="FavoriteTargetFolderBtnSymbolColor" Color="#FF0099FF"/>
+    <SolidColorBrush x:Key="FavoriteTargetFolderBtnMouseOverColor" Color="#FF35353A"/>
+    <SolidColorBrush x:Key="FavoriteTargetFolderBtnSelectedColor" Color="#FF444446"/>
+    
+    
 
     <SolidColorBrush x:Key="FileTitleBtnMouseOverColor" Color="#FF35353A"/>
 

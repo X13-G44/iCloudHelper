@@ -116,5 +116,17 @@ namespace QuickSort.Properties {
                 this["VirtualRootDirectoryCollection"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16")]
+        public int FavoriteTargetFolderCollectionLimit {
+            get {
+                return ((int)(this["FavoriteTargetFolderCollectionLimit"]));
+            }
+            set {
+                this["FavoriteTargetFolderCollectionLimit"] = value;
+            }
+        }
     }
 }
