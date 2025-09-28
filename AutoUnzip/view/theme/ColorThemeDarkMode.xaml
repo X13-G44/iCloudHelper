@@ -5,31 +5,73 @@
 
     <SolidColorBrush x:Key="CommonBackgroundColor" Color="#FF1C1C1E"/>
     <SolidColorBrush x:Key="CommonBorderBrushColor" Color="#ff0071E3"/>
-    <Color x:Key="CommonBorderBrushColorColor">#ff0071E3</Color>    
     <SolidColorBrush x:Key="CommonForegroundColor" Color="#FFFBFBFB"/>
 
-    <SolidColorBrush x:Key="HeadlineBorderBrushColor" Color="#FF333333"/>
     <SolidColorBrush x:Key="MainWindowBackground" Color="#FF202023"/>
-    <SolidColorBrush x:Key="SectionBorderBrushColor" Color="#FF333333"/>
 
-    
-    
-    <SolidColorBrush x:Key="FavoriteTargetFolderBtnBackgroundColor" Color="#FF1C1C1E"/>
-    <SolidColorBrush x:Key="FavoriteTargetFolderBtnTextColor" Color="#FFE6E6E6"/>
+    <!-- Favorite Target Folder Section -->
+
+    <SolidColorBrush x:Key="FavoriteTargetFolderTitleTextForegroundColor" Color="#FFB3B3B4"/>
+
+    <SolidColorBrush x:Key="FavoriteTargetFolderBtnBackgroundColor" Color="#FF35353A"/>
+    <SolidColorBrush x:Key="FavoriteTargetFolderBtnTextColor" Color="#FFDCDCDD"/>
     <SolidColorBrush x:Key="FavoriteTargetFolderBtnSymbolColor" Color="#FF0099FF"/>
-    <SolidColorBrush x:Key="FavoriteTargetFolderBtnMouseOverColor" Color="#FF35353A"/>
-    <SolidColorBrush x:Key="FavoriteTargetFolderBtnSelectedColor" Color="#FF444446"/>
-    
-    
+    <SolidColorBrush x:Key="FavoriteTargetFolderBtnMouseOverColor" Color="#FF444446"/>
+    <SolidColorBrush x:Key="FavoriteTargetFolderBtnPinnedColor" Color="#FFE6C010"/>
 
-    <SolidColorBrush x:Key="FileTitleBtnMouseOverColor" Color="#FF35353A"/>
+    <!-- Virtual Directory Section -->
+
+    <SolidColorBrush x:Key="VirtualDirectoryTitleTextForegroundColor" Color="#FFB3B3B4"/>
+
+    <SolidColorBrush x:Key="VirtualDirectoryBtnBackgroundColor" Color="#FF35353A"/>
+    <SolidColorBrush x:Key="VirtualDirectoryBtnTextColor" Color="#FFDCDCDD"/>
+    <SolidColorBrush x:Key="VirtualDirectoryBtnSymbolColor" Color="#FF0099FF"/>
+    <SolidColorBrush x:Key="VirtualDirectoryBtnMouseOverColor" Color="#FF444446"/>
+    <SolidColorBrush x:Key="VirtualDirectoryBtnSelectedColor" Color="#FF0099FF"/>
+    <SolidColorBrush x:Key="VirtualDirectoryBtnSelectedTextColor" Color="#FFDCDCDD"/>
+
+    <SolidColorBrush x:Key="VirtualDirectorySeperatorColor" Color="#FF333333"/>
+
+    <!-- File Title Selection -->
+
+    <SolidColorBrush x:Key="FileTitleBackgroundColor" Color="#FF1C1C1E"/>
+    <SolidColorBrush x:Key="FileTitleTextForegroundColor" Color="#FFDCDCDD"/>
+
+    <SolidColorBrush x:Key="FileTitleBtnBackgroundColor" Color="Transparent"/>
+    <SolidColorBrush x:Key="FileTitleBtnTextColor" Color="#FF79797A"/>
+    <SolidColorBrush x:Key="FileTitleBtnMouseOverColor" Color="#FF444446"/>
+    <SolidColorBrush x:Key="FileTitleBtnSelectedColor" Color="#FF0099FF"/>
+    <Color x:Key="FileTitleBtnSelectedColorColor">#FF0099FF</Color>
+    <Color x:Key="FileTitleBtnSelected2ColorColor">#FF79CAFF</Color>
+
+    <SolidColorBrush x:Key="FileTitleSeperatorColor" Color="#FF333333"/>
+
+    <!-- Dialog Section -->
+
+    <SolidColorBrush x:Key="DialogBackgroundColor" Color="#FF202023"/>
+    <SolidColorBrush x:Key="DialogBorderBrushColor" Color="#FF0099FF"/>
+    <SolidColorBrush x:Key="DialogTitleTextForegroundColor" Color="#FFDCDCDD"/>
+
+    <SolidColorBrush x:Key="DialogBtnBackgroundColor" Color="#FF35353A"/>
+    <SolidColorBrush x:Key="DialogBtnTextColor" Color="#FFDCDCDD"/>
+    <SolidColorBrush x:Key="DialogBtnSymbolColor" Color="#FF0099FF"/>
+    <SolidColorBrush x:Key="DialogBtnMouseOverColor" Color="#FF444446"/>
+
+    <!-- Tooltip Section -->
 
     <SolidColorBrush x:Key="ToolTipBackgroundColor" Color="#FF323236"/>
-    <SolidColorBrush x:Key="ToolTipTextColor" Color="#FFE6E6E6"/>
+    <SolidColorBrush x:Key="ToolTipTextColor" Color="#FFDCDCDD"/>
+    <SolidColorBrush x:Key="ToolTipBorderBrushColor" Color="#FF0099FF"/>
+
+    <!-- Context Menu Section -->
 
     <SolidColorBrush x:Key="ContextMenuBackgroundColor" Color="#FF323236"/>
+    <SolidColorBrush x:Key="ContextMenuBorderBrushColor" Color="#FF0099FF"/>
+
     <SolidColorBrush x:Key="ContextMenuBtnBackgroundColor" Color="#FF444446"/>
-    <SolidColorBrush x:Key="ContextMenuBtnTextColor" Color="#FFE6E6E6"/>
-    <SolidColorBrush x:Key="ContextMenuBtnTextMouseOverColor" Color="#FFE6E6E6"/>
+    <SolidColorBrush x:Key="ContextMenuBtnTextColor" Color="#FFDCDCDD"/>
+    <SolidColorBrush x:Key="ContextMenuBtnSymbolColor" Color="#FF0099FF"/>
+    <SolidColorBrush x:Key="ContextMenuBtnMouseOverTextColor" Color="#FFDCDCDD"/>
+
 
 </ResourceDictionary>

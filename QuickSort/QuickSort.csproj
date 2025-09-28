@@ -88,6 +88,7 @@
     <Compile Include="model\VirtualDirectoryModel.cs" />
     <Compile Include="ui\FileTitleButtonUi.cs" />
     <Compile Include="ui\VirtualDirectoryButtonUi.cs" />
+    <Compile Include="validationrules\CheckDirectoryNameValidationRule.cs" />
     <Compile Include="validationrules\CheckPathExistsValidationRule.cs" />
     <Compile Include="viewmodel\ConfigViewModel.cs" />
     <Compile Include="viewmodel\MainViewModel.cs" />

@@ -1,5 +1,6 @@
 ﻿using QuickSort.help;
 using QuickSort.model;
+using QuickSort.validationrules;
 using QuickSort.view;
 using QuickSort.viewmodel;
 using System;
@@ -18,6 +19,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 
@@ -26,6 +28,22 @@ namespace QuickSort.viewmodel
 {
     public class MainViewModel : IDisposable, INotifyPropertyChanged
     {
+        private class DlgHelperCreateNewDirectory
+        {
+            public VirtualDirectoryModel SourceModel { get; private set; }
+            public Action<VirtualDirectoryModel> ListRefreshFunction { get; private set; }
+
+
+
+            public DlgHelperCreateNewDirectory (VirtualDirectoryModel sourceModelInstance, Action<VirtualDirectoryModel> listRefreshFunction)
+            {
+                this.SourceModel = sourceModelInstance;
+                this.ListRefreshFunction = listRefreshFunction;
+            }
+        }
+
+
+
         public ObservableCollection<FavoriteTargetFolderModel> FavoriteTargetFolderList { get; set; } = new ObservableCollection<FavoriteTargetFolderModel> ();
 
         public ObservableCollection<FileTileModel> FileTileList { get; set; } = new ObservableCollection<FileTileModel> ();
@@ -52,13 +70,6 @@ namespace QuickSort.viewmodel
             set { _DialogOverlay_MoveFiles_FileCount = value; OnPropertyChanged (nameof (DialogOverlay_MoveFiles_FileCount)); }
         }
 
-        private string _DialogOverlay_MoveFiles_TargetPath;
-        public string DialogOverlay_MoveFiles_TargetPath
-        {
-            get { return _DialogOverlay_MoveFiles_TargetPath; }
-            set { _DialogOverlay_MoveFiles_TargetPath = value; OnPropertyChanged (nameof (DialogOverlay_MoveFiles_TargetPath)); }
-        }
-
         private string _DialogOverlay_MoveFiles_ShortTargetPath = "";
         public string DialogOverlay_MoveFiles_ShortTargetPath
         {
@@ -71,6 +82,20 @@ namespace QuickSort.viewmodel
         {
             get { return _DialogOverlay_ProcessHeicImages_Show; }
             set { _DialogOverlay_ProcessHeicImages_Show = value; OnPropertyChanged (nameof (DialogOverlay_ProcessHeicImages_Show)); }
+        }
+
+        private bool _DialogOverlay_NewDirectoryName_Show;
+        public bool DialogOverlay_NewDirectoryName_Show
+        {
+            get { return _DialogOverlay_NewDirectoryName_Show; }
+            set { _DialogOverlay_NewDirectoryName_Show = value; OnPropertyChanged (nameof (DialogOverlay_NewDirectoryName_Show)); }
+        }
+
+        private string _DialogOverlay_NewDirectoryName_Name;
+        public string DialogOverlay_NewDirectoryName_Name
+        {
+            get { return _DialogOverlay_NewDirectoryName_Name; }
+            set { _DialogOverlay_NewDirectoryName_Name = value; OnPropertyChanged (nameof (DialogOverlay_NewDirectoryName_Name)); }
         }
 
         private string _RootPath = "";
@@ -609,17 +634,14 @@ namespace QuickSort.viewmodel
 
                             if (selectedVirtRootDirObject != null)
                             {
-                                string newPath = String.Empty;
+                                this.DialogOverlay_NewDirectoryName_Show = true;
+                                this.DialogOverlay_NewDirectoryName_Name = "Neuer Ordner";
 
-
-                                // ToDo: Ask User for new Directory name.
-
-                                newPath = Path.Combine (selectedVirtRootDirObject.Path, "Neuer Ordner");
-
-                                Directory.CreateDirectory (newPath);
-
-                                // Refresh the directory list.
-                                PrepareVirtualFirstStageDirectoryList (selectedVirtRootDirObject);
+                                this._DlgHelper_CreateNewDirectory_Data = new DlgHelperCreateNewDirectory (selectedVirtRootDirObject,
+                                    (srcVirtDirInstance) =>
+                                    {
+                                        this.PrepareVirtualFirstStageDirectoryList (srcVirtDirInstance);
+                                    });
                             }
                         }
                         catch (Exception ex)
@@ -745,17 +767,14 @@ namespace QuickSort.viewmodel
 
                             if (selectedVirtRootDirObject != null)
                             {
-                                string newPath = String.Empty;
+                                this.DialogOverlay_NewDirectoryName_Show = true;
+                                this.DialogOverlay_NewDirectoryName_Name = "Neuer Ordner";
 
-
-                                // ToDo: Ask User for new Directory name.
-
-                                newPath = Path.Combine ((selectedVirtRootDirObject as VirtualDirectoryModel).Path, "Neuer Ordner");
-
-                                Directory.CreateDirectory (newPath);
-
-                                // Refresh the directory list.
-                                PrepareVirtualSecondStageDirectoryList (selectedVirtRootDirObject as VirtualDirectoryModel);
+                                this._DlgHelper_CreateNewDirectory_Data = new DlgHelperCreateNewDirectory (selectedVirtRootDirObject, 
+                                    (srcVirtDirInstance) =>
+                                    {
+                                        this.PrepareVirtualSecondStageDirectoryList (srcVirtDirInstance);
+                                    });
                             }
                         }
                         catch (Exception ex)
@@ -900,7 +919,7 @@ namespace QuickSort.viewmodel
                     _ =>
                     {
                         this.DialogOverlay_MoveFiles_Show = false;
-                        this.CommandExecute_MoveFiles (this.DialogOverlay_MoveFiles_TargetPath);
+                        this.CommandExecute_MoveFiles (_DlgHelper_MoveFiles_TargetPath);
                     },
                     param => true
                 );
@@ -953,6 +972,58 @@ namespace QuickSort.viewmodel
             }
         }
 
+        public RelayCommand Cmd_Dlg_NewDirectoryNameAccept
+        {
+            get
+            {
+                return new RelayCommand (
+                    _ =>
+                    {
+                        try
+                        {
+                            string newPath = String.Empty;
+
+
+                            DialogOverlay_NewDirectoryName_Show = false;
+
+                            if (CheckDirectoryNameValidationRule.IsValidDirectoryName (DialogOverlay_NewDirectoryName_Name) == false)
+                            {
+                                System.Windows.MessageBox.Show ($"The directory name \"{DialogOverlay_NewDirectoryName_Name}\" is not valid.",
+                                                                $"{App.APP_TITLE} - Error",
+                                                                MessageBoxButton.OK,
+                                                                MessageBoxImage.Error);
+                                return;
+                            }
+
+                            Directory.CreateDirectory (Path.Combine (_DlgHelper_CreateNewDirectory_Data.SourceModel.Path, DialogOverlay_NewDirectoryName_Name));
+
+                            // Refresh the directory list.
+                            _DlgHelper_CreateNewDirectory_Data.ListRefreshFunction (_DlgHelper_CreateNewDirectory_Data.SourceModel);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine ($"Exception in func Cmd_Dlg_NewDirectoryNameAccept: {ex.Message}");
+                        }
+                    },
+                    param => true
+                );
+            }
+        }
+
+        public RelayCommand Cmd_Dlg_NewDirectoryNameAbort
+        {
+            get
+            {
+                return new RelayCommand (
+                    _ =>
+                    {
+                        DialogOverlay_NewDirectoryName_Show = false;
+                    },
+                    param => true
+                );
+            }
+        }
+
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -964,6 +1035,9 @@ namespace QuickSort.viewmodel
         private int _EndSelectionStartIndex = -1;
 
         private bool _ProcessHeicImages = true;
+
+        private string _DlgHelper_MoveFiles_TargetPath;
+        private DlgHelperCreateNewDirectory _DlgHelper_CreateNewDirectory_Data;
 
 
 
@@ -1219,7 +1293,7 @@ namespace QuickSort.viewmodel
                 {
                     this.DialogOverlay_MoveFiles_Show = true;
                     this.DialogOverlay_MoveFiles_FileCount = querrySelectedFileList.Count;
-                    this.DialogOverlay_MoveFiles_TargetPath = targetPath;
+                    this._DlgHelper_MoveFiles_TargetPath = targetPath;
                     this.DialogOverlay_MoveFiles_ShortTargetPath = Path.GetFileName (targetPath);
                 }
                 else
@@ -1337,7 +1411,7 @@ namespace QuickSort.viewmodel
                     }
 
                     // Refresh the file title list.
-                    _Dispatcher.Invoke (() => PrepareLoadFileTitles ());
+                    _Dispatcher.Invoke (() => LoadFileTitles ());
                 });
             }
             else
