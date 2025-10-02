@@ -4,204 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuickSort.view"
-        xmlns:validate_rules="clr-namespace:QuickSort.validationrules"
-        xmlns:help="clr-namespace:QuickSort.help"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+        xmlns:validate_rules="clr-namespace:QuickSort.validationrules"        
         mc:Ignorable="d"
         Title="iCloudHelper - Einstellungen"
         Height="450" 
         Width="650" 
         Icon="/icloud-logo-49272-Windows.ico" 
         ResizeMode="CanMinimize">
-
-    <Window.Resources>
-
-        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-
-        <sys:Boolean x:Key="HasValidationRuleError">false</sys:Boolean>
-
-        <!--Headline Styles-->
-
-        <Style TargetType="Label" x:Key="HeadLine">
-            <!--<Setter Property="FontSize" Value="14"/>-->
-            <!--<Setter Property="FontWeight" Value="Normal"/>-->
-            <Setter Property="Foreground" Value="#FF3C3C3C"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="0,15,0,0"/>
-        </Style>
-
-        <!--Text Styles-->
-
-        <Style TargetType="Label">
-            <!--<Setter Property="FontSize" Value="14"/>-->
-            <!--<Setter Property="FontWeight" Value="Normal"/>-->
-            <Setter Property="Foreground" Value="#FF3C3C3C"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="10,0"/>
-        </Style>
-
-        <Style TargetType="TextBlock">
-            <!--<Setter Property="FontSize" Value="14"/>-->
-            <!--<Setter Property="FontWeight" Value="Normal"/>-->
-            <Setter Property="Foreground" Value="#FF3C3C3C"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="Margin" Value="15,2"/>
-        </Style>
-
-        <!--TextBox Styles-->
-
-        <Style TargetType="TextBox">
-            <Setter Property="BorderBrush" Value="#FF6D6D6D"/>
-            <!--<Setter Property="BorderThickness" Value="1"/>-->
-            <Setter Property="Background" Value="#FFF0F0F0"/>
-            <Setter Property="Foreground" Value="#FF3C3C3C"/>
-            <!--<Setter Property="FontSize" Value="14"/>-->
-            <!--<Setter Property="FontWeight" Value="Normal"/>-->
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Padding" Value="3"/>
-
-            <Setter Property="Validation.ErrorTemplate">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Border Grid.Row="0"
-                                    Grid.Column="0"
-                                    BorderBrush="Red" 
-                                    BorderThickness="2">
-                                <AdornedElementPlaceholder x:Name="placeholder"/>
-                            </Border>
-
-                            <TextBlock Grid.Row="1"
-                                       Grid.Column="0"
-                                       Grid.ColumnSpan="2"
-                                       Foreground="Red"
-                                       Margin="0,2,0,0"
-                                       FontSize="{TemplateBinding FontSize}"
-                                       VerticalAlignment="Top"
-                                       FontWeight="DemiBold"
-                                       Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
-                            </TextBlock>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-            <Style.Triggers>
-                <Trigger Property="Validation.HasError" Value="True">
-                    <Setter Property="Foreground" Value="Red"/>
-                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="TopTextBox" TargetType="TextBox">
-            <Setter Property="BorderBrush" Value="#FF6D6D6D"/>
-            <!--<Setter Property="BorderThickness" Value="1"/>-->
-            <Setter Property="Background" Value="#FFF0F0F0"/>
-            <Setter Property="Foreground" Value="#FF3C3C3C"/>
-            <!--<Setter Property="FontSize" Value="14"/>-->
-            <!--<Setter Property="FontWeight" Value="Normal"/>-->
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Padding" Value="3"/>
-
-            <Setter Property="Validation.ErrorTemplate">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>                            
-
-                            <Border Grid.Row="0"
-                                    Grid.Column="0"
-                                    BorderBrush="Red" 
-                                    BorderThickness="2">
-                                <AdornedElementPlaceholder x:Name="placeholder"/>
-                            </Border>
-
-                            <TextBlock Grid.Row="1"
-                                       Grid.Column="0"
-                                       Grid.ColumnSpan="2"
-                                       Foreground="Red"
-                                       Margin="0,2,0,0"
-                                       FontSize="{TemplateBinding FontSize}"
-                                       VerticalAlignment="Top"
-                                       FontWeight="DemiBold"
-                                       Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
-                            </TextBlock>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-            <Style.Triggers>
-                <Trigger Property="Validation.HasError" Value="True">
-                    <Setter Property="Foreground" Value="Red"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <!--Checkbox Styles-->
-
-        <Style TargetType="CheckBox">
-            <Setter Property="BorderBrush" Value="#FF6D6D6D"/>
-            <!--<Setter Property="BorderThickness" Value="1"/>-->
-            <Setter Property="Background" Value="#FFF0F0F0"/>
-            <Setter Property="Foreground" Value="#FF3C3C3C"/>
-            <!--<Setter Property="FontSize" Value="14"/>-->
-            <!--<Setter Property="FontWeight" Value="Normal"/>-->
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Padding" Value="3"/>
-        </Style>
-
-        <Style x:Key="TopCheckBox" TargetType="CheckBox">
-            <Setter Property="BorderBrush" Value="#FF6D6D6D"/>
-            <!--<Setter Property="BorderThickness" Value="1"/>-->
-            <Setter Property="Background" Value="#FFF0F0F0"/>
-            <Setter Property="Foreground" Value="#FF3C3C3C"/>
-            <!--<Setter Property="FontSize" Value="14"/>-->
-            <!--<Setter Property="FontWeight" Value="Normal"/>-->
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Padding" Value="3"/>
-        </Style>
-
-        <!--Button Styles-->
-
-        <Style TargetType="Button">
-            <Setter Property="BorderBrush" Value="#FF6D6D6D"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Background" Value="#FFF0F0F0"/>
-            <Setter Property="Foreground" Value="#FF3C3C3C"/>
-            <!--<Setter Property="FontSize" Value="14"/>-->
-            <Setter Property="FontWeight" Value="Normal"/>
-            <Setter Property="Padding" Value="15,0"/>
-            <Setter Property="Height" Value="25"/>
-        </Style>
-
-    </Window.Resources>
 
     <Grid>
 
@@ -231,15 +40,17 @@
             <Label Grid.Row="0" 
                    Grid.Column="0" 
                    Grid.ColumnSpan="6"
-                   Style="{StaticResource HeadLine}"
+                   Style="{StaticResource ConfigView_HeadLine}"
                    Content="Allgemeine Ordner-Einstellungen"/>
 
             <Label Grid.Row="1"
                    Grid.Column="0"
-                   Content="Start-Verzeichnis"/>
+                   Content="Start-Verzeichnis"
+                   Style="{StaticResource ConfigView_Label}"/>
             <TextBox Grid.Row="1"
                      Grid.Column="2"                    
-                     Name="STARTPATH_TEXTBOX">
+                     Name="STARTPATH_TEXTBOX"
+                     Style="{StaticResource ConfigView_TextBox}">
                 <TextBox.Text>
                     <Binding Path="StartPath" 
                              UpdateSourceTrigger="PropertyChanged"
@@ -255,51 +66,60 @@
             <Button Grid.Row="1"
                     Grid.Column="4"
                     HorizontalAlignment="Left"
+                    Style="{StaticResource ConfigView_Button}"
                     Content="Durchsuchen..."
                     Command="{Binding Path=Cmd_BrowseStartFolder}"/>
 
             <Label Grid.Row="2" 
                    Grid.Column="0" 
                    Grid.ColumnSpan="6"
-                   Style="{StaticResource HeadLine}"
+                   Style="{StaticResource ConfigView_HeadLine}"
                    Content="Sonstige-Einstellungen"/>
 
             <Label Grid.Row="3"
                    Grid.Column="0"
-                   Content="Verschiebebestätigung"/>
+                   Content="Verschiebebestätigung"
+                   Style="{StaticResource ConfigView_Label}"/>
             <CheckBox Grid.Row="3"
                       Grid.Column="2"
+                      Style="{StaticResource ConfigView_CheckBox}"
                       IsChecked="{Binding ShowMoveDlg, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Grid.Row="4"
                    Grid.Column="0"
-                   Content="Bild-Dateinamen anzeigen"/>
+                   Content="Bild-Dateinamen anzeigen"
+                   Style="{StaticResource ConfigView_Label}"/>
             <CheckBox Grid.Row="4"
                       Grid.Column="2"
+                      Style="{StaticResource ConfigView_CheckBox}"
                       IsChecked="{Binding ShowImgFileName, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Grid.Row="5"
                    Grid.Column="0"
-                   Content="Benutze DarkMode Theme"/>
+                   Content="Benutze DarkMode Theme"
+                   Style="{StaticResource ConfigView_Label}"/>
             <CheckBox Grid.Row="5"
                       Grid.Column="2"
+                      Style="{StaticResource ConfigView_CheckBox}"
                       IsChecked="{Binding UseDarkModeColorTheme, UpdateSourceTrigger=PropertyChanged}"/>
 
             <TextBlock Grid.Row="6"
-                   Grid.Column="0"
-                   MaxWidth="200">                    
+                       Grid.Column="0"
+                       MaxWidth="200"
+                       Style="{StaticResource ConfigView_TextBlock_Top}">                    
                     <Run Text="Einträge automatisch der"/>                    
                     <LineBreak/>                    
                     <Run Text="Favoritenliste hinzufügen"/>
             </TextBlock>
             <CheckBox Grid.Row="6"
                       Grid.Column="2"
-                      Style="{StaticResource TopCheckBox}"
+                      Style="{StaticResource ConfigView_CheckBox_Top}"
                       IsChecked="{Binding AutoInsertFavoriteTargetFolderCollectionItems, UpdateSourceTrigger=PropertyChanged}"/>
 
             <TextBlock Grid.Row="7"
-                   Grid.Column="0"
-                   MaxWidth="200">                    
+                       Grid.Column="0"
+                       MaxWidth="200"
+                       Style="{StaticResource ConfigView_TextBlock_Top}">
                     <Run Text="Maxmale Einträge in der"/>                    
                     <LineBreak/>                    
                     <Run Text="Favoritenliste"/>
@@ -307,7 +127,7 @@
             <TextBox Grid.Row="7"
                      Grid.Column="2"
                      Name="MAXFAVTARGETFOLDERITEMS_TEXTBOX"
-                     Style="{StaticResource TopTextBox}"
+                     Style="{StaticResource ConfigView_TextBox_Top}"
                      MaxLength="2"
                      Width="50" 
                      HorizontalAlignment="Left">
@@ -327,13 +147,15 @@
             <Button Grid.Row="9"
                     Grid.Column="2"
                     Grid.ColumnSpan="3"
-                    Content="Einstellungen speichern"
                     Padding="15,5"
-                    HorizontalAlignment="Right"
+                    Height="30"
+                    HorizontalAlignment="Right"                    
+                    Content="Einstellungen speichern"
                     Command="{Binding Path=Cmd_SaveConfig}">
 
                 <Button.Style>
-                    <Style TargetType="{x:Type Button}">
+                    <Style TargetType="{x:Type Button}"
+                           BasedOn="{StaticResource ConfigView_Button}">
 
                         <Setter Property="IsEnabled" Value="false"/>
 

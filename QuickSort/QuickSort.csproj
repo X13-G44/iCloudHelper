@@ -100,6 +100,11 @@
     <Compile Include="view\ConfigView.xaml.cs">
       <DependentUpon>ConfigView.xaml</DependentUpon>
     </Compile>
+    <Page Include="..\AutoUnzip\view\StyleConfigView.xaml">
+      <Link>view\StyleConfigView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\AutoUnzip\view\theme\ColorThemeDarkMode.xaml">
       <Link>view\theme\ColorThemeDarkMode.xaml</Link>
       <Generator>MSBuild:Compile</Generator>

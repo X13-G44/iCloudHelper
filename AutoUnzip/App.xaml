@@ -6,7 +6,11 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="/view/StyleConfigView.xaml"/>
+                
                 <ResourceDictionary Source="/view/theme/ColorThemeLightMode.xaml"/>
+                
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 

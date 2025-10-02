@@ -68,6 +68,10 @@
       <DependentUpon>ConfigWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WorkStuffClass.cs" />
+    <Page Include="view\StyleConfigView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="view\theme\ColorThemeDarkMode.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
