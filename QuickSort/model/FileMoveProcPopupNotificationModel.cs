@@ -58,7 +58,7 @@ namespace QuickSort.model
 
 
 
-        public RelayCommand Cmd_ClosePopup { get; set; }  // Property will be setup during creating a new instance of this object in function "CommandExecute_MoveFiles".
+        public RelayCommand Cmd_ClosePopup { get; set; }  // Property will be setup during creating a new instance of this object in function "MoveFiles".
 
 
 

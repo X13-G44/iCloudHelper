@@ -762,7 +762,7 @@
                                FontStyle="Italic"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center">
-                Keine Bilder gefunden. Benutze die Einstellungen zum Ändern des Quellordners
+                    Keine Bilder gefunden. Benutze die Einstellungen zum Ändern des Quellordners
                     </TextBlock>
                 </Grid>
 

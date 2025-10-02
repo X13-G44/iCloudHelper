@@ -17,7 +17,6 @@ namespace QuickSort.viewmodel
     public class ConfigViewModel : INotifyPropertyChanged
     {
         private string _StartPath;
-
         public string StartPath
         {
             get { return _StartPath; }
@@ -25,7 +24,6 @@ namespace QuickSort.viewmodel
         }
 
         private bool _ShowMoveDlg;
-
         public bool ShowMoveDlg
         {
             get { return _ShowMoveDlg; }
@@ -33,7 +31,6 @@ namespace QuickSort.viewmodel
         }
 
         private bool _ShowImgFileName;
-
         public bool ShowImgFileName
         {
             get { return _ShowImgFileName; }
@@ -41,11 +38,24 @@ namespace QuickSort.viewmodel
         }
 
         private bool _UseDarkModeColorTheme = false;
-
         public bool UseDarkModeColorTheme
         {
             get { return _UseDarkModeColorTheme; }
             set { _UseDarkModeColorTheme = value; OnPropertyChanged (nameof (UseDarkModeColorTheme)); }
+        }
+
+        private int _MaxFavoriteTargetFolderCollectionItems;
+        public int MaxFavoriteTargetFolderCollectionItems
+        {
+            get { return _MaxFavoriteTargetFolderCollectionItems; }
+            set { _MaxFavoriteTargetFolderCollectionItems = value; OnPropertyChanged (nameof (MaxFavoriteTargetFolderCollectionItems)); }
+        }
+
+        private bool _AutoInsertFavoriteTargetFolderCollectionItems;
+        public bool AutoInsertFavoriteTargetFolderCollectionItems
+        {
+            get { return _AutoInsertFavoriteTargetFolderCollectionItems; }
+            set { _AutoInsertFavoriteTargetFolderCollectionItems = value; OnPropertyChanged (nameof (AutoInsertFavoriteTargetFolderCollectionItems)); }
         }
 
 
@@ -103,6 +113,8 @@ namespace QuickSort.viewmodel
                         QuickSort.Properties.Settings.Default.ShowMoveDlg = this.ShowMoveDlg;
                         QuickSort.Properties.Settings.Default.ShowImageFileName = this.ShowImgFileName;
                         QuickSort.Properties.Settings.Default.ColorThemeId = (uint) (this.UseDarkModeColorTheme == true ? 1 : 0);
+                        QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionLimit = this.MaxFavoriteTargetFolderCollectionItems;
+                        QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionAutoInsert = this.AutoInsertFavoriteTargetFolderCollectionItems;
 
                         QuickSort.Properties.Settings.Default.Save ();
 
@@ -136,6 +148,8 @@ namespace QuickSort.viewmodel
             this.ShowMoveDlg = QuickSort.Properties.Settings.Default.ShowMoveDlg;
             this.ShowImgFileName = QuickSort.Properties.Settings.Default.ShowImageFileName;
             this.UseDarkModeColorTheme = QuickSort.Properties.Settings.Default.ColorThemeId == 1 ? true : false;
+            this.MaxFavoriteTargetFolderCollectionItems = QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionLimit;
+            this.AutoInsertFavoriteTargetFolderCollectionItems = QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionAutoInsert;
         }
 
 

@@ -7,7 +7,7 @@
         xmlns:validate_rules="clr-namespace:QuickSort.validationrules"
         mc:Ignorable="d"
         Title="iCloudHelper - Einstellungen"
-        Height="325" 
+        Height="425" 
         Width="600" 
         Icon="/icloud-logo-49272-Windows.ico" 
         ResizeMode="CanMinimize">
@@ -37,6 +37,14 @@
             <Setter Property="Margin" Value="10,0"/>
         </Style>
 
+        <Style TargetType="TextBlock">
+            <!--<Setter Property="FontSize" Value="14"/>-->
+            <!--<Setter Property="FontWeight" Value="Normal"/>-->
+            <Setter Property="Foreground" Value="#FF3C3C3C"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="15,2"/>
+        </Style>
+
         <!--TextBox Styles-->
 
         <Style TargetType="TextBox">
@@ -51,6 +59,18 @@
             <Setter Property="Padding" Value="3"/>
         </Style>
 
+        <Style x:Key="TopTextBox" TargetType="TextBox">
+            <Setter Property="BorderBrush" Value="#FF6D6D6D"/>
+            <!--<Setter Property="BorderThickness" Value="1"/>-->
+            <Setter Property="Background" Value="#FFF0F0F0"/>
+            <Setter Property="Foreground" Value="#FF3C3C3C"/>
+            <!--<Setter Property="FontSize" Value="14"/>-->
+            <!--<Setter Property="FontWeight" Value="Normal"/>-->
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="3"/>
+        </Style>
+
         <!--Checkbox Styles-->
 
         <Style TargetType="CheckBox">
@@ -61,6 +81,18 @@
             <!--<Setter Property="FontSize" Value="14"/>-->
             <!--<Setter Property="FontWeight" Value="Normal"/>-->
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="3"/>
+        </Style>
+
+        <Style x:Key="TopCheckBox" TargetType="CheckBox">
+            <Setter Property="BorderBrush" Value="#FF6D6D6D"/>
+            <!--<Setter Property="BorderThickness" Value="1"/>-->
+            <Setter Property="Background" Value="#FFF0F0F0"/>
+            <Setter Property="Foreground" Value="#FF3C3C3C"/>
+            <!--<Setter Property="FontSize" Value="14"/>-->
+            <!--<Setter Property="FontWeight" Value="Normal"/>-->
+            <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Padding" Value="3"/>
         </Style>
@@ -93,6 +125,8 @@
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -158,7 +192,44 @@
                       Grid.Column="2"
                       IsChecked="{Binding UseDarkModeColorTheme, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <Button Grid.Row="7"
+            <TextBlock Grid.Row="6"
+                   Grid.Column="0"
+                   MaxWidth="200">                    
+                    <Run Text="Einträge automatisch der"/>                    
+                    <LineBreak/>                    
+                    <Run Text="Favoritenliste hinzufügen"/>
+            </TextBlock>
+            <CheckBox Grid.Row="6"
+                      Grid.Column="2"
+                      Style="{StaticResource TopCheckBox}"
+                      IsChecked="{Binding AutoInsertFavoriteTargetFolderCollectionItems, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBlock Grid.Row="7"
+                   Grid.Column="0"
+                   MaxWidth="200">                    
+                    <Run Text="Maxmale Einträge in der"/>                    
+                    <LineBreak/>                    
+                    <Run Text="Favoritenliste"/>
+            </TextBlock>
+            <TextBox Grid.Row="7"
+                     Grid.Column="2"
+                     Style="{StaticResource TopTextBox}"
+                     MaxLength="2"
+                     Width="50" 
+                     HorizontalAlignment="Left">
+                <TextBox.Text>
+                    <Binding Path="MaxFavoriteTargetFolderCollectionItems" 
+                             UpdateSourceTrigger="PropertyChanged"
+                             ValidatesOnDataErrors="True" 
+                             ValidatesOnExceptions="True">
+                        <Binding.ValidationRules>
+                            <validate_rules:CheckIntLessThan16ValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <Button Grid.Row="9"
                     Grid.Column="2"
                     Grid.ColumnSpan="3"
                     x:Name="SaveButton"

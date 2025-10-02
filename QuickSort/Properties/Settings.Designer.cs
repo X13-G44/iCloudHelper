@@ -119,13 +119,25 @@ namespace QuickSort.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("16")]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
         public int FavoriteTargetFolderCollectionLimit {
             get {
                 return ((int)(this["FavoriteTargetFolderCollectionLimit"]));
             }
             set {
                 this["FavoriteTargetFolderCollectionLimit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool FavoriteTargetFolderCollectionAutoInsert {
+            get {
+                return ((bool)(this["FavoriteTargetFolderCollectionAutoInsert"]));
+            }
+            set {
+                this["FavoriteTargetFolderCollectionAutoInsert"] = value;
             }
         }
     }

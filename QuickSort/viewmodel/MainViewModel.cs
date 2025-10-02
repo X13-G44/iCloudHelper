@@ -235,7 +235,7 @@ namespace QuickSort.viewmodel
 
                             if (querrySelectedFileList.Count > 0)
                             {
-                                CommandExecute_PrepareMoveFiles (targetPath);
+                                PrepareMoveFiles (targetPath);
                             }
                             else if (Directory.Exists (targetPath))
                             {
@@ -321,7 +321,7 @@ namespace QuickSort.viewmodel
 
                         if (querrySelectedFileList.Count > 0)
                         {
-                            CommandExecute_PrepareMoveFiles (targetPath);
+                            PrepareMoveFiles (targetPath);
                         }
                         else
                         {
@@ -346,7 +346,7 @@ namespace QuickSort.viewmodel
 
                         if (querrySelectedFileList.Count > 0)
                         {
-                            CommandExecute_PrepareMoveFiles (targetPath);
+                            PrepareMoveFiles (targetPath);
                         }
                         else
                         {
@@ -371,7 +371,7 @@ namespace QuickSort.viewmodel
 
                         if (querrySelectedFileList.Count > 0)
                         {
-                            CommandExecute_PrepareMoveFiles (targetPath);
+                            PrepareMoveFiles (targetPath);
                         }
                     },
                     param => true
@@ -400,7 +400,7 @@ namespace QuickSort.viewmodel
 
                         if (!string.IsNullOrEmpty (targetPath) && Directory.Exists (targetPath))
                         {
-                            CommandExecute_MoveFiles (targetPath);
+                            MoveFiles (targetPath);
                         }
                     },
                     item =>
@@ -913,7 +913,7 @@ namespace QuickSort.viewmodel
                     _ =>
                     {
                         this.DialogOverlay_MoveFiles_Show = false;
-                        this.CommandExecute_MoveFiles (_DlgHelper_MoveFiles_TargetPath);
+                        this.MoveFiles (_DlgHelper_MoveFiles_TargetPath);
                     },
                     param => true
                 );
@@ -1348,7 +1348,7 @@ namespace QuickSort.viewmodel
 
 
 
-        private void CommandExecute_PrepareMoveFiles (string targetPath)
+        private void PrepareMoveFiles (string targetPath)
         {
             var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTileModel> ();
 
@@ -1364,7 +1364,7 @@ namespace QuickSort.viewmodel
                 }
                 else
                 {
-                    CommandExecute_MoveFiles (targetPath);
+                    MoveFiles (targetPath);
                 }
             }
             else
@@ -1378,7 +1378,7 @@ namespace QuickSort.viewmodel
 
 
 
-        private void CommandExecute_MoveFiles (string targetPath)
+        private void MoveFiles (string targetPath)
         {
             var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTileModel> ();
 
@@ -1393,26 +1393,29 @@ namespace QuickSort.viewmodel
                 }
                 else
                 {
-                    if (FavoriteTargetFolderList.Count >= QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionLimit)
+                    if (QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionAutoInsert)
                     {
-                        // Remove the oldest entry that is not pinned.
-                        var itemToRemove = FavoriteTargetFolderList.Where (x => x.IsPinned == false).OrderBy (x => x.AddDate).FirstOrDefault ();
-                        if (itemToRemove != null)
+                        if (FavoriteTargetFolderList.Count >= QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionLimit)
                         {
-                            FavoriteTargetFolderList.Remove (itemToRemove);
+                            // Remove the oldest entry that is not pinned.
+                            var itemToRemove = FavoriteTargetFolderList.Where (x => x.IsPinned == false).OrderBy (x => x.AddDate).FirstOrDefault ();
+                            if (itemToRemove != null)
+                            {
+                                FavoriteTargetFolderList.Remove (itemToRemove);
+                            }
                         }
-                    }
 
-                    FavoriteTargetFolderList.Add (new FavoriteTargetFolderModel
-                    {
-                        DisplayName = Path.GetFileName (targetPath),
-                        Path = targetPath,
-                        AddDate = DateTime.Now.ToFileTimeUtc (),
-                        IsPinned = false,
-                        Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
-                        Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
-                        Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
-                    });
+                        FavoriteTargetFolderList.Add (new FavoriteTargetFolderModel
+                        {
+                            DisplayName = Path.GetFileName (targetPath),
+                            Path = targetPath,
+                            AddDate = DateTime.Now.ToFileTimeUtc (),
+                            IsPinned = false,
+                            Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
+                            Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
+                            Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
+                        });
+                    }
                 }
 
                 // Remove selected items from FileTileList.
