@@ -68,5 +68,4 @@ namespace QuickSort.converter
             throw new NotImplementedException ();
         }
     }
-
 }

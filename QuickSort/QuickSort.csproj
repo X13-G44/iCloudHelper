@@ -79,6 +79,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="converter\Int2GridLengthConverter.cs" />
+    <Compile Include="converter\Int2Visibility.cs" />
     <Compile Include="help\IconHelper.cs" />
     <Compile Include="help\FavoriteTargetFolderSettingItem.cs" />
     <Compile Include="help\Proxy.cs" />
@@ -151,7 +152,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="fotocloud_logo.png" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
       <Visible>False</Visible>

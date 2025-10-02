@@ -618,18 +618,30 @@ namespace QuickSort.viewmodel
                     {
                         try
                         {
-                            VirtualDirectoryModel selectedVirtRootDirObject = (VirtualDirectoryModel) item;
+                            VirtualDirectoryModel selectedVirtRootDirObject = null;
 
 
-                            this.DialogOverlay_NewDirectoryName_Show = true;
-                            this.DialogOverlay_NewDirectoryName_Name = "Neuer Ordner";
-                            this.DialogOverly_NewDirectoryRootPath = selectedVirtRootDirObject.Path;
+                            if (this.VirtualRootDirectoryList.Where (x => x.IsSelected).Count () > 0)
+                            {
+                                selectedVirtRootDirObject = this.VirtualRootDirectoryList.Where (x => x.IsSelected).First ();
+                            }
+                            else
+                            {
+                                selectedVirtRootDirObject = (VirtualDirectoryModel) item;
+                            }
 
-                            this._DlgHelper_CreateNewDirectory_Data = new DlgHelperCreateNewDirectory (selectedVirtRootDirObject,
-                                (srcVirtDirInstance) =>
-                                {
-                                    this.LoadVirtualFirstStageDirectoryList (srcVirtDirInstance);
-                                });
+                            if (selectedVirtRootDirObject != null)
+                            {
+                                this.DialogOverlay_NewDirectoryName_Show = true;
+                                this.DialogOverlay_NewDirectoryName_Name = "Neuer Ordner";
+                                this.DialogOverly_NewDirectoryRootPath = selectedVirtRootDirObject.Path;
+
+                                this._DlgHelper_CreateNewDirectory_Data = new DlgHelperCreateNewDirectory (selectedVirtRootDirObject,
+                                    (srcVirtDirInstance) =>
+                                    {
+                                        this.LoadVirtualFirstStageDirectoryList (srcVirtDirInstance);
+                                    });
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -737,18 +749,30 @@ namespace QuickSort.viewmodel
                     {
                         try
                         {
-                            VirtualDirectoryModel selectedVirtRootDirObject = (VirtualDirectoryModel) item;
+                            VirtualDirectoryModel selectedVirtRootDirObject = null;
 
 
-                            this.DialogOverlay_NewDirectoryName_Show = true;
-                            this.DialogOverlay_NewDirectoryName_Name = "Neuer Ordner";
-                            this.DialogOverly_NewDirectoryRootPath = selectedVirtRootDirObject.Path;
+                            if (this.VirtualFirstStageDirectoryList.Where (x => x.IsSelected).Count () > 0)
+                            {
+                                selectedVirtRootDirObject = this.VirtualFirstStageDirectoryList.Where (x => x.IsSelected).First ();
+                            }
+                            else
+                            {
+                                selectedVirtRootDirObject = (VirtualDirectoryModel) item;
+                            }
 
-                            this._DlgHelper_CreateNewDirectory_Data = new DlgHelperCreateNewDirectory (selectedVirtRootDirObject,
-                                (srcVirtDirInstance) =>
-                                {
-                                    this.LoadVirtualSecondStageDirectoryList (srcVirtDirInstance);
-                                });
+                            if (selectedVirtRootDirObject != null)
+                            {
+                                this.DialogOverlay_NewDirectoryName_Show = true;
+                                this.DialogOverlay_NewDirectoryName_Name = "Neuer Ordner";
+                                this.DialogOverly_NewDirectoryRootPath = selectedVirtRootDirObject.Path;
+
+                                this._DlgHelper_CreateNewDirectory_Data = new DlgHelperCreateNewDirectory (selectedVirtRootDirObject,
+                                    (srcVirtDirInstance) =>
+                                    {
+                                        this.LoadVirtualSecondStageDirectoryList (srcVirtDirInstance);
+                                    });
+                            }
                         }
                         catch (Exception ex)
                         {

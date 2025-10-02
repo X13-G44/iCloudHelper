@@ -19,8 +19,8 @@
     <Window.Resources>
 
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-
         <myConverter:Int2GridLengthConverter x:Key="IntToGridLen"/>
+        <myConverter:Int2Visibility x:Key="IntToVis"/>
 
         <!-- File Titles Context Menu Style -->
         <Style x:Key="CustomContextMenuStyle" TargetType="ContextMenu">
@@ -548,18 +548,18 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0"
-                           Margin="20,20,0,0"
-                           Foreground="{DynamicResource FavoriteTargetFolderTitleTextForegroundColor}"
-                           FontSize="14" 
-                           FontWeight="Bold"
-                           VerticalAlignment="Top"
-                           HorizontalAlignment="Left">
-                    Favoriten
+                       Margin="20,20,0,0"
+                       Foreground="{DynamicResource FavoriteTargetFolderTitleTextForegroundColor}"
+                       FontSize="14" 
+                       FontWeight="Bold"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left">
+                Favoriten
             </TextBlock>
 
             <ItemsControl Grid.Row="1"
-                              Margin="20,10,0,0"                              
-                              ItemsSource="{Binding FavoriteTargetFolderList}">
+                Margin="20,10,0,0"
+                ItemsSource="{Binding FavoriteTargetFolderList}">
 
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -643,6 +643,21 @@
 
             </ItemsControl>
 
+            <TextBlock Grid.Row="1"
+                       Margin="20,10,0,0"
+                       Foreground="{DynamicResource FavoriteTargetFolderTitleTextForegroundColor}"
+                       FontSize="12"                       
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontWeight="Light" 
+                       FontStyle="Italic"
+                       Visibility="{Binding FavoriteTargetFolderList.Count, Converter={StaticResource IntToVis}, ConverterParameter='visible;collapsed', FallbackValue='Visible'}">
+                <Run Text="Rechtsklick zum"/>
+                <LineBreak/>
+                <Run Text="Hinzufügen weiterer Favoriten"/>
+
+            </TextBlock>
+
             <Grid.ContextMenu>
                 <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
 
@@ -724,6 +739,32 @@
 
                     </ItemsControl>
                 </ScrollViewer>
+
+                <Grid Grid.Row="2"
+                      Visibility="{Binding FileTileList.Count, Converter={StaticResource IntToVis}, ConverterParameter='visible;collapsed', FallbackValue='Visible'}">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Image Grid.Row="0"
+                           Source="/fotocloud_logo.png"
+                           Opacity="0.5"
+                           Margin="0,20,0,20"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+
+                    <TextBlock Grid.Row="1"
+                               Foreground="{DynamicResource FileTitleTextForegroundColor}"
+                               FontSize="12"                       
+                               FontWeight="Light" 
+                               FontStyle="Italic"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center">
+                Keine Bilder gefunden. Benutze die Einstellungen zum Ändern des Quellordners
+                    </TextBlock>
+                </Grid>
 
             </Grid>
 
@@ -1083,6 +1124,21 @@
                 </ScrollViewer>
 
             </Grid>
+
+            <TextBlock Grid.Row="1"
+                       Margin="20,10,20,20"
+                       Foreground="{DynamicResource VirtualDirectoryTitleTextForegroundColor}"
+                       FontSize="12"                       
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontWeight="Light" 
+                       FontStyle="Italic"
+                       Visibility="{Binding VirtualRootDirectoryList.Count, Converter={StaticResource IntToVis}, ConverterParameter='visible;collapsed', FallbackValue='Visible'}">
+
+                <Run Text="Rechtsklick zum"/>                
+                <Run Text="Hinzufügen weiterer Ordner"/>
+
+            </TextBlock>
         </Grid>
 
         <!-- Overlay: File Moveprocess Popup Notification List -->
@@ -1443,9 +1499,9 @@
 
                             </TextBlock>
 
-                            <!-- We use this proxy to bind our Property DialogOverly_NewDirectoryRootPath to the CheckDirectoryNameValidationRule instance; as an additional parameter. -->
+                            <!-- We use this proxy to bind our property DialogOverly_NewDirectoryRootPath to the CheckDirectoryNameValidationRule instance; as an additional parameter. -->
                             <myHelp:Proxy In="{Binding DialogOverly_NewDirectoryRootPath, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Out="{Binding ElementName=DirectoryNameRule, Path=RootDirectory}" />
-                            
+
                             <TextBox Height="25">
                                 <TextBox.Text>
                                     <Binding Path="DialogOverlay_NewDirectoryName_Name" 
