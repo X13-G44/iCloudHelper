@@ -5,14 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuickSort.view"
         xmlns:validate_rules="clr-namespace:QuickSort.validationrules"
+        xmlns:help="clr-namespace:QuickSort.help"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" 
         mc:Ignorable="d"
         Title="iCloudHelper - Einstellungen"
-        Height="425" 
-        Width="600" 
+        Height="450" 
+        Width="650" 
         Icon="/icloud-logo-49272-Windows.ico" 
         ResizeMode="CanMinimize">
 
     <Window.Resources>
+
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+        <sys:Boolean x:Key="HasValidationRuleError">false</sys:Boolean>
 
         <!--Headline Styles-->
 
@@ -57,6 +63,49 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Padding" Value="3"/>
+
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Row="0"
+                                    Grid.Column="0"
+                                    BorderBrush="Red" 
+                                    BorderThickness="2">
+                                <AdornedElementPlaceholder x:Name="placeholder"/>
+                            </Border>
+
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       Foreground="Red"
+                                       Margin="0,2,0,0"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       VerticalAlignment="Top"
+                                       FontWeight="DemiBold"
+                                       Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
+                            </TextBlock>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="Foreground" Value="Red"/>
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="TopTextBox" TargetType="TextBox">
@@ -69,6 +118,48 @@
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Padding" Value="3"/>
+
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>                            
+
+                            <Border Grid.Row="0"
+                                    Grid.Column="0"
+                                    BorderBrush="Red" 
+                                    BorderThickness="2">
+                                <AdornedElementPlaceholder x:Name="placeholder"/>
+                            </Border>
+
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       Foreground="Red"
+                                       Margin="0,2,0,0"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       VerticalAlignment="Top"
+                                       FontWeight="DemiBold"
+                                       Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
+                            </TextBlock>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="Foreground" Value="Red"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <!--Checkbox Styles-->
@@ -106,7 +197,7 @@
             <Setter Property="Foreground" Value="#FF3C3C3C"/>
             <!--<Setter Property="FontSize" Value="14"/>-->
             <Setter Property="FontWeight" Value="Normal"/>
-            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="Padding" Value="15,0"/>
             <Setter Property="Height" Value="25"/>
         </Style>
 
@@ -114,14 +205,14 @@
 
     <Grid>
 
-        <Grid Margin="10">
+        <Grid Margin="15">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="250"/>
                 <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
@@ -147,21 +238,23 @@
                    Grid.Column="0"
                    Content="Start-Verzeichnis"/>
             <TextBox Grid.Row="1"
-                     Grid.Column="2">
+                     Grid.Column="2"                    
+                     Name="STARTPATH_TEXTBOX">
                 <TextBox.Text>
                     <Binding Path="StartPath" 
                              UpdateSourceTrigger="PropertyChanged"
+                             FallbackValue='C:\'
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckPathExistsValidationRule />
+                            <validate_rules:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
             </TextBox>
             <Button Grid.Row="1"
                     Grid.Column="4"
-                    x:Name="btnBrowseWatchPath"
+                    HorizontalAlignment="Left"
                     Content="Durchsuchen..."
                     Command="{Binding Path=Cmd_BrowseStartFolder}"/>
 
@@ -213,6 +306,7 @@
             </TextBlock>
             <TextBox Grid.Row="7"
                      Grid.Column="2"
+                     Name="MAXFAVTARGETFOLDERITEMS_TEXTBOX"
                      Style="{StaticResource TopTextBox}"
                      MaxLength="2"
                      Width="50" 
@@ -220,10 +314,11 @@
                 <TextBox.Text>
                     <Binding Path="MaxFavoriteTargetFolderCollectionItems" 
                              UpdateSourceTrigger="PropertyChanged"
+                             FallbackValue="10"
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckIntLessThan16ValidationRule/>
+                            <validate_rules:CheckIntLessThan16ValidationRule ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -232,10 +327,32 @@
             <Button Grid.Row="9"
                     Grid.Column="2"
                     Grid.ColumnSpan="3"
-                    x:Name="SaveButton"
                     Content="Einstellungen speichern"
-                    Padding="2"
-                    Command="{Binding Path=Cmd_SaveConfig}"/>
+                    Padding="15,5"
+                    HorizontalAlignment="Right"
+                    Command="{Binding Path=Cmd_SaveConfig}">
+
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+
+                        <Setter Property="IsEnabled" Value="false"/>
+
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+
+                                    <Condition Binding="{Binding ElementName=STARTPATH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+                                    <Condition Binding="{Binding ElementName=MAXFAVTARGETFOLDERITEMS_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+
+                                </MultiDataTrigger.Conditions>
+
+                                <Setter Property="IsEnabled" Value="true" />
+
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
 
         </Grid>
     </Grid>
