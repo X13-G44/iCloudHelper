@@ -7,6 +7,7 @@
         xmlns:myView="clr-namespace:QuickSort.ui"
         xmlns:myConverter="clr-namespace:QuickSort.converter"
         xmlns:validate_rules="clr-namespace:QuickSort.validationrules"
+        xmlns:myHelp="clr-namespace:QuickSort.help"
         mc:Ignorable="d"
         Title="Dateiauswahl" 
         Height="800" 
@@ -856,6 +857,12 @@
                                                     Command="{Binding Cmd_ShowSubDirsCommand}"
                                                     CommandParameter="{Binding}"/>
 
+                                            <MenuItem Header="Neuen Unterordner erstellen"
+                                                    Style="{StaticResource CustomMenuItemStyle}"
+                                                    Tag="&#xE1DA;"
+                                                    Command="{Binding Cmd_CreateSubDirsCommand}"
+                                                    CommandParameter="{Binding}"/>
+
                                             <MenuItem Header="Eintrag hinzufügen"
                                                     Style="{StaticResource CustomMenuItemStyle}"
                                                     Tag="&#xE0C5;"
@@ -957,13 +964,13 @@
                                             <MenuItem Header="Neuen Unterordner erstellen"
                                                 Style="{StaticResource CustomMenuItemStyle}"
                                                 Tag="&#xE1DA;"
-                                                Command="{Binding Cmd_AddToListCommand}"
+                                                Command="{Binding Cmd_CreateSubDirsCommand}"
                                                 CommandParameter="{Binding}"/>
 
                                             <MenuItem Header="Ordner löschen"
                                                 Style="{StaticResource CustomMenuItemStyle}"
                                                 Tag="&#xE107;"
-                                                Command="{Binding Cmd_RemoveItemFromListCommand}"
+                                                Command="{Binding Cmd_DeleteSubDirsCommand}"
                                                 CommandParameter="{Binding}"/>
 
                                         </ContextMenu>
@@ -1049,7 +1056,7 @@
                                             <MenuItem Header="Ordner löschen"
                                                     Style="{StaticResource CustomMenuItemStyle}"
                                                     Tag="&#xE107;"
-                                                    Command="{Binding Cmd_RemoveItemFromListCommand}"
+                                                    Command="{Binding Cmd_DeleteSubDirsCommand}"
                                                     CommandParameter="{Binding}"/>
 
                                         </ContextMenu>
@@ -1436,19 +1443,20 @@
 
                             </TextBlock>
 
+                            <!-- We use this proxy to bind our Property DialogOverly_NewDirectoryRootPath to the CheckDirectoryNameValidationRule instance; as an additional parameter. -->
+                            <myHelp:Proxy In="{Binding DialogOverly_NewDirectoryRootPath, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Out="{Binding ElementName=DirectoryNameRule, Path=RootDirectory}" />
+                            
                             <TextBox Height="25">
-
                                 <TextBox.Text>
                                     <Binding Path="DialogOverlay_NewDirectoryName_Name" 
                                              UpdateSourceTrigger="PropertyChanged"
                                              ValidatesOnDataErrors="True" 
                                              ValidatesOnExceptions="True">
                                         <Binding.ValidationRules>
-                                            <validate_rules:CheckDirectoryNameValidationRule/>
+                                            <validate_rules:CheckDirectoryNameValidationRule x:Name="DirectoryNameRule"/>
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </TextBox.Text>
-
                             </TextBox>
 
                         </StackPanel>

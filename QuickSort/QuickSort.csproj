@@ -81,6 +81,7 @@
     <Compile Include="converter\Int2GridLengthConverter.cs" />
     <Compile Include="help\IconHelper.cs" />
     <Compile Include="help\FavoriteTargetFolderSettingItem.cs" />
+    <Compile Include="help\Proxy.cs" />
     <Compile Include="help\VirtualRootDirectorySettingItem.cs" />
     <Compile Include="model\FileTileModel.cs" />
     <Compile Include="model\FileMoveProcPopupNotificationModel.cs" />

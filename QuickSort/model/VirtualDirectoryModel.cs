@@ -76,6 +76,9 @@ namespace QuickSort.model
         public ICommand Cmd_RemoveItemFromListCommand { get; set; } // Property will be setup during creating a new instance of this object in various functions.
         public ICommand Cmd_MoveImagesCommand { get; set; } // Property will be setup during creating a new instance of this object in various functions.
         public ICommand Cmd_ShowSubDirsCommand { get; set; } // Property will be setup during creating a new instance of this object in various functions.
+        public ICommand Cmd_CreateSubDirsCommand { get; set; } // Property will be setup during creating a new instance of this object in various functions.
+        public ICommand Cmd_DeleteSubDirsCommand { get; set; } // Property will be setup during creating a new instance of this object in various functions.
+
 
 
 
