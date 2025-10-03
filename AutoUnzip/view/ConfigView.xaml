@@ -1,0 +1,276 @@
+﻿<Window x:Class="AutoUnzip.view.ConfigView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoUnzip"
+        xmlns:validate_rules="clr-namespace:AutoUnzip.validationrules"    
+        mc:Ignorable="d"
+        Title="iCloudHelper - Einstellungen"
+        Height="550" 
+        Width="650" 
+        Icon="/icloud-logo-49272-Windows.ico" 
+        ResizeMode="CanMinimize">
+
+    <Grid>
+        <Grid Margin="15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" 
+                   Grid.Column="0" 
+                   Grid.ColumnSpan="6"
+                   Style="{StaticResource ConfigView_HeadLine}"
+                   Content="Allgemeine Ordner-Einstellungen"/>
+
+            <Label Grid.Row="1"
+                   Grid.Column="0"
+                   Content="Überwachter Ordner"
+                   Style="{StaticResource ConfigView_Label}"/>
+            <TextBox Grid.Row="1"
+                     Grid.Column="2"
+                     Name="WATCHPATH_TEXTBOX"
+                     Style="{StaticResource ConfigView_TextBox}">
+                <TextBox.Text>
+                    <Binding Path="WatchPath" 
+                             UpdateSourceTrigger="PropertyChanged"
+                             FallbackValue='C:\'
+                             ValidatesOnDataErrors="True" 
+                             ValidatesOnExceptions="True">
+                        <Binding.ValidationRules>
+                            <validate_rules:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Button Grid.Row="1"
+                    Grid.Column="4"
+                    Style="{StaticResource ConfigView_Button}"
+                    Content="Durchsuchen..."
+                    Command="{Binding Path=Cmd_BrowseWatchPath}"/>
+
+            <Label Grid.Row="2"
+                   Grid.Column="0"
+                   Content="Überwachte Datei"
+                   Style="{StaticResource ConfigView_Label}"/>
+            <TextBox Grid.Row="2"
+                     Grid.Column="2"
+                     Name="FILENAMETOSEARCH_TEXTBOX"
+                     Style="{StaticResource ConfigView_TextBox}">
+                <TextBox.Text>
+                    <Binding Path="FilenameToSearch" 
+                             UpdateSourceTrigger="PropertyChanged"
+                             FallbackValue='iCloud*.zip'
+                             ValidatesOnDataErrors="True" 
+                             ValidatesOnExceptions="True">
+                        <Binding.ValidationRules>
+                            <validate_rules:CheckFileFilterValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <Label Grid.Row="3"
+                   Grid.Column="0"
+                   Content="Ziel-Verzeichnis"
+                   Style="{StaticResource ConfigView_Label}"/>
+            <TextBox Grid.Row="3"
+                     Grid.Column="2"
+                     Name="EXTRACTPATH_TEXTBOX"
+                     Style="{StaticResource ConfigView_TextBox}">
+                <TextBox.Text>
+                    <Binding Path="ExtractPath" 
+                             UpdateSourceTrigger="PropertyChanged"
+                             FallbackValue='C:\'
+                             ValidatesOnDataErrors="True" 
+                             ValidatesOnExceptions="True">
+                        <Binding.ValidationRules>
+                            <validate_rules:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Button Grid.Row="3"
+                    Grid.Column="4"
+                    Style="{StaticResource ConfigView_Button}"
+                    Content="Durchsuchen..."
+                    Command="{Binding Path=Cmd_BrowseExtractPath}"/>
+
+            <Label Grid.Row="4"
+                   Grid.Column="0"
+                   Content="Präfix für Temp-Verzeichnis"
+                   Style="{StaticResource ConfigView_Label}"/>
+            <TextBox Grid.Row="4"
+                     Grid.Column="2"
+                     Name="TEMPFOLDERPREFIX_TEXTBOX"
+                     Style="{StaticResource ConfigView_TextBox}">
+                <TextBox.Text>
+                    <Binding Path="TempFolderPrefix" 
+                             UpdateSourceTrigger="PropertyChanged"
+                             FallbackValue='iCloud_'
+                             ValidatesOnDataErrors="True" 
+                             ValidatesOnExceptions="True">
+                        <Binding.ValidationRules>
+                            <validate_rules:CheckDirPrefixValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <Label Grid.Row="5" 
+                   Grid.Column="0" 
+                   Grid.ColumnSpan="6"
+                   Style="{StaticResource ConfigView_HeadLine}"
+                   Content="Backup-Einstellungen"/>
+
+            <Label Grid.Row="6"
+                   Grid.Column="0"
+                   Content="Backup-Verzeichnis"
+                   Style="{StaticResource ConfigView_Label}"/>
+            <TextBox Grid.Row="6"
+                     Grid.Column="2"
+                     Name="BACKUPPATH_TEXTBOX"
+                     Style="{StaticResource ConfigView_TextBox}">
+                <TextBox.Text>
+                    <Binding Path="BackupPath" 
+                             UpdateSourceTrigger="PropertyChanged"
+                             FallbackValue='C:\'
+                             ValidatesOnDataErrors="True" 
+                             ValidatesOnExceptions="True">
+                        <Binding.ValidationRules>
+                            <validate_rules:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Button Grid.Row="6"
+                    Grid.Column="4"
+                    Style="{StaticResource ConfigView_Button}"
+                    Content="Durchsuchen..."
+                    Command="{Binding Path=Cmd_BrowseBackupPath}"/>
+
+            <Label Grid.Row="7"
+                   Grid.Column="0"
+                   Content="Aufbewahrungsdauer [Tage]"
+                   Style="{StaticResource ConfigView_Label}"/>
+            <TextBox Grid.Row="7"
+                     Grid.Column="2"
+                     Name="BACKUPRETENTIONPERIOD_TEXTBOX"
+                     Style="{StaticResource ConfigView_TextBox}">
+                <TextBox.Text>
+                    <Binding Path="BackupRetentionPeriod" 
+                             UpdateSourceTrigger="PropertyChanged"
+                             FallbackValue='90'
+                             ValidatesOnDataErrors="True" 
+                             ValidatesOnExceptions="True">
+                        <Binding.ValidationRules>
+                            <validate_rules:CheckIntLessThan366ValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <Label Grid.Row="8" 
+                   Grid.Column="0" 
+                   Grid.ColumnSpan="6"
+                   Style="{StaticResource ConfigView_HeadLine}"
+                   Content="Sonstige-Einstellungen"/>
+
+            <Label Grid.Row="9"
+                   Grid.Column="0"
+                   Content="QuickSort App"
+                   Style="{StaticResource ConfigView_Label}"/>
+            <TextBox Grid.Row="9"
+                     Grid.Column="2"
+                     Name="QUICKSORTAPP_TEXTBOX"
+                     Style="{StaticResource ConfigView_TextBox}">
+                <TextBox.Text>
+                    <Binding Path="QuickSortApp" 
+                             UpdateSourceTrigger="PropertyChanged"
+                             FallbackValue='C:\'
+                             ValidatesOnDataErrors="True" 
+                             ValidatesOnExceptions="True">
+                        <Binding.ValidationRules>
+                            <validate_rules:CheckFileExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Button Grid.Row="9"
+                    Grid.Column="4"
+                    Style="{StaticResource ConfigView_Button}"
+                    Content="Durchsuchen..."
+                    Command="{Binding Path=Cmd_BrowseQuickSortApp}"/>
+
+            <Label Grid.Row="10"
+                   Grid.Column="0"
+                   Content="Benutze DarkMode Theme"
+                   Style="{StaticResource ConfigView_Label}"/>
+            <CheckBox Grid.Row="10"
+                      Grid.Column="2"
+                      Style="{StaticResource ConfigView_CheckBox}"
+                      IsChecked="{Binding UseDarkModeColorTheme, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Button Grid.Row="12"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="3"
+                    Padding="15,5"
+                    Height="30"
+                    HorizontalAlignment="Right"                    
+                    Content="Einstellungen speichern"
+                    Command="{Binding Path=Cmd_SaveConfig}">
+
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}"
+                           BasedOn="{StaticResource ConfigView_Button}">
+
+                        <Setter Property="IsEnabled" Value="false"/>
+
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+
+                                    <Condition Binding="{Binding ElementName=WATCHPATH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+                                    <Condition Binding="{Binding ElementName=FILENAMETOSEARCH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+                                    <Condition Binding="{Binding ElementName=EXTRACTPATH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+                                    <Condition Binding="{Binding ElementName=TEMPFOLDERPREFIX_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+                                    <Condition Binding="{Binding ElementName=BACKUPPATH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+                                    <Condition Binding="{Binding ElementName=BACKUPRETENTIONPERIOD_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+                                    <Condition Binding="{Binding ElementName=QUICKSORTAPP_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+
+                                </MultiDataTrigger.Conditions>
+
+                                <Setter Property="IsEnabled" Value="true" />
+
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+        </Grid>
+
+    </Grid>
+</Window>

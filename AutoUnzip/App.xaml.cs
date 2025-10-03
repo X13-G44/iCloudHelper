@@ -10,6 +10,7 @@ using System.Reflection;    // Für Icon
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms; // Für NotifyIcon
+using AutoUnzip.view;
 
 
 
@@ -89,7 +90,7 @@ namespace AutoUnzip
             {
                 this.Dispatcher.Invoke (() =>
                 {
-                    ConfigWindow dialog = new ConfigWindow ();
+                    ConfigView dialog = new ConfigView ();
                     dialog.ShowDialog ();
 
                     if (dialog.DialogResult == true)
@@ -128,7 +129,7 @@ namespace AutoUnzip
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    ConfigWindow dialog = new ConfigWindow ();
+                    ConfigView dialog = new ConfigView ();
                     dialog.ShowDialog ();
 
                     if (dialog.DialogResult == false)
@@ -245,6 +246,5 @@ namespace AutoUnzip
 
             return (attributes.Length > 0) ? attributes[0].Description : value.ToString ();
         }
-
     }
 }

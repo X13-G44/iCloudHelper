@@ -137,7 +137,7 @@ namespace AutoUnzip
             {
                 if (allowExceptionOnError)
                 {
-                    throw new FileNotFoundException ("Extract folder \"" + AutoUnzip.Properties.Settings.Default.ExtractPath + "\" not exists.");
+                    throw new FileNotFoundException ("Extract directory \"" + AutoUnzip.Properties.Settings.Default.ExtractPath + "\" does not exists.");
                 }
 
                 return false;
@@ -147,7 +147,7 @@ namespace AutoUnzip
             {
                 if (allowExceptionOnError)
                 {
-                    throw new FileNotFoundException ("Extract folder \"" + AutoUnzip.Properties.Settings.Default.BackupPath + "\" not exists.");
+                    throw new FileNotFoundException ("Backup directory \"" + AutoUnzip.Properties.Settings.Default.BackupPath + "\" does not exists.");
                 }
 
                 return false;
@@ -157,7 +157,17 @@ namespace AutoUnzip
             {
                 if (allowExceptionOnError)
                 {
-                    throw new FileNotFoundException ("Extract folder \"" + AutoUnzip.Properties.Settings.Default.WatchPath + "\" not exists.");
+                    throw new FileNotFoundException ("Monitoring directory \"" + AutoUnzip.Properties.Settings.Default.WatchPath + "\" does not exists.");
+                }
+
+                return false;
+            }
+
+            if (File.Exists (AutoUnzip.Properties.Settings.Default.QuickSortApp) == false)
+            {
+                if (allowExceptionOnError)
+                {
+                    throw new FileNotFoundException ("Quicksort application \"" + AutoUnzip.Properties.Settings.Default.QuickSortApp + "\" does not exists.");
                 }
 
                 return false;

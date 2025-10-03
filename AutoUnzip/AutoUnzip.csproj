@@ -64,9 +64,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ConfigWindow.xaml.cs">
-      <DependentUpon>ConfigWindow.xaml</DependentUpon>
+    <Compile Include="validationrules\CheckFileExistsValidationRule.cs" />
+    <Compile Include="validationrules\CheckFileFilterValidationRule.cs" />
+    <Compile Include="validationrules\CheckIntLessThan366ValidationRule.cs" />
+    <Compile Include="validationrules\CheckPathExistsValidationRule.cs" />
+    <Compile Include="validationrules\CheckDirPrefixValidationRule.cs" />
+    <Compile Include="view\ConfigView.xaml.cs">
+      <DependentUpon>ConfigView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="viewmodel\ConfigViewModel.cs" />
+    <Compile Include="viewmodel\RelayCommand.cs" />
     <Compile Include="WorkStuffClass.cs" />
     <Page Include="view\StyleConfigView.xaml">
       <SubType>Designer</SubType>
@@ -80,7 +87,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ConfigWindow.xaml">
+    <Page Include="view\ConfigView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -128,6 +135,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\icloud-logo-49272-Windows.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -9,9 +9,9 @@ using System.Windows.Controls;
 
 
 
-namespace QuickSort.validationrules
+namespace AutoUnzip.validationrules
 {
-    public class CheckIntLessThan16ValidationRule : ValidationRule
+    public class CheckIntLessThan366ValidationRule : ValidationRule
     {
         public override ValidationResult Validate (object value, CultureInfo cultureInfo)
         {
@@ -28,12 +28,13 @@ namespace QuickSort.validationrules
                 return new ValidationResult (false, "Value must be a integer.");
             }
 
-            if (number > 15 || number <= 0)
+            if (number > 366 || number < 0)
             {
-                return new ValidationResult (false, "Value must between 1 and 15.");
+                return new ValidationResult (false, "Value must be in range of 0 to 366.");
             }
 
             return ValidationResult.ValidResult;
         }
     }
 }
+

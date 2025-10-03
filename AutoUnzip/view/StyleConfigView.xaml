@@ -173,6 +173,7 @@
         <Setter Property="Foreground" Value="#FF3C3C3C"/>
         <!--<Setter Property="FontSize" Value="14"/>-->
         <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="Padding" Value="15,0"/>
         <Setter Property="Height" Value="25"/>
     </Style>

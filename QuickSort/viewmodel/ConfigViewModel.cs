@@ -78,9 +78,7 @@ namespace QuickSort.viewmodel
 
                             if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
                             {
-                                this.StartPath = dialog.SelectedPath;
-
-                                CheckConfig ();
+                                this.StartPath = dialog.SelectedPath;                              
                             }
                         }
                     },
@@ -97,18 +95,7 @@ namespace QuickSort.viewmodel
             {
                 return new RelayCommandWithAdditionalFields (
                     (param, hostInst, userParam) =>
-                    {
-                        if (this.CheckConfig () == false)
-                        {
-                            if (System.Windows.MessageBox.Show ($"Your configuration is not valid.\n\nDo you still want to save it?",
-                                $"{App.APP_TITLE} - Configuration error",
-                                MessageBoxButton.YesNo,
-                                MessageBoxImage.Warning) == MessageBoxResult.No)
-                            {
-                                return;
-                            }
-                        }
-
+                    {    
                         QuickSort.Properties.Settings.Default.StartPath = this.StartPath;
                         QuickSort.Properties.Settings.Default.ShowMoveDlg = this.ShowMoveDlg;
                         QuickSort.Properties.Settings.Default.ShowImageFileName = this.ShowImgFileName;
@@ -150,21 +137,6 @@ namespace QuickSort.viewmodel
             this.UseDarkModeColorTheme = QuickSort.Properties.Settings.Default.ColorThemeId == 1 ? true : false;
             this.MaxFavoriteTargetFolderCollectionItems = QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionLimit;
             this.AutoInsertFavoriteTargetFolderCollectionItems = QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionAutoInsert;
-        }
-
-
-
-        private bool CheckConfig ()
-        {
-            bool settingsOk = true;
-
-
-            if (Directory.Exists (this.StartPath) != true)
-            {
-                settingsOk = false;
-            }
-
-            return settingsOk;
         }
 
 
