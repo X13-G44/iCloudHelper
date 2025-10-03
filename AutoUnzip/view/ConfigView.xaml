@@ -186,7 +186,7 @@
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckIntLessThan366ValidationRule ValidatesOnTargetUpdated="True"/>
+                            <validate_rules:CheckIntValidationRule ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>

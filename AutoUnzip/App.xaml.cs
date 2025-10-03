@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoUnzip.view;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -7,10 +8,10 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;    // Für Icon
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms; // Für NotifyIcon
-using AutoUnzip.view;
 
 
 
@@ -218,21 +219,8 @@ namespace AutoUnzip
         {
             this.Dispatcher.Invoke (() =>
             {
-                if (this.MainWindow == null)
-                {
-                    this.MainWindow = new MainWindow ();
-                }
-
-                if (this.MainWindow.IsVisible == false)
-                {
-                    this.MainWindow.Show ();
-                }
-                else
-                {
-                    this.MainWindow.Activate ();
-                }
-
-                (this.MainWindow as MainWindow).ShowExtractedFiles (extractedFiles);
+                this.MainWindow = new MainWindow (extractedFiles);
+                this.MainWindow.Show ();
             });
         }
 

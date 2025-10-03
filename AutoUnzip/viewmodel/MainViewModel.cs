@@ -1,0 +1,236 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.Diagnostics;
+using System.IO;
+using System.IO.Packaging;
+using System.Linq;
+using System.Reflection.Emit;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Forms;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+
+
+
+namespace AutoUnzip.viewmodel
+{
+    public class MainViewModel : INotifyPropertyChanged
+    {
+        const int MAX_FILES_TO_SHOW = 5;
+
+
+
+        public ObservableCollection<BitmapImage> ExtractedFilesPreview { get; set; } = new ObservableCollection<BitmapImage> ();
+
+
+
+        private string _ExtractedFileText;
+        public string ExtractedFileText
+        {
+            get { return _ExtractedFileText; }
+            set { _ExtractedFileText = value; OnPropertyChanged (nameof (ExtractedFileText)); }
+        }
+
+
+
+        public RelayCommand Cmd_FadeAnimationEnded
+        {
+            get
+            {
+                return new RelayCommand (
+                    _ =>
+                    {
+                        _View.Close ();
+                    },
+                    param => true
+                );
+            }
+        }
+
+        public RelayCommand Cmd_RunQuickSortApp
+        {
+            get
+            {
+                return new RelayCommand (
+                    _ =>
+                    {
+                        try
+                        {
+                            if (File.Exists (Properties.Settings.Default.QuickSortApp))
+                            {
+                                Process.Start (Properties.Settings.Default.QuickSortApp, "\"" + Properties.Settings.Default.ExtractPath + "\"");
+
+                                _View.Close ();
+                            }
+                        }
+                        catch
+                        {
+                        }
+                    },
+                    param => File.Exists (Properties.Settings.Default.QuickSortApp)
+                );
+            }
+        }
+
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+
+        private Dispatcher _Dispatcher;
+        private Window _View;
+        private List<String> _ExtractedFiles;
+
+
+
+        public MainViewModel (Dispatcher dispatcher, Window view, List<String> extractedFiles)
+        {
+            _Dispatcher = dispatcher;
+            _View = view;
+            _ExtractedFiles = extractedFiles;
+
+            this.ExtractedFileText = $"{extractedFiles.Count} iCloud Bilder extrahiert:";
+            this.ExtractedFilesPreview.Clear ();
+
+            SetColorTheme ();
+            LoadExtractedFilesPreviewListAsync ();
+        }
+
+
+
+        private Task LoadExtractedFilesPreviewListAsync ()
+        {
+            return Task.Run (() =>
+            {
+                if (_ExtractedFiles.Count > MAX_FILES_TO_SHOW)
+                {
+                    Random rnd = new Random ();
+
+
+                    for (int counter = 0; counter < MAX_FILES_TO_SHOW; counter++)
+                    {
+                        int rndFileIndex = rnd.Next (_ExtractedFiles.Count);
+
+
+                        try
+                        {
+                            // This approach locks the file until the application is closed.
+                            //BitmapImage bi = new BitmapImage (new Uri (file));
+
+                            BitmapImage bi = null;
+
+
+                            using (var fstream = new FileStream (_ExtractedFiles[rndFileIndex], FileMode.Open, FileAccess.Read, FileShare.Read))
+                            {
+                                bi = new BitmapImage ();
+                                bi.BeginInit ();
+                                bi.CacheOption = BitmapCacheOption.OnLoad;
+                                bi.StreamSource = fstream;
+                                bi.StreamSource.Flush ();
+                                bi.EndInit ();
+                                bi.Freeze ();
+
+                                bi.StreamSource.Dispose ();
+                            }
+
+                            _Dispatcher.Invoke (() =>
+                            {
+                                this.ExtractedFilesPreview.Add (bi);
+                            });
+                        }
+                        catch
+                        {
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (string file in _ExtractedFiles)
+                    {
+                        try
+                        {
+                            // This approach locks the file until the application is closed.
+                            //BitmapImage bi = new BitmapImage (new Uri (file));
+
+                            BitmapImage bi = null;
+
+
+                            using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                            {
+                                bi = new BitmapImage ();
+                                bi.BeginInit ();
+                                bi.CacheOption = BitmapCacheOption.OnLoad;
+                                bi.StreamSource = fstream;
+                                bi.StreamSource.Flush ();
+                                bi.EndInit ();
+                                bi.Freeze ();
+
+                                bi.StreamSource.Dispose ();
+                            }
+
+                            _Dispatcher.Invoke (() =>
+                            {
+                                this.ExtractedFilesPreview.Add (bi);
+                            });
+                        }
+                        catch
+                        {
+                        }
+                    }
+                }
+            });
+        }
+
+
+
+        private void SetColorTheme ()
+        {
+            string themeFile;
+            switch (AutoUnzip.Properties.Settings.Default.ColorThemeId)
+            {
+                default:
+                case 0:
+                    {
+                        themeFile = "/view/theme/ColorThemeLightMode.xaml";
+                        break;
+                    }
+
+                case 1:
+                    {
+                        themeFile = "/view/theme/ColorThemeDarkMode.xaml";
+                        break;
+                    }
+            }
+            var dict = new ResourceDictionary { Source = new Uri (themeFile, UriKind.Relative) };
+
+
+            // Remove the old (initial) theme.
+            var oldDict = System.Windows.Application.Current.Resources.MergedDictionaries.FirstOrDefault (d => d.Source != null && (d.Source.OriginalString.Contains ("/view/theme/ColorThemeDarkMode.xaml") ||
+                                                                                                               d.Source.OriginalString.Contains ("/view/theme/ColorThemeLightMode.xaml")));
+            if (oldDict != null)
+            {
+                System.Windows.Application.Current.Resources.MergedDictionaries.Remove (oldDict);
+            }
+
+            // Add new theme.
+            System.Windows.Application.Current.Resources.MergedDictionaries.Add (dict);
+        }
+
+
+
+        public void OnPropertyChanged (string propertyName)
+        {
+            PropertyChanged?.Invoke (this, new PropertyChangedEventArgs (propertyName));
+        }
+    }
+}

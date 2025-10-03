@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoUnzip.viewmodel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -21,194 +22,38 @@ using System.Windows.Shapes;
 
 namespace AutoUnzip
 {
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window
     {
-        public ObservableCollection<string> LastExtractedFiles { get; set; } = new ObservableCollection<string> ();
-
-        private string _Message;
+        const int MARGIN = 20;
 
 
 
-        public string Message
-        {
-            get { return _Message; }
-            set { _Message = value; OnPropertyChanged (nameof (Message)); }
-        }
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-
-        public MainWindow ()
+        public MainWindow (List<String> extractedFiles)
         {
             InitializeComponent ();
 
-            DataContext = this;
+            this.DataContext = new viewmodel.MainViewModel (Dispatcher, this, extractedFiles);
             this.Opacity = 0;   // Start hidden
 
-            SetColorTheme ();
-        }
-
-
-
-        private void SetColorTheme ()
-        {
-            string themeFile;
-            switch (AutoUnzip.Properties.Settings.Default.ColorThemeId)
+            this.Loaded += (s, e) =>
             {
-                default:
-                case 0:
-                    {
-                        themeFile = "/view/theme/ColorThemeLightMode.xaml";
-                        break;
-                    }
-
-                case 1:
-                    {
-                        themeFile = "/view/theme/ColorThemeDarkMode.xaml";
-                        break;
-                    }
-            }
-            var dict = new ResourceDictionary { Source = new Uri (themeFile, UriKind.Relative) };
-
-
-            // Remove the old (initial) theme.
-            var oldDict = Application.Current.Resources.MergedDictionaries.FirstOrDefault (d => d.Source != null && (d.Source.OriginalString.Contains ("/view/theme/ColorThemeDarkMode.xaml") ||
-                                                                                                                     d.Source.OriginalString.Contains ("/view/theme/ColorThemeLightMode.xaml")));
-            if (oldDict != null)
-            {
-                Application.Current.Resources.MergedDictionaries.Remove (oldDict);
-            }
-
-            // Add new theme.
-            Application.Current.Resources.MergedDictionaries.Add (dict);
-        }
-
-
-
-        public void ShowExtractedFiles (List<string> fileCollection)
-        {
-            const int MAX_FILES_TO_SHOW = 5;
-
-
-            this.LastExtractedFiles.Clear ();
-
-            if (fileCollection.Count > MAX_FILES_TO_SHOW)
-            {
-                Random rnd = new Random ();
-
-
-                while (this.LastExtractedFiles.Count < MAX_FILES_TO_SHOW)
-                {
-                    int rndFileIndex = rnd.Next (fileCollection.Count);
-
-
-                    this.LastExtractedFiles.Add (fileCollection[rndFileIndex]);
-                }
-            }
-            else
-            {
-                foreach (string file in fileCollection)
-                {
-                    this.LastExtractedFiles.Add (file);
-                }
-            }
-
-            this.Message = $"{fileCollection.Count} iCloud Bilder extrahiert:";
-
-            RelocateWindow ();
-
-            StartFadeinAnimation ();
+                // Relocate the window after it has been loaded and its size determined.
+                RelocateWindow ();
+            };
         }
 
 
 
         private void RelocateWindow ()
         {
-            const int MARGIN = 20;
-
-
             var primaryScreen = System.Windows.Forms.Screen.PrimaryScreen;
             var workingArea = primaryScreen.WorkingArea;
 
-            double windowWidth = this.Width;
-            double windowHeight = this.Height;
-
-            double newLeft = workingArea.Right - windowWidth - MARGIN;
-            double newTop = workingArea.Bottom - windowHeight - MARGIN;
-
+            double newLeft = workingArea.Right - this.Width - MARGIN;
+            double newTop = workingArea.Bottom - this.Height - MARGIN;
 
             this.Top = newTop;
             this.Left = newLeft;
-        }
-
-
-
-        private void StartFadeinAnimation ()
-        {
-            var fadeInAnimation = new System.Windows.Media.Animation.DoubleAnimation
-            {
-                From = 0,
-                To = 1,
-                Duration = new Duration (TimeSpan.FromSeconds (1.5))
-            };
-
-            fadeInAnimation.Completed += (s, e) => StartFadeoutAnimationWithDelay ();
-
-            this.BeginAnimation (UIElement.OpacityProperty, fadeInAnimation);
-        }
-
-
-
-        private async void StartFadeoutAnimationWithDelay ()
-        {
-            await Task.Delay (TimeSpan.FromSeconds (10));
-            StartFadeoutAnimation ();
-        }
-
-
-
-        private void StartFadeoutAnimation ()
-        {
-            var fadeOutAnimation = new System.Windows.Media.Animation.DoubleAnimation
-            {
-                From = 1,
-                To = 0,
-                Duration = new Duration (TimeSpan.FromSeconds (3))
-            };
-
-            fadeOutAnimation.Completed += (s, e) => this.Close ();
-
-            this.BeginAnimation (UIElement.OpacityProperty, fadeOutAnimation);
-        }
-
-
-
-        private void Border_MouseLeftButtonUp (object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty (Properties.Settings.Default.QuickSortApp) == false &&
-                    File.Exists (Properties.Settings.Default.QuickSortApp))
-                {
-                    Process.Start (Properties.Settings.Default.QuickSortApp, "\"" + Properties.Settings.Default.ExtractPath + "\"");
-                }
-
-                this.Close ();
-            }
-            catch
-            {
-                this.Close ();
-            }
-        }
-
-
-
-        public void OnPropertyChanged (string propertyName)
-        {
-            PropertyChanged?.Invoke (this, new PropertyChangedEventArgs (propertyName));
         }
     }
 }

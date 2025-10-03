@@ -185,12 +185,12 @@ namespace AutoUnzip.viewmodel
             }
         }
 
-        public RelayCommandWithAdditionalFields Cmd_SaveConfig
+        public RelayCommand<ConfigViewModel, Object> Cmd_SaveConfig
         {
             get
             {
-                return new RelayCommandWithAdditionalFields (
-                    (param, hostInst, userParam) =>
+                return new RelayCommand<ConfigViewModel, Object> (
+                    (param, viewModel, userParam) =>
                     {
                         AutoUnzip.Properties.Settings.Default.WatchPath = this.WatchPath;
                         AutoUnzip.Properties.Settings.Default.FilenameToSearch = this.FilenameToSearch;
@@ -203,10 +203,10 @@ namespace AutoUnzip.viewmodel
 
                         AutoUnzip.Properties.Settings.Default.Save ();
 
-                        (hostInst as ConfigViewModel)._View.DialogResult = true;
-                        (hostInst as ConfigViewModel)._View.Close ();
+                        viewModel._View.DialogResult = true;
+                        viewModel._View.Close ();
                     },
-                    (param, hostInst, userParam) => true,
+                    (param, viewModel, userParam) => true,
                     this,
                     null
                 );

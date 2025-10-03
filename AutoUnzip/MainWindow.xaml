@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoUnzip"
+        xmlns:help="clr-namespace:AutoUnzip.help"
         mc:Ignorable="d"
         Title="iCloudHelper" 
         Height="150" 
@@ -16,62 +17,87 @@
         ShowInTaskbar="False" 
         Icon="/icloud-logo-49272-Windows.ico">
 
-    <Border Background="{DynamicResource CommonBackgroundColor}"
-            BorderBrush="{DynamicResource CommonBorderBrushColor}"
-            BorderThickness="4"
-            CornerRadius="15"
-            MouseLeftButtonUp="Border_MouseLeftButtonUp">
-        <Grid x:Name="Bordergrid">
+    <Window.Resources>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="10" />
-            </Grid.ColumnDefinitions>
+        <Style x:Key="MainView_Button" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType ="Button">
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="10" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="10" />
-            </Grid.RowDefinitions>
+                        <Border Background="{DynamicResource CommonBackgroundColor}"
+                                BorderBrush="{DynamicResource CommonBorderBrushColor}"
+                                BorderThickness="4"
+                                CornerRadius="15">
 
-            <StackPanel Grid.Column="1" 
-                Grid.Row="1"
-                Orientation="Vertical">
+                            <StackPanel Margin="10"
+                                Orientation="Vertical">
 
-                <TextBlock Foreground="{DynamicResource CommonForegroundColor}" 
-                           FontSize="20"
-                           Text="{Binding Message, FallbackValue=iCloud Bilder extrahiert.}">
-                </TextBlock>
+                                <TextBlock Foreground="{DynamicResource CommonForegroundColor}" 
+                                           FontSize="20"
+                                           Text="{TemplateBinding Content}"/>
 
-                <ItemsControl ItemsSource="{Binding LastExtractedFiles, UpdateSourceTrigger=PropertyChanged}"
-                    Margin="0,10,0,0">
+                                <ItemsControl ItemsSource="{TemplateBinding Tag}"
+                                              Margin="0,10,0,0">
 
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                <Image Source="{Binding}" 
-                                    Width="64" Height="64" 
-                                    Stretch="UniformToFill" 
-                                    Margin="0,0,10,0"/>
-                                
-                                <!--<TextBlock Text="{Binding}" 
-                                    Foreground="WhiteSmoke" 
-                                    VerticalAlignment="Center"/>-->
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" Margin="0,5">
+                                                <Image Source="{Binding}" 
+                                                       Width="64" Height="64" 
+                                                       Stretch="UniformToFill" 
+                                                       Margin="0,0,10,0"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+
+                                </ItemsControl>
+
                             </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                        </Border>
 
-                </ItemsControl>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-            </StackPanel>
+    </Window.Resources>
 
-        </Grid>
-    </Border>
+    <Window.Triggers>
+
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard help:StoryboardHelper.CompletedCommand="{Binding Path=Cmd_FadeAnimationEnded}">
+
+                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                         From="0.1" 
+                                         To="1.0" 
+                                         Duration="0:0:1.5"/>
+
+                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                         BeginTime="0:0:15"
+                                         From="1.0" 
+                                         To="0.0" 
+                                         Duration="0:0:1.5"/>
+
+                    </Storyboard>
+
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+
+    </Window.Triggers>
+
+    <Button Grid.Row="0"
+            Style="{StaticResource MainView_Button}"
+            Content="{Binding ExtractedFileText, FallbackValue='99 iCloud Bilder extrahiert.'}"
+            Tag="{Binding ExtractedFilesPreview, UpdateSourceTrigger=PropertyChanged}"
+            Command="{Binding Cmd_RunQuickSortApp}"/>
+
 </Window>

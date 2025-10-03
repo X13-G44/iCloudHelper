@@ -64,11 +64,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="help\StoryboardHelper.cs" />
+    <Compile Include="validationrules\BindingProxy.cs" />
     <Compile Include="validationrules\CheckFileExistsValidationRule.cs" />
     <Compile Include="validationrules\CheckFileFilterValidationRule.cs" />
-    <Compile Include="validationrules\CheckIntLessThan366ValidationRule.cs" />
+    <Compile Include="validationrules\CheckIntValidationRule.cs" />
     <Compile Include="validationrules\CheckPathExistsValidationRule.cs" />
     <Compile Include="validationrules\CheckDirPrefixValidationRule.cs" />
+    <Compile Include="viewmodel\MainViewModel.cs" />
     <Compile Include="view\ConfigView.xaml.cs">
       <DependentUpon>ConfigView.xaml</DependentUpon>
     </Compile>
