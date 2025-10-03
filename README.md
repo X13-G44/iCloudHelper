@@ -41,7 +41,7 @@ _Add detailed step-by-step instructions for users here._
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0 (GPL-3.0).  
+This project is licensed under the Apache License v2.0.  
 See the [LICENSE](LICENSE) file for details.
 
 ## Support
