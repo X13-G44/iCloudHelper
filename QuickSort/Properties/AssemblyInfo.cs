@@ -8,11 +8,11 @@ using System.Windows;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
 [assembly: AssemblyTitle ("QuickSort")]
-[assembly: AssemblyDescription ("")]
+[assembly: AssemblyDescription ("Tool to quickly sort image files")]
 [assembly: AssemblyConfiguration ("")]
-[assembly: AssemblyCompany ("X13-G44.com")]
+[assembly: AssemblyCompany ("")]
 [assembly: AssemblyProduct ("iCloudHelper")]
-[assembly: AssemblyCopyright ("Copyright © X13-G44 2025")]
+[assembly: AssemblyCopyright ("Copyright © 2025 Christian Harscher aka X13-G44")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 
@@ -48,5 +48,5 @@ using System.Windows;
 //      Buildnummer
 //      Revision
 //
-[assembly: AssemblyVersion ("1.1.0.0")]
-[assembly: AssemblyFileVersion ("1.1.0.0")]
+[assembly: AssemblyVersion ("1.1.1.0")]
+[assembly: AssemblyFileVersion ("1.1.1.0")]
