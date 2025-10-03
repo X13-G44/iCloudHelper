@@ -40,7 +40,7 @@ namespace QuickSort.viewmodel
 
         public void Execute (object parameter)
         {
-            _execute (parameter);
+            _execute?.Invoke (parameter);
         }
 
 
@@ -54,27 +54,32 @@ namespace QuickSort.viewmodel
 
 
 
-    public class RelayCommandWithAdditionalFields : ICommand
+    public class RelayCommand<T1, T2> : ICommand
     {
-        private readonly Action<object, object, object> _execute;
-        private readonly Func<object, object, object, bool> _canExecute;
-        private readonly Object _hostInstance;
-        private readonly Object _userData;
+        private readonly Action<object, T1, T2> _execute;
+        private readonly Func<object, T1, T2, bool> _canExecute;
+        private readonly T1 _viewModel;
+        private readonly T2 _userData;
 
 
 
-        public RelayCommandWithAdditionalFields (Action<object, object, object> execute)
-            : this (execute, null)
+        public RelayCommand (Action<object, T1, T2> execute,
+                                                 T1 viewModel,
+                                                 T2 userData)
+            : this (execute, null, viewModel, userData)
         {
         }
 
 
 
-        public RelayCommandWithAdditionalFields (Action<object, object, object> execute, Func<object, object, object, bool> canExecute, object hostInstance = null, object userData = null)
+        public RelayCommand (Action<object, T1, T2> execute, 
+                                                 Func<object, T1, T2, bool> canExecute, 
+                                                 T1 viewModel, 
+                                                 T2 userData)
         {
             _execute = execute ?? throw new ArgumentNullException (nameof (execute));
             _canExecute = canExecute;
-            _hostInstance = hostInstance;
+            _viewModel = viewModel;
             _userData = userData;
         }
 
@@ -82,14 +87,14 @@ namespace QuickSort.viewmodel
 
         public bool CanExecute (object parameter)
         {
-            return _canExecute == null || _canExecute (parameter, _hostInstance, _userData);
+            return _canExecute == null || _canExecute (parameter, _viewModel, _userData);
         }
 
 
 
         public void Execute (object parameter)
         {
-            _execute (parameter, _hostInstance, _userData);
+            _execute?.Invoke (parameter, _viewModel, _userData);
         }
 
 
@@ -101,3 +106,4 @@ namespace QuickSort.viewmodel
         }
     }
 }
+

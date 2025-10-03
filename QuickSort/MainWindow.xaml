@@ -7,7 +7,6 @@
         xmlns:myView="clr-namespace:QuickSort.ui"
         xmlns:myConverter="clr-namespace:QuickSort.converter"
         xmlns:validate_rules="clr-namespace:QuickSort.validationrules"
-        xmlns:myHelp="clr-namespace:QuickSort.help"
         mc:Ignorable="d"
         Title="Dateiauswahl" 
         Height="800" 
@@ -346,8 +345,8 @@
                             <MultiDataTrigger>
                                 <MultiDataTrigger.Conditions>
                                     <!-- Remember:
-                                    •	Control-Property → RelativeSource=Self
-                                    •	Data-Property (from ViewModel/Model) → simply {Binding ...} -->
+                                        •	Control-Property → RelativeSource=Self
+                                        •	Data-Property (from ViewModel/Model) → simply {Binding ...} -->
 
                                     <!--Binding to the Control properties:-->
                                     <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="true" />
@@ -470,6 +469,45 @@
                             </Trigger>
                         </ControlTemplate.Triggers>
 
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- TextBox-Style -->
+        <Style TargetType="TextBox">
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Row="0"
+                                    Grid.Column="0"
+                                    BorderBrush="Red" 
+                                    BorderThickness="2">
+                                <AdornedElementPlaceholder x:Name="placeholder"/>
+                            </Border>
+
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       Foreground="Red"
+                                       Margin="0,2,0,0"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       VerticalAlignment="Top"
+                                       FontWeight="DemiBold"
+                                       Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
+                            </TextBlock>
+                        </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -1298,7 +1336,7 @@
                     <TextBlock Grid.Column="1"
                                Grid.Row="1"
                                Text="❔"
-                               VerticalAlignment="Top"
+                               VerticalAlignment="Center"
                                FontSize="92"
                                Foreground="{DynamicResource DialogBtnSymbolColor}"/>
 
@@ -1390,7 +1428,7 @@
                     <TextBlock Grid.Column="1"
                        Grid.Row="1"
                        Text="❔"
-                       VerticalAlignment="Top"
+                       VerticalAlignment="Center"
                        FontSize="92"
                        Foreground="{DynamicResource DialogBtnSymbolColor}"/>
 
@@ -1482,7 +1520,7 @@
                     <TextBlock Grid.Column="1"
                        Grid.Row="1"
                        Text="❔"
-                       VerticalAlignment="Top"
+                       VerticalAlignment="Center"
                        FontSize="92"
                        Foreground="{DynamicResource DialogBtnSymbolColor}"/>
 
@@ -1517,22 +1555,30 @@
                                        Foreground="{DynamicResource DialogTitleTextForegroundColor}"
                                        TextWrapping="Wrap">
                             
-                                <Run Text="Neuer Ordnername angeben:"/>
+                                <Run Text="Neuer Ordnername:"/>
                                 <LineBreak/>
 
                             </TextBlock>
 
-                            <!-- We use this proxy to bind our property DialogOverly_NewDirectoryRootPath to the CheckDirectoryNameValidationRule instance; as an additional parameter. -->
-                            <myHelp:Proxy In="{Binding DialogOverly_NewDirectoryRootPath, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Out="{Binding ElementName=DirectoryNameRule, Path=RootDirectory}" />
-
                             <TextBox Height="25">
+                                <TextBox.Resources>
+                                    <validate_rules:BindingProxy x:Key="proxy" Data="{Binding}"/>
+                                </TextBox.Resources>
+
                                 <TextBox.Text>
                                     <Binding Path="DialogOverlay_NewDirectoryName_Name" 
+                                             FallbackValue="New Directory Name"
                                              UpdateSourceTrigger="PropertyChanged"
                                              ValidatesOnDataErrors="True" 
                                              ValidatesOnExceptions="True">
                                         <Binding.ValidationRules>
-                                            <validate_rules:CheckDirectoryNameValidationRule x:Name="DirectoryNameRule"/>
+                                            <validate_rules:CheckDirectoryNameValidationRule ValidatesOnTargetUpdated="True">
+                                                <validate_rules:CheckDirectoryNameValidationRule.Wrapper>
+
+                                                    <validate_rules:CheckDirectoryNameValidationRuleWrapper RootDirectory="{Binding Data.DialogOverly_NewDirectoryRootPath, Source={StaticResource proxy}}"/>
+
+                                                </validate_rules:CheckDirectoryNameValidationRule.Wrapper>
+                                            </validate_rules:CheckDirectoryNameValidationRule>
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </TextBox.Text>

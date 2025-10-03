@@ -89,12 +89,12 @@ namespace QuickSort.viewmodel
 
 
 
-        public RelayCommandWithAdditionalFields Cmd_SaveConfig
+        public RelayCommand<ConfigViewModel, object> Cmd_SaveConfig
         {
             get
             {
-                return new RelayCommandWithAdditionalFields (
-                    (param, hostInst, userParam) =>
+                return new RelayCommand<ConfigViewModel, object> (
+                    (param, viewModel, userParam) =>
                     {    
                         QuickSort.Properties.Settings.Default.StartPath = this.StartPath;
                         QuickSort.Properties.Settings.Default.ShowMoveDlg = this.ShowMoveDlg;
@@ -105,8 +105,8 @@ namespace QuickSort.viewmodel
 
                         QuickSort.Properties.Settings.Default.Save ();
 
-                        (hostInst as ConfigViewModel)._View.DialogResult = true;
-                        (hostInst as ConfigViewModel)._View.Close ();
+                        viewModel._View.DialogResult = true;
+                        viewModel._View.Close ();
                     },
                     (param, hostInst, userParam) => true,
                     this,

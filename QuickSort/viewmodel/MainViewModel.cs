@@ -3,6 +3,7 @@ using QuickSort.model;
 using QuickSort.validationrules;
 using QuickSort.view;
 using QuickSort.viewmodel;
+using static QuickSort.validationrules.CheckDirectoryNameValidationRule;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,9 +20,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using System.Xml.Linq;
-using static QuickSort.validationrules.CheckDirectoryNameValidationRule;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 
 
@@ -1516,15 +1514,15 @@ namespace QuickSort.viewmodel
 
 
             // Remove the old (initial) theme.
-            var oldDict = Application.Current.Resources.MergedDictionaries.FirstOrDefault (d => d.Source != null && (d.Source.OriginalString.Contains ("/view/theme/ColorThemeDarkMode.xaml") ||
+            var oldDict = System.Windows.Application.Current.Resources.MergedDictionaries.FirstOrDefault (d => d.Source != null && (d.Source.OriginalString.Contains ("/view/theme/ColorThemeDarkMode.xaml") ||
                                                                                                                      d.Source.OriginalString.Contains ("/view/theme/ColorThemeLightMode.xaml")));
             if (oldDict != null)
             {
-                Application.Current.Resources.MergedDictionaries.Remove (oldDict);
+                System.Windows.Application.Current.Resources.MergedDictionaries.Remove (oldDict);
             }
 
             // Add new theme.
-            Application.Current.Resources.MergedDictionaries.Add (dict);
+            System.Windows.Application.Current.Resources.MergedDictionaries.Add (dict);
         }
 
 

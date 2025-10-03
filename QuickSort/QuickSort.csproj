@@ -82,7 +82,6 @@
     <Compile Include="converter\Int2Visibility.cs" />
     <Compile Include="help\IconHelper.cs" />
     <Compile Include="help\FavoriteTargetFolderSettingItem.cs" />
-    <Compile Include="help\Proxy.cs" />
     <Compile Include="help\VirtualRootDirectorySettingItem.cs" />
     <Compile Include="model\FileTileModel.cs" />
     <Compile Include="model\FileMoveProcPopupNotificationModel.cs" />
@@ -90,13 +89,14 @@
     <Compile Include="model\VirtualDirectoryModel.cs" />
     <Compile Include="ui\FileTitleButtonUi.cs" />
     <Compile Include="ui\VirtualDirectoryButtonUi.cs" />
+    <Compile Include="validationrules\BindingProxy.cs" />
     <Compile Include="validationrules\CheckDirectoryNameValidationRule.cs" />
-    <Compile Include="validationrules\CheckIntLessThan16ValidationRule.cs" />
+    <Compile Include="validationrules\CheckIntValidationRule.cs" />
     <Compile Include="validationrules\CheckPathExistsValidationRule.cs" />
     <Compile Include="viewmodel\ConfigViewModel.cs" />
     <Compile Include="viewmodel\MainViewModel.cs" />
-    <Compile Include="viewmodel\RelayCommand.cs" />
     <Compile Include="ui\FavoriteTargetFolderButtonUi.cs" />
+    <Compile Include="viewmodel\RelayCommand.cs" />
     <Compile Include="view\ConfigView.xaml.cs">
       <DependentUpon>ConfigView.xaml</DependentUpon>
     </Compile>

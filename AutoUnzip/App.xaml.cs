@@ -1,4 +1,5 @@
 ﻿using AutoUnzip.view;
+using AutoUnzip.other;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,9 +18,6 @@ using System.Windows.Forms; // Für NotifyIcon
 
 namespace AutoUnzip
 {
-    /// <summary>
-    /// Interaktionslogik für "App.xaml"
-    /// </summary>
     public partial class App : System.Windows.Application
     {
         public const string APP_TITLE = "iCloudHelper";
@@ -28,7 +26,6 @@ namespace AutoUnzip
 
         private FileSystemWatcher _Watcher;
         private NotifyIcon _NotifyIcon;
-        private WorkStuffClass.FileProcessingCheckpoint _Checkpoint;
 
 
 
@@ -121,7 +118,7 @@ namespace AutoUnzip
         {
             START:
 
-            if (WorkStuffClass.CheckFolder (false) != true)
+            if (FileWork.CheckFolder (false) != true)
             {
                 if (System.Windows.MessageBox.Show ($"At least one required directory is missing.\nFor this program to work properly, " +
                     $"the directories / folders must be configured correctly.\n\n" +
@@ -193,7 +190,7 @@ namespace AutoUnzip
                 }
 
                 // Process the new file.
-                var workResult = WorkStuffClass.DoWork (ev.FullPath);
+                var workResult = FileWork.DoWork (ev.FullPath);
                 if (workResult.WorkSuccess)
                 {
                     ShowMainWindow (workResult.ExtractedFiles);

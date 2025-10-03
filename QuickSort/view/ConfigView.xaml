@@ -137,7 +137,10 @@
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckIntLessThan16ValidationRule ValidatesOnTargetUpdated="True"/>
+                            <validate_rules:CheckIntValidationRule ValidatesOnTargetUpdated="True"
+                                                                   MinValue="0"
+                                                                   MaxValue="16"
+                                                                   ErrorMessage="Values between 0 and 16 are allowed."/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>

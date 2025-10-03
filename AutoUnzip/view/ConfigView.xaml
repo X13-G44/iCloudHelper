@@ -86,7 +86,8 @@
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckFileFilterValidationRule ValidatesOnTargetUpdated="True"/>
+                            <validate_rules:CheckFileFilterValidationRule ValidatesOnTargetUpdated="True"
+                                                                          AllowStarChar="true"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -186,7 +187,10 @@
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckIntValidationRule ValidatesOnTargetUpdated="True"/>
+                            <validate_rules:CheckIntValidationRule ValidatesOnTargetUpdated="True"
+                                                                   ErrorMessage="The number must between 0 and 366."
+                                                                   MinValue="0"
+                                                                   MaxValue="366"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -209,11 +213,12 @@
                 <TextBox.Text>
                     <Binding Path="QuickSortApp" 
                              UpdateSourceTrigger="PropertyChanged"
-                             FallbackValue='C:\'
+                             FallbackValue='C:\windows\explorer.exe'
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckFileExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                            <validate_rules:CheckFileExistsValidationRule ValidatesOnTargetUpdated="True"
+                                                                          IgnoreFileExtension="false"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>

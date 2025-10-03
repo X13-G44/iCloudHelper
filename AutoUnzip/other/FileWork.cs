@@ -9,13 +9,12 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Shell;
-using System.Security.Cryptography;
 
 
 
-namespace AutoUnzip
+namespace AutoUnzip.other
 {
-    static class WorkStuffClass
+    static class FileWork
     {
         public enum FileProcessingCheckpoint
         {
@@ -93,7 +92,7 @@ namespace AutoUnzip
                 lastCheckpoint = FileProcessingCheckpoint.BackupZipFile;
                 MakeBackupFile (srcArchiveFile);
 
-                lastCheckpoint = WorkStuffClass.FileProcessingCheckpoint.PrepareTempfolder;
+                lastCheckpoint = FileWork.FileProcessingCheckpoint.PrepareTempfolder;
                 tempPath = MakeTempFolder ();
 
                 lastCheckpoint = FileProcessingCheckpoint.ExtractZipFile;

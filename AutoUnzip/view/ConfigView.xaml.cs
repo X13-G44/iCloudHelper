@@ -21,10 +21,6 @@ namespace AutoUnzip.view
 {
     public partial class ConfigView : Window
     {
-        private string _LastUsedPath = "";
-
-
-
         public ConfigView ()
         {
             InitializeComponent ();
