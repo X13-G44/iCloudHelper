@@ -43,6 +43,7 @@
     <SolidColorBrush x:Key="FileTitleBtnSelectedColor" Color="#FF0071E3"/>
     <Color x:Key="FileTitleBtnSelectedColorColor">#FF0071E3</Color>
     <Color x:Key="FileTitleBtnSelected2ColorColor">#FF5F9BD8</Color>
+    <SolidColorBrush x:Key="FileTitleBtnSelectedTextColor" Color="#FFFFFFFF"/>
 
     <SolidColorBrush x:Key="FileTitleSeperatorColor" Color="#FFE6E6EA"/>
 

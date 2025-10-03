@@ -306,7 +306,7 @@
                                 <TextBlock x:Name="FILENAME_TEXT"
                                    Grid.Row="1"
                                    Text="{Binding DisplayName}" 
-                                   Margin="0,5,0,0"
+                                   Margin="0,5,0,5"
                                    TextAlignment="Center" 
                                    Foreground="{DynamicResource FileTitleBtnTextColor}" 
                                    FontSize="12" 
@@ -315,7 +315,15 @@
                         </Border>
 
                         <ControlTemplate.Triggers>
-                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                            <!-- Remember:
+                                    •	Control-Property → RelativeSource=Self
+                                    •	Data-Property (from ViewModel/Model) → simply {Binding ...} -->
+
+                            <!--Binding to the DataContext (MainViewModel) property IsSelected:-->
+                            <!--<DataTrigger Binding="{Binding IsSelected}" Value="True">-->
+                            <!--Binding to the Control property IsSelected:-->
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True">
+                                <Setter TargetName="FILENAME_TEXT" Property="Foreground" Value="{DynamicResource FileTitleBtnSelectedTextColor}"/>
                                 <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="{DynamicResource FileTitleBtnSelectedColor}"/>
                                 <Setter TargetName="OUTER_BORDER" Property="BorderThickness" Value="5"/>
                                 <Setter TargetName="OUTER_BORDER" Property="Background">
@@ -323,7 +331,7 @@
                                         <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                                             <LinearGradientBrush.GradientStops>
                                                 <GradientStop Color="{DynamicResource FileTitleBtnSelectedColorColor}" Offset="1" />
-                                                <GradientStop Color="#00000000" Offset=".5" />
+                                                <GradientStop Color="{DynamicResource FileTitleBtnSelected2ColorColor}" Offset="0.5" />
                                                 <GradientStop Color="{DynamicResource FileTitleBtnSelected2ColorColor}" Offset="0" />
                                             </LinearGradientBrush.GradientStops>
                                         </LinearGradientBrush>
@@ -334,6 +342,21 @@
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource FileTitleBtnMouseOverColor}"/>
                             </Trigger>
+
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <!-- Remember:
+                                    •	Control-Property → RelativeSource=Self
+                                    •	Data-Property (from ViewModel/Model) → simply {Binding ...} -->
+
+                                    <!--Binding to the Control properties:-->
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="true" />
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="true" />
+                                    <!--Binding to the DataContext (MainViewModel) property IsSelected:-->
+                                    <!--<Condition Binding="{Binding IsSelected}" Value="True"/>-->
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="FILENAME_TEXT" Property="Foreground" Value="{DynamicResource FileTitleBtnTextColor}"/>
+                            </MultiDataTrigger>
 
                             <DataTrigger Binding="{Binding HideFilenameText}" Value="True">
                                 <Setter TargetName="FILENAME_TEXT" Property="Visibility" Value="Collapsed"/>
