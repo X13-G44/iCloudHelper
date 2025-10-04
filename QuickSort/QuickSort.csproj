@@ -88,14 +88,12 @@
     <Compile Include="model\FileMoveProcPopupNotificationModel.cs" />
     <Compile Include="model\FavoriteTargetFolderModel.cs" />
     <Compile Include="model\VirtualDirectoryModel.cs" />
-    <Compile Include="ui\VirtualDirectoryButtonUi.cs" />
     <Compile Include="validationrules\BindingProxy.cs" />
     <Compile Include="validationrules\CheckDirectoryNameValidationRule.cs" />
     <Compile Include="validationrules\CheckIntValidationRule.cs" />
     <Compile Include="validationrules\CheckPathExistsValidationRule.cs" />
     <Compile Include="viewmodel\ConfigViewModel.cs" />
     <Compile Include="viewmodel\MainViewModel.cs" />
-    <Compile Include="ui\FavoriteTargetFolderButtonUi.cs" />
     <Compile Include="viewmodel\RelayCommand.cs" />
     <Compile Include="view\ConfigView.xaml.cs">
       <DependentUpon>ConfigView.xaml</DependentUpon>

@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuickSort"
-        xmlns:myView="clr-namespace:QuickSort.ui"
         xmlns:myConverter="clr-namespace:QuickSort.converter"
         xmlns:validate_rules="clr-namespace:QuickSort.validationrules"
         mc:Ignorable="d"
@@ -218,14 +217,14 @@
         </Style>
 
         <!-- Favorite Target Folder Item Button-Style -->
-        <Style x:Key="FavoriteTargetFolderItemButtonStyle" TargetType="myView:FavoriteTargetFolderButtonUi">
+        <Style x:Key="FavoriteTargetFolderItemButtonStyle" TargetType="Button">
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Width" Value="175"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="myView:FavoriteTargetFolderButtonUi">
+                    <ControlTemplate TargetType="Button">
 
                         <Border x:Name="OUTER_BORDER"
                                 BorderBrush="{DynamicResource FavoriteTargetFolderBtnPinnedColor}"
@@ -252,7 +251,7 @@
                                            Margin="0,0,10,0"
                                            VerticalAlignment="Center"/>
 
-                                    <TextBlock Text="{TemplateBinding Content}" 
+                                    <TextBlock Text="{Binding DisplayName}" 
                                            Foreground="{DynamicResource FavoriteTargetFolderBtnTextColor}" 
                                            FontSize="{TemplateBinding FontSize}" 
                                            FontFamily="{TemplateBinding FontFamily}" 
@@ -371,13 +370,13 @@
         </Style>
 
         <!-- Virtual Directory Button-Style -->
-        <Style x:Key="VirtualRootDirectoryButtonStyle" TargetType="myView:VirtualDirectoryButtonUi">
+        <Style x:Key="VirtualRootDirectoryButtonStyle" TargetType="Button">
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="myView:VirtualDirectoryButtonUi">
+                    <ControlTemplate TargetType="Button">
 
                         <Border x:Name="OUTER_BORDER"
                                 Background="{DynamicResource VirtualDirectoryBtnBackgroundColor}"
@@ -397,7 +396,7 @@
                                                VerticalAlignment="Center"/>
 
                                     <TextBlock x:Name="TEXT_LABEL"
-                                               Text="{TemplateBinding Content}" 
+                                               Text="{Binding DisplayName}" 
                                                Foreground="{DynamicResource VirtualDirectoryBtnTextColor}" 
                                                FontSize="{TemplateBinding FontSize}" 
                                                FontFamily="{TemplateBinding FontFamily}"
@@ -636,19 +635,16 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
 
-                        <myView:FavoriteTargetFolderButtonUi Style="{StaticResource FavoriteTargetFolderItemButtonStyle}"
+                        <Button Style="{StaticResource FavoriteTargetFolderItemButtonStyle}"
                                     Margin="5" 
                                     Padding="5"                    
-                                                                                                         
-                                    Content="{Binding DisplayName}"
                                                                      
-                                    IsPinned="{Binding IsPinned}"
                                     ToolTip="{Binding ToolTip}"
                                                                      
                                     Command="{Binding DataContext.Cmd_ClickOnFavoriteTargetFolderClick, RelativeSource={RelativeSource AncestorType=Window}}"
                                     CommandParameter="{Binding}">
 
-                            <myView:FavoriteTargetFolderButtonUi.ContextMenu>
+                            <Button.ContextMenu>
                                 <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
 
                                     <!--Irgenwie funktioniert das mit dem CommandoBinding nicht: Die Kommando-Properties sind im Viewmodel abgelegt. 
@@ -698,9 +694,9 @@
                                                 Command="{Binding Cmd_ClearTargetFolderFavorite}"/>
 
                                 </ContextMenu>
-                            </myView:FavoriteTargetFolderButtonUi.ContextMenu>
+                            </Button.ContextMenu>
 
-                        </myView:FavoriteTargetFolderButtonUi>
+                        </Button>
 
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -923,19 +919,15 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
 
-                                <myView:VirtualDirectoryButtonUi Style="{StaticResource VirtualRootDirectoryButtonStyle}"
+                                <Button Style="{StaticResource VirtualRootDirectoryButtonStyle}"
                                         Margin="5"                                                        
-                                                                                                    
-                                        Content="{Binding DisplayName}"
-
-                                        IsSelected="{Binding IsSelected}"
-                                                                                
+                                                                                                                                                                                    
                                         ToolTip="{Binding ToolTip}"
                                         
                                         Command="{Binding DataContext.Cmd_ClickOnVirtualRootDirectoryItem, RelativeSource={RelativeSource AncestorType=Window}}"
                                         CommandParameter="{Binding}">
 
-                                    <myView:VirtualDirectoryButtonUi.ContextMenu>
+                                    <Button.ContextMenu>
                                         <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
 
                                             <!--Irgenwie funktioniert das mit dem CommandoBinding nicht: Die Kommando-Properties sind im Viewmodel abgelegt. 
@@ -986,9 +978,9 @@
                                                     CommandParameter="{Binding}"/>
 
                                         </ContextMenu>
-                                    </myView:VirtualDirectoryButtonUi.ContextMenu>
+                                    </Button.ContextMenu>
 
-                                </myView:VirtualDirectoryButtonUi>
+                                </Button>
 
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -1027,19 +1019,15 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
 
-                                <myView:VirtualDirectoryButtonUi Style="{StaticResource VirtualRootDirectoryButtonStyle}"
+                                <Button Style="{StaticResource VirtualRootDirectoryButtonStyle}"
                                     Margin="5"                                                        
-                                                                                                    
-                                    Content="{Binding DisplayName}"
-
-                                    IsSelected="{Binding IsSelected}"
-                                        
+                                                                                                                                            
                                     ToolTip="{Binding ToolTip}"
                                         
                                     Command="{Binding DataContext.Cmd_ClickOnVirtualFirstStagDirectoryItem, RelativeSource={RelativeSource AncestorType=Window}}"
                                     CommandParameter="{Binding}">
 
-                                    <myView:VirtualDirectoryButtonUi.ContextMenu>
+                                    <Button.ContextMenu>
                                         <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
 
                                             <!--Irgenwie funktioniert das mit dem CommandoBinding nicht: Die Kommando-Properties sind im Viewmodel abgelegt. 
@@ -1084,9 +1072,9 @@
                                                 CommandParameter="{Binding}"/>
 
                                         </ContextMenu>
-                                    </myView:VirtualDirectoryButtonUi.ContextMenu>
+                                    </Button.ContextMenu>
 
-                                </myView:VirtualDirectoryButtonUi>
+                                </Button>
 
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -1125,19 +1113,15 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
 
-                                <myView:VirtualDirectoryButtonUi Style="{StaticResource VirtualRootDirectoryButtonStyle}"
+                                <Button Style="{StaticResource VirtualRootDirectoryButtonStyle}"
                                         Margin="5"                                                        
-                                                                                
-                                        Content="{Binding DisplayName}"
-
-                                        IsSelected="{Binding IsSelected}"
-                                                                               
+                                                                                                                                                               
                                         ToolTip="{Binding ToolTip}"
                     
                                         Command="{Binding DataContext.Cmd_ClickOnVirtualSecondStagDirectoryItem, RelativeSource={RelativeSource AncestorType=Window}}"
                                         CommandParameter="{Binding}">
 
-                                    <myView:VirtualDirectoryButtonUi.ContextMenu>
+                                    <Button.ContextMenu>
                                         <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
 
                                             <!--Irgenwie funktioniert das mit dem CommandoBinding nicht: Die Kommando-Properties sind im Viewmodel abgelegt. 
@@ -1170,9 +1154,9 @@
                                                     CommandParameter="{Binding}"/>
 
                                         </ContextMenu>
-                                    </myView:VirtualDirectoryButtonUi.ContextMenu>
+                                    </Button.ContextMenu>
 
-                                </myView:VirtualDirectoryButtonUi>
+                                </Button>
 
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
