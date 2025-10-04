@@ -80,6 +80,7 @@
     </ApplicationDefinition>
     <Compile Include="converter\Int2GridLengthConverter.cs" />
     <Compile Include="converter\Int2Visibility.cs" />
+    <Compile Include="converter\InvertBooleanToVisibilityConverter.cs" />
     <Compile Include="help\IconHelper.cs" />
     <Compile Include="help\FavoriteTargetFolderSettingItem.cs" />
     <Compile Include="help\VirtualRootDirectorySettingItem.cs" />
@@ -87,7 +88,6 @@
     <Compile Include="model\FileMoveProcPopupNotificationModel.cs" />
     <Compile Include="model\FavoriteTargetFolderModel.cs" />
     <Compile Include="model\VirtualDirectoryModel.cs" />
-    <Compile Include="ui\FileTitleButtonUi.cs" />
     <Compile Include="ui\VirtualDirectoryButtonUi.cs" />
     <Compile Include="validationrules\BindingProxy.cs" />
     <Compile Include="validationrules\CheckDirectoryNameValidationRule.cs" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuickSort.viewmodel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using QuickSort.viewmodel;
+using System.Windows.Media.Imaging;
 
 
 
@@ -22,12 +23,20 @@ namespace QuickSort.model
             set { _DisplayName = value; OnPropertyChanged (nameof (DisplayName)); }
         }
 
-        private ImageSource _Thumbnail;
-        public ImageSource Thumbnail
+        private BitmapImage _Thumbnail;
+        public BitmapImage Thumbnail
         {
             get { return _Thumbnail; }
             set { _Thumbnail = value; OnPropertyChanged (nameof (Thumbnail)); }
         }
+
+        private bool _IsSysIconImage;
+        public bool IsSysIconImage
+        {
+            get { return _IsSysIconImage; }
+            set { _IsSysIconImage = value; OnPropertyChanged (nameof(IsSysIconImage)); }
+        }
+
 
         private bool _isSelected;
         public bool IsSelected

@@ -3,8 +3,8 @@ using QuickSort.model;
 using QuickSort.validationrules;
 using QuickSort.view;
 using QuickSort.viewmodel;
-using static QuickSort.validationrules.CheckDirectoryNameValidationRule;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -14,12 +14,17 @@ using System.IO;
 using System.IO.Packaging;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Security.Cryptography;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using static QuickSort.validationrules.CheckDirectoryNameValidationRule;
+using static System.Net.WebRequestMethods;
 
 
 
@@ -27,6 +32,53 @@ namespace QuickSort.viewmodel
 {
     public class MainViewModel : IDisposable, INotifyPropertyChanged
     {
+        private class ImageFileInfo
+        {
+            public string File { get; set; }
+            public BitmapImage Thumbnail { get; set; }
+            public bool IsSysIconImage { get; set; }
+
+            public bool FileExists
+            {
+                get
+                {
+                    try
+                    {
+                        return System.IO.File.Exists (this.File);
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                }
+            }
+
+
+
+            public bool CompareImageWith (ImageFileInfo imageFile)
+            {
+                try
+                {
+                    using (var sha256 = SHA256.Create ())
+                    using (var stream1 = System.IO.File.OpenRead (this.File))
+                    using (var stream2 = System.IO.File.OpenRead (imageFile.File))
+                    {
+                        var hash1 = sha256.ComputeHash (stream1);
+                        var hash2 = sha256.ComputeHash (stream2);
+
+
+                        return StructuralComparisons.StructuralEqualityComparer.Equals (hash1, hash2);
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+
+
         private class DlgHelperCreateNewDirectory
         {
             public VirtualDirectoryModel SourceModel { get; private set; }
@@ -76,13 +128,6 @@ namespace QuickSort.viewmodel
             set { _DialogOverlay_MoveFiles_ShortTargetPath = value; OnPropertyChanged (nameof (DialogOverlay_MoveFiles_ShortTargetPath)); }
         }
 
-        private bool _DialogOverlay_ProcessHeicImages_Show = false;
-        public bool DialogOverlay_ProcessHeicImages_Show
-        {
-            get { return _DialogOverlay_ProcessHeicImages_Show; }
-            set { _DialogOverlay_ProcessHeicImages_Show = value; OnPropertyChanged (nameof (DialogOverlay_ProcessHeicImages_Show)); }
-        }
-
         private bool _DialogOverlay_NewDirectoryName_Show;
         public bool DialogOverlay_NewDirectoryName_Show
         {
@@ -118,6 +163,20 @@ namespace QuickSort.viewmodel
             set { _FileTileStatusText = value; OnPropertyChanged (nameof (FileTileStatusText)); }
         }
 
+        private bool _FileTitleLoadStatus_Show;
+        public bool FileTitleLoadStatus_Show
+        {
+            get { return _FileTitleLoadStatus_Show; }
+            set { _FileTitleLoadStatus_Show = value; OnPropertyChanged (nameof (FileTitleLoadStatus_Show)); }
+        }
+
+        private string _FileTitleLoadStatus_Text;
+        public string FileTitleLoadStatus_Text
+        {
+            get { return _FileTitleLoadStatus_Text; }
+            set { _FileTitleLoadStatus_Text = value; OnPropertyChanged (nameof (FileTitleLoadStatus_Text)); }
+        }
+
 
 
         public RelayCommand Cmd_ShowConfigWindow
@@ -128,16 +187,38 @@ namespace QuickSort.viewmodel
                     _ =>
                     {
                         var dialog = new ConfigView ();
+                        string oldStartPath = QuickSort.Properties.Settings.Default.StartPath;
+                        bool oldShowImageFileName = QuickSort.Properties.Settings.Default.ShowImageFileName;
 
 
                         dialog.ShowDialog ();
 
                         if (dialog.DialogResult.Value)
                         {
-                            this.RootPath = QuickSort.Properties.Settings.Default.StartPath;
-
+                            // Update the color theme.
                             SetColorTheme ();
-                            LoadFileTitleList ();
+
+                            // Refresh the file title list, when user changed the path.
+                            // We call the Cmd_ContextMenu_RefreshFileTitleList command for do this,
+                            // so we don't duplicate the code for this task.
+                            if (oldStartPath != QuickSort.Properties.Settings.Default.StartPath)
+                            {
+                                this.RootPath = QuickSort.Properties.Settings.Default.StartPath;
+
+                                if (Cmd_ContextMenu_RefreshFileTitleList.CanExecute (null))
+                                {
+                                    Cmd_ContextMenu_RefreshFileTitleList.Execute (null);
+                                }
+                            }
+                            else if (oldShowImageFileName != QuickSort.Properties.Settings.Default.ShowImageFileName &&
+                                     oldStartPath == QuickSort.Properties.Settings.Default.StartPath)
+                            {
+                                // Update the file title list only, when the image file buffer wasn't changed. If it was changed, the
+                                // file title list was indirect updated by refreshing the image file buffer.
+
+                                UpdateFileTitleList ();
+                            }
+
                         }
                     },
                     param => true
@@ -881,7 +962,7 @@ namespace QuickSort.viewmodel
                         {
                             Properties.Settings.Default.FolderTitleSizeLevel = fileTitleSizeLevel;
 
-                            LoadFileTitleList ();
+                            UpdateFileTitleList ();
                         }
                     },
                     param => true
@@ -896,7 +977,45 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     _ =>
                     {
-                        PrepareLoadFileTitleList ();
+                        // Clear the current file title list; so new items can be added and the old one are removed.
+                        this.FileTileList.Clear ();
+
+                        // Refresh the image buffer and update the file title list.
+                        LoadImageBufferAsync (true,
+                            (infoObj, curCnt, maxCnt) =>
+                            {
+                                // Add a new image (file info object) to the file title list.
+                                _Dispatcher.Invoke (() =>
+                                {
+                                    this.FileTitleLoadStatus_Show = true;
+                                    this.FileTitleLoadStatus_Text = $"Bilder werden geladen... ({curCnt}/{maxCnt})";
+
+                                    UpdateFileTitleList (infoObj);
+                                });
+                            },
+                            (errorOccured, errorMessages) =>
+                            {
+                                // All images have been processed. Check if an error occurred.
+
+                                _Dispatcher.Invoke (() =>
+                                {
+                                    if (errorOccured)
+                                    {
+                                        string errorMessageString = string.Empty;
+
+
+                                        errorMessages.ForEach (s => errorMessageString += s + "\n");
+
+                                        MessageBox.Show ($"Some image files could not be loaded!\n\n" +
+                                            $"Messages\n:{errorMessageString}",
+                                            $"{App.APP_TITLE} - Warning",
+                                            MessageBoxButton.OK,
+                                            MessageBoxImage.Warning);
+                                    }
+
+                                    this.FileTitleLoadStatus_Show = false;
+                                });
+                            });
                     },
                     param => true
                 );
@@ -926,38 +1045,6 @@ namespace QuickSort.viewmodel
                     _ =>
                     {
                         this.DialogOverlay_MoveFiles_Show = false;
-                    },
-                    param => true
-                );
-            }
-        }
-
-        public RelayCommand Cmd_Dlg_ProcessHeicImages
-        {
-            get
-            {
-                return new RelayCommand (
-                    _ =>
-                    {
-                        this.DialogOverlay_ProcessHeicImages_Show = false;
-                        this._ProcessHeicImages = true;
-                        this.LoadFileTitleList ();
-                    },
-                    param => true
-                );
-            }
-        }
-
-        public RelayCommand Cmd_Dlg_DontProcessHeicImages
-        {
-            get
-            {
-                return new RelayCommand (
-                    _ =>
-                    {
-                        this.DialogOverlay_ProcessHeicImages_Show = false;
-                        this._ProcessHeicImages = false;
-                        this.LoadFileTitleList ();
                     },
                     param => true
                 );
@@ -1034,10 +1121,11 @@ namespace QuickSort.viewmodel
 
 
         private Dispatcher _Dispatcher;
+
+        private List<ImageFileInfo> _FileTileImageBufferList { get; set; } = new List<ImageFileInfo> ();
+
         private int _StartSelectionStartIndex = -1;
         private int _EndSelectionStartIndex = -1;
-
-        private bool _ProcessHeicImages = true;
 
         private string _DlgHelper_MoveFiles_TargetPath;
         private DlgHelperCreateNewDirectory _DlgHelper_CreateNewDirectory_Data;
@@ -1051,9 +1139,46 @@ namespace QuickSort.viewmodel
             this.FileTileStatusText = this.RootPath;
 
             SetColorTheme ();
-            PrepareLoadFileTitleList ();
             LoadFavoriteTargetFolderList ();
             LoadVirtualDirectoryList ();
+
+            // Load the image buffer and update the file title list.
+            this.FileTileList.Clear ();
+            LoadImageBufferAsync (true,
+                (infoObj, curCnt, maxCnt) =>
+                {
+                    // Add a new image (file info object) to the file title list.
+                    _Dispatcher.Invoke (() =>
+                    {
+                        this.FileTitleLoadStatus_Show = true;
+                        this.FileTitleLoadStatus_Text = $"Bilder werden geladen... ({curCnt}/{maxCnt})";
+
+                        UpdateFileTitleList (infoObj);
+                    });
+                },
+                (errorOccured, errorMessages) =>
+                {
+                    // All images have been processed. Check if an error occurred.
+
+                    _Dispatcher.Invoke (() =>
+                    {
+                        if (errorOccured)
+                        {
+                            string errorMessageString = string.Empty;
+
+
+                            errorMessages.ForEach (s => errorMessageString += s + "\n");
+
+                            MessageBox.Show ($"Some image files could not be loaded!\n\n" +
+                                $"Messages\n:{errorMessageString}",
+                                $"{App.APP_TITLE} - Warning",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Warning);
+                        }
+
+                        this.FileTitleLoadStatus_Show = false;
+                    });
+                });
         }
 
 
@@ -1083,162 +1208,220 @@ namespace QuickSort.viewmodel
 
 
 
-        private void PrepareLoadFileTitleList ()
+        private Task LoadImageBufferAsync (bool forceFullLoad, Action<ImageFileInfo, int, int> onImageLoad, Action<bool, List<string>> onAllImagesLoad)
         {
-            try
+            return Task.Run (() =>
             {
-                if (IsHeicImagePresent () == false)
+                bool errorOccured = false;
+                List<string> errorMessages = new List<string> ();
+
+
+                try
                 {
-                    LoadFileTitleList ();
+                    var files = Directory.GetFiles (this.RootPath);
+                    int fileCnt = 1;
+
+
+                    if (forceFullLoad)
+                    {
+                        _FileTileImageBufferList.Clear ();
+                    }
+
+                    // Load all images from the directory into our buffer list or update them.
+                    foreach (var file in files)
+                    {
+                        try
+                        {
+                            String fileExt = Path.GetExtension (file).ToLower ();
+                            bool loadImageMustBeExecute = false;
+                            ImageFileInfo imageFileInfoToUpdate = null;
+
+                            ImageFileInfo imageFileInfo = new ImageFileInfo () { File = file, Thumbnail = null };
+
+
+                            // Check if the image is already in the buffer list and or we have to load the (new) image.
+                            START_IMAGE_IN_BUFFER_CHECK:
+                            var matchingImageBufferList = _FileTileImageBufferList.Where (x => x.File == imageFileInfo.File).ToList ();
+                            if (matchingImageBufferList.Count == 0)
+                            {
+                                loadImageMustBeExecute = true;
+                            }
+                            else if (matchingImageBufferList.Count == 1)
+                            {
+                                // Image is in our buffer list, but has the file been changed?
+                                if (imageFileInfo.CompareImageWith (matchingImageBufferList[0]) == false)
+                                {
+                                    loadImageMustBeExecute = true;
+                                    imageFileInfoToUpdate = matchingImageBufferList[0];
+                                }
+                            }
+                            else
+                            {
+                                // The must be only one image in the buffer list.
+                                // If there are more images (it is an error), remove all of them and reload the image.
+                                matchingImageBufferList.ForEach (x => _FileTileImageBufferList.Remove (x));
+
+                                goto START_IMAGE_IN_BUFFER_CHECK;
+                            }
+
+                            if (loadImageMustBeExecute)
+                            {
+                                if (fileExt == ".jpg" || fileExt == ".jpeg" || fileExt == ".png" || fileExt == ".bmp" || fileExt == ".heic")
+                                {
+                                    // This approach locks the file until the application is closed.
+                                    //thumb = new BitmapImage (new Uri (file));
+
+                                    BitmapImage bi = null;
+
+
+                                    using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                                    {
+                                        bi = new BitmapImage ();
+                                        bi.BeginInit ();
+                                        bi.CacheOption = BitmapCacheOption.OnLoad;
+                                        bi.StreamSource = fstream;
+                                        bi.StreamSource.Flush ();
+                                        bi.EndInit ();
+                                        bi.Freeze ();
+
+                                        bi.StreamSource.Dispose ();
+                                    }
+
+                                    imageFileInfo.Thumbnail = bi;
+                                    imageFileInfo.IsSysIconImage = false;
+                                }
+                                else
+                                {
+                                    // Get windows default icon.
+                                    ImageSource imageSource = IconHelper.GetFileIcon (file);
+                                    imageFileInfo.Thumbnail = IconHelper.ConvertImageSourceToBitmapImage (imageSource);
+                                    imageFileInfo.IsSysIconImage = true;
+                                }
+                            }
+
+                            if (imageFileInfoToUpdate == null)
+                            {
+                                if (loadImageMustBeExecute)
+                                {
+                                    // Add new image item to buffer list.
+                                    _FileTileImageBufferList.Add (imageFileInfo);
+                                }
+                            }
+                            else
+                            {
+                                // Update existing item in buffer.
+                                imageFileInfoToUpdate = imageFileInfo;
+                            }
+
+                            // Execute / fire the onImageLoad callback handler.
+                            onImageLoad?.Invoke (imageFileInfo, fileCnt++, files.Length);
+                        }
+                        catch (Exception ex)
+                        {
+                            errorOccured = true;
+                            errorMessages.Add ($"{file} -> {ex.Message}");
+                        }
+                    }
+
+                    // Remove none existing files from the buffer list.
+                    _FileTileImageBufferList.RemoveAll (x => !x.FileExists);
+
+                    // Execute / fire the onAllImageLoad callback handler.
+                    onAllImagesLoad?.Invoke (errorOccured, errorMessages);
                 }
-                else
+                catch (Exception ex)
                 {
-                    this.DialogOverlay_ProcessHeicImages_Show = true;
+                    errorOccured = true;
+                    errorMessages.Add (ex.Message);
+
+                    // Execute / fire the onAllImageLoad callback handler.
+                    onAllImagesLoad?.Invoke (errorOccured, errorMessages);
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine ($"Error loading files from path {this.RootPath}: {ex.Message}");
-            }
+            });
         }
 
 
 
-        private void LoadFileTitleList ()
+        private void UpdateFileTitleList (ImageFileInfo singleImageFileInfo = null)
         {
-            try
+            int height = 128;
+            int width = 128;
+
+
+            switch (Properties.Settings.Default.FolderTitleSizeLevel)
             {
-                var files = Directory.GetFiles (this.RootPath);
-                int height = 0;
-                int width = 0;
+                case 0:
+                    {
+                        // Small symbol size.
+                        height = width = 180;
+                        break;
+                    }
 
+                default:
+                case 1:
+                    {
+                        // Middle symbol size.
+                        height = width = 275;
+                        break;
+                    }
 
-                switch (Properties.Settings.Default.FolderTitleSizeLevel)
+                case 2:
+                    {
+                        // Large symbol size.
+                        height = width = 560;
+                        break;
+                    }
+            }
+
+            if (singleImageFileInfo == null)
+            {
+                this.FileTileList.Clear ();
+
+                foreach (var imageFileInfoItem in _FileTileImageBufferList)
                 {
-                    case 0:
+                    if (imageFileInfoItem.FileExists)
+                    {
+                        FileTileList.Add (new FileTileModel
                         {
-                            // Small symbol size.
-                            height = width = 180;
-                            break;
-                        }
+                            DisplayName = Path.GetFileName (imageFileInfoItem.File),
+                            Thumbnail = imageFileInfoItem.Thumbnail,
+                            Height = height,
+                            Width = width,
+                            HideFilenameText = !Properties.Settings.Default.ShowImageFileName,
+                            SizeLevel = Properties.Settings.Default.FolderTitleSizeLevel,
 
-                    default:
-                    case 1:
-                        {
-                            // Middle symbol size.
-                            height = width = 275;
-                            break;
-                        }
+                            File = imageFileInfoItem.File,
+                            Filesize = (int) (new FileInfo (imageFileInfoItem.File).Length / 1024), // Convert site from byte to kB.
+                            CreationTime = System.IO.File.GetCreationTime (imageFileInfoItem.File),
+                            LastAccessTime = System.IO.File.GetLastAccessTime (imageFileInfoItem.File),
 
-                    case 2:
-                        {
-                            // Large symbol size.
-                            height = width = 560;
-                            break;
-                        }
+                            IsSysIconImage = imageFileInfoItem.IsSysIconImage,
+                        });
+                    }
                 }
-
-                FileTileList.Clear ();
-
-                foreach (var file in files)
+            }
+            else
+            {
+                if (singleImageFileInfo.FileExists)
                 {
-                    String ext = Path.GetExtension (file).ToLower ();
-                    ImageSource thumb;
-
-
-                    if (ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".bmp")
-                    {
-                        // This approach locks the file until the application is closed.
-                        //thumb = new BitmapImage (new Uri (file));
-
-                        BitmapImage bi = null;
-
-
-                        using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
-                        {
-                            bi = new BitmapImage ();
-                            bi.BeginInit ();
-                            bi.CacheOption = BitmapCacheOption.OnLoad;
-                            bi.StreamSource = fstream;
-                            bi.StreamSource.Flush ();
-                            bi.EndInit ();
-                            bi.Freeze ();
-
-                            bi.StreamSource.Dispose ();
-                        }
-
-                        thumb = bi;
-                    }
-                    else if (ext == ".heic" && _ProcessHeicImages)
-                    {
-                        // This approach locks the file until the application is closed.
-                        //thumb = new BitmapImage (new Uri (file));
-
-                        BitmapImage bi = null;
-
-
-                        using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
-                        {
-                            bi = new BitmapImage ();
-                            bi.BeginInit ();
-                            bi.CacheOption = BitmapCacheOption.OnLoad;
-                            bi.StreamSource = fstream;
-                            bi.StreamSource.Flush ();
-                            bi.EndInit ();
-                            bi.Freeze ();
-
-                            bi.StreamSource.Dispose ();
-                        }
-
-                        thumb = bi;
-                    }
-                    else
-                    {
-                        // Get windows default icon.
-                        thumb = IconHelper.GetFileIcon (file);
-                    }
-
                     FileTileList.Add (new FileTileModel
                     {
-                        DisplayName = Path.GetFileName (file),
-                        Thumbnail = thumb,
+                        DisplayName = Path.GetFileName (singleImageFileInfo.File),
+                        Thumbnail = singleImageFileInfo.Thumbnail,
                         Height = height,
                         Width = width,
                         HideFilenameText = !Properties.Settings.Default.ShowImageFileName,
                         SizeLevel = Properties.Settings.Default.FolderTitleSizeLevel,
 
-                        File = file,
-                        Filesize = (int) (new FileInfo (file).Length / 1024), // Convert site from byte to kB.
-                        CreationTime = File.GetCreationTime (file),
-                        LastAccessTime = File.GetLastAccessTime (file),
+                        File = singleImageFileInfo.File,
+                        Filesize = (int) (new FileInfo (singleImageFileInfo.File).Length / 1024), // Convert site from byte to kB.
+                        CreationTime = System.IO.File.GetCreationTime (singleImageFileInfo.File),
+                        LastAccessTime = System.IO.File.GetLastAccessTime (singleImageFileInfo.File),
+
+                        IsSysIconImage = singleImageFileInfo.IsSysIconImage,
                     });
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine ($"Error loading files from path {this.RootPath}: {ex.Message}");
-            }
-        }
-
-
-
-        private bool IsHeicImagePresent ()
-        {
-            var files = Directory.GetFiles (this.RootPath);
-
-
-            foreach (var file in files)
-            {
-                String ext = Path.GetExtension (file).ToLower ();
-
-
-                if (ext == ".heic")
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
 
@@ -1450,7 +1633,7 @@ namespace QuickSort.viewmodel
                         string targetFile = Path.Combine (targetPath as string, fileItem.DisplayName);
 
 
-                        if (File.Exists (fileItem.File) == true && File.Exists (targetFile) == false)
+                        if (System.IO.File.Exists (fileItem.File) == true && System.IO.File.Exists (targetFile) == false)
                         {
                             try
                             {
@@ -1459,8 +1642,8 @@ namespace QuickSort.viewmodel
                                 _Dispatcher.Invoke (() => popup.FileProcessed++);
                                 _Dispatcher.Invoke (() => popup.CurrentFileName = fileItem.DisplayName);
 
-                                File.Move (fileItem.File, targetFile);
-                                File.Delete (fileItem.File);
+                                System.IO.File.Move (fileItem.File, targetFile);
+                                System.IO.File.Delete (fileItem.File);
                             }
                             catch (Exception ex)
                             {
@@ -1478,7 +1661,7 @@ namespace QuickSort.viewmodel
                     }
 
                     // Refresh the file title list.
-                    _Dispatcher.Invoke (() => LoadFileTitleList ());
+                    _Dispatcher.Invoke (() => UpdateFileTitleList ());
                 });
             }
             else

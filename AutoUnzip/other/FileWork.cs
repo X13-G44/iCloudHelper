@@ -257,17 +257,24 @@ namespace AutoUnzip.other
 
 
 
-        static private bool CompareFilesByHash (string file1, string filePath)
+        static private bool CompareFilesByHash (string file1, string file2)
         {
-            using (var sha256 = SHA256.Create ())
-            using (var stream1 = File.OpenRead (file1))
-            using (var stream2 = File.OpenRead (filePath))
+            try
             {
-                var hash1 = sha256.ComputeHash (stream1);
-                var hash2 = sha256.ComputeHash (stream2);
+                using (var sha256 = SHA256.Create ())
+                using (var stream1 = File.OpenRead (file1))
+                using (var stream2 = File.OpenRead (file2))
+                {
+                    var hash1 = sha256.ComputeHash (stream1);
+                    var hash2 = sha256.ComputeHash (stream2);
 
 
-                return StructuralComparisons.StructuralEqualityComparer.Equals (hash1, hash2);
+                    return StructuralComparisons.StructuralEqualityComparer.Equals (hash1, hash2);
+                }
+            }
+            catch
+            {
+                return false;
             }
         }
 
