@@ -1,10 +1,19 @@
 # iCloudHelper
 
-iCloudHelper is a free tool designed for end users who want to easily manage and organize photos downloaded from Apple's iCloud service. The application provides a simple graphical user interface and is especially suitable for users with little computer experience.
+I originally made this program for my mother because she was having trouble downloading and sorting photos from Apple iCloud into local directories.
+
+## What is iCloudHelper
+
+iCloudHelper is a free tool designed to simplify downloading images from Apple iCloud and organizing downloaded images into local directories.
+The application offers a simple graphical user interface and is particularly suitable for users with little computer experience.
+The program consists of two components, **AutoUnzip** and **QuickSort**, which fulfill this task.
+
+> [!NOTE]
+> The UI currently uses German text. However, the error messages are written in English.
 
 ## Features
 
-- **AutoUnzip:** Automatically extracts photos from the downloaded iCloud `.zip` archive with a single click.
+- **AutoUnzip:** Automatically extracts photos from the downloaded iCloud `.zip` archive.
 - **QuickSort:** Helps you quickly sort and organize the extracted photos into target folders.
 - Intuitive graphical interface for easy operation.
 - Installer included for a straightforward setup process.
@@ -15,7 +24,7 @@ iCloudHelper is intended for everyday users who want to simplify the process of 
 
 ## Requirements
 
-- Microsoft Windows operating system
+- Microsoft Windows operating system (Windows 11 for HEIC images)
 - Microsoft .NET Framework 4.8 (or higher)
 
 ## Installation
@@ -36,6 +45,18 @@ iCloudHelper is intended for everyday users who want to simplify the process of 
 ### User Guide (To be completed)
 
 _Add detailed step-by-step instructions for users here._
+
+---
+
+## Development status
+
+There are still some points that have not been implemented or - in my opinion - still need improvement.
+
+These are currently:
+- [ ] Slow loading and display of images in the UI (especially for HEIC)
+- [ ] Support for multiple languages ​​in the UI
+- [ ] I don't yet like the current layout and display design of the *Features*, *File Preview*, and *File Selection* areas
+- [ ] Display all dialog messages in the UI (with consistent design), instead of Windows `MessageBox.Show` dialogs
 
 ---
 
