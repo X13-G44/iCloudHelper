@@ -118,10 +118,10 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.8"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    "Name" = "8:Microsoft .NET Framework 4.8 (x86 und x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.8"
                     }
                 }
             }
@@ -378,7 +378,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:iCloudHelper"
         "ProductCode" = "8:{DF0FC93C-7305-4597-8656-907ADC6DD7AB}"
-        "PackageCode" = "8:{37AA1228-88D1-441B-8AF9-835C81B01D9C}"
+        "PackageCode" = "8:{55105E12-921D-4CCA-B797-28A18D402FF0}"
         "UpgradeCode" = "8:{9D42146E-AF78-4159-893A-C6F3996B4B7D}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -969,7 +969,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C6721670D53B4076A37C47A4E34E7B74"
             {
-            "SourcePath" = "8:..\\AutoUnzip\\obj\\Release\\AutoUnzip.exe"
+            "SourcePath" = "8:..\\AutoUnzip\\obj\\Debug\\AutoUnzip.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_685FBE5094824C27BEE54E39D6253815"

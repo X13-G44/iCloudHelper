@@ -29,7 +29,7 @@ namespace QuickSort
 
             InitializeComponent ();
 
-            this.DataContext = new viewmodel.MainViewModel (Dispatcher, app.StartPfad);
+            this.DataContext = new viewmodel.MainViewModel (Dispatcher, app.StartPath);
             this.Closing += (s, ev) => { (this.DataContext as IDisposable)?.Dispose (); };
         }
 
