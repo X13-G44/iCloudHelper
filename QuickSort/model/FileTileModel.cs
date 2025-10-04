@@ -37,7 +37,6 @@ namespace QuickSort.model
             set { _IsSysIconImage = value; OnPropertyChanged (nameof(IsSysIconImage)); }
         }
 
-
         private bool _isSelected;
         public bool IsSelected
         {

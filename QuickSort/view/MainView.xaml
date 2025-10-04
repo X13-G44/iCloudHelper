@@ -793,11 +793,6 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
 
-                                <!--DisplayName="{Binding DisplayName}"-->
-                                <!--IsSelected="{Binding IsSelected}"-->
-                                <!--Thumbnail="{Binding Thumbnail}"-->
-                                <!--SizeLevel ="{Binding SizeLevel}"-->
-                                <!--HideFilenameText ="{Binding HideFilenameText}"-->
                                 <Button Style="{StaticResource FileTitleButtonStyle}"
                                     Width="{Binding Width}"
                                     Height="{Binding Height}"
