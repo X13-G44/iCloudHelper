@@ -53,7 +53,7 @@ _Add detailed step-by-step instructions for users here._
 There are still some points that have not been implemented or - in my opinion - still need improvement.
 
 These are currently:
-- [ ] Slow loading and display of images in the UI (especially for HEIC)
+- [X] Slow loading and display of images in the UI (especially for HEIC)
 - [ ] Support for multiple languages ​​in the UI
 - [ ] I don't yet like the current layout and display design of the *Features*, *File Preview*, and *File Selection* areas
 - [ ] Display all dialog messages in the UI (with consistent design), instead of Windows `MessageBox.Show` dialogs
