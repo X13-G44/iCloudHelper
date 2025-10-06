@@ -3,14 +3,16 @@
 
     <!-- Dark Mode Color Theme -->
 
-    <SolidColorBrush x:Key="CommonBackgroundColor" Color="#FF1C1C1E"/>
+    <SolidColorBrush x:Key="CommonBackgroundColor" Color="#FF202023"/>
+    <SolidColorBrush x:Key="CommonBackgroundColorB" Color="#FF1C1C1E"/>
     <SolidColorBrush x:Key="CommonBorderBrushColor" Color="#ff0071E3"/>
     <SolidColorBrush x:Key="CommonForegroundColor" Color="#FFFBFBFB"/>
 
-    <SolidColorBrush x:Key="MainWindowBackground" Color="#FF202023"/>
+    <SolidColorBrush x:Key="MainWindowBackground" Color="#FF1C1C1E"/>
 
     <!-- Favorite Target Folder Section -->
 
+    <SolidColorBrush x:Key="FavoriteTargetFolderBackgroundColor" Color="#FF202023"/>
     <SolidColorBrush x:Key="FavoriteTargetFolderTitleTextForegroundColor" Color="#FFB3B3B4"/>
 
     <SolidColorBrush x:Key="FavoriteTargetFolderBtnBackgroundColor" Color="#FF35353A"/>
@@ -19,8 +21,11 @@
     <SolidColorBrush x:Key="FavoriteTargetFolderBtnMouseOverColor" Color="#FF444446"/>
     <SolidColorBrush x:Key="FavoriteTargetFolderBtnPinnedColor" Color="#FFE6C010"/>
 
+    <SolidColorBrush x:Key="FavoriteTargetFolderSeperatorColor" Color="#FF333333"/>
+
     <!-- Virtual Directory Section -->
 
+    <SolidColorBrush x:Key="VirtualDirectoryBackgroundColor" Color="#FF202023"/>
     <SolidColorBrush x:Key="VirtualDirectoryTitleTextForegroundColor" Color="#FFB3B3B4"/>
 
     <SolidColorBrush x:Key="VirtualDirectoryBtnBackgroundColor" Color="#FF35353A"/>
