@@ -47,6 +47,7 @@
 
         </Style>
         <Style x:Key="CustomMenuItemStyle" TargetType="MenuItem">
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Background" Value="{DynamicResource ContextMenuBtnBackgroundColor}"/>
             <Setter Property="Foreground" Value="{DynamicResource ContextMenuBtnTextColor}"/>
             <Setter Property="FontSize" Value="14"/>
@@ -218,6 +219,7 @@
 
         <!-- Favorite Target Folder Item Button-Style -->
         <Style x:Key="FavoriteTargetFolderItemButtonStyle" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Margin" Value="5"/>
@@ -279,6 +281,7 @@
 
         <!-- File Title Button-Style -->
         <Style x:Key="FileTitleButtonStyle" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Padding" Value="0"/>
             <Setter Property="Margin" Value="0"/>
@@ -318,7 +321,7 @@
                             <!-- Remember:
                                     •	Control-Property → RelativeSource=Self (E.g. Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" to access a button property)
                                     •	Data-Property (from ViewModel/Model) → simply {Binding ...} (E.g. Binding="{Binding IsSelected}") -->
-                           
+
                             <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                 <Setter TargetName="PART_FILENAMETEXT" Property="Foreground" Value="{DynamicResource FileTitleBtnSelectedTextColor}"/>
                                 <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="{DynamicResource FileTitleBtnSelectedColor}"/>
@@ -371,6 +374,7 @@
 
         <!-- Virtual Directory Button-Style -->
         <Style x:Key="VirtualRootDirectoryButtonStyle" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Margin" Value="5"/>
@@ -428,6 +432,7 @@
 
         <!-- DialogBox Button-Style -->
         <Style x:Key="DialogboxButtonStyle" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="{DynamicResource DialogBtnTextColor}"/>
             <Setter Property="Background" Value="{DynamicResource DialogBtnBackgroundColor}"/>
@@ -515,6 +520,34 @@
             </Setter>
         </Style>
 
+        <!-- Symbol Button-Style -->
+        <Style x:Key="SymbolButton" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+
+                        <TextBlock Name="PART_TEXT"
+                                   Text="{TemplateBinding Content}"
+                                   FontFamily="Segoe UI Symbol" 
+                                   FontSize="{TemplateBinding FontSize}"
+                                   FontWeight="{TemplateBinding FontWeight}"
+                                   VerticalAlignment="Center" 
+                                   HorizontalAlignment="Center" 
+                                   Foreground="{TemplateBinding Foreground}"/>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" TargetName="PART_TEXT" Value="{DynamicResource CommonForegroundColor}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
     </Window.Resources>
 
     <Window.InputBindings>
@@ -545,8 +578,11 @@
 
 
             <!-- Configwindow -->
-            <Button Width="32" Height="32" Margin="0,0,5,0"
-                    Background="Transparent" BorderThickness="0"
+            <Button Width="32" 
+                    Height="32"
+                    Margin="0,0,5,0"
+                    Background="Transparent" 
+                    BorderThickness="0"
                     HorizontalAlignment="Left"
                     Command="{Binding Cmd_ShowConfigWindow}">
 
@@ -607,26 +643,38 @@
                 BorderBrush="{DynamicResource FavoriteTargetFolderSeperatorColor}"
                 BorderThickness="1"
                 CornerRadius="5">
-            
+
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0"
-                       Margin="20,20,0,0"
-                       Foreground="{DynamicResource FavoriteTargetFolderTitleTextForegroundColor}"
-                       FontSize="14" 
-                       FontWeight="Bold"
-                       VerticalAlignment="Top"
-                       HorizontalAlignment="Left">
-                Favoriten
-                </TextBlock>
+                <StackPanel Grid.Row="0"
+                            Orientation="Horizontal"
+                            Margin="20,20,20,0">
+
+                    <TextBlock Foreground="{DynamicResource FavoriteTargetFolderTitleTextForegroundColor}"
+                               FontSize="14" 
+                               FontWeight="Bold"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                               Text="Favoriten">
+                    </TextBlock>
+
+                    <Button Style="{StaticResource SymbolButton}"
+                            Margin="5,0,0,0"
+                            Foreground="{DynamicResource FavoriteTargetFolderBtnSymbolColor}"
+                            FontSize="9" 
+                            FontWeight="Light"
+                            Content="&#xE0C5;"
+                            Command="{Binding Cmd_ContextMenu_AddFavoriteTargetFolderItem}"
+                            CommandParameter="{Binding}"/>
+                </StackPanel>
 
                 <ItemsControl Grid.Row="1"
-                Margin="20,10,0,0"
-                ItemsSource="{Binding FavoriteTargetFolderList}">
+                              Margin="20,10,0,0"
+                              ItemsSource="{Binding FavoriteTargetFolderList}">
 
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -722,22 +770,23 @@
 
                 </TextBlock>
 
-                <Grid.ContextMenu>
-                    <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
+            </Grid>
 
-                        <MenuItem Header="Eintrag hinzufügen"
+            <Border.ContextMenu>
+                <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
+
+                    <MenuItem Header="Eintrag hinzufügen"
                                     Style="{StaticResource CustomMenuItemStyle}"
                                     Tag="&#xE0C5;"
                                     Command="{Binding Cmd_ContextMenu_AddFavoriteTargetFolderItem}"
                                     CommandParameter="{Binding}"/>
 
-                    </ContextMenu>
-                </Grid.ContextMenu>
+                </ContextMenu>
+            </Border.ContextMenu>
 
-            </Grid>
         </Border>
 
-        <!-- File Titles Section -->        
+        <!-- File Titles Section -->
         <Border Grid.Row="1"
                 Grid.Column="1"
                 Margin="10"
@@ -753,14 +802,81 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0"
-                           Margin="20,20,0,0"
+                           Margin="20,20,20,0"
                            Foreground="{DynamicResource FileTitleTextForegroundColor}"
                            FontSize="14" 
                            FontWeight="Bold"
                            VerticalAlignment="Center"
-                           HorizontalAlignment="Left">
-                    Bildauswahl
-                </TextBlock>
+                           HorizontalAlignment="Left"
+                           Text="Bildauswahl"/>
+
+                <StackPanel Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Orientation="Horizontal"
+                            Margin="20,20,20,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
+
+                    <Button Style="{StaticResource SymbolButton}"
+                            Margin="5,0,0,0"
+                            Foreground="{DynamicResource FileTitleBtnSelectedColor}"
+                            FontSize="16" 
+                            FontWeight="Light"
+                            Content="&#xE12E;"
+                            ToolTip="Kleine Symbolgröße"
+                            Command="{Binding Cmd_ContextMenu_SetFileTitleSize}"
+                            CommandParameter="0"/>                    
+                   
+                    <Button Style="{StaticResource SymbolButton}"
+                            Margin="5,0,0,0"
+                            Foreground="{DynamicResource FileTitleBtnSelectedColor}"
+                            FontSize="16" 
+                            FontWeight="Light"
+                            Content="&#xE12E;"
+                            ToolTip="Mittlere Symbolgröße"
+                            Command="{Binding Cmd_ContextMenu_SetFileTitleSize}"
+                            CommandParameter="1"/>
+
+                    <Button Style="{StaticResource SymbolButton}"
+                            Margin="5,0,0,0"
+                            Foreground="{DynamicResource FileTitleBtnSelectedColor}"
+                            FontSize="16" 
+                            FontWeight="Light"
+                            Content="&#xE12E;"
+                            ToolTip="Große Symbolgröße"
+                            Command="{Binding Cmd_ContextMenu_SetFileTitleSize}"
+                            CommandParameter="2"/>
+
+                    <Button Style="{StaticResource SymbolButton}"
+                            Margin="15,0,0,0"
+                            Foreground="{DynamicResource FileTitleBtnSelectedColor}"
+                            FontSize="14" 
+                            FontWeight="Light"
+                            Content="&#xE1EF;"
+                            ToolTip="Alles markieren"
+                            Command="{Binding Cmd_ContextMenu_SelectAllFileTitles}"
+                            CommandParameter="{Binding}"/>
+
+                    <Button Style="{StaticResource SymbolButton}"
+                            Margin="5,0,0,0"
+                            Foreground="{DynamicResource FileTitleBtnSelectedColor}"
+                            FontSize="14" 
+                            FontWeight="Light"
+                        Content="&#xE1EC;"
+                            ToolTip="Auswahl aufheben"
+                            Command="{Binding Cmd_ContextMenu_UnSelectAllFileTitles}"
+                            CommandParameter="{Binding}"/>
+
+                    <Button Style="{StaticResource SymbolButton}"
+                            Margin="15,0,0,0"
+                            Foreground="{DynamicResource FileTitleBtnSelectedColor}"
+                            FontSize="16" 
+                            FontWeight="Light"
+                            Content="&#xE115;"
+                            ToolTip="Einstellungen"
+                            Command="{Binding Cmd_ShowConfigWindow}"
+                            CommandParameter="{Binding}"/>
+                </StackPanel>
 
                 <TextBlock Grid.Row="1"
                            Margin="20,10,0,0"
@@ -848,6 +964,7 @@
 
                     <MenuItem Header="Auswahl aufheben" 
                               Style="{StaticResource CustomMenuItemStyle}"                               
+                              Tag="&#xE1EC;"
                               Command="{Binding Cmd_ContextMenu_UnSelectAllFileTitles}"/>
 
                     <MenuItem Header="Kleine Symbolgröße" 
@@ -887,7 +1004,7 @@
                 BorderBrush="{DynamicResource VirtualDirectorySeperatorColor}"
                 BorderThickness="1"
                 CornerRadius="5">
-            
+
             <Grid>
 
                 <Grid.RowDefinitions>
@@ -895,19 +1012,30 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0"
-                Margin="20,20,0,0"
-                Foreground="{DynamicResource VirtualDirectoryTitleTextForegroundColor}"
-                FontSize="14" 
-                FontWeight="Bold"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Left">
-                
-                Zielordner
-                </TextBlock>
+                <StackPanel Grid.Row="0"
+                            Orientation="Horizontal"
+                            Margin="20,20,0,0">
+
+                    <TextBlock Foreground="{DynamicResource VirtualDirectoryTitleTextForegroundColor}"
+                               FontSize="14" 
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="Zielordner"/>
+
+                    <Button Style="{StaticResource SymbolButton}"
+                            Margin="5,0,0,0"
+                            Foreground="{DynamicResource VirtualDirectoryBtnSymbolColor}"
+                            FontSize="9" 
+                            FontWeight="Light"
+                            Content="&#xE0C5;"
+                            Command="{Binding Cmd_ContextMenu_AddVirtualRootDirectoryItem}"
+                            CommandParameter="{Binding}"/>
+
+                </StackPanel>
 
                 <Grid Grid.Row="1"
-                  Margin="20,10,20,20">
+                      Margin="20,10,20,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{Binding VirtualRootDirectoryList.Count, Converter={StaticResource IntToGridLen}, ConverterParameter='100*;Auto', FallbackValue='Auto'}"/>
 
