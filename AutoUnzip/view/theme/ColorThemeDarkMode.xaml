@@ -66,6 +66,7 @@
     <!-- Tooltip Section -->
 
     <SolidColorBrush x:Key="ToolTipBackgroundColor" Color="#FF323236"/>
+    <Color x:Key="ToolTipBackgroundColorColor">#FF323236</Color>
     <SolidColorBrush x:Key="ToolTipTextColor" Color="#FFDCDCDD"/>
     <SolidColorBrush x:Key="ToolTipBorderBrushColor" Color="#FF0099FF"/>
 
