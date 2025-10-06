@@ -30,33 +30,44 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 
 
 
-namespace QuickSort.validationrules
+namespace QuickSort.converter
 {
-    /// <summary>
-    /// See this listening. We need a Binding Proxy for our Data Context (-> Bindings with dependency properties on our wrapper instances)
-    /// Based on https://social.technet.microsoft.com/wiki/contents/articles/31422.wpf-passing-a-data-bound-value-to-a-validation-rule.aspx
-    /// </summary>
-    public class BindingProxy : System.Windows.Freezable
+    public class InverseBooleanToVisibilityConverter : IValueConverter
     {
-        protected override Freezable CreateInstanceCore ()
+        public object Convert (object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return new BindingProxy ();
+            bool flag = false;
+
+
+            if (value is bool)
+            {
+                flag = (bool) value;
+            }
+            else if (value is bool?)
+            {
+                bool? flag2 = (bool?) value;
+
+
+                flag = flag2.HasValue && flag2.Value;
+            }
+
+            return (!flag) ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        public object Data
-        {
-            get { return (object) GetValue (DataProperty); }
-            set { SetValue (DataProperty, value); }
-        }
 
-        public static readonly DependencyProperty DataProperty =
-            DependencyProperty.Register ("Data", typeof (object), typeof (BindingProxy), new PropertyMetadata (null));
+
+        public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException ();
+        }
     }
 }

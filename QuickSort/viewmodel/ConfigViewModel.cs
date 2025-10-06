@@ -1,4 +1,34 @@
-﻿using QuickSort.view;
+﻿/// ////////////////////////////////////////////////////////////////////////
+///
+/// Project:			iCloudHelper
+/// Project Source:	https://github.com/X13-G44/iCloudHelper
+///
+/// Author: 			Christian Harscher <info@x13-g44.com>
+/// Date:				06.10.2025
+///
+/// ////////////////////////////////////////////////////////////////////////
+/// 
+/// SPDX-License-Identifier: Apache-2.0
+/// Copyright (c) 2025 Christian Harscher (alias X13-G44)
+///
+/// This program is free software: you can redistribute it and/or modify
+/// it under the terms of the Apache License as
+/// published by the Free Software Foundation, either version 2 of the
+/// License, or (at your option) any later version.
+///
+/// This program is distributed in the hope that it will be useful,
+/// but WITHOUT ANY WARRANTY; without even the implied warranty of
+/// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+/// Apache License for more details.
+///
+/// You should have received a copy of the Apache License
+/// along with this program. If not, see <http://www.apache.org/licenses/LICENSE-2.0/>.
+///      
+/// ////////////////////////////////////////////////////////////////////////
+
+
+
+using QuickSort.view;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +44,7 @@ using System.Windows.Threading;
 
 namespace QuickSort.viewmodel
 {
-    public class ConfigViewModel : INotifyPropertyChanged
+    public class ConfigViewModel : ViewModelBase
     {
         private string _StartPath;
         public string StartPath
@@ -78,7 +108,7 @@ namespace QuickSort.viewmodel
 
                             if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
                             {
-                                this.StartPath = dialog.SelectedPath;                              
+                                this.StartPath = dialog.SelectedPath;
                             }
                         }
                     },
@@ -95,7 +125,7 @@ namespace QuickSort.viewmodel
             {
                 return new RelayCommand<ConfigViewModel, object> (
                     (param, viewModel, userParam) =>
-                    {    
+                    {
                         QuickSort.Properties.Settings.Default.StartPath = this.StartPath;
                         QuickSort.Properties.Settings.Default.ShowMoveDlg = this.ShowMoveDlg;
                         QuickSort.Properties.Settings.Default.ShowImageFileName = this.ShowImgFileName;
@@ -117,12 +147,8 @@ namespace QuickSort.viewmodel
 
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-
-        private Dispatcher _Dispatcher;
-        private ConfigView _View;
+        private readonly Dispatcher _Dispatcher;
+        private readonly ConfigView _View;
 
 
 
@@ -137,13 +163,6 @@ namespace QuickSort.viewmodel
             this.UseDarkModeColorTheme = QuickSort.Properties.Settings.Default.ColorThemeId == 1 ? true : false;
             this.MaxFavoriteTargetFolderCollectionItems = QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionLimit;
             this.AutoInsertFavoriteTargetFolderCollectionItems = QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionAutoInsert;
-        }
-
-
-
-        public void OnPropertyChanged (string propertyName)
-        {
-            PropertyChanged?.Invoke (this, new PropertyChangedEventArgs (propertyName));
         }
     }
 }

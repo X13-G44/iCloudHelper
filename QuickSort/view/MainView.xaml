@@ -17,7 +17,7 @@
     <Window.Resources>
 
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-        <myConverter:InvertBooleanToVisibilityConverter x:Key="InvBoolToVis"/>
+        <myConverter:InverseBooleanToVisibilityConverter x:Key="InvBoolToVis"/>
         <myConverter:Int2GridLengthConverter x:Key="IntToGridLen"/>
         <myConverter:Int2Visibility x:Key="IntToVis"/>
 

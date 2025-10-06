@@ -80,7 +80,7 @@
     </ApplicationDefinition>
     <Compile Include="converter\Int2GridLengthConverter.cs" />
     <Compile Include="converter\Int2Visibility.cs" />
-    <Compile Include="converter\InvertBooleanToVisibilityConverter.cs" />
+    <Compile Include="converter\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="help\IconHelper.cs" />
     <Compile Include="help\FavoriteTargetFolderSettingItem.cs" />
     <Compile Include="help\VirtualRootDirectorySettingItem.cs" />
@@ -95,6 +95,7 @@
     <Compile Include="viewmodel\ConfigViewModel.cs" />
     <Compile Include="viewmodel\MainViewModel.cs" />
     <Compile Include="viewmodel\RelayCommand.cs" />
+    <Compile Include="viewmodel\ViewModelBase.cs" />
     <Compile Include="view\ConfigView.xaml.cs">
       <DependentUpon>ConfigView.xaml</DependentUpon>
     </Compile>
