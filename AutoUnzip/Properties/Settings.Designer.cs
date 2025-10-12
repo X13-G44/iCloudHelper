@@ -25,7 +25,7 @@ namespace AutoUnzip.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("iCloud.zip")]
+        [global::System.Configuration.DefaultSettingValueAttribute("iCloud*.zip")]
         public string FilenameToSearch {
             get {
                 return ((string)(this["FilenameToSearch"]));
@@ -116,6 +116,18 @@ namespace AutoUnzip.Properties {
             }
             set {
                 this["ColorThemeId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Language {
+            get {
+                return ((int)(this["Language"]));
+            }
+            set {
+                this["Language"] = value;
             }
         }
     }

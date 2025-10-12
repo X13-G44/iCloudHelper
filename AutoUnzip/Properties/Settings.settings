@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="FilenameToSearch" Type="System.String" Scope="User">
-      <Value Profile="(Default)">iCloud.zip</Value>
+      <Value Profile="(Default)">iCloud*.zip</Value>
     </Setting>
     <Setting Name="WatchPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -24,6 +24,9 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ColorThemeId" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Language" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
