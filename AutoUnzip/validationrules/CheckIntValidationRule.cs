@@ -28,6 +28,7 @@
 
 
 
+using AutoUnzip.Resources;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -100,17 +101,17 @@ namespace AutoUnzip.validationrules
 
             if (value == null || !(value is string))
             {
-                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "No text / number entered." : errorText);
+                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString ("lNoText") : errorText);
             }
 
             if (int.TryParse (value.ToString (), out number) == false)
             {
-                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "Text must be a number." : errorText);
+                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString ("lTextMustBeANumber") : errorText);
             }
 
             if (number < minValue || number > maxValue)
             {
-                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? $"Number must between {minValue} and {maxValue}." : errorText);
+                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetFormattedString ("lNumberRangeError", minValue, maxValue) : errorText);
             }
 
             return ValidationResult.ValidResult;

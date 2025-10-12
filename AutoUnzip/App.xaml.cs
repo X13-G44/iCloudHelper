@@ -28,8 +28,9 @@
 
 
 
-using AutoUnzip.view;
 using AutoUnzip.other;
+using AutoUnzip.view;
+using AutoUnzip.Resources;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -43,6 +44,8 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms; // Für NotifyIcon
+using WPFLocalizeExtension.Engine;
+using System.Globalization;
 
 
 
@@ -62,6 +65,8 @@ namespace AutoUnzip
         public App ()
         {
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
+            LocalizeDictionary.Instance.Culture = CultureInfo.CurrentUICulture;
 
             Startup += App_Startup;
             Exit += App_Exit;
@@ -110,11 +115,11 @@ namespace AutoUnzip
             _NotifyIcon = new NotifyIcon ();
             _NotifyIcon.Icon = icon;
             _NotifyIcon.Visible = true;
-            _NotifyIcon.Text = "AutoUnzip (Running in background)";
+            _NotifyIcon.Text = $"{APP_TITLE} - AutoUnzip";
 
             // Make and add context menu items to the tray icon.
             var contextMenu = new ContextMenu ();
-            contextMenu.MenuItems.Add ("Einstellungen", (s, ev) =>
+            contextMenu.MenuItems.Add (LocalizedStrings.GetString ("dlg_TrayNotiSettings"), (s, ev) =>
             {
                 this.Dispatcher.Invoke (() =>
                 {
@@ -130,7 +135,7 @@ namespace AutoUnzip
                 });
             });
             contextMenu.MenuItems.Add ("-");
-            contextMenu.MenuItems.Add ("Anwendung beenden", (s, ev) =>
+            contextMenu.MenuItems.Add (LocalizedStrings.GetString ("dlg_TrayNotiExit"), (s, ev) =>
             {
                 _NotifyIcon.Visible = false;
                 Shutdown ();
@@ -150,10 +155,8 @@ namespace AutoUnzip
 
             if (FileWork.CheckFolder (false) != true)
             {
-                if (System.Windows.MessageBox.Show ($"At least one required directory is missing.\nFor this program to work properly, " +
-                    $"the directories / folders must be configured correctly.\n\n" +
-                    $"Should the configuration window be displayed so that the settings can be adjusted?",
-                    $"{APP_TITLE} - Warning",
+                if (System.Windows.MessageBox.Show (LocalizedStrings.GetString ("dlg_InvalidConfig"),
+                    $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
@@ -211,10 +214,12 @@ namespace AutoUnzip
                 }
                 catch (Exception ex)
                 {
-                    System.Windows.MessageBox.Show ($"An error occurred while waiting for file access to \"{ev.Name}\" located in folder \"{AutoUnzip.Properties.Settings.Default.WatchPath}\".\n\n" +
-                        $"No backup files was created!" +
-                        $"System error message is \"{ex.Message}\"",
-                        $"{APP_TITLE} - Error",
+                    System.Windows.MessageBox.Show (LocalizedStrings.GetFormattedString (
+                            "dlg_AchiveFileAccessError",
+                            ev.Name,
+                            AutoUnzip.Properties.Settings.Default.WatchPath,
+                            ex.Message),
+                        $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lError")}",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
                 }
@@ -227,11 +232,13 @@ namespace AutoUnzip
                 }
                 else
                 {
-                    System.Windows.MessageBox.Show ($"An error occurred while processing a new \"{ev.Name}\" file in \"{AutoUnzip.Properties.Settings.Default.WatchPath}\" folder.\n" +
-                        $"The error occurred at the following processing step: {GetEnumDescription (workResult.LastCheckpoint)}.\n\n" +
-                        $"Backup files exist in the folder \"{AutoUnzip.Properties.Settings.Default.BackupPath}\".\n\n" +
-                        $"Optional error message \"{workResult.ErrorMessage}\"",
-                        $"{APP_TITLE} - Error",
+                    System.Windows.MessageBox.Show (LocalizedStrings.GetFormattedString (
+                            "dlg_DoWorkError",
+                            ev.Name,
+                            AutoUnzip.Properties.Settings.Default.WatchPath,
+                            AutoUnzip.Properties.Settings.Default.BackupPath,
+                            workResult.ErrorMessage),
+                        $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lError")}",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
                 }

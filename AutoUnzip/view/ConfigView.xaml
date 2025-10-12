@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoUnzip"
-        xmlns:validate_rules="clr-namespace:AutoUnzip.validationrules"    
+        xmlns:validate_rules="clr-namespace:AutoUnzip.validationrules"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:LocalizeDictionary.DesignCulture="en"
+        lex:ResxLocalizationProvider.DefaultAssembly="AutoUnzip"
+        lex:ResxLocalizationProvider.DefaultDictionary="Strings"
         mc:Ignorable="d"
-        Title="iCloudHelper - Einstellungen"
+        Title="{lex:Loc tbConfig_WindowTitle}"
         Height="550" 
         Width="650" 
         Icon="/icloud-logo-49272-Windows.ico" 
@@ -42,12 +46,14 @@
             <Label Grid.Row="0" 
                    Grid.Column="0" 
                    Grid.ColumnSpan="6"
-                   Style="{StaticResource ConfigView_HeadLine}"
-                   Content="Allgemeine Ordner-Einstellungen"/>
+                   Name="tbConfig_Title1"
+                   Content="{lex:Loc}"
+                   Style="{StaticResource ConfigView_HeadLine}"/>
 
             <Label Grid.Row="1"
                    Grid.Column="0"
-                   Content="Überwachter Ordner"
+                   Name="tbConfig_WatchPath"
+                   Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
             <TextBox Grid.Row="1"
                      Grid.Column="2"
@@ -68,12 +74,13 @@
             <Button Grid.Row="1"
                     Grid.Column="4"
                     Style="{StaticResource ConfigView_Button}"
-                    Content="Durchsuchen..."
+                    Content="{lex:Loc btnConfig_Browse}"
                     Command="{Binding Path=Cmd_BrowseWatchPath}"/>
 
             <Label Grid.Row="2"
                    Grid.Column="0"
-                   Content="Überwachte Datei"
+                   Name="tbConfig_FilenameToSearch"
+                   Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
             <TextBox Grid.Row="2"
                      Grid.Column="2"
@@ -93,14 +100,17 @@
                 </TextBox.Text>
             </TextBox>
 
-            <Label Grid.Row="3"
-                   Grid.Column="0"
-                   Content="Ziel-Verzeichnis"
-                   Style="{StaticResource ConfigView_Label}"/>
+            <TextBlock Grid.Row="3"
+                       Grid.Column="0"
+                       MaxWidth="200"
+                       TextWrapping="Wrap"
+                       Name="tbConfig_ExtractPath"
+                       Text="{lex:Loc}"
+                       Style="{StaticResource ConfigView_TextBlock_Top}"/>
             <TextBox Grid.Row="3"
                      Grid.Column="2"
                      Name="EXTRACTPATH_TEXTBOX"
-                     Style="{StaticResource ConfigView_TextBox}">
+                     Style="{StaticResource ConfigView_TextBox_Top}">
                 <TextBox.Text>
                     <Binding Path="ExtractPath" 
                              UpdateSourceTrigger="PropertyChanged"
@@ -116,12 +126,13 @@
             <Button Grid.Row="3"
                     Grid.Column="4"
                     Style="{StaticResource ConfigView_Button}"
-                    Content="Durchsuchen..."
+                    Content="{lex:Loc btnConfig_Browse}"
                     Command="{Binding Path=Cmd_BrowseExtractPath}"/>
 
             <Label Grid.Row="4"
                    Grid.Column="0"
-                   Content="Präfix für Temp-Verzeichnis"
+                   Name="tbConfig_TempFolderPrefix"
+                   Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
             <TextBox Grid.Row="4"
                      Grid.Column="2"
@@ -143,12 +154,14 @@
             <Label Grid.Row="5" 
                    Grid.Column="0" 
                    Grid.ColumnSpan="6"
-                   Style="{StaticResource ConfigView_HeadLine}"
-                   Content="Backup-Einstellungen"/>
+                   Name="tbConfig_Title2"
+                   Content="{lex:Loc}"
+                   Style="{StaticResource ConfigView_HeadLine}"/>
 
             <Label Grid.Row="6"
                    Grid.Column="0"
-                   Content="Backup-Verzeichnis"
+                   Name="tbConfig_BackupPath"
+                   Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
             <TextBox Grid.Row="6"
                      Grid.Column="2"
@@ -169,12 +182,13 @@
             <Button Grid.Row="6"
                     Grid.Column="4"
                     Style="{StaticResource ConfigView_Button}"
-                    Content="Durchsuchen..."
+                    Content="{lex:Loc btnConfig_Browse}"
                     Command="{Binding Path=Cmd_BrowseBackupPath}"/>
 
             <Label Grid.Row="7"
                    Grid.Column="0"
-                   Content="Aufbewahrungsdauer [Tage]"
+                   Name="tbConfig_BackupRetentionPeriod"
+                   Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
             <TextBox Grid.Row="7"
                      Grid.Column="2"
@@ -188,7 +202,6 @@
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
                             <validate_rules:CheckIntValidationRule ValidatesOnTargetUpdated="True"
-                                                                   ErrorMessage="The number must between 0 and 366."
                                                                    MinValue="0"
                                                                    MaxValue="366"/>
                         </Binding.ValidationRules>
@@ -199,8 +212,9 @@
             <Label Grid.Row="8" 
                    Grid.Column="0" 
                    Grid.ColumnSpan="6"
-                   Style="{StaticResource ConfigView_HeadLine}"
-                   Content="Sonstige-Einstellungen"/>
+                   Name="tbConfig_Title3"
+                   Content="{lex:Loc}"
+                   Style="{StaticResource ConfigView_HeadLine}"/>
 
             <Label Grid.Row="9"
                    Grid.Column="0"
@@ -226,12 +240,13 @@
             <Button Grid.Row="9"
                     Grid.Column="4"
                     Style="{StaticResource ConfigView_Button}"
-                    Content="Durchsuchen..."
+                    Content="{lex:Loc btnConfig_Browse}"
                     Command="{Binding Path=Cmd_BrowseQuickSortApp}"/>
 
             <Label Grid.Row="10"
                    Grid.Column="0"
-                   Content="Benutze DarkMode Theme"
+                   Name="tbConfig_UseDarkModeColorTheme"
+                   Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
             <CheckBox Grid.Row="10"
                       Grid.Column="2"
@@ -244,7 +259,8 @@
                     Padding="15,5"
                     Height="30"
                     HorizontalAlignment="Right"                    
-                    Content="Einstellungen speichern"
+                    Name="btnConfig_SaveConfig"
+                    Content="{lex:Loc}"
                     Command="{Binding Path=Cmd_SaveConfig}">
 
                 <Button.Style>
@@ -276,6 +292,5 @@
             </Button>
 
         </Grid>
-
     </Grid>
 </Window>

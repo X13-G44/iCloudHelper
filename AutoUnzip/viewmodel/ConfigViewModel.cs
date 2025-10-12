@@ -29,6 +29,7 @@
 
 
 using AutoUnzip.view;
+using AutoUnzip.Resources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -117,8 +118,8 @@ namespace AutoUnzip.viewmodel
                             {
                                 dialog.SelectedPath = this.WatchPath;
                             }
-
-                            dialog.Description = " Ordner zum Überwachen der heruntergeladenen ZIP.Datei auswählen.";
+                            
+                            dialog.Description = LocalizedStrings.GetString ("dlg_SelectWatchPath");
 
                             if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
                             {
@@ -145,7 +146,7 @@ namespace AutoUnzip.viewmodel
                                 dialog.SelectedPath = this.ExtractPath;
                             }
 
-                            dialog.Description = "Zielordner für die entpackte(n) Dateien auswählen.";
+                            dialog.Description = LocalizedStrings.GetString("dlg_SelectExtractPath");
 
                             if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
                             {
@@ -172,7 +173,7 @@ namespace AutoUnzip.viewmodel
                                 dialog.SelectedPath = this.BackupPath;
                             }
 
-                            dialog.Description = "Zielordner für die Backup-Dateien auswählen.";
+                            dialog.Description = LocalizedStrings.GetString("dlg_SelectBackupPath");
 
                             if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
                             {
@@ -194,8 +195,8 @@ namespace AutoUnzip.viewmodel
                     {
                         using (var dialog = new OpenFileDialog ())
                         {
-                            dialog.Title = $"{App.APP_TITLE} - Select QuickSort application";
-                            dialog.Filter = "Executable files (*.exe)|*.exe|All files (*.*)|*.*";
+                            dialog.Title = LocalizedStrings.GetString("dlg_SelectQuickSortFileDlgTitle");
+                            dialog.Filter = LocalizedStrings.GetString("dlg_SelectQuickSortFileDlgFilter");
                             dialog.InitialDirectory = Environment.GetFolderPath (Environment.SpecialFolder.ProgramFiles);
                             dialog.CheckFileExists = true;
 
@@ -261,7 +262,7 @@ namespace AutoUnzip.viewmodel
             this.TempFolderPrefix = AutoUnzip.Properties.Settings.Default.TempFolderPrefix;
             this.BackupPath = AutoUnzip.Properties.Settings.Default.BackupPath;
             this.BackupRetentionPeriod = AutoUnzip.Properties.Settings.Default.BackupRetentionPeriod;
-            this.QuickSortApp= AutoUnzip.Properties.Settings.Default.QuickSortApp;
+            this.QuickSortApp = AutoUnzip.Properties.Settings.Default.QuickSortApp;
             this.UseDarkModeColorTheme = AutoUnzip.Properties.Settings.Default.ColorThemeId == 1 ? true : false;
         }
     }

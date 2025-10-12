@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:QuickSort.view"
         xmlns:validate_rules="clr-namespace:QuickSort.validationrules"
         xmlns:lex="http://wpflocalizeextension.codeplex.com"
-        lex:LocalizeDictionary.DesignCulture="de"
+        lex:LocalizeDictionary.DesignCulture="en"
         lex:ResxLocalizationProvider.DefaultAssembly="QuickSort"
         lex:ResxLocalizationProvider.DefaultDictionary="Strings"
         mc:Ignorable="d"
@@ -79,13 +79,13 @@
             <Label Grid.Row="2" 
                    Grid.Column="0" 
                    Grid.ColumnSpan="6"
-                   Style="{StaticResource ConfigView_HeadLine}"
                    Name="tbConfig_Title2"
-                   Content="{lex:Loc}"/>
+                   Content="{lex:Loc}"                   
+                   Style="{StaticResource ConfigView_HeadLine}"/>
 
             <TextBlock Grid.Row="3"
                        Grid.Column="0"
-                       MaxWidth="200"                       
+                       MaxWidth="200"
                        TextWrapping="Wrap"
                        Name="tbConfig_ShowMoveDlg"
                        Text="{lex:Loc}"

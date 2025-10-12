@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoUnzip"
         xmlns:help="clr-namespace:AutoUnzip.help"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:LocalizeDictionary.DesignCulture="en"
+        lex:ResxLocalizationProvider.DefaultAssembly="AutoUnzip"
+        lex:ResxLocalizationProvider.DefaultDictionary="Strings"        
         mc:Ignorable="d"
         Title="iCloudHelper" 
-        Height="150" 
+        Height="170" 
         Width="400"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -29,15 +33,28 @@
                                 BorderThickness="4"
                                 CornerRadius="15">
 
-                            <StackPanel Margin="10"
-                                Orientation="Vertical">
+                            <Grid Margin="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
 
-                                <TextBlock Foreground="{DynamicResource CommonForegroundColor}" 
+                                <TextBlock Grid.Row="0"
+                                           Foreground="{DynamicResource CommonForegroundColor}" 
                                            FontSize="20"
                                            Text="{TemplateBinding Content}"/>
 
-                                <ItemsControl ItemsSource="{TemplateBinding Tag}"
-                                              Margin="0,10,0,0">
+                                <Rectangle Grid.Row="1"
+                                           Height="1"
+                                           Fill="{DynamicResource VirtualDirectorySeperatorColor}"
+                                           Margin="0,5,0,5"/>
+
+                                <ItemsControl Grid.Row="2"
+                                              ItemsSource="{TemplateBinding Tag}"
+                                              HorizontalAlignment="Center">
 
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -47,18 +64,35 @@
 
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" Margin="0,5">
-                                                <Image Source="{Binding}" 
-                                                       Width="64" Height="64" 
-                                                       Stretch="UniformToFill" 
-                                                       Margin="0,0,10,0"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border Padding="2"
+                                                        Margin="1"
+                                                        Background="{DynamicResource CommonBorderBrushColor}">
+                                                
+                                                    <Image Source="{Binding}" 
+                                                           Width="64" 
+                                                           Height="64" 
+                                                           Stretch="UniformToFill"/>
+
+                                                </Border>
                                             </StackPanel>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
 
                                 </ItemsControl>
 
-                            </StackPanel>
+                                <Rectangle Grid.Row="3"
+                                           Height="1"
+                                           Fill="{DynamicResource VirtualDirectorySeperatorColor}"
+                                           Margin="0,5,0,5"/>
+
+                                <TextBlock Grid.Row="4"
+                                           Foreground="{DynamicResource CommonForegroundColor}"                                           
+                                           FontSize="14"
+                                           HorizontalAlignment="Center"
+                                           Text="{lex:Loc tbMain_StartQuickSort}"/>
+
+                            </Grid>
                         </Border>
 
                     </ControlTemplate>
@@ -73,6 +107,7 @@
         <EventTrigger RoutedEvent="Window.Loaded">
             <EventTrigger.Actions>
                 <BeginStoryboard>
+                    
                     <Storyboard help:StoryboardHelper.CompletedCommand="{Binding Path=Cmd_FadeAnimationEnded}">
 
                         <DoubleAnimation Storyboard.TargetProperty="Opacity"
@@ -80,11 +115,11 @@
                                          To="1.0" 
                                          Duration="0:0:1.5"/>
 
-                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                        <!--<DoubleAnimation Storyboard.TargetProperty="Opacity"
                                          BeginTime="0:0:15"
                                          From="1.0" 
                                          To="0.0" 
-                                         Duration="0:0:1.5"/>
+                                         Duration="0:0:1.5"/>-->
 
                     </Storyboard>
 

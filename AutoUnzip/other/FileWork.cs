@@ -1,7 +1,7 @@
 ﻿/// ////////////////////////////////////////////////////////////////////////
 ///
 /// Project:			iCloudHelper
-/// Project Source:	https://github.com/X13-G44/iCloudHelper
+/// Project Source:	    https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
 /// Date:				06.10.2025
@@ -48,37 +48,37 @@ namespace AutoUnzip.other
     {
         public enum FileProcessingCheckpoint
         {
-            [System.ComponentModel.Description ("Kein Schritt")]
+            [System.ComponentModel.Description ("No action executed yet")]
             None = 0,
 
-            [System.ComponentModel.Description ("Warte auf freien Dateihandle")]
+            [System.ComponentModel.Description ("Waiting for file handler of image archive file...")]
             WaitForFreeFileHandle,
 
-            [System.ComponentModel.Description ("Überprügung der Verzeichnisse")]
+            [System.ComponentModel.Description ("Checking folders...")]
             CheckFolders,
 
-            [System.ComponentModel.Description ("ZIP-Datei sichern")]
+            [System.ComponentModel.Description ("Backup image archive file...")]
             BackupZipFile,
 
-            [System.ComponentModel.Description ("Vorbereitung des temporären Ordners")]
+            [System.ComponentModel.Description ("Prepare temp folder...")]
             PrepareTempfolder,
 
-            [System.ComponentModel.Description ("ZIP-Datei entpacken")]
+            [System.ComponentModel.Description ("Extract image archive file...")]
             ExtractZipFile,
 
-            [System.ComponentModel.Description ("Dateien in Zielordner verschieben")]
+            [System.ComponentModel.Description ("Moving image files to extract file folder...")]
             MoveExtractFilesToTargetfolder,
 
-            [System.ComponentModel.Description ("Temporären Ordner löschen")]
+            [System.ComponentModel.Description ("Remove temp folder...")]
             DeleteTempfolder,
 
-            [System.ComponentModel.Description ("Backup-Ordner bereinigen")]
+            [System.ComponentModel.Description ("Clean up backup folder...")]
             CleanupBacklupFolder,
 
-            [System.ComponentModel.Description ("Original ZIP-Datei löschen")]
+            [System.ComponentModel.Description ("Remove image archive file...")]
             DeleteZipFile,
 
-            [System.ComponentModel.Description ("Fertig")]
+            [System.ComponentModel.Description ("Done")]
             Finished,
         }
 

@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btnConfig_Browse" xml:space="preserve">
+    <value>Durchsuchen...</value>
+  </data>
+  <data name="btnConfig_SaveConfig" xml:space="preserve">
+    <value>Einstellungen speichern</value>
+  </data>
+  <data name="dlg_AchiveFileAccessError" xml:space="preserve">
+    <value>Beim Warten auf den Dateizugriff auf die Datei „{0}“ im Ordner „{1}“ ist ein Fehler aufgetreten.\n\nEs wurden keine Bilder extrahiert und keine Sicherungsdateien erstellt!\nDie Systemfehlermeldung lautet „{2}“.</value>
+  </data>
+  <data name="dlg_SelectExtractPath" xml:space="preserve">
+    <value>Zielordner der entpackten Bilddateien auswählen:</value>
+  </data>
+  <data name="dlg_DoWorkError" xml:space="preserve">
+    <value>Beim Verarbeiten einer neuen \"{0}\"-Datei im Ordner \"{1}\" ist ein Fehler aufgetreten.\nDer Fehler ist beim folgenden Verarbeitungsschritt aufgetreten: {2}.\n\nSicherungsdateien sind im Ordner \"{3}\" vorhanden.\n\nOptionale Fehlermeldung: \"{4}\".</value>
+  </data>
+  <data name="dlg_InvalidConfig" xml:space="preserve">
+    <value>Mindestens ein erforderlicher Ordner fehlt.\nDamit dieses Programm ordnungsgemäß funktioniert, müssen die Ordner korrekt konfiguriert sein.\n\nSoll das Konfigurationsfenster angezeigt werden, damit die Einstellungen angepasst werden können?</value>
+  </data>
+  <data name="dlg_SelectWatchPath" xml:space="preserve">
+    <value>Ordner zum Überwachen der heruntergeladenen iCloud Bildarchiv Datei auswählen:</value>
+  </data>
+  <data name="dlg_TrayNotiExit" xml:space="preserve">
+    <value>Anwendung beenden</value>
+  </data>
+  <data name="dlg_TrayNotiSettings" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="lError" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="lWarning" xml:space="preserve">
+    <value>Warnung</value>
+  </data>
+  <data name="tbConfig_BackupPath" xml:space="preserve">
+    <value>Backup-Ordner</value>
+  </data>
+  <data name="tbConfig_BackupRetentionPeriod" xml:space="preserve">
+    <value>Aufbewahrungsdauer [Tage]</value>
+  </data>
+  <data name="tbConfig_ExtractPath" xml:space="preserve">
+    <value>Zielordner der entpackten Bilddateien</value>
+  </data>
+  <data name="tbConfig_FilenameToSearch" xml:space="preserve">
+    <value>iCloud Bildarchiv Datei</value>
+  </data>
+  <data name="tbConfig_TempFolderPrefix" xml:space="preserve">
+    <value>Präfix für Temporären Ordner</value>
+  </data>
+  <data name="tbConfig_Title1" xml:space="preserve">
+    <value>Allgemeine Ordner-Einstellungen</value>
+  </data>
+  <data name="tbConfig_Title2" xml:space="preserve">
+    <value>Backup-Einstellungen</value>
+  </data>
+  <data name="tbConfig_Title3" xml:space="preserve">
+    <value>Sonstige-Einstellungen</value>
+  </data>
+  <data name="tbConfig_UseDarkModeColorTheme" xml:space="preserve">
+    <value>Benutze Dark Mode</value>
+  </data>
+  <data name="tbConfig_WatchPath" xml:space="preserve">
+    <value>Überwachter Ordner</value>
+  </data>
+  <data name="tbConfig_WindowTitle" xml:space="preserve">
+    <value>iCloudHelper - Einstellungen</value>
+  </data>
+  <data name="tbMain_ExtractedFileText" xml:space="preserve">
+    <value>{0} iCloud Bilder verarbeitet:</value>
+  </data>
+  <data name="dlg_SelectBackupPath" xml:space="preserve">
+    <value>Ordner für das Backup auswählen:</value>
+  </data>
+  <data name="dlg_SelectQuickSortFileDlgTitle" xml:space="preserve">
+    <value>Wählen Sie die QuickSort-Anwendung</value>
+  </data>
+  <data name="dlg_SelectQuickSortFileDlgFilter" xml:space="preserve">
+    <value>Ausführbare Dateien (*.exe)|*.exe|Alle Dateien (*.*)|*.*</value>
+  </data>
+  <data name="lNoText" xml:space="preserve">
+    <value>Eingabefeld ist leer.</value>
+  </data>
+  <data name="lDirectoyNotExists" xml:space="preserve">
+    <value>Der Ordner existiert nicht.</value>
+  </data>
+  <data name="lTextMustBeANumber" xml:space="preserve">
+    <value>Der Text muss eine Zahl sein.</value>
+  </data>
+  <data name="lNumberRangeError" xml:space="preserve">
+    <value>Die Zahl muss zwischen {0} und {1} liegen.</value>
+  </data>
+  <data name="lInvalidPrefixStartEndChars" xml:space="preserve">
+    <value>Das Präfix beginnt/endet mit ungültigen Zeichen.</value>
+  </data>
+  <data name="lInvalidPrefixLength" xml:space="preserve">
+    <value>Das Präfix muss mindestens {0} oder mehr Zeichen enthalten.</value>
+  </data>
+  <data name="lInvalidPrefixChars" xml:space="preserve">
+    <value>Es sind ungültige Zeichen vorhanden.</value>
+  </data>
+  <data name="lApplFileNotExists" xml:space="preserve">
+    <value>Anwendungsdatei existiert nicht.</value>
+  </data>
+  <data name="lApplFileNotSelected" xml:space="preserve">
+    <value>Keine Bewerbungsdatei ausgewählt.</value>
+  </data>
+  <data name="tbMain_StartQuickSort" xml:space="preserve">
+    <value>Hier klicken um Quicksort Anwendung zu starten</value>
+  </data>
+</root>

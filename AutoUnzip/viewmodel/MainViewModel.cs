@@ -28,6 +28,7 @@
 
 
 
+using AutoUnzip.Resources;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -79,7 +80,8 @@ namespace AutoUnzip.viewmodel
                 return new RelayCommand (
                     _ =>
                     {
-                        _View.Close ();
+#warning For testing inactive!
+                        //_View.Close ();
                     },
                     param => true
                 );
@@ -125,7 +127,7 @@ namespace AutoUnzip.viewmodel
             _View = view;
             _ExtractedFiles = extractedFiles;
 
-            this.ExtractedFileText = $"{extractedFiles.Count} iCloud Bilder extrahiert:";
+            this.ExtractedFileText = LocalizedStrings.GetFormattedString ("tbMain_ExtractedFileText", extractedFiles.Count);
             this.ExtractedFilesPreview.Clear ();
 
             SetColorTheme ();
@@ -146,36 +148,15 @@ namespace AutoUnzip.viewmodel
                     for (int counter = 0; counter < MAX_FILES_TO_SHOW; counter++)
                     {
                         int rndFileIndex = rnd.Next (_ExtractedFiles.Count);
+                        BitmapImage bi = LoadImageFile (_ExtractedFiles[rndFileIndex]);
 
 
-                        try
+                        if (bi != null)
                         {
-                            // This approach locks the file until the application is closed.
-                            //BitmapImage bi = new BitmapImage (new Uri (file));
-
-                            BitmapImage bi = null;
-
-
-                            using (var fstream = new FileStream (_ExtractedFiles[rndFileIndex], FileMode.Open, FileAccess.Read, FileShare.Read))
-                            {
-                                bi = new BitmapImage ();
-                                bi.BeginInit ();
-                                bi.CacheOption = BitmapCacheOption.OnLoad;
-                                bi.StreamSource = fstream;
-                                bi.StreamSource.Flush ();
-                                bi.EndInit ();
-                                bi.Freeze ();
-
-                                bi.StreamSource.Dispose ();
-                            }
-
                             _Dispatcher.Invoke (() =>
                             {
                                 this.ExtractedFilesPreview.Add (bi);
                             });
-                        }
-                        catch
-                        {
                         }
                     }
                 }
@@ -183,38 +164,54 @@ namespace AutoUnzip.viewmodel
                 {
                     foreach (string file in _ExtractedFiles)
                     {
-                        try
+                        BitmapImage bi = LoadImageFile (file);
+
+
+                        if (bi != null)
                         {
-                            // This approach locks the file until the application is closed.
-                            //BitmapImage bi = new BitmapImage (new Uri (file));
-
-                            BitmapImage bi = null;
-
-
-                            using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
-                            {
-                                bi = new BitmapImage ();
-                                bi.BeginInit ();
-                                bi.CacheOption = BitmapCacheOption.OnLoad;
-                                bi.StreamSource = fstream;
-                                bi.StreamSource.Flush ();
-                                bi.EndInit ();
-                                bi.Freeze ();
-
-                                bi.StreamSource.Dispose ();
-                            }
-
                             _Dispatcher.Invoke (() =>
                             {
                                 this.ExtractedFilesPreview.Add (bi);
                             });
                         }
-                        catch
-                        {
-                        }
                     }
                 }
             });
+        }
+
+
+
+        private BitmapImage LoadImageFile (string file)
+        {
+            try
+            {
+                // This approach locks the file until the application is closed.
+                //BitmapImage bi = new BitmapImage (new Uri (file));
+
+                BitmapImage bi = null;
+
+
+                using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    bi = new BitmapImage ();
+                    bi.BeginInit ();
+                    bi.CacheOption = BitmapCacheOption.OnLoad;
+                    bi.StreamSource = fstream;
+                    bi.StreamSource.Flush ();
+                    bi.EndInit ();
+                    bi.Freeze ();
+
+                    bi.StreamSource.Dispose ();
+                }
+
+                return bi;
+
+
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 

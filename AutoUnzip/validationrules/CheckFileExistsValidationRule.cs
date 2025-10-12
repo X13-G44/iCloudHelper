@@ -28,6 +28,7 @@
 
 
 
+using AutoUnzip.Resources;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -77,17 +78,17 @@ namespace AutoUnzip.validationrules
 
             if (string.IsNullOrWhiteSpace (file))
             {
-                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "No text." : errorText);
+                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString ("lNoText") : errorText);
             }
 
             if (!File.Exists (file))
             {
-                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "Application file does not exists." : errorText);
+                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString ("lApplFileNotExists") : errorText);
             }
 
             if (!ignoreFileExtension && !file.ToLower ().EndsWith (".exe"))
             {
-                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "No application file selected." : errorText);
+                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString ("lApplFileNotSelected") : errorText);
             }
 
             return ValidationResult.ValidResult;

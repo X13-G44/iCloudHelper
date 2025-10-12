@@ -28,6 +28,7 @@
 
 
 
+using AutoUnzip.Resources;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -63,27 +64,27 @@ namespace AutoUnzip.validationrules
         public override ValidationResult Validate (object value, CultureInfo cultureInfo)
         {
             char[] invalidChars = Path.GetInvalidPathChars ();
-            var filename = value as string;
+            var dirName = value as string;
 
             String errorText = this.Wrapper != null ? this.Wrapper.ErrorMessage : this.ErrorMessage;
 
 
-            if (string.IsNullOrWhiteSpace (filename))
+            if (string.IsNullOrWhiteSpace (dirName))
             {
-                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "No text" : errorText);
+                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString ("lNoText") : errorText);
             }
 
-            if (filename.StartsWith (" ") || filename.EndsWith (" "))
+            if (dirName.StartsWith (" ") || dirName.EndsWith (" "))
             {
-                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "Prefix starts / ends with invalid chars." : errorText);
+                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString ("lInvalidPrefixStartEndChars") : errorText);
             }
 
-            if (filename.Length <= 3)
+            if (dirName.Length <= 3)
             {
-                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "Prefix must have at least 4 or more chars." : errorText);
+                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetFormattedString ("lInvalidPrefixLength", dirName.Length) : errorText);
             }
 
-            return filename.Any (c => invalidChars.Contains (c)) ? new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "There are invalid chars." : errorText) : ValidationResult.ValidResult;
+            return dirName.Any (c => invalidChars.Contains (c)) ? new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString ("lInvalidPrefixChars") : errorText) : ValidationResult.ValidResult;
         }
     }
 

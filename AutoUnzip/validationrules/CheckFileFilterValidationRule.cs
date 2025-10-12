@@ -28,6 +28,7 @@
 
 
 
+using AutoUnzip.Resources;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -87,20 +88,20 @@ namespace AutoUnzip.validationrules
 
             if (string.IsNullOrWhiteSpace (fileFilter))
             {
-                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "No text." : errorText);
+                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString ("lNoText") : errorText);
             }
 
             if (fileFilter.StartsWith (" ") || fileFilter.EndsWith (" "))
             {
-                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "Prefix starts / ends with invalid chars." : errorText);
+                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString ("lInvalidPrefixStartEndChars") : errorText);
             }
 
             if (fileFilter.Length <= 3)
             {
-                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "Prefix must have at least 4 or more chars." : errorText);
+                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetFormattedString("lInvalidPrefixLength", fileFilter.Length) : errorText);
             }
 
-            return fileFilter.Any (c => invalidChars.Contains (c)) ? new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "There are invalid chars." : errorText) : ValidationResult.ValidResult;
+            return fileFilter.Any (c => invalidChars.Contains (c)) ? new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString("lInvalidPrefixChars") : errorText) : ValidationResult.ValidResult;
         }
     }
 

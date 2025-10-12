@@ -28,6 +28,7 @@
 
 
 
+using AutoUnzip.Resources;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -69,12 +70,12 @@ namespace AutoUnzip.validationrules
 
             if (string.IsNullOrWhiteSpace (path))
             {
-                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "No text." : errorText);
+                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString("lNoText") : errorText);
             }
 
             if (!Directory.Exists (path))
             {
-                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "Directory does not exists." : errorText);
+                return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString("lDirectoyNotExists") : errorText);
             }
 
             return ValidationResult.ValidResult;
