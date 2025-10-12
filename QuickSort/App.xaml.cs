@@ -28,16 +28,19 @@
 
 
 
-using QuickSort.view;
 using QuickSort;
+using QuickSort.Resources;
+using QuickSort.view;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using WPFLocalizeExtension.Engine;
 
 
 
@@ -55,7 +58,7 @@ namespace QuickSort
 
         public App ()
         {
-            ;
+            LocalizeDictionary.Instance.Culture = CultureInfo.CurrentUICulture;
         }
 
 
@@ -72,10 +75,8 @@ namespace QuickSort
                 // No path argument. Use default start path from configuration.
                 if (CheckConfiguration () == false)
                 {
-                    if (System.Windows.MessageBox.Show ($"Your configuration is invalid or has not been setup yet.\nFor this program to work properly, " +
-                        $"the directories / folders must be configured correctly.\n\n" +
-                        $"Should the configuration window be displayed so that the settings can be adjusted?",
-                        $"{APP_TITLE} - Warning",
+                    if (System.Windows.MessageBox.Show (LocalizedStrings.GetString ("dlg_InvalidConfig"),
+                        $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
                         MessageBoxButton.YesNo,
                         MessageBoxImage.Warning) == MessageBoxResult.Yes)
                     {

@@ -6,6 +6,10 @@
         xmlns:local="clr-namespace:QuickSort"
         xmlns:myConverter="clr-namespace:QuickSort.converter"
         xmlns:validate_rules="clr-namespace:QuickSort.validationrules"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:LocalizeDictionary.DesignCulture="en"
+        lex:ResxLocalizationProvider.DefaultAssembly="QuickSort"
+        lex:ResxLocalizationProvider.DefaultDictionary="Strings"
         mc:Ignorable="d"
         Title="Dateiauswahl" 
         Height="800" 
@@ -229,8 +233,8 @@
                     <ControlTemplate TargetType="Button">
 
                         <Border x:Name="OUTER_BORDER"
-                                BorderBrush="{DynamicResource FavoriteTargetFolderBtnPinnedColor}"
-                                BorderThickness="0"
+                                BorderBrush="{DynamicResource FavoriteTargetFolderBtnBackgroundColor}"
+                                BorderThickness="2"
                                 Background="{DynamicResource FavoriteTargetFolderBtnBackgroundColor}"
                                 Padding="{TemplateBinding Padding}"
                                 CornerRadius="10">
@@ -267,10 +271,11 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource FavoriteTargetFolderBtnMouseOverColor}"/>
+                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="{DynamicResource FavoriteTargetFolderBtnMouseOverColor}"/>
                             </Trigger>
 
                             <DataTrigger Binding="{Binding IsPinned}" Value="True">
-                                <Setter TargetName="OUTER_BORDER" Property="BorderThickness" Value="2"/>
+                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="{DynamicResource FavoriteTargetFolderBtnPinnedColor}"/>
                             </DataTrigger>
                         </ControlTemplate.Triggers>
 
@@ -560,7 +565,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <!--<RowDefinition Height="Auto" MinHeight="100"/>-->
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -659,7 +663,8 @@
                                FontWeight="Bold"
                                VerticalAlignment="Top"
                                HorizontalAlignment="Left"
-                               Text="Favoriten">
+                               Name="tbFavTargFolder_Title"
+                               Text="{lex:Loc}">
                     </TextBlock>
 
                     <Button Style="{StaticResource SymbolButton}"
@@ -716,34 +721,39 @@
                                                   Command="{Binding Cmd_ContextMenu_RemoveTargetFolder}"
                                                   CommandParameter="{Binding}" />-->
 
-                                        <MenuItem Header="Bilder hier her verschieben"
-                                            Style="{StaticResource CustomMenuItemStyle}"
-                                            Tag="&#xE16D;"
-                                            Command="{Binding Cmd_MoveImagesCommand}"
-                                            CommandParameter="{Binding}"/>
+                                        <MenuItem Name="cmFavTargFolder_MoveImageHere" 
+                                                  Header="{lex:Loc cmFavTargFolder_MoveImageHere}"
+                                                  Style="{StaticResource CustomMenuItemStyle}"
+                                                  Tag="&#xE16D;"
+                                                  Command="{Binding Cmd_MoveImagesCommand}"
+                                                  CommandParameter="{Binding}"/>
 
-                                        <MenuItem Header="Eintrag hinzufügen"
-                                            Style="{StaticResource CustomMenuItemStyle}"
-                                            Tag="&#xE0C5;"
-                                            Command="{Binding Cmd_AddFolderFromListCommand}"
-                                            CommandParameter="{Binding}"/>
+                                        <MenuItem Name="cmFavTargFolder_AddEntry" 
+                                                  Header="{lex:Loc cmFavTargFolder_AddEntry}"
+                                                  Style="{StaticResource CustomMenuItemStyle}"
+                                                  Tag="&#xE0C5;"
+                                                  Command="{Binding Cmd_AddFolderFromListCommand}"
+                                                  CommandParameter="{Binding}"/>
 
-                                        <MenuItem Header="Eintrag entfernen"
-                                                Style="{StaticResource CustomMenuItemStyle}"
-                                                Tag="&#xE0C6;"
-                                                Command="{Binding Cmd_RemoveFolderFromListCommand}"
-                                                CommandParameter="{Binding}"/>
+                                        <MenuItem Name="cmFavTargFolder_RemoveEntry" 
+                                                  Header="{lex:Loc cmFavTargFolder_RemoveEntry}"
+                                                  Style="{StaticResource CustomMenuItemStyle}"
+                                                  Tag="&#xE0C6;"
+                                                  Command="{Binding Cmd_RemoveFolderFromListCommand}"
+                                                  CommandParameter="{Binding}"/>
 
-                                        <MenuItem Header="Eintrag fixieren"
-                                                Style="{StaticResource CustomMenuItemStyle}"
-                                                Tag="&#xE1CF;"
-                                                Command="{Binding Cmd_SetTargetFolderAsFavorite}"/>
+                                        <MenuItem Name="cmFavTargFolder_SetBookmark" 
+                                                  Header="{lex:Loc cmFavTargFolder_SetBookmark}"
+                                                  Style="{StaticResource CustomMenuItemStyle}"
+                                                  Tag="&#xE1CF;"
+                                                  Command="{Binding Cmd_SetTargetFolderAsFavorite}"/>
 
                                         <!--Alternative symbol: &#xE1CE;-->
-                                        <MenuItem Header="Fixierung aufheben"
-                                                Style="{StaticResource CustomMenuItemStyle}"
-                                                Tag="&#xE195;"
-                                                Command="{Binding Cmd_ClearTargetFolderFavorite}"/>
+                                        <MenuItem Name="cmFavTargFolder_RemoveBookmark" 
+                                                  Header="{lex:Loc cmFavTargFolder_RemoveBookmark}"
+                                                  Style="{StaticResource CustomMenuItemStyle}"
+                                                  Tag="&#xE195;"
+                                                  Command="{Binding Cmd_ClearTargetFolderFavorite}"/>
 
                                     </ContextMenu>
                                 </Button.ContextMenu>
@@ -756,30 +766,27 @@
                 </ItemsControl>
 
                 <TextBlock Grid.Row="1"
-                       Margin="20,10,0,0"
-                       Foreground="{DynamicResource FavoriteTargetFolderTitleTextForegroundColor}"
-                       FontSize="12"                       
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       FontWeight="Light" 
-                       FontStyle="Italic"
-                       Visibility="{Binding FavoriteTargetFolderList.Count, Converter={StaticResource IntToVis}, ConverterParameter='visible;collapsed', FallbackValue='Visible'}">
-                <Run Text="Rechtsklick zum"/>
-                <LineBreak/>
-                <Run Text="Hinzufügen weiterer Favoriten"/>
-
-                </TextBlock>
+                           Foreground="{DynamicResource FavoriteTargetFolderTitleTextForegroundColor}"
+                           FontSize="12"                       
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           FontWeight="Light" 
+                           FontStyle="Italic"
+                           Visibility="{Binding FavoriteTargetFolderList.Count, Converter={StaticResource IntToVis}, ConverterParameter='visible;collapsed', FallbackValue='Visible'}"
+                           Name="tbFavTargFolder_NoItemText"
+                           Text="{lex:Loc}"/>
 
             </Grid>
 
             <Border.ContextMenu>
                 <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
 
-                    <MenuItem Header="Eintrag hinzufügen"
-                                    Style="{StaticResource CustomMenuItemStyle}"
-                                    Tag="&#xE0C5;"
-                                    Command="{Binding Cmd_ContextMenu_AddFavoriteTargetFolderItem}"
-                                    CommandParameter="{Binding}"/>
+                    <MenuItem Name="cmFavTargFolder_AddEntry2"
+                              Header="{lex:Loc}"
+                              Style="{StaticResource CustomMenuItemStyle}"
+                              Tag="&#xE0C5;"
+                              Command="{Binding Cmd_ContextMenu_AddFavoriteTargetFolderItem}"
+                              CommandParameter="{Binding}"/>
 
                 </ContextMenu>
             </Border.ContextMenu>
@@ -808,7 +815,8 @@
                            FontWeight="Bold"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
-                           Text="Bildauswahl"/>
+                           Name="tbFileTitleSec_Title"
+                           Text="{lex:Loc}"/>
 
                 <StackPanel Grid.Row="0"
                             Grid.RowSpan="2"
@@ -823,7 +831,8 @@
                             FontSize="16" 
                             FontWeight="Light"
                             Content="&#xE12E;"
-                            ToolTip="Kleine Symbolgröße"
+                            Name="ttFileTitleSec_ButtonSmalIconSize"
+                            ToolTip="{lex:Loc}"
                             Command="{Binding Cmd_ContextMenu_SetFileTitleSize}"
                             CommandParameter="0"/>                    
                    
@@ -833,7 +842,8 @@
                             FontSize="16" 
                             FontWeight="Light"
                             Content="&#xE12E;"
-                            ToolTip="Mittlere Symbolgröße"
+                            Name="ttFileTitleSec_ButtonMediumIconSize"
+                            ToolTip="{lex:Loc}"
                             Command="{Binding Cmd_ContextMenu_SetFileTitleSize}"
                             CommandParameter="1"/>
 
@@ -843,7 +853,8 @@
                             FontSize="16" 
                             FontWeight="Light"
                             Content="&#xE12E;"
-                            ToolTip="Große Symbolgröße"
+                            Name="ttFileTitleSec_ButtonLargeIconSize"
+                            ToolTip="{lex:Loc}"
                             Command="{Binding Cmd_ContextMenu_SetFileTitleSize}"
                             CommandParameter="2"/>
 
@@ -853,7 +864,8 @@
                             FontSize="14" 
                             FontWeight="Light"
                             Content="&#xE1EF;"
-                            ToolTip="Alles markieren"
+                            Name="ttFileTitleSec_ButtonSelectAll"
+                            ToolTip="{lex:Loc}"
                             Command="{Binding Cmd_ContextMenu_SelectAllFileTitles}"
                             CommandParameter="{Binding}"/>
 
@@ -862,8 +874,9 @@
                             Foreground="{DynamicResource FileTitleBtnSelectedColor}"
                             FontSize="14" 
                             FontWeight="Light"
-                        Content="&#xE1EC;"
-                            ToolTip="Auswahl aufheben"
+                            Content="&#xE1EC;"
+                            Name="ttFileTitleSec_ButtonDeselectAll"
+                            ToolTip="{lex:Loc}"
                             Command="{Binding Cmd_ContextMenu_UnSelectAllFileTitles}"
                             CommandParameter="{Binding}"/>
 
@@ -873,7 +886,8 @@
                             FontSize="16" 
                             FontWeight="Light"
                             Content="&#xE115;"
-                            ToolTip="Einstellungen"
+                            Name="ttFileTitleSec_Buttonsettings"
+                            ToolTip="{lex:Loc}"
                             Command="{Binding Cmd_ShowConfigWindow}"
                             CommandParameter="{Binding}"/>
                 </StackPanel>
@@ -886,7 +900,7 @@
                            HorizontalAlignment="Left" 
                            FontFamily="Segoe UI Light"
                            Visibility="{Binding FileTitleLoadStatus_Show, Converter={StaticResource InvBoolToVis}, FallbackValue='Visible'}"
-                           Text="{Binding FileTileStatusText, FallbackValue='XXXX'}"/>
+                           Text="{Binding FileTileStatusText, FallbackValue='1 Bild ausgewählt'}"/>
                 
                 <ScrollViewer Grid.Row="2" 
                               Margin="20,20,20,20">
@@ -938,9 +952,10 @@
                                FontWeight="Light" 
                                FontStyle="Italic"
                                HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                    Keine Bilder gefunden. Benutze die Einstellungen zum Ändern des Quellordners
-                    </TextBlock>
+                               VerticalAlignment="Center"
+                               Name="tbFileTitleSec_NoItemText"
+                               Text="{lex:Loc}"/>
+
                 </Grid>
 
                 <Border Grid.Row="0"
@@ -981,35 +996,41 @@
 
             <Border.ContextMenu>
                 <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
-                    <MenuItem Header="Alles markieren" 
+                    <MenuItem Name="cmFileTitleSec_SelectAll"
+                              Header="{lex:Loc}" 
                               Style="{StaticResource CustomMenuItemStyle}" 
                               Tag="&#xE1EF;"
                               Command="{Binding Cmd_ContextMenu_SelectAllFileTitles}"/>
 
-                    <MenuItem Header="Auswahl aufheben" 
+                    <MenuItem Name="cmFileTitleSec_DeSelectAll"
+                              Header="{lex:Loc}" 
                               Style="{StaticResource CustomMenuItemStyle}"                               
                               Tag="&#xE1EC;"
                               Command="{Binding Cmd_ContextMenu_UnSelectAllFileTitles}"/>
 
-                    <MenuItem Header="Kleine Symbolgröße" 
+                    <MenuItem Name="cmFileTitleSec_ButtonSmalIconSize"
+                              Header="{lex:Loc}" 
                               Style="{StaticResource CustomMenuItemStyle}" 
                               Tag="&#xE12E;"
                               Command="{Binding Cmd_ContextMenu_SetFileTitleSize}" 
                               CommandParameter="0"/>
 
-                    <MenuItem Header="Mittlere Symbolgröße" 
+                    <MenuItem Name="cmFileTitleSec_ButtonMediumIconSize"
+                              Header="{lex:Loc}" 
                               Style="{StaticResource CustomMenuItemStyle}" 
                               Tag="&#xE12E;"
                               Command="{Binding Cmd_ContextMenu_SetFileTitleSize}"
                               CommandParameter="1"/>
 
-                    <MenuItem Header="Große Symbolgröße" 
+                    <MenuItem Name="cmFileTitleSec_ButtonLargeIconSize"
+                              Header="{lex:Loc}" 
                               Style="{StaticResource CustomMenuItemStyle}" 
                               Tag="&#xE12E;"
                               Command="{Binding Cmd_ContextMenu_SetFileTitleSize}" 
                               CommandParameter="2"/>
 
-                    <MenuItem Header="Neu einlesen" 
+                    <MenuItem Name="cmFileTitleSec_RefreshView"
+                              Header="{lex:Loc}" 
                               Style="{StaticResource CustomMenuItemStyle}" 
                               Tag="&#xE117;"
                               Command="{Binding Cmd_ContextMenu_RefreshFileTitleList}"
@@ -1045,7 +1066,8 @@
                                FontWeight="Bold"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"
-                               Text="Zielordner"/>
+                               Name="tbVirtualDirSec_Title"
+                               Text="{lex:Loc}"/>
 
                     <Button Style="{StaticResource SymbolButton}"
                             Margin="5,0,0,0"
@@ -1112,35 +1134,35 @@
                                                 Command="{Binding Cmd_ContextMenu_RemoveTargetFolder}"
                                                 CommandParameter="{Binding}" />-->
 
-                                                <MenuItem Header="Bilder hier her verschieben"
-                                                    Style="{StaticResource CustomMenuItemStyle}"
-                                                    Tag="&#xE16D;"
-                                                    Command="{Binding Cmd_MoveImagesCommand}"
-                                                    CommandParameter="{Binding}"/>
+                                                <MenuItem Header="{lex:Loc cmVirtualDirSec_MoveImageHere}"
+                                                          Style="{StaticResource CustomMenuItemStyle}"
+                                                          Tag="&#xE16D;"
+                                                          Command="{Binding Cmd_MoveImagesCommand}"
+                                                          CommandParameter="{Binding}"/>
 
-                                                <MenuItem Header="Ordner öffnen"
-                                                    Style="{StaticResource CustomMenuItemStyle}"
-                                                    Tag="&#xE19C;"
-                                                    Command="{Binding Cmd_ShowSubDirsCommand}"
-                                                    CommandParameter="{Binding}"/>
+                                                <MenuItem Header="{lex:Loc cmVirtualDirSec_OpenFolder}"
+                                                          Style="{StaticResource CustomMenuItemStyle}"
+                                                          Tag="&#xE19C;"
+                                                          Command="{Binding Cmd_ShowSubDirsCommand}"
+                                                          CommandParameter="{Binding}"/>
 
-                                                <MenuItem Header="Neuen Unterordner erstellen"
-                                                    Style="{StaticResource CustomMenuItemStyle}"
-                                                    Tag="&#xE1DA;"
-                                                    Command="{Binding Cmd_CreateSubDirsCommand}"
-                                                    CommandParameter="{Binding}"/>
+                                                <MenuItem Header="{lex:Loc cmVirtualDirSec_CreateSubFolder}"
+                                                          Style="{StaticResource CustomMenuItemStyle}"
+                                                          Tag="&#xE1DA;"
+                                                          Command="{Binding Cmd_CreateSubDirsCommand}"
+                                                          CommandParameter="{Binding}"/>
 
-                                                <MenuItem Header="Eintrag hinzufügen"
-                                                    Style="{StaticResource CustomMenuItemStyle}"
-                                                    Tag="&#xE0C5;"
-                                                    Command="{Binding Cmd_AddToListCommand}"
-                                                    CommandParameter="{Binding}"/>
+                                                <MenuItem Header="{lex:Loc cmVirtualDirSec_AddEntry2}"
+                                                          Style="{StaticResource CustomMenuItemStyle}"
+                                                          Tag="&#xE0C5;"
+                                                          Command="{Binding Cmd_AddToListCommand}"
+                                                          CommandParameter="{Binding}"/>
 
-                                                <MenuItem Header="Eintrag entfernen"
-                                                    Style="{StaticResource CustomMenuItemStyle}"
-                                                    Tag="&#xE0C6;"
-                                                    Command="{Binding Cmd_RemoveItemFromListCommand}"
-                                                    CommandParameter="{Binding}"/>
+                                                <MenuItem Header="{lex:Loc cmVirtualDirSec_RemoveEntry}"
+                                                          Style="{StaticResource CustomMenuItemStyle}"
+                                                          Tag="&#xE0C6;"
+                                                          Command="{Binding Cmd_RemoveItemFromListCommand}"
+                                                          CommandParameter="{Binding}"/>
 
                                             </ContextMenu>
                                         </Button.ContextMenu>
@@ -1155,11 +1177,12 @@
                         <ScrollViewer.ContextMenu>
                             <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
 
-                                <MenuItem Header="Eintrag hinzufügen"
-                                    Style="{StaticResource CustomMenuItemStyle}"
-                                    Tag="&#xE0C5;"
-                                    Command="{Binding Cmd_ContextMenu_AddVirtualRootDirectoryItem}"
-                                    CommandParameter="{Binding}"/>
+                                <MenuItem Name="cmVirtualDirSec_AddEntry"
+                                          Header="{lex:Loc}"
+                                          Style="{StaticResource CustomMenuItemStyle}"
+                                          Tag="&#xE0C5;"
+                                          Command="{Binding Cmd_ContextMenu_AddVirtualRootDirectoryItem}"
+                                          CommandParameter="{Binding}"/>
 
                             </ContextMenu>
                         </ScrollViewer.ContextMenu>
@@ -1212,29 +1235,29 @@
                                             Command="{Binding Cmd_ContextMenu_RemoveTargetFolder}"
                                             CommandParameter="{Binding}" />-->
 
-                                                <MenuItem Header="Bilder hier her verschieben"
-                                                Style="{StaticResource CustomMenuItemStyle}"
-                                                Tag="&#xE16D;"
-                                                Command="{Binding Cmd_MoveImagesCommand}"
-                                                CommandParameter="{Binding}"/>
+                                                <MenuItem Header="{lex:Loc cmVirtualDirSec_MoveImageHere}"
+                                                          Style="{StaticResource CustomMenuItemStyle}"
+                                                          Tag="&#xE16D;"
+                                                          Command="{Binding Cmd_MoveImagesCommand}"
+                                                          CommandParameter="{Binding}"/>
 
-                                                <MenuItem Header="Ordner öffnen"
-                                                Style="{StaticResource CustomMenuItemStyle}"
-                                                Tag="&#xE19C;"
-                                                Command="{Binding Cmd_ShowSubDirsCommand}"
-                                                CommandParameter="{Binding}"/>
+                                                <MenuItem Header="{lex:Loc cmVirtualDirSec_OpenFolder}"
+                                                          Style="{StaticResource CustomMenuItemStyle}"
+                                                          Tag="&#xE19C;"
+                                                          Command="{Binding Cmd_ShowSubDirsCommand}"
+                                                          CommandParameter="{Binding}"/>
 
-                                                <MenuItem Header="Neuen Unterordner erstellen"
-                                                Style="{StaticResource CustomMenuItemStyle}"
-                                                Tag="&#xE1DA;"
-                                                Command="{Binding Cmd_CreateSubDirsCommand}"
-                                                CommandParameter="{Binding}"/>
+                                                <MenuItem Header="{lex:Loc cmVirtualDirSec_CreateSubFolder}"
+                                                          Style="{StaticResource CustomMenuItemStyle}"
+                                                          Tag="&#xE1DA;"
+                                                          Command="{Binding Cmd_CreateSubDirsCommand}"
+                                                          CommandParameter="{Binding}"/>
 
-                                                <MenuItem Header="Ordner löschen"
-                                                Style="{StaticResource CustomMenuItemStyle}"
-                                                Tag="&#xE107;"
-                                                Command="{Binding Cmd_DeleteSubDirsCommand}"
-                                                CommandParameter="{Binding}"/>
+                                                <MenuItem Header="{lex:Loc cmVirtualDirSec_DeleteFolder}"
+                                                          Style="{StaticResource CustomMenuItemStyle}"
+                                                          Tag="&#xE107;"
+                                                          Command="{Binding Cmd_DeleteSubDirsCommand}"
+                                                          CommandParameter="{Binding}"/>
 
                                             </ContextMenu>
                                         </Button.ContextMenu>
@@ -1249,11 +1272,12 @@
                         <ScrollViewer.ContextMenu>
                             <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
 
-                                <MenuItem Header="Neuen Ordner erstellen"
-                                Style="{StaticResource CustomMenuItemStyle}"
-                                Tag="&#xE1DA;"
-                                Command="{Binding Cmd_ContextMenu_VirtualFirstStageCreateDirectory}"
-                                CommandParameter="{Binding}"/>
+                                <MenuItem Name="cmVirtualDirSec_CreateFolder"
+                                          Header="{lex:Loc}"
+                                          Style="{StaticResource CustomMenuItemStyle}"
+                                          Tag="&#xE1DA;"
+                                          Command="{Binding Cmd_ContextMenu_VirtualFirstStageCreateDirectory}"
+                                          CommandParameter="{Binding}"/>
 
                             </ContextMenu>
                         </ScrollViewer.ContextMenu>
@@ -1306,17 +1330,17 @@
                                                 Command="{Binding Cmd_ContextMenu_RemoveTargetFolder}"
                                                 CommandParameter="{Binding}" />-->
 
-                                                <MenuItem Header="Bilder hier her verschieben"
-                                                    Style="{StaticResource CustomMenuItemStyle}"
-                                                    Tag="&#xE16D;"
-                                                    Command="{Binding Cmd_MoveImagesCommand}"
-                                                    CommandParameter="{Binding}"/>
+                                                <MenuItem Header="{lex:Loc cmVirtualDirSec_MoveImageHere}"
+                                                          Style="{StaticResource CustomMenuItemStyle}"
+                                                          Tag="&#xE16D;"
+                                                          Command="{Binding Cmd_MoveImagesCommand}"
+                                                          CommandParameter="{Binding}"/>
 
-                                                <MenuItem Header="Ordner löschen"
-                                                    Style="{StaticResource CustomMenuItemStyle}"
-                                                    Tag="&#xE107;"
-                                                    Command="{Binding Cmd_DeleteSubDirsCommand}"
-                                                    CommandParameter="{Binding}"/>
+                                                <MenuItem Header="{lex:Loc cmVirtualDirSec_DeleteFolder}"
+                                                          Style="{StaticResource CustomMenuItemStyle}"
+                                                          Tag="&#xE107;"
+                                                          Command="{Binding Cmd_DeleteSubDirsCommand}"
+                                                          CommandParameter="{Binding}"/>
 
                                             </ContextMenu>
                                         </Button.ContextMenu>
@@ -1331,11 +1355,12 @@
                         <ScrollViewer.ContextMenu>
                             <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
 
-                                <MenuItem Header="Neuen Ordner erstellen"
-                                    Style="{StaticResource CustomMenuItemStyle}"
-                                    Tag="&#xE1DA;"
-                                    Command="{Binding Cmd_ContextMenu_VirtualSecondStageCreateDirectory}"
-                                    CommandParameter="{Binding}"/>
+                                <MenuItem Name="cmVirtualDirSec_CreateFolder2"
+                                          Header="{lex:Loc}"
+                                          Style="{StaticResource CustomMenuItemStyle}"
+                                          Tag="&#xE1DA;"
+                                          Command="{Binding Cmd_ContextMenu_VirtualSecondStageCreateDirectory}"
+                                          CommandParameter="{Binding}"/>
 
                             </ContextMenu>
                         </ScrollViewer.ContextMenu>
@@ -1344,23 +1369,21 @@
                 </Grid>
 
                 <TextBlock Grid.Row="1"
-                       Margin="20,10,20,20"
-                       Foreground="{DynamicResource VirtualDirectoryTitleTextForegroundColor}"
-                       FontSize="12"                       
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       FontWeight="Light" 
-                       FontStyle="Italic"
-                       Visibility="{Binding VirtualRootDirectoryList.Count, Converter={StaticResource IntToVis}, ConverterParameter='visible;collapsed', FallbackValue='Visible'}">
+                           Margin="0"
+                           Foreground="{DynamicResource VirtualDirectoryTitleTextForegroundColor}"
+                           FontSize="12"                       
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           FontWeight="Light" 
+                           FontStyle="Italic"
+                           Visibility="{Binding VirtualRootDirectoryList.Count, Converter={StaticResource IntToVis}, ConverterParameter='visible;collapsed', FallbackValue='Visible'}"
+                           Name="tbVirtualDirSec_NoItemText"
+                           Text="{lex:Loc}"/>
 
-                <Run Text="Rechtsklick zum"/>                
-                <Run Text="Hinzufügen weiterer Ordner"/>
-
-                </TextBlock>
             </Grid>
         </Border>
 
-        <!-- Overlay: File Moveprocess Popup Notification List -->
+        <!-- Overlay: File Move Process Popup Notification List -->
         <ItemsControl Grid.Row="1"
                       Grid.RowSpan="2"
                       Grid.ColumnSpan="2"
@@ -1396,10 +1419,11 @@
                             </Grid.RowDefinitions>
 
                             <TextBlock Grid.Column="0"
-                                       Grid.Row="0"
-                                       Text="Zielordner: " 
+                                       Grid.Row="0"                                       
                                        HorizontalAlignment="Left"
-                                       Foreground="{DynamicResource CommonForegroundColor}"/>
+                                       Foreground="{DynamicResource CommonForegroundColor}"
+                                       Name="tbFileMovePopup_TargetPathLabel"
+                                       Text="{lex:Loc}" />
 
                             <TextBlock Grid.Column="1"
                                        Grid.Row="0"
@@ -1408,10 +1432,11 @@
                                        Foreground="{DynamicResource CommonForegroundColor}"/>
 
                             <TextBlock Grid.Column="0"
-                                       Grid.Row="1"
-                                       Text="Datei: " 
+                                       Grid.Row="1"                                       
                                        HorizontalAlignment="Left"
-                                       Foreground="{DynamicResource CommonForegroundColor}"/>
+                                       Foreground="{DynamicResource CommonForegroundColor}"
+                                       Name="tbFileMovePopup_FileLabel"
+                                       Text="{lex:Loc}" />
 
                             <TextBlock Grid.Column="1"
                                        Grid.Row="1"
@@ -1515,12 +1540,13 @@
                             <!--Bottom distance -->
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="1"
-                                   Text="Frage"
+                        
+                        <TextBlock Grid.Row="1"                                   
                                    FontSize="20" 
                                    Foreground="{DynamicResource DialogBtnSymbolColor}"
-                                   FontWeight="Bold"/>
+                                   FontWeight="Bold"
+                                   Name="tbFileMoveDlg_QuestionTitle"
+                                   Text="{lex:Loc}"/>
 
                         <TextBlock Grid.Row="3"
                                    MinWidth="300"
@@ -1528,25 +1554,30 @@
                                    Foreground="{DynamicResource DialogTitleTextForegroundColor}"
                                    TextWrapping="Wrap">
 
-                             <Run Text="Sollen die ausgewählten "/>
-                             <Run Text="{Binding DialogOverlay_MoveFiles_FileCount}"/>
-                             <Run Text=" Dateien nach "/>
-                             <Run Text="{Binding DialogOverlay_MoveFiles_ShortTargetPath}"/>
-                             <Run Text=" verschoben werden?"/>
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{lex:StringFormatConverter}" >
+                                    <lex:BLoc Key="tbFileMoveDlg_QuestionText"/>
+                                    <Binding Path="DialogOverlay_MoveFiles_FileCount"/>
+                                    <Binding Path="DialogOverlay_MoveFiles_ShortTargetPath"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+
                         </TextBlock>
 
                         <Button Grid.Row="5"
                                 HorizontalAlignment="Left"
                                 Style="{StaticResource DialogboxButtonStyle}" 
                                 Tag="&#xE10B;"
-                                Content="Verschieben"
+                                Name="btnFileMoveDlg_StartMove"
+                                Content="{lex:Loc}"
                                 Command="{Binding Cmd_Dlg_StartFileMoveProcess}"/>
 
                         <Button Grid.Row="5"
                                 HorizontalAlignment="Right"
                                 Style="{StaticResource DialogboxButtonStyle}" 
                                 Tag="&#xE10A;"
-                                Content="Abbrechen"
+                                Name="btnFileMoveDlg_Cancle"
+                                Content="{lex:Loc}"
                                 Command="{Binding Cmd_Dlg_AbortStartFileMoveProcess}"/>
 
                     </Grid>
@@ -1609,22 +1640,20 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock Grid.Row="1"
-                           Text="Frage"
-                           FontSize="20" 
-                           Foreground="{DynamicResource DialogBtnSymbolColor}"
-                           FontWeight="Bold"/>
+                                   Name="tbNewFolderDlg_QuestionTitle"
+                                   Text="{lex:Loc}"
+                                   FontSize="20" 
+                                   Foreground="{DynamicResource DialogBtnSymbolColor}"
+                                   FontWeight="Bold"/>
 
                         <StackPanel Grid.Row="3">
 
                             <TextBlock MinWidth="300"
                                        MaxWidth="500"
                                        Foreground="{DynamicResource DialogTitleTextForegroundColor}"
-                                       TextWrapping="Wrap">
-                            
-                                <Run Text="Neuer Ordnername:"/>
-                                <LineBreak/>
-
-                            </TextBlock>
+                                       TextWrapping="Wrap"
+                                       Name="tbNewFolderDlg_QuestionText"
+                                       Text="{lex:Loc}"/>
 
                             <TextBox Height="25">
                                 <TextBox.Resources>
@@ -1653,28 +1682,30 @@
                         </StackPanel>
 
                         <Button Grid.Row="5"
-                            HorizontalAlignment="Left"
-                            Style="{StaticResource DialogboxButtonStyle}" 
-                            Tag="&#xE10B;"
-                            Content="Übernehmen"
-                            Command="{Binding Cmd_Dlg_NewDirectoryNameAccept}"/>
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource DialogboxButtonStyle}" 
+                                Tag="&#xE10B;"
+                                Name="btnNewFolderDlg_Accept"
+                                Content="{lex:Loc}"
+                                Command="{Binding Cmd_Dlg_NewDirectoryNameAccept}"/>
 
                         <Button Grid.Row="5"
-                            HorizontalAlignment="Right"
-                            Style="{StaticResource DialogboxButtonStyle}" 
-                            Tag="&#xE10A;"
-                            Content="Abbrechen"
-                            Command="{Binding Cmd_Dlg_NewDirectoryNameAbort}"/>
+                                HorizontalAlignment="Right"
+                                Style="{StaticResource DialogboxButtonStyle}" 
+                                Tag="&#xE10A;"                                
+                                Name="btnNewFolderDlg_Cancle"
+                                Content="{lex:Loc}"
+                                Command="{Binding Cmd_Dlg_NewDirectoryNameAbort}"/>
 
                     </Grid>
 
                 </StackPanel>
 
-                <!--<Border.Effect>
+                <Border.Effect>
                     <DropShadowEffect ShadowDepth="0"                                                 
                         BlurRadius="10"                                                                                       
                         Color="WhiteSmoke"/>
-                </Border.Effect>-->
+                </Border.Effect>
 
             </Border>
 

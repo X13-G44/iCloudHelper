@@ -28,6 +28,7 @@
 
 
 
+using QuickSort.Resources;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -91,16 +92,16 @@ namespace QuickSort.validationrules
                     return ValidationResult.ValidResult;
 
                 case CheckDirectoryNameResult.NoText:
-                    return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "No Text." : errorText);
+                    return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString ("lNoText") : errorText);
 
                 case CheckDirectoryNameResult.InvalidDirectoryName:
-                    return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "Invalid directory name." : errorText);
+                    return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString("lInvalidDirName") : errorText);
 
                 case CheckDirectoryNameResult.DirectoryAlreadyExists:
-                    return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "Directory already exists." : errorText);
+                    return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString("lDirectoyExists") : errorText);
 
                 default:
-                    return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? "Invalid directory name." : errorText);
+                    return new ValidationResult (false, String.IsNullOrEmpty (errorText) ? LocalizedStrings.GetString("lInvalidDirName") : errorText);
             }
         }
 

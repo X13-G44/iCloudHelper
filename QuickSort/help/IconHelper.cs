@@ -81,7 +81,7 @@ namespace QuickSort.help
         public static ImageSource GetFileIcon (string filePath, bool largeIcon = true)
         {
             ////////////////////////////////////
-            // KI
+            // KI / AI
 
             //SHFILEINFO shinfo = new SHFILEINFO ();
             //uint flags = SHGFI_ICON | (largeIcon ? SHGFI_LARGEICON : SHGFI_SMALLICON);

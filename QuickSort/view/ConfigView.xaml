@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuickSort.view"
-        xmlns:validate_rules="clr-namespace:QuickSort.validationrules"        
+        xmlns:validate_rules="clr-namespace:QuickSort.validationrules"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:LocalizeDictionary.DesignCulture="de"
+        lex:ResxLocalizationProvider.DefaultAssembly="QuickSort"
+        lex:ResxLocalizationProvider.DefaultDictionary="Strings"
         mc:Ignorable="d"
-        Title="iCloudHelper - Einstellungen"
+        Title="{lex:Loc tbConfig_WindowTitle}"
         Height="450" 
         Width="650" 
         Icon="/icloud-logo-49272-Windows.ico" 
@@ -41,11 +45,13 @@
                    Grid.Column="0" 
                    Grid.ColumnSpan="6"
                    Style="{StaticResource ConfigView_HeadLine}"
-                   Content="Allgemeine Ordner-Einstellungen"/>
+                   Name="tbConfig_Title1"
+                   Content="{lex:Loc}"/>
 
             <Label Grid.Row="1"
                    Grid.Column="0"
-                   Content="Start-Verzeichnis"
+                   Name="tbConfig_StartPath"
+                   Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
             <TextBox Grid.Row="1"
                      Grid.Column="2"                    
@@ -66,27 +72,33 @@
             <Button Grid.Row="1"
                     Grid.Column="4"
                     Style="{StaticResource ConfigView_Button}"
-                    Content="Durchsuchen..."
+                    Name="btnConfig_Browse"
+                    Content="{lex:Loc}"
                     Command="{Binding Path=Cmd_BrowseStartFolder}"/>
 
             <Label Grid.Row="2" 
                    Grid.Column="0" 
                    Grid.ColumnSpan="6"
                    Style="{StaticResource ConfigView_HeadLine}"
-                   Content="Sonstige-Einstellungen"/>
+                   Name="tbConfig_Title2"
+                   Content="{lex:Loc}"/>
 
-            <Label Grid.Row="3"
-                   Grid.Column="0"
-                   Content="Verschiebebestätigung"
-                   Style="{StaticResource ConfigView_Label}"/>
+            <TextBlock Grid.Row="3"
+                       Grid.Column="0"
+                       MaxWidth="200"                       
+                       TextWrapping="Wrap"
+                       Name="tbConfig_ShowMoveDlg"
+                       Text="{lex:Loc}"
+                       Style="{StaticResource ConfigView_TextBlock_Top}"/>
             <CheckBox Grid.Row="3"
                       Grid.Column="2"
-                      Style="{StaticResource ConfigView_CheckBox}"
+                      Style="{StaticResource ConfigView_CheckBox_Top}"
                       IsChecked="{Binding ShowMoveDlg, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Grid.Row="4"
                    Grid.Column="0"
-                   Content="Bild-Dateinamen anzeigen"
+                   Name="tbConfig_ShowImgFileName"
+                   Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
             <CheckBox Grid.Row="4"
                       Grid.Column="2"
@@ -95,7 +107,8 @@
 
             <Label Grid.Row="5"
                    Grid.Column="0"
-                   Content="Benutze DarkMode Theme"
+                   Name="tbConfig_UseDarkModeColorTheme"
+                   Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
             <CheckBox Grid.Row="5"
                       Grid.Column="2"
@@ -105,11 +118,10 @@
             <TextBlock Grid.Row="6"
                        Grid.Column="0"
                        MaxWidth="200"
-                       Style="{StaticResource ConfigView_TextBlock_Top}">                    
-                    <Run Text="Einträge automatisch der"/>                    
-                    <LineBreak/>                    
-                    <Run Text="Favoritenliste hinzufügen"/>
-            </TextBlock>
+                       TextWrapping="Wrap"
+                       Name="tbConfig_AutoInsertFavoriteTargetFolderCollectionItems"
+                       Text="{lex:Loc}"
+                       Style="{StaticResource ConfigView_TextBlock_Top}"/>
             <CheckBox Grid.Row="6"
                       Grid.Column="2"
                       Style="{StaticResource ConfigView_CheckBox_Top}"
@@ -118,11 +130,11 @@
             <TextBlock Grid.Row="7"
                        Grid.Column="0"
                        MaxWidth="200"
-                       Style="{StaticResource ConfigView_TextBlock_Top}">
-                    <Run Text="Maxmale Einträge in der"/>                    
-                    <LineBreak/>                    
-                    <Run Text="Favoritenliste"/>
-            </TextBlock>
+                       TextWrapping="Wrap"
+                       Name="tbConfig_MaxFavoriteTargetFolderCollectionItems"
+                       Text="{lex:Loc}"
+                       Style="{StaticResource ConfigView_TextBlock_Top}"/>
+
             <TextBox Grid.Row="7"
                      Grid.Column="2"
                      Name="MAXFAVTARGETFOLDERITEMS_TEXTBOX"
@@ -139,8 +151,7 @@
                         <Binding.ValidationRules>
                             <validate_rules:CheckIntValidationRule ValidatesOnTargetUpdated="True"
                                                                    MinValue="0"
-                                                                   MaxValue="16"
-                                                                   ErrorMessage="Values between 0 and 16 are allowed."/>
+                                                                   MaxValue="16"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -152,7 +163,8 @@
                     Padding="15,5"
                     Height="30"
                     HorizontalAlignment="Right"                    
-                    Content="Einstellungen speichern"
+                    Name="btnConfig_SaveConfig"
+                    Content="{lex:Loc}"
                     Command="{Binding Path=Cmd_SaveConfig}">
 
                 <Button.Style>

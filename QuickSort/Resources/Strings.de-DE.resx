@@ -1,0 +1,354 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="dlgFavTargFolder_HelpText" xml:space="preserve">
+    <value>Neuen Favoriten Ordner auswählen</value>
+  </data>
+  <data name="tbFavTargFolder_NoItemText" xml:space="preserve">
+    <value>Rechtsklick zum Hinzufügen von neuen Favoriten</value>
+  </data>
+  <data name="tbFavTargFolder_Title" xml:space="preserve">
+    <value>Favoriten</value>
+  </data>
+  <data name="ttFileTitleSec_ButtonSmalIconSize" xml:space="preserve">
+    <value>Kleine Symbolgröße</value>
+  </data>
+  <data name="tbFileTitleSec_Title" xml:space="preserve">
+    <value>Bildauswahl</value>
+  </data>
+  <data name="ttFileTitleSec_ButtonMediumIconSize" xml:space="preserve">
+    <value>Mittlere Symbolgröße</value>
+  </data>
+  <data name="ttFileTitleSec_ButtonLargeIconSize" xml:space="preserve">
+    <value>Große Symbolgröße</value>
+  </data>
+  <data name="ttFileTitleSec_ButtonSelectAll" xml:space="preserve">
+    <value>Alles markieren</value>
+  </data>
+  <data name="ttFileTitleSec_ButtonDeselectAll" xml:space="preserve">
+    <value>Auswahl aufheben</value>
+  </data>
+  <data name="ttFileTitleSec_Buttonsettings" xml:space="preserve">
+    <value>Einstellungern</value>
+  </data>
+  <data name="tbFileTitleSec_SubTitle_1" xml:space="preserve">
+    <value>1 Bild ausgewählt</value>
+  </data>
+  <data name="tbFileTitleSec_SubTitle_2" xml:space="preserve">
+    <value>[0] Bilder ausgewählt</value>
+  </data>
+  <data name="tbFileTitleSec_NoItemText" xml:space="preserve">
+    <value>Keine Bilder gefunden. Benutze die Einstellungen zum Ändern des Quellordners</value>
+  </data>
+  <data name="tbFileTitleSec_LodingImages" xml:space="preserve">
+    <value>Bilder werden geladen... ([0]/[1])</value>
+  </data>
+  <data name="tbVirtualDirSec_Title" xml:space="preserve">
+    <value>Zielordner</value>
+  </data>
+  <data name="ttFileTitleSec_FileTitleItem" xml:space="preserve">
+    <value>Name:            \t[0]\nOrdner:          \t[1]\nGröße:           \t[2]kB\nErstelldatum:    \t[3]\nLetzter Zugriff: \t[4]</value>
+  </data>
+  <data name="ttVirtualDirSec_DirItem" xml:space="preserve">
+    <value>Name:            \t[0]\nOrdner:          \t[1]\nDateien:         \t[2]\nUnter-Ordner:    \t[3]</value>
+  </data>
+  <data name="ttFavTargFolder_FavTargetItem" xml:space="preserve">
+    <value>Name:    \t[0]\nOrdner:  \t[1]</value>
+  </data>
+  <data name="tbVirtualDirSec_NoItemText" xml:space="preserve">
+    <value>Rechtsklick zum Hinzufügen von Ordnern</value>
+  </data>
+  <data name="tbFileMovePopup_TargetPathLabel" xml:space="preserve">
+    <value>Zielordner: </value>
+  </data>
+  <data name="tbFileMovePopup_FileLabel" xml:space="preserve">
+    <value>Bild: </value>
+  </data>
+  <data name="tbFileMoveDlg_QuestionTitle" xml:space="preserve">
+    <value>Frage</value>
+  </data>
+  <data name="tbFileMoveDlg_QuestionText" xml:space="preserve">
+    <value>Sollen die {0} ausgewählten Bilder nach "{1}" verschoben werden? </value>
+  </data>
+  <data name="btnFileMoveDlg_StartMove" xml:space="preserve">
+    <value>Verschieben</value>
+  </data>
+  <data name="btnFileMoveDlg_Cancle" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="tbNewFolderDlg_QuestionText" xml:space="preserve">
+    <value>Neuer Ordnername:</value>
+  </data>
+  <data name="btnNewFolderDlg_Accept" xml:space="preserve">
+    <value>Übernehmen</value>
+  </data>
+  <data name="btnNewFolderDlg_Cancle" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="tbNewFolderDlg_QuestionTitle" xml:space="preserve">
+    <value>Frage</value>
+  </data>
+  <data name="cmFavTargFolder_AddEntry2" xml:space="preserve">
+    <value>Eintrag hinzufügen</value>
+  </data>
+  <data name="cmFavTargFolder_MoveImageHere" xml:space="preserve">
+    <value>Bilder hierher verschieben</value>
+  </data>
+  <data name="cmFavTargFolder_AddEntry" xml:space="preserve">
+    <value>Eintrag hinzufügen</value>
+  </data>
+  <data name="cmFavTargFolder_RemoveEntry" xml:space="preserve">
+    <value>Eintrag entfernen</value>
+  </data>
+  <data name="cmFavTargFolder_SetBookmark" xml:space="preserve">
+    <value>Lesezeichen setzen</value>
+  </data>
+  <data name="cmFavTargFolder_RemoveBookmark" xml:space="preserve">
+    <value>Lesezeichen entfernen</value>
+  </data>
+  <data name="cmFileTitleSec_SelectAll" xml:space="preserve">
+    <value>Alles markieren</value>
+  </data>
+  <data name="cmFileTitleSec_DeSelectAll" xml:space="preserve">
+    <value>Auswahl aufheben</value>
+  </data>
+  <data name="cmFileTitleSec_ButtonSmalIconSize" xml:space="preserve">
+    <value>Kleine Symbolgröße</value>
+  </data>
+  <data name="cmFileTitleSec_ButtonMediumIconSize" xml:space="preserve">
+    <value>Mittlere Symbolgröße</value>
+  </data>
+  <data name="cmFileTitleSec_ButtonLargeIconSize" xml:space="preserve">
+    <value>Große Symbolgröße</value>
+  </data>
+  <data name="cmFileTitleSec_RefreshView" xml:space="preserve">
+    <value>Ordner aktualisieren</value>
+  </data>
+  <data name="cmVirtualDirSec_AddEntry" xml:space="preserve">
+    <value>Eintrag hinzufügen</value>
+  </data>
+  <data name="cmVirtualDirSec_CreateFolder" xml:space="preserve">
+    <value>Neuen Ordner erstellen</value>
+  </data>
+  <data name="cmVirtualDirSec_CreateFolder2" xml:space="preserve">
+    <value>Neuen Ordner erstellen</value>
+  </data>
+  <data name="cmVirtualDirSec_MoveImageHere" xml:space="preserve">
+    <value>Bilder hierher verschieben</value>
+  </data>
+  <data name="cmVirtualDirSec_OpenFolder" xml:space="preserve">
+    <value>Ordner öffnen</value>
+  </data>
+  <data name="cmVirtualDirSec_CreateSubFolder" xml:space="preserve">
+    <value>Neuen Unterordner erstellen</value>
+  </data>
+  <data name="cmVirtualDirSec_AddEntry2" xml:space="preserve">
+    <value>Eintrag hinzufügen</value>
+  </data>
+  <data name="cmVirtualDirSec_RemoveEntry" xml:space="preserve">
+    <value>Eintrag entfernen</value>
+  </data>
+  <data name="cmVirtualDirSec_DeleteFolder" xml:space="preserve">
+    <value>Ordner löschen</value>
+  </data>
+  <data name="dlg_AppExitFileCopyStillActive" xml:space="preserve">
+    <value>Es werden gerade noch Dateien im Hintergrund bearbeitet.\n\nWenn Sie die Anwendung beenden, wird dieser Vorgang abgebrochen. Es werden nicht alle ausgewählten Dateien in den Ziel-Ordner verschoben sein!\n\nSoll die Anwendung wirklich beendet werden?</value>
+  </data>
+  <data name="lWarning" xml:space="preserve">
+    <value>Warnung</value>
+  </data>
+  <data name="dlgVirtualDirSec_HelpText" xml:space="preserve">
+    <value>Ordner zum Hinzufügen auswählen</value>
+  </data>
+  <data name="lNewFolder" xml:space="preserve">
+    <value>Neuer Ordnername</value>
+  </data>
+  <data name="dlg_DelayNotEmptyDir" xml:space="preserve">
+    <value>Das ausgewählte Verzeichnis:\n\n\t\"{0}\"\n\ist nicht leer!\n\nSind Sie sicher, dass Sie das Verzeichnis löschen möchten?</value>
+  </data>
+  <data name="dlg_ErrorLoadingImagesFromDir" xml:space="preserve">
+    <value>Es konnten nicht alle Bilder geöffnet und dargestellt werden!\n\n[0]</value>
+  </data>
+  <data name="lError" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="dlg_InvalidNewDirName" xml:space="preserve">
+    <value>Der Ordnername \"{0}\" ist ungültig.</value>
+  </data>
+  <data name="dlg_ADirWithTheNewNameExists" xml:space="preserve">
+    <value>Ein Ordner mit dem Namen \"{0}\" ist bereits vorhanden.</value>
+  </data>
+  <data name="lNoText" xml:space="preserve">
+    <value>Eingabefeld ist leer.</value>
+  </data>
+  <data name="lDirectoyNotExists" xml:space="preserve">
+    <value>Der Ordner existiert nicht.</value>
+  </data>
+  <data name="lTextMustBeANumber" xml:space="preserve">
+    <value>Der Text muss eine Zahl sein.</value>
+  </data>
+  <data name="lNumberRangeError" xml:space="preserve">
+    <value>Die Zahl muss zwischen {0} und {1} liegen.</value>
+  </data>
+  <data name="lInvalidDirName" xml:space="preserve">
+    <value>Ungültiger Ordnername.</value>
+  </data>
+  <data name="lDirectoyExists" xml:space="preserve">
+    <value>Der Ordner existiert bereits.</value>
+  </data>
+  <data name="tbConfig_Title1" xml:space="preserve">
+    <value>Allgemeine Ordner-Einstellungen</value>
+  </data>
+  <data name="tbConfig_StartPath" xml:space="preserve">
+    <value>Standardordner</value>
+  </data>
+  <data name="tbConfig_Title2" xml:space="preserve">
+    <value>Sonstige-Einstellungen</value>
+  </data>
+  <data name="tbConfig_ShowMoveDlg" xml:space="preserve">
+    <value>Sicherheitsabfrage vor dem Verschieben von Bildern anzeigen</value>
+  </data>
+  <data name="tbConfig_ShowImgFileName" xml:space="preserve">
+    <value>Dateinamen von Bildern anzeigen</value>
+  </data>
+  <data name="tbConfig_UseDarkModeColorTheme" xml:space="preserve">
+    <value>Benutze Dark Mode</value>
+  </data>
+  <data name="tbConfig_AutoInsertFavoriteTargetFolderCollectionItems" xml:space="preserve">
+    <value>Einträge automatisch der Favoritenliste hinzufügen</value>
+  </data>
+  <data name="tbConfig_MaxFavoriteTargetFolderCollectionItems" xml:space="preserve">
+    <value>Maximale Einträge in der Favoritenliste</value>
+  </data>
+  <data name="tbConfig_WindowTitle" xml:space="preserve">
+    <value>iCloudHelper - Einstellungen</value>
+  </data>
+  <data name="btnConfig_Browse" xml:space="preserve">
+    <value>Durchsuchen...</value>
+  </data>
+  <data name="btnConfig_SaveConfig" xml:space="preserve">
+    <value>Einstellungen speichern</value>
+  </data>
+  <data name="dlgConfig_StartPath" xml:space="preserve">
+    <value>Standardordner auswählen</value>
+  </data>
+  <data name="dlg_InvalidConfig" xml:space="preserve">
+    <value>Ihre Konfiguration ist ungültig oder wurde noch nicht eingerichtet.\nDamit dieses Programm ordnungsgemäß funktioniert, müssen die Ordner korrekt konfiguriert sein.\n\nSoll das Konfigurationsfenster angezeigt werden, damit die Einstellungen angepasst werden können?</value>
+  </data>
+</root>

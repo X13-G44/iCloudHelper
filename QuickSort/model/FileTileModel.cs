@@ -28,10 +28,12 @@
 
 
 
+using QuickSort.Resources;
 using QuickSort.viewmodel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,7 +66,7 @@ namespace QuickSort.model
         public bool IsSysIconImage
         {
             get { return _IsSysIconImage; }
-            set { _IsSysIconImage = value; OnPropertyChanged (nameof(IsSysIconImage)); }
+            set { _IsSysIconImage = value; OnPropertyChanged (nameof (IsSysIconImage)); }
         }
 
         private bool _isSelected;
@@ -90,11 +92,24 @@ namespace QuickSort.model
 
         public string ToolTip
         {
-            get { return $"Name: \t{this.Filename}\n" +
-                         $"Ordner: \t{this.Filepath}\n" +
-                         $"Größe: \t{this.Filesize}kB\n" +
-                         $"Erstelldatum: \t{this.CreationTime}\n" +
-                         $"Letzter Zugriff: \t{this.LastAccessTime}"; } 
+            get
+            {
+                /*
+                    Name:            \t[0]\n
+                    Ordner:          \t[1]\n
+                    Größe:           \t[2]kB\n
+                    Erstelldatum:    \t[3]\n
+                    Letzter Zugriff: \t[4]
+
+                    Name:            \t[0]\n
+                    Folder:          \t[1]\n
+                    Size:            \t[2]kB\n
+                    Creation date:   \t[3]\n
+                    Last access:     \t[4]
+                */
+
+                return LocalizedStrings.GetFormattedString ("ttFileTitleSec_FileTitleItem", this.Filename, this.Filepath, this.Filesize, this.CreationTime, this.LastAccessTime);
+            }
         }
 
         private bool _HideFilenameText = false;
@@ -112,39 +127,92 @@ namespace QuickSort.model
         }
 
         private string _File = "";
-        public string Filename
-        {
-            get { return System.IO.Path.GetFileName (this.File); }
-        }
-        public string Filepath
-        {
-            get { return System.IO.Path.GetFullPath(this.File); }
-        }
         public string File
         {
             get { return _File; }
-            set { _File = value; OnPropertyChanged (nameof (File)); OnPropertyChanged (nameof (ToolTip)); }
-        }
+            set
+            {
+                _File = value;
+                OnPropertyChanged (nameof (File));
 
-        private long _Filesize = 0;
+                OnPropertyChanged (nameof (Filename));
+                OnPropertyChanged (nameof (Filepath));
+                OnPropertyChanged (nameof (Filesize));
+                OnPropertyChanged (nameof (CreationTime));
+                OnPropertyChanged (nameof (LastAccessTime));
+
+                OnPropertyChanged (nameof (ToolTip));
+            }
+        }
+        public string Filename
+        {
+            get
+            {
+                try
+                {
+                    return System.IO.Path.GetFileName (this.File);
+                }
+                catch
+                {
+                    return this.File;
+                }
+            }
+        }
+        public string Filepath
+        {
+            get
+            {
+                try
+                {
+                    return System.IO.Path.GetFullPath (this.File);
+                }
+                catch
+                {
+                    return this.File;
+                }
+            }
+        }
         public long Filesize
         {
-            get { return _Filesize; }
-            set { _Filesize = value; OnPropertyChanged (nameof (Filesize)); OnPropertyChanged (nameof (ToolTip)); }
+            get
+            {
+                try
+                {
+                    return new FileInfo (this.File).Length / 1024; // Convert site from byte to kB.
+                }
+                catch
+                {
+                    return 0;
+                }
+            }
         }
-
-        private DateTime _CreationTime = new DateTime();
         public DateTime CreationTime
         {
-            get { return _CreationTime; }
-            set { _CreationTime = value; OnPropertyChanged (nameof (CreationTime)); OnPropertyChanged (nameof (ToolTip)); }
+            get
+            {
+                try
+                {
+                    return System.IO.File.GetCreationTime (this.File);
+                }
+                catch
+                {
+                    return DateTime.Today;
+                }
+            }
         }
-
-        private DateTime _LastAccessTime = new DateTime ();
         public DateTime LastAccessTime
         {
-            get { return _LastAccessTime; }
-            set { _LastAccessTime = value; OnPropertyChanged (nameof (LastAccessTime)); OnPropertyChanged (nameof (ToolTip)); }
+            get
+            {
+                try
+                {
+                    return System.IO.File.GetLastAccessTime (this.File);
+                }
+                catch
+                {
+                    return DateTime.Today;
+                }
+            }
         }
 
 

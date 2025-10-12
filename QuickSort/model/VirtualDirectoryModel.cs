@@ -28,6 +28,7 @@
 
 
 
+using QuickSort.Resources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -63,17 +64,23 @@ namespace QuickSort.model
             {
                 try
                 {
-                    return $"Name:        \t{this.DisplayName}\n" +
-                           $"Ordner:      \t{this.Path}\n" +
-                           $"Dateien:     \t{System.IO.Directory.GetFiles (this.Path).Length}\n" +
-                           $"Unter-Ordner:\t{System.IO.Directory.GetDirectories (this.Path).Length}";
+                    /*
+                        Name:            \t[0]\n
+                        Ordner:          \t[1]\n
+                        Dateien:         \t[2]\n
+                        Unter-Ordner:    \t[3]
+
+                        Name:            \t[0]\n
+                        Folder:          \t[1]\n
+                        File count:      \t[2]\n
+                        Subfilder count: \t[3]
+                    */
+
+                    return LocalizedStrings.GetFormattedString ("ttVirtualDirSec_DirItem", this.DisplayName, this.Path, System.IO.Directory.GetFiles (this.Path).Length, System.IO.Directory.GetDirectories (this.Path).Length);
                 }
                 catch
                 {
-                    return $"Name:        \t{this.DisplayName}\n" +
-                           $"Ordner:      \t{this.Path}\n" +
-                           $"Dateien:     \t?\n" +
-                           $"Unter-Ordner:\t?";
+                    return LocalizedStrings.GetFormattedString ("ttVirtualDirSec_DirItem", this.DisplayName, this.Path, "?", "?");
                 }
             }
         }

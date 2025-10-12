@@ -30,6 +30,7 @@
 
 using QuickSort.help;
 using QuickSort.model;
+using QuickSort.Resources;
 using QuickSort.validationrules;
 using QuickSort.view;
 using QuickSort.viewmodel;
@@ -265,9 +266,11 @@ namespace QuickSort.viewmodel
                     {
                         if (this.FileMoveProcPopupNotificationList.Count != 0)
                         {
-                            if (System.Windows.MessageBox.Show ("Es werden gerade noch Dateien im Hintergrund bearbeitet.\n\nWenn Sie die Anwendung beenden, wird dieser Vorganng abgebrochen. Es " +
-                                "werden nicht alle ausgewählten Dateien in den Ziel-Ordner verschoben sein!\n\nSoll die Anwendung wirklich beendet werden?",
-                                "Warnung", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes) == MessageBoxResult.OK)
+                            if (System.Windows.MessageBox.Show (LocalizedStrings.GetString ("dlg_AppExitFileCopyStillActive"),
+                                $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
+                                MessageBoxButton.YesNo,
+                                MessageBoxImage.Warning,
+                                MessageBoxResult.Yes) == MessageBoxResult.OK)
                             {
                                 return;
                             }
@@ -538,8 +541,7 @@ namespace QuickSort.viewmodel
                                                      Properties.Settings.Default.LastUsedPath :
                                                      Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
 
-
-                                dialog.Description = "Zielordner auswählen";
+                                dialog.Description = LocalizedStrings.GetString ("dlgFavTargFolder_HelpText");
                                 dialog.ShowNewFolderButton = true;
                                 dialog.SelectedPath = initialPath;
 
@@ -608,7 +610,7 @@ namespace QuickSort.viewmodel
                                                      Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
 
 
-                                dialog.Description = "Zielordner auswählen";
+                                dialog.Description = LocalizedStrings.GetString ("dlgVirtualDirSec_HelpText");
                                 dialog.ShowNewFolderButton = true;
                                 dialog.SelectedPath = initialPath;
 
@@ -742,7 +744,7 @@ namespace QuickSort.viewmodel
                             if (selectedVirtRootDirObject != null)
                             {
                                 this.DialogOverlay_NewDirectoryName_Show = true;
-                                this.DialogOverlay_NewDirectoryName_Name = "Neuer Ordner";
+                                this.DialogOverlay_NewDirectoryName_Name = LocalizedStrings.GetString ("lNewFolder");
                                 this.DialogOverly_NewDirectoryRootPath = selectedVirtRootDirObject.Path;
 
                                 this._DlgHelper_CreateNewDirectory_Data = new DlgHelperCreateNewDirectory (selectedVirtRootDirObject,
@@ -776,10 +778,8 @@ namespace QuickSort.viewmodel
 
                             if (Directory.GetDirectories (selectedVirtDirObject.Path).Length > 0 || Directory.GetFiles (selectedVirtDirObject.Path).Length > 0)
                             {
-                                if (System.Windows.MessageBox.Show ($"The selected directory:\n\n\t\"{selectedVirtDirObject.Path}\"\n\n" +
-                                    $"is not empty!\n\n" +
-                                    $"Are your sure to delete the directory?",
-                                    $"{App.APP_TITLE} - Warning",
+                                if (System.Windows.MessageBox.Show (LocalizedStrings.GetFormattedString ("dlg_DelayNotEmptyDir", selectedVirtDirObject.Path),
+                                    $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
                                     MessageBoxButton.YesNo,
                                     MessageBoxImage.Warning,
                                     MessageBoxResult.No) != MessageBoxResult.Yes)
@@ -873,7 +873,7 @@ namespace QuickSort.viewmodel
                             if (selectedVirtRootDirObject != null)
                             {
                                 this.DialogOverlay_NewDirectoryName_Show = true;
-                                this.DialogOverlay_NewDirectoryName_Name = "Neuer Ordner";
+                                this.DialogOverlay_NewDirectoryName_Name = LocalizedStrings.GetString ("lNewFolder");
                                 this.DialogOverly_NewDirectoryRootPath = selectedVirtRootDirObject.Path;
 
                                 this._DlgHelper_CreateNewDirectory_Data = new DlgHelperCreateNewDirectory (selectedVirtRootDirObject,
@@ -907,10 +907,8 @@ namespace QuickSort.viewmodel
 
                             if (Directory.GetDirectories (selectedVirtDirObject.Path).Length > 0 || Directory.GetFiles (selectedVirtDirObject.Path).Length > 0)
                             {
-                                if (System.Windows.MessageBox.Show ($"The selected directory:\n\n\t\"{selectedVirtDirObject.Path}\"\n\n" +
-                                $"is not empty!\n\n" +
-                                $"Are your sure to delete the directory?",
-                                $"{App.APP_TITLE} - Warning",
+                                if (System.Windows.MessageBox.Show (LocalizedStrings.GetFormattedString ("dlg_DelayNotEmptyDir", selectedVirtDirObject.Path),
+                                $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
                                 MessageBoxButton.YesNo,
                                 MessageBoxImage.Warning,
                                 MessageBoxResult.No) != MessageBoxResult.Yes)
@@ -1018,7 +1016,7 @@ namespace QuickSort.viewmodel
                                 _Dispatcher.Invoke (() =>
                                 {
                                     this.FileTitleLoadStatus_Show = true;
-                                    this.FileTitleLoadStatus_Text = $"Bilder werden geladen... ({curCnt}/{maxCnt})";
+                                    this.FileTitleLoadStatus_Text = LocalizedStrings.GetFormattedString ("tbFileTitleSec_LodingImages", curCnt, maxCnt);
 
                                     UpdateFileTitleList (infoObj);
                                 });
@@ -1036,9 +1034,8 @@ namespace QuickSort.viewmodel
 
                                         errorMessages.ForEach (s => errorMessageString += s + "\n");
 
-                                        MessageBox.Show ($"Some image files could not be loaded!\n\n" +
-                                            $"Messages\n:{errorMessageString}",
-                                            $"{App.APP_TITLE} - Warning",
+                                        MessageBox.Show (LocalizedStrings.GetFormattedString ("dlg_ErrorLoadingImagesFromDir", errorMessageString),
+                                            $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
                                             MessageBoxButton.OK,
                                             MessageBoxImage.Warning);
                                     }
@@ -1100,16 +1097,16 @@ namespace QuickSort.viewmodel
 
                             if (checkNewDirNameResult == CheckDirectoryNameResult.InvalidDirectoryName)
                             {
-                                System.Windows.MessageBox.Show ($"The directory name \"{DialogOverlay_NewDirectoryName_Name}\" is not valid.",
-                                                                $"{App.APP_TITLE} - Error",
+                                System.Windows.MessageBox.Show (LocalizedStrings.GetFormattedString ("dlg_InvalidNewDirName", DialogOverlay_NewDirectoryName_Name),
+                                                                $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lError")}",
                                                                 MessageBoxButton.OK,
                                                                 MessageBoxImage.Error);
                                 return;
                             }
                             else if (checkNewDirNameResult == CheckDirectoryNameResult.DirectoryAlreadyExists)
                             {
-                                System.Windows.MessageBox.Show ($"A directory with the name \"{DialogOverlay_NewDirectoryName_Name}\" already exists.",
-                                                                $"{App.APP_TITLE} - Error",
+                                System.Windows.MessageBox.Show (LocalizedStrings.GetFormattedString ("dlg_ADirWithTheNewNameExists", DialogOverlay_NewDirectoryName_Name),
+                                                                $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lError")}",
                                                                 MessageBoxButton.OK,
                                                                 MessageBoxImage.Error);
                                 return;
@@ -1177,7 +1174,7 @@ namespace QuickSort.viewmodel
                     _Dispatcher.Invoke (() =>
                     {
                         this.FileTitleLoadStatus_Show = true;
-                        this.FileTitleLoadStatus_Text = $"Bilder werden geladen... ({curCnt}/{maxCnt})";
+                        this.FileTitleLoadStatus_Text = LocalizedStrings.GetFormattedString ("tbFileTitleSec_LodingImages", curCnt, maxCnt);
 
                         UpdateFileTitleList (infoObj);
                     });
@@ -1195,9 +1192,8 @@ namespace QuickSort.viewmodel
 
                             errorMessages.ForEach (s => errorMessageString += s + "\n");
 
-                            MessageBox.Show ($"Some image files could not be loaded!\n\n" +
-                                $"Messages\n:{errorMessageString}",
-                                $"{App.APP_TITLE} - Warning",
+                            MessageBox.Show (LocalizedStrings.GetFormattedString ("dlg_ErrorLoadingImagesFromDir", errorMessageString),
+                                $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Warning);
                         }
@@ -1417,9 +1413,6 @@ namespace QuickSort.viewmodel
                             SizeLevel = Properties.Settings.Default.FolderTitleSizeLevel,
 
                             File = imageFileInfoItem.File,
-                            Filesize = (int) (new FileInfo (imageFileInfoItem.File).Length / 1024), // Convert site from byte to kB.
-                            CreationTime = System.IO.File.GetCreationTime (imageFileInfoItem.File),
-                            LastAccessTime = System.IO.File.GetLastAccessTime (imageFileInfoItem.File),
 
                             IsSysIconImage = imageFileInfoItem.IsSysIconImage,
                         });
@@ -1440,9 +1433,6 @@ namespace QuickSort.viewmodel
                         SizeLevel = Properties.Settings.Default.FolderTitleSizeLevel,
 
                         File = singleImageFileInfo.File,
-                        Filesize = (int) (new FileInfo (singleImageFileInfo.File).Length / 1024), // Convert site from byte to kB.
-                        CreationTime = System.IO.File.GetCreationTime (singleImageFileInfo.File),
-                        LastAccessTime = System.IO.File.GetLastAccessTime (singleImageFileInfo.File),
 
                         IsSysIconImage = singleImageFileInfo.IsSysIconImage,
                     });
@@ -1549,7 +1539,7 @@ namespace QuickSort.viewmodel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine ($"Error loading target folders from settings: {ex.Message}");
+                Debug.WriteLine ($"Error loading virtual directory from settings: {ex.Message}");
             }
         }
 
@@ -1724,7 +1714,7 @@ namespace QuickSort.viewmodel
 
             // Remove the old (initial) theme.
             var oldDict = System.Windows.Application.Current.Resources.MergedDictionaries.FirstOrDefault (d => d.Source != null && (d.Source.OriginalString.Contains ("/view/theme/ColorThemeDarkMode.xaml") ||
-                                                                                                                     d.Source.OriginalString.Contains ("/view/theme/ColorThemeLightMode.xaml")));
+                                                                                                                                    d.Source.OriginalString.Contains ("/view/theme/ColorThemeLightMode.xaml")));
             if (oldDict != null)
             {
                 System.Windows.Application.Current.Resources.MergedDictionaries.Remove (oldDict);
@@ -1741,11 +1731,11 @@ namespace QuickSort.viewmodel
             var count = this.FileTileList.Count (x => x.IsSelected);
             if (count > 1)
             {
-                this.FileTileStatusText = $"{count} Bilder ausgewählt";
+                this.FileTileStatusText = LocalizedStrings.GetFormattedString ("tbFileTitleSec_SubTitle_2", count);
             }
             else if (count == 1)
             {
-                this.FileTileStatusText = $"{count} Bild ausgewählt";
+                this.FileTileStatusText = LocalizedStrings.GetString ("tbFileTitleSec_SubTitle_1");
             }
             else
             {

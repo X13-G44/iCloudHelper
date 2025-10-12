@@ -25,9 +25,11 @@
 /// along with this program. If not, see <http://www.apache.org/licenses/LICENSE-2.0/>.
 ///      
 /// ////////////////////////////////////////////////////////////////////////
- 
 
 
+
+using QuickSort.Resources;
+using QuickSort.viewmodel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -36,7 +38,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
-using QuickSort.viewmodel;
 
 
 
@@ -67,7 +68,18 @@ namespace QuickSort.model
 
         public string ToolTip
         {
-            get { return $"Name: \t{this.DisplayName}\nOrdner: \t{this.Path}"; }
+            get
+            {
+                /*
+                                Name:    \t[0]\n
+                                Ordner:  \t[1]
+
+                                Name:    \t[0]\n
+                                Folder:  \t[1]
+                */
+
+                return LocalizedStrings.GetFormattedString ("ttFavTargFolder_FavTargetItem", this.DisplayName, this.Path);
+            }
         }
 
         private bool _IsPinned;
