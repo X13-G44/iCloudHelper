@@ -318,7 +318,7 @@
   <data name="tbConfig_StartPath" xml:space="preserve">
     <value>Default folder</value>
   </data>
-  <data name="tbConfig_Title2" xml:space="preserve">
+  <data name="tbConfig_Title3" xml:space="preserve">
     <value>Other settings</value>
   </data>
   <data name="tbConfig_ShowMoveDlg" xml:space="preserve">
@@ -350,5 +350,20 @@
   </data>
   <data name="dlg_InvalidConfig" xml:space="preserve">
     <value>Your configuration is invalid or has not been setup yet.\nFor this program to work properly, the folders must be configured correctly.\n\nShould the configuration window be displayed so that the settings can be adjusted?</value>
+  </data>
+  <data name="tbConfig_Title2" xml:space="preserve">
+    <value>Interface settings</value>
+  </data>
+  <data name="tbConfig_Language" xml:space="preserve">
+    <value>Select language</value>
+  </data>
+  <data name="cbConfig_LanguageDefault" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="cbConfig_LanguageEnglish" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="cbConfig_LanguageGerman" xml:space="preserve">
+    <value>German</value>
   </data>
 </root>

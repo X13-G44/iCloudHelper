@@ -115,11 +115,11 @@
                                          To="1.0" 
                                          Duration="0:0:1.5"/>
 
-                        <!--<DoubleAnimation Storyboard.TargetProperty="Opacity"
+                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                          BeginTime="0:0:15"
                                          From="1.0" 
                                          To="0.0" 
-                                         Duration="0:0:1.5"/>-->
+                                         Duration="0:0:1.5"/>
 
                     </Storyboard>
 

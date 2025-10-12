@@ -89,6 +89,13 @@ namespace QuickSort.viewmodel
             set { _AutoInsertFavoriteTargetFolderCollectionItems = value; OnPropertyChanged (nameof (AutoInsertFavoriteTargetFolderCollectionItems)); }
         }
 
+        private int _Language;
+        public int Language
+        {
+            get { return _Language; }
+            set { _Language = value; OnPropertyChanged (nameof (Language)); }
+        }
+
 
 
         public RelayCommand Cmd_BrowseStartFolder
@@ -133,6 +140,7 @@ namespace QuickSort.viewmodel
                         QuickSort.Properties.Settings.Default.ColorThemeId = (uint) (this.UseDarkModeColorTheme == true ? 1 : 0);
                         QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionLimit = this.MaxFavoriteTargetFolderCollectionItems;
                         QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionAutoInsert = this.AutoInsertFavoriteTargetFolderCollectionItems;
+                        QuickSort.Properties.Settings.Default.Language = this.Language;
 
                         QuickSort.Properties.Settings.Default.Save ();
 
@@ -164,6 +172,7 @@ namespace QuickSort.viewmodel
             this.UseDarkModeColorTheme = QuickSort.Properties.Settings.Default.ColorThemeId == 1 ? true : false;
             this.MaxFavoriteTargetFolderCollectionItems = QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionLimit;
             this.AutoInsertFavoriteTargetFolderCollectionItems = QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionAutoInsert;
+            this.Language = QuickSort.Properties.Settings.Default.Language;
         }
     }
 }

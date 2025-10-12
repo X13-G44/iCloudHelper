@@ -50,6 +50,8 @@ namespace QuickSort
     {
         public const string APP_TITLE = "iCloudHelper";
 
+        public readonly CultureInfo SystemCultureInfo;
+
 
 
         public string StartPath { get; private set; }
@@ -58,7 +60,8 @@ namespace QuickSort
 
         public App ()
         {
-            LocalizeDictionary.Instance.Culture = CultureInfo.CurrentUICulture;
+            LocalizeDictionary.Instance.Culture = CultureInfo.CurrentUICulture; // Setup default culture info.
+            this.SystemCultureInfo = CultureInfo.CurrentUICulture;              // Get and store windows default culture info.
         }
 
 
@@ -69,6 +72,9 @@ namespace QuickSort
 
 
             base.OnStartup (e);
+
+            // Update the UI language (for dlg message box).
+            SetUiLanguage ();
 
             if (string.IsNullOrEmpty (starPath) || !Directory.Exists (starPath))
             {
@@ -117,6 +123,8 @@ namespace QuickSort
                 this.StartPath = starPath;
             }
 
+            // Update the UI language.
+            SetUiLanguage ();
 
             // Start and show main UI window.
             var mainView = new MainView ();
@@ -148,6 +156,34 @@ namespace QuickSort
             catch
             {
                 return false;
+            }
+        }
+
+
+
+        public void SetUiLanguage ()
+        {
+            switch (QuickSort.Properties.Settings.Default.Language)
+            {
+                default:
+                case 0:
+                    {
+                        LocalizedStrings.SetCulture (this.SystemCultureInfo.Name);
+
+                        break;
+                    }
+
+                case 1:
+                    {
+                        LocalizedStrings.SetCulture ("de-DE");
+                        break;
+                    }
+
+                case 2:
+                    {
+                        LocalizedStrings.SetCulture ("en-US");
+                        break;
+                    }
             }
         }
     }

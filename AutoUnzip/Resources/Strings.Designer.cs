@@ -79,6 +79,33 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Default ähnelt.
+        /// </summary>
+        public static string cbConfig_LanguageDefault {
+            get {
+                return ResourceManager.GetString("cbConfig_LanguageDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die English ähnelt.
+        /// </summary>
+        public static string cbConfig_LanguageEnglish {
+            get {
+                return ResourceManager.GetString("cbConfig_LanguageEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gerrman ähnelt.
+        /// </summary>
+        public static string cbConfig_LanguageGerman {
+            get {
+                return ResourceManager.GetString("cbConfig_LanguageGerman", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die An error occurred while waiting for file access to file \&quot;{0}\&quot; located in folder \&quot;{1}\&quot;.\n\nNo images was extracted and no backup files was created!\nSystem error message is \&quot;{2}\&quot;. ähnelt.
         /// </summary>
         public static string dlg_AchiveFileAccessError {
@@ -304,6 +331,15 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select language ähnelt.
+        /// </summary>
+        public static string tbConfig_Language {
+            get {
+                return ResourceManager.GetString("tbConfig_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Prefix for temporary folder ähnelt.
         /// </summary>
         public static string tbConfig_TempFolderPrefix {
@@ -331,11 +367,20 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Other settings ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Interface settings ähnelt.
         /// </summary>
         public static string tbConfig_Title3 {
             get {
                 return ResourceManager.GetString("tbConfig_Title3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Other settings ähnelt.
+        /// </summary>
+        public static string tbConfig_Title4 {
+            get {
+                return ResourceManager.GetString("tbConfig_Title4", resourceCulture);
             }
         }
         

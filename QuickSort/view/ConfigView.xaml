@@ -11,7 +11,7 @@
         lex:ResxLocalizationProvider.DefaultDictionary="Strings"
         mc:Ignorable="d"
         Title="{lex:Loc tbConfig_WindowTitle}"
-        Height="450" 
+        Height="500" 
         Width="650" 
         Icon="/icloud-logo-49272-Windows.ico" 
         ResizeMode="CanMinimize">
@@ -29,6 +29,8 @@
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -83,59 +85,79 @@
                    Content="{lex:Loc}"                   
                    Style="{StaticResource ConfigView_HeadLine}"/>
 
-            <TextBlock Grid.Row="3"
+            <Label Grid.Row="3"
+                   Grid.Column="0"
+                   Name="tbConfig_UseDarkModeColorTheme"
+                   Content="{lex:Loc}"
+                   Style="{StaticResource ConfigView_Label}"/>
+            <CheckBox Grid.Row="3"
+                      Grid.Column="2"
+                      Style="{StaticResource ConfigView_CheckBox}"
+                      IsChecked="{Binding UseDarkModeColorTheme, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Label Grid.Row="4"
+                   Grid.Column="0"
+                   Name="tbConfig_Language"
+                   Content="{lex:Loc}"
+                   Style="{StaticResource ConfigView_Label}"/>
+            <ComboBox Grid.Row="4"
+                      Grid.Column="2"                      
+                      SelectedIndex="{Binding Language, FallbackValue=0}"
+                      Style="{StaticResource ConfigView_ComboBox}">
+                <ComboBoxItem Content="{lex:Loc cbConfig_LanguageDefault}"/>
+                <ComboBoxItem Content="{lex:Loc cbConfig_LanguageGerman}"/>
+                <ComboBoxItem Content="{lex:Loc cbConfig_LanguageEnglish}"/>
+            </ComboBox>
+
+            <Label Grid.Row="5" 
+                   Grid.Column="0" 
+                   Grid.ColumnSpan="6"
+                   Name="tbConfig_Title3"
+                   Content="{lex:Loc}"                   
+                   Style="{StaticResource ConfigView_HeadLine}"/>
+
+            <TextBlock Grid.Row="6"
                        Grid.Column="0"
                        MaxWidth="200"
                        TextWrapping="Wrap"
                        Name="tbConfig_ShowMoveDlg"
                        Text="{lex:Loc}"
                        Style="{StaticResource ConfigView_TextBlock_Top}"/>
-            <CheckBox Grid.Row="3"
+            <CheckBox Grid.Row="6"
                       Grid.Column="2"
                       Style="{StaticResource ConfigView_CheckBox_Top}"
                       IsChecked="{Binding ShowMoveDlg, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <Label Grid.Row="4"
+            <Label Grid.Row="7"
                    Grid.Column="0"
                    Name="tbConfig_ShowImgFileName"
                    Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
-            <CheckBox Grid.Row="4"
+            <CheckBox Grid.Row="7"
                       Grid.Column="2"
                       Style="{StaticResource ConfigView_CheckBox}"
                       IsChecked="{Binding ShowImgFileName, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <Label Grid.Row="5"
-                   Grid.Column="0"
-                   Name="tbConfig_UseDarkModeColorTheme"
-                   Content="{lex:Loc}"
-                   Style="{StaticResource ConfigView_Label}"/>
-            <CheckBox Grid.Row="5"
-                      Grid.Column="2"
-                      Style="{StaticResource ConfigView_CheckBox}"
-                      IsChecked="{Binding UseDarkModeColorTheme, UpdateSourceTrigger=PropertyChanged}"/>
-
-            <TextBlock Grid.Row="6"
+            <TextBlock Grid.Row="8"
                        Grid.Column="0"
                        MaxWidth="200"
                        TextWrapping="Wrap"
                        Name="tbConfig_AutoInsertFavoriteTargetFolderCollectionItems"
                        Text="{lex:Loc}"
                        Style="{StaticResource ConfigView_TextBlock_Top}"/>
-            <CheckBox Grid.Row="6"
+            <CheckBox Grid.Row="8"
                       Grid.Column="2"
                       Style="{StaticResource ConfigView_CheckBox_Top}"
                       IsChecked="{Binding AutoInsertFavoriteTargetFolderCollectionItems, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <TextBlock Grid.Row="7"
+            <TextBlock Grid.Row="9"
                        Grid.Column="0"
                        MaxWidth="200"
                        TextWrapping="Wrap"
                        Name="tbConfig_MaxFavoriteTargetFolderCollectionItems"
                        Text="{lex:Loc}"
                        Style="{StaticResource ConfigView_TextBlock_Top}"/>
-
-            <TextBox Grid.Row="7"
+            <TextBox Grid.Row="9"
                      Grid.Column="2"
                      Name="MAXFAVTARGETFOLDERITEMS_TEXTBOX"
                      Style="{StaticResource ConfigView_TextBox_Top}"
@@ -157,7 +179,7 @@
                 </TextBox.Text>
             </TextBox>
 
-            <Button Grid.Row="9"
+            <Button Grid.Row="11"
                     Grid.Column="2"
                     Grid.ColumnSpan="3"
                     Padding="15,5"

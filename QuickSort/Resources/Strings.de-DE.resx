@@ -318,7 +318,7 @@
   <data name="tbConfig_StartPath" xml:space="preserve">
     <value>Standardordner</value>
   </data>
-  <data name="tbConfig_Title2" xml:space="preserve">
+  <data name="tbConfig_Title3" xml:space="preserve">
     <value>Sonstige-Einstellungen</value>
   </data>
   <data name="tbConfig_ShowMoveDlg" xml:space="preserve">
@@ -350,5 +350,20 @@
   </data>
   <data name="dlg_InvalidConfig" xml:space="preserve">
     <value>Ihre Konfiguration ist ungültig oder wurde noch nicht eingerichtet.\nDamit dieses Programm ordnungsgemäß funktioniert, müssen die Ordner korrekt konfiguriert sein.\n\nSoll das Konfigurationsfenster angezeigt werden, damit die Einstellungen angepasst werden können?</value>
+  </data>
+  <data name="tbConfig_Title2" xml:space="preserve">
+    <value>Oberflächen-Einstellungen</value>
+  </data>
+  <data name="tbConfig_Language" xml:space="preserve">
+    <value>Sprache auswählen</value>
+  </data>
+  <data name="cbConfig_LanguageDefault" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="cbConfig_LanguageEnglish" xml:space="preserve">
+    <value>Englisch</value>
+  </data>
+  <data name="cbConfig_LanguageGerman" xml:space="preserve">
+    <value>Deutsch</value>
   </data>
 </root>

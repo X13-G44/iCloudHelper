@@ -217,7 +217,10 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     _ =>
                     {
+                        App app = (App) Application.Current;
+
                         var dialog = new ConfigView ();
+
                         string oldStartPath = QuickSort.Properties.Settings.Default.StartPath;
                         bool oldShowImageFileName = QuickSort.Properties.Settings.Default.ShowImageFileName;
 
@@ -229,7 +232,10 @@ namespace QuickSort.viewmodel
                             // Update the color theme.
                             SetColorTheme ();
 
-                            // Refresh the file title list, when user changed the path.
+                            // Update the UI language.
+                            app.SetUiLanguage ();
+
+                            // Refresh the file title list, when user changed the default start path.
                             // We call the Cmd_ContextMenu_RefreshFileTitleList command for do this,
                             // so we don't duplicate the code for this task.
                             if (oldStartPath != QuickSort.Properties.Settings.Default.StartPath)
@@ -244,8 +250,8 @@ namespace QuickSort.viewmodel
                             else if (oldShowImageFileName != QuickSort.Properties.Settings.Default.ShowImageFileName &&
                                      oldStartPath == QuickSort.Properties.Settings.Default.StartPath)
                             {
-                                // Update the file title list only, when the image file buffer wasn't changed. If it was changed, the
-                                // file title list was indirect updated by refreshing the image file buffer.
+                                // Update the file title list only, when the image file buffer wasn't changed.
+                                // If it was changed, the file title list was indirect updated by refreshing the image file buffer (above).
 
                                 UpdateFileTitleList ();
                             }

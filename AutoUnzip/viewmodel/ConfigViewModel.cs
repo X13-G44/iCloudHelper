@@ -103,6 +103,13 @@ namespace AutoUnzip.viewmodel
             set { _UseDarkModeColorTheme = value; OnPropertyChanged (nameof (UseDarkModeColorTheme)); }
         }
 
+        private int _Language;
+        public int Language
+        {
+            get { return _Language; }
+            set { _Language = value; OnPropertyChanged (nameof (Language)); }
+        }
+
 
 
         public RelayCommand Cmd_BrowseWatchPath
@@ -231,6 +238,7 @@ namespace AutoUnzip.viewmodel
                         AutoUnzip.Properties.Settings.Default.BackupRetentionPeriod = this.BackupRetentionPeriod;
                         AutoUnzip.Properties.Settings.Default.QuickSortApp = this.QuickSortApp;
                         AutoUnzip.Properties.Settings.Default.ColorThemeId = (uint) (this.UseDarkModeColorTheme == true ? 1 : 0);
+                        AutoUnzip.Properties.Settings.Default.Language = this.Language;
 
                         AutoUnzip.Properties.Settings.Default.Save ();
 
@@ -264,6 +272,7 @@ namespace AutoUnzip.viewmodel
             this.BackupRetentionPeriod = AutoUnzip.Properties.Settings.Default.BackupRetentionPeriod;
             this.QuickSortApp = AutoUnzip.Properties.Settings.Default.QuickSortApp;
             this.UseDarkModeColorTheme = AutoUnzip.Properties.Settings.Default.ColorThemeId == 1 ? true : false;
+            this.Language = AutoUnzip.Properties.Settings.Default.Language;
         }
     }
 }

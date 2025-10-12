@@ -80,8 +80,7 @@ namespace AutoUnzip.viewmodel
                 return new RelayCommand (
                     _ =>
                     {
-#warning For testing inactive!
-                        //_View.Close ();
+                        _View.Close ();
                     },
                     param => true
                 );

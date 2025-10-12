@@ -171,7 +171,7 @@
   <data name="tbConfig_Title2" xml:space="preserve">
     <value>Backup settings</value>
   </data>
-  <data name="tbConfig_Title3" xml:space="preserve">
+  <data name="tbConfig_Title4" xml:space="preserve">
     <value>Other settings</value>
   </data>
   <data name="tbConfig_UseDarkModeColorTheme" xml:space="preserve">
@@ -224,5 +224,20 @@
   </data>
   <data name="tbMain_StartQuickSort" xml:space="preserve">
     <value>Click here to start Quicksort application</value>
+  </data>
+  <data name="tbConfig_Title3" xml:space="preserve">
+    <value>Interface settings</value>
+  </data>
+  <data name="tbConfig_Language" xml:space="preserve">
+    <value>Select language</value>
+  </data>
+  <data name="cbConfig_LanguageDefault" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="cbConfig_LanguageGerman" xml:space="preserve">
+    <value>Gerrman</value>
+  </data>
+  <data name="cbConfig_LanguageEnglish" xml:space="preserve">
+    <value>English</value>
   </data>
 </root>

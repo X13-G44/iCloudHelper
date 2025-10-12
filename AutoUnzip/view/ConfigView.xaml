@@ -11,7 +11,7 @@
         lex:ResxLocalizationProvider.DefaultDictionary="Strings"
         mc:Ignorable="d"
         Title="{lex:Loc tbConfig_WindowTitle}"
-        Height="550" 
+        Height="650" 
         Width="650" 
         Icon="/icloud-logo-49272-Windows.ico" 
         ResizeMode="CanMinimize">
@@ -28,6 +28,8 @@
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -218,9 +220,40 @@
 
             <Label Grid.Row="9"
                    Grid.Column="0"
+                   Name="tbConfig_UseDarkModeColorTheme"
+                   Content="{lex:Loc}"
+                   Style="{StaticResource ConfigView_Label}"/>
+            <CheckBox Grid.Row="9"
+                      Grid.Column="2"
+                      Style="{StaticResource ConfigView_CheckBox}"
+                      IsChecked="{Binding UseDarkModeColorTheme, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Label Grid.Row="10"
+                   Grid.Column="0"
+                   Name="tbConfig_Language"
+                   Content="{lex:Loc}"
+                   Style="{StaticResource ConfigView_Label}"/>
+            <ComboBox Grid.Row="10"
+                      Grid.Column="2"
+                      SelectedIndex="{Binding Language, FallbackValue=0}"
+                      Style="{StaticResource ConfigView_ComboBox}">
+                <ComboBoxItem Content="{lex:Loc cbConfig_LanguageDefault}"/>
+                <ComboBoxItem Content="{lex:Loc cbConfig_LanguageGerman}"/>
+                <ComboBoxItem Content="{lex:Loc cbConfig_LanguageEnglish}"/>
+            </ComboBox>
+
+            <Label Grid.Row="11" 
+                   Grid.Column="0" 
+                   Grid.ColumnSpan="6"
+                   Name="tbConfig_Title4"
+                   Content="{lex:Loc}"
+                   Style="{StaticResource ConfigView_HeadLine}"/>
+
+            <Label Grid.Row="12"
+                   Grid.Column="0"
                    Content="QuickSort App"
                    Style="{StaticResource ConfigView_Label}"/>
-            <TextBox Grid.Row="9"
+            <TextBox Grid.Row="12"
                      Grid.Column="2"
                      Name="QUICKSORTAPP_TEXTBOX"
                      Style="{StaticResource ConfigView_TextBox}">
@@ -237,23 +270,13 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <Button Grid.Row="9"
+            <Button Grid.Row="12"
                     Grid.Column="4"
                     Style="{StaticResource ConfigView_Button}"
                     Content="{lex:Loc btnConfig_Browse}"
                     Command="{Binding Path=Cmd_BrowseQuickSortApp}"/>
 
-            <Label Grid.Row="10"
-                   Grid.Column="0"
-                   Name="tbConfig_UseDarkModeColorTheme"
-                   Content="{lex:Loc}"
-                   Style="{StaticResource ConfigView_Label}"/>
-            <CheckBox Grid.Row="10"
-                      Grid.Column="2"
-                      Style="{StaticResource ConfigView_CheckBox}"
-                      IsChecked="{Binding UseDarkModeColorTheme, UpdateSourceTrigger=PropertyChanged}"/>
-
-            <Button Grid.Row="12"
+            <Button Grid.Row="14"
                     Grid.Column="2"
                     Grid.ColumnSpan="3"
                     Padding="15,5"
