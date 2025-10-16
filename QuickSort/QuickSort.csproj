@@ -106,11 +106,15 @@
     <Compile Include="validationrules\CheckIntValidationRule.cs" />
     <Compile Include="validationrules\CheckPathExistsValidationRule.cs" />
     <Compile Include="viewmodel\ConfigViewModel.cs" />
+    <Compile Include="viewmodel\DlgBox\DlgBoxViewModel.cs" />
     <Compile Include="viewmodel\MainViewModel.cs" />
     <Compile Include="viewmodel\RelayCommand.cs" />
     <Compile Include="viewmodel\ViewModelBase.cs" />
     <Compile Include="view\ConfigView.xaml.cs">
       <DependentUpon>ConfigView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="view\UserControls\DlgBoxUserControl.xaml.cs">
+      <DependentUpon>DlgBoxUserControl.xaml</DependentUpon>
     </Compile>
     <Page Include="..\AutoUnzip\view\StyleConfigView.xaml">
       <Link>view\StyleConfigView.xaml</Link>
@@ -142,6 +146,10 @@
     <Page Include="view\ConfigView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="view\UserControls\DlgBoxUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -195,5 +203,6 @@
   <ItemGroup>
     <Resource Include="icloud-logo-49272-Windows.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

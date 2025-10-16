@@ -1,10 +1,10 @@
 ﻿/// ////////////////////////////////////////////////////////////////////////
 ///
 /// Project:			iCloudHelper
-/// Project Source:	https://github.com/X13-G44/iCloudHelper
+/// Project Source:	    https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
-/// Date:				06.10.2025
+/// Date:				16.10.2025
 ///
 /// ////////////////////////////////////////////////////////////////////////
 /// 
@@ -34,6 +34,7 @@ using QuickSort.Resources;
 using QuickSort.validationrules;
 using QuickSort.view;
 using QuickSort.viewmodel;
+using QuickSort.viewmodel.DlgBox;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -49,13 +50,12 @@ using System.Security.Cryptography;
 using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using static QuickSort.validationrules.CheckDirectoryNameValidationRule;
-using static System.Net.WebRequestMethods;
 
 
 
@@ -110,22 +110,6 @@ namespace QuickSort.viewmodel
 
 
 
-        private class DlgHelperCreateNewDirectory
-        {
-            public VirtualDirectoryModel SourceModel { get; private set; }
-            public Action<VirtualDirectoryModel> ListRefreshFunction { get; private set; }
-
-
-
-            public DlgHelperCreateNewDirectory (VirtualDirectoryModel sourceModelInstance, Action<VirtualDirectoryModel> listRefreshFunction)
-            {
-                this.SourceModel = sourceModelInstance;
-                this.ListRefreshFunction = listRefreshFunction;
-            }
-        }
-
-
-
         public ObservableCollection<FavoriteTargetFolderModel> FavoriteTargetFolderList { get; set; } = new ObservableCollection<FavoriteTargetFolderModel> ();
 
         public ObservableCollection<FileTileModel> FileTileList { get; set; } = new ObservableCollection<FileTileModel> ();
@@ -159,25 +143,11 @@ namespace QuickSort.viewmodel
             set { _DialogOverlay_MoveFiles_ShortTargetPath = value; OnPropertyChanged (nameof (DialogOverlay_MoveFiles_ShortTargetPath)); }
         }
 
-        private bool _DialogOverlay_NewDirectoryName_Show;
-        public bool DialogOverlay_NewDirectoryName_Show
+        private DlgBoxViewModel _DlgBoxConfig = null;
+        public DlgBoxViewModel DlgBoxConfig
         {
-            get { return _DialogOverlay_NewDirectoryName_Show; }
-            set { _DialogOverlay_NewDirectoryName_Show = value; OnPropertyChanged (nameof (DialogOverlay_NewDirectoryName_Show)); }
-        }
-
-        private string _DialogOverlay_NewDirectoryName_Name;
-        public string DialogOverlay_NewDirectoryName_Name
-        {
-            get { return _DialogOverlay_NewDirectoryName_Name; }
-            set { _DialogOverlay_NewDirectoryName_Name = value; OnPropertyChanged (nameof (DialogOverlay_NewDirectoryName_Name)); }
-        }
-
-        private string _DialogOverly_NewDirectoryRootPath;
-        public string DialogOverly_NewDirectoryRootPath
-        {
-            get { return _DialogOverly_NewDirectoryRootPath; }
-            set { _DialogOverly_NewDirectoryRootPath = value; OnPropertyChanged (nameof (DialogOverly_NewDirectoryRootPath)); }
+            get { return _DlgBoxConfig; }
+            set { _DlgBoxConfig = value; OnPropertyChanged (nameof (DlgBoxConfig)); }
         }
 
         private string _RootPath = "";
@@ -740,29 +710,70 @@ namespace QuickSort.viewmodel
 
                             if (this.VirtualRootDirectoryList.Where (x => x.IsSelected).Count () > 0)
                             {
+                                // Used, when user right-click on background (context menu item). Use "selected item from higher stage / path".
+
                                 selectedVirtRootDirObject = this.VirtualRootDirectoryList.Where (x => x.IsSelected).First ();
                             }
                             else
                             {
+                                // Used, when user right-click on a virtual directory button (context menu item).
+
                                 selectedVirtRootDirObject = (VirtualDirectoryModel) item;
                             }
 
                             if (selectedVirtRootDirObject != null)
                             {
-                                this.DialogOverlay_NewDirectoryName_Show = true;
-                                this.DialogOverlay_NewDirectoryName_Name = LocalizedStrings.GetString ("lNewFolder");
-                                this.DialogOverly_NewDirectoryRootPath = selectedVirtRootDirObject.Path;
+                                Collection<ValidationRule> rules = new Collection<ValidationRule> ();
 
-                                this._DlgHelper_CreateNewDirectory_Data = new DlgHelperCreateNewDirectory (selectedVirtRootDirObject,
-                                    (srcVirtDirInstance) =>
-                                    {
-                                        this.LoadVirtualFirstStageDirectoryList (srcVirtDirInstance);
-                                    });
+
+                                // Generate a directory exists validation rule object. It will be later used for check the user input in the dialog box.
+                                rules.Add (new CheckDirectoryNameValidationRule () { RootDirectory = selectedVirtRootDirObject.Path });
+
+                                // Setup and show dialog box.
+                                this.DlgBoxConfig = DlgBoxViewModel.ShowDialog (
+                                    view.UserControls.DlgBoxType.Question,
+                                    LocalizedStrings.GetString ("lQuestion"),
+                                    LocalizedStrings.GetString ("dlgNewFolder_QuestionText"),
+
+                                    new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Cancle"),
+                                                      view.UserControls.DlgBoxButtonSymbol.Cross,
+                                                      null,
+                                                      _ => {; }),
+
+                                    new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Create"),
+                                                      view.UserControls.DlgBoxButtonSymbol.Check,
+                                                      selectedVirtRootDirObject,
+                                                      (dlgBoxCfg) =>
+                                                      {
+                                                          try
+                                                          {
+                                                              VirtualDirectoryModel srcVirtDirInstance = (dlgBoxCfg.LeftButton.Parameter as VirtualDirectoryModel);
+                                                              string rootPath = srcVirtDirInstance.Path;
+
+
+                                                              Directory.CreateDirectory (Path.Combine (rootPath, dlgBoxCfg.TextBox.Text));
+
+                                                              LoadVirtualFirstStageDirectoryList (srcVirtDirInstance);
+                                                          }
+                                                          catch (Exception ex)
+                                                          {
+                                                              this.DlgBoxConfig = DlgBoxViewModel.ShowDialogSimply (
+                                                                  view.UserControls.DlgBoxType.Error,
+                                                                  LocalizedStrings.GetString ("lError"),
+                                                                  $"Exception in func Cmd_ContextMenu_VirtualFirstStageCreateDirectory: {ex.Message}");
+                                                          }
+                                                      }),
+
+                                    new DlgBoxTextBox (LocalizedStrings.GetString ("dlgNewFolder_NewFolder"), rules)
+                                );
                             }
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine ($"Exception in func Cmd_ContextMenu_VirtualFirstStageCreateDirectory: {ex.Message}");
+                            this.DlgBoxConfig = DlgBoxViewModel.ShowDialogSimply (
+                                view.UserControls.DlgBoxType.Error,
+                                LocalizedStrings.GetString ("lError"),
+                                $"Exception in func Cmd_ContextMenu_VirtualFirstStageCreateDirectory: {ex.Message}");
                         }
                     },
                     param => true
@@ -869,29 +880,70 @@ namespace QuickSort.viewmodel
 
                             if (this.VirtualFirstStageDirectoryList.Where (x => x.IsSelected).Count () > 0)
                             {
+                                // Used, when user right-click on background (context menu item). Use "selected item from higher stage / path".
+
                                 selectedVirtRootDirObject = this.VirtualFirstStageDirectoryList.Where (x => x.IsSelected).First ();
                             }
                             else
                             {
+                                // Used, when user right-click on a virtual directory button (context menu item).
+
                                 selectedVirtRootDirObject = (VirtualDirectoryModel) item;
                             }
 
                             if (selectedVirtRootDirObject != null)
                             {
-                                this.DialogOverlay_NewDirectoryName_Show = true;
-                                this.DialogOverlay_NewDirectoryName_Name = LocalizedStrings.GetString ("lNewFolder");
-                                this.DialogOverly_NewDirectoryRootPath = selectedVirtRootDirObject.Path;
+                                Collection<ValidationRule> rules = new Collection<ValidationRule> ();
 
-                                this._DlgHelper_CreateNewDirectory_Data = new DlgHelperCreateNewDirectory (selectedVirtRootDirObject,
-                                    (srcVirtDirInstance) =>
-                                    {
-                                        this.LoadVirtualSecondStageDirectoryList (srcVirtDirInstance);
-                                    });
+
+                                // Generate a directory exists validation rule object. It will be later used for check the user input in the dialog box.
+                                rules.Add (new CheckDirectoryNameValidationRule () { RootDirectory = selectedVirtRootDirObject.Path });
+
+                                // Setup and show dialog box.
+                                this.DlgBoxConfig = DlgBoxViewModel.ShowDialog (
+                                    view.UserControls.DlgBoxType.Question,
+                                    LocalizedStrings.GetString ("lQuestion"),
+                                    LocalizedStrings.GetString ("dlgNewFolder_QuestionText"),
+
+                                    new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Cancle"),
+                                                      view.UserControls.DlgBoxButtonSymbol.Cross,
+                                                      null,
+                                                      _ => {; }),
+
+                                    new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Create"),
+                                                      view.UserControls.DlgBoxButtonSymbol.Check,
+                                                      selectedVirtRootDirObject,
+                                                      (dlgBoxCfg) =>
+                                                      {
+                                                          try
+                                                          {
+                                                              VirtualDirectoryModel srcVirtDirInstance = (dlgBoxCfg.LeftButton.Parameter as VirtualDirectoryModel);
+                                                              string rootPath = srcVirtDirInstance.Path;
+
+
+                                                              Directory.CreateDirectory (Path.Combine (rootPath, dlgBoxCfg.TextBox.Text));
+
+                                                              LoadVirtualSecondStageDirectoryList (srcVirtDirInstance);
+                                                          }
+                                                          catch (Exception ex)
+                                                          {
+                                                              this.DlgBoxConfig = DlgBoxViewModel.ShowDialogSimply (
+                                                                  view.UserControls.DlgBoxType.Error,
+                                                                  LocalizedStrings.GetString ("lError"),
+                                                                  $"Exception in func Cmd_ContextMenu_VirtualSecondStageCreateDirectory: {ex.Message}");
+                                                          }
+                                                      }),
+
+                                    new DlgBoxTextBox (LocalizedStrings.GetString ("dlgNewFolder_NewFolder"), rules)
+                                );
                             }
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine ($"Exception in func Cmd_ContextMenu_VirtualSecondStageCreateDirectory: {ex.Message}");
+                            this.DlgBoxConfig = DlgBoxViewModel.ShowDialogSimply (
+                                view.UserControls.DlgBoxType.Error,
+                                LocalizedStrings.GetString ("lError"),
+                                $"Exception in func Cmd_ContextMenu_VirtualSecondStageCreateDirectory: {ex.Message}");
                         }
                     },
                     param => true
@@ -1084,69 +1136,6 @@ namespace QuickSort.viewmodel
             }
         }
 
-        public RelayCommand Cmd_Dlg_NewDirectoryNameAccept
-        {
-            get
-            {
-                return new RelayCommand (
-                    _ =>
-                    {
-                        try
-                        {
-                            string newPath = String.Empty;
-                            CheckDirectoryNameResult checkNewDirNameResult = CheckDirectoryNameResult.Success;
-
-
-                            DialogOverlay_NewDirectoryName_Show = false;
-
-                            checkNewDirNameResult = CheckDirectoryNameValidationRule.IsValidDirectoryName (DialogOverlay_NewDirectoryName_Name, _DlgHelper_CreateNewDirectory_Data.SourceModel.Path);
-
-                            if (checkNewDirNameResult == CheckDirectoryNameResult.InvalidDirectoryName)
-                            {
-                                System.Windows.MessageBox.Show (LocalizedStrings.GetFormattedString ("dlg_InvalidNewDirName", DialogOverlay_NewDirectoryName_Name),
-                                                                $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lError")}",
-                                                                MessageBoxButton.OK,
-                                                                MessageBoxImage.Error);
-                                return;
-                            }
-                            else if (checkNewDirNameResult == CheckDirectoryNameResult.DirectoryAlreadyExists)
-                            {
-                                System.Windows.MessageBox.Show (LocalizedStrings.GetFormattedString ("dlg_ADirWithTheNewNameExists", DialogOverlay_NewDirectoryName_Name),
-                                                                $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lError")}",
-                                                                MessageBoxButton.OK,
-                                                                MessageBoxImage.Error);
-                                return;
-                            }
-
-                            Directory.CreateDirectory (Path.Combine (_DlgHelper_CreateNewDirectory_Data.SourceModel.Path, DialogOverlay_NewDirectoryName_Name));
-
-                            // Refresh the directory list.
-                            _DlgHelper_CreateNewDirectory_Data.ListRefreshFunction (_DlgHelper_CreateNewDirectory_Data.SourceModel);
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine ($"Exception in func Cmd_Dlg_NewDirectoryNameAccept: {ex.Message}");
-                        }
-                    },
-                    param => true
-                );
-            }
-        }
-
-        public RelayCommand Cmd_Dlg_NewDirectoryNameAbort
-        {
-            get
-            {
-                return new RelayCommand (
-                    _ =>
-                    {
-                        DialogOverlay_NewDirectoryName_Show = false;
-                    },
-                    param => true
-                );
-            }
-        }
-
 
 
         private readonly Dispatcher _Dispatcher;
@@ -1157,7 +1146,6 @@ namespace QuickSort.viewmodel
         private int _EndSelectionStartIndex = -1;
 
         private string _DlgHelper_MoveFiles_TargetPath;
-        private DlgHelperCreateNewDirectory _DlgHelper_CreateNewDirectory_Data;
 
 
 

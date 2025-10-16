@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:QuickSort"
         xmlns:myConverter="clr-namespace:QuickSort.converter"
         xmlns:validate_rules="clr-namespace:QuickSort.validationrules"
+        xmlns:userControl="clr-namespace:QuickSort.view.UserControls"
         xmlns:lex="http://wpflocalizeextension.codeplex.com"
         lex:LocalizeDictionary.DesignCulture="en"
         lex:ResxLocalizationProvider.DefaultAssembly="QuickSort"
@@ -550,7 +551,6 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-
         </Style>
 
     </Window.Resources>
@@ -772,6 +772,7 @@
                            HorizontalAlignment="Center"
                            FontWeight="Light" 
                            FontStyle="Italic"
+                           TextWrapping="Wrap"
                            Visibility="{Binding FavoriteTargetFolderList.Count, Converter={StaticResource IntToVis}, ConverterParameter='visible;collapsed', FallbackValue='Visible'}"
                            Name="tbFavTargFolder_NoItemText"
                            Text="{lex:Loc}"/>
@@ -834,8 +835,8 @@
                             Name="ttFileTitleSec_ButtonSmalIconSize"
                             ToolTip="{lex:Loc}"
                             Command="{Binding Cmd_ContextMenu_SetFileTitleSize}"
-                            CommandParameter="0"/>                    
-                   
+                            CommandParameter="0"/>
+
                     <Button Style="{StaticResource SymbolButton}"
                             Margin="5,0,0,0"
                             Foreground="{DynamicResource FileTitleBtnSelectedColor}"
@@ -901,7 +902,7 @@
                            FontFamily="Segoe UI Light"
                            Visibility="{Binding FileTitleLoadStatus_Show, Converter={StaticResource InvBoolToVis}, FallbackValue='Visible'}"
                            Text="{Binding FileTileStatusText, FallbackValue='1 Bild ausgewählt'}"/>
-                
+
                 <ScrollViewer Grid.Row="2" 
                               Margin="20,20,20,20">
                     <ItemsControl ItemsSource="{Binding FileTileList}">
@@ -1540,7 +1541,7 @@
                             <!--Bottom distance -->
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        
+
                         <TextBlock Grid.Row="1"                                   
                                    FontSize="20" 
                                    Foreground="{DynamicResource DialogBtnSymbolColor}"
@@ -1594,122 +1595,11 @@
 
         </Grid>
 
-        <!-- Overlay Dlg: Ask for new folder name dialog -->
-        <Grid Grid.Row="1"
-              Grid.RowSpan="2"
-              Grid.ColumnSpan="2"
-              Background="#EF1B1D1F"
-              Visibility="{Binding DialogOverlay_NewDirectoryName_Show, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
-
-            <Border BorderThickness="2"
-                BorderBrush="{DynamicResource DialogBorderBrushColor}"
-                Background="{DynamicResource DialogBackgroundColor}"                
-                CornerRadius="15"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                MinWidth="20"
-                MinHeight="20"
-                Padding="15" 
-                SnapsToDevicePixels="True">
-
-                <StackPanel Orientation="Horizontal">
-
-                    <TextBlock Grid.Column="1"
-                       Grid.Row="1"
-                       Text="❔"
-                       VerticalAlignment="Center"
-                       FontSize="92"
-                       Foreground="{DynamicResource DialogBtnSymbolColor}"/>
-
-                    <Grid Margin="20,0,0,0">
-                        <Grid.RowDefinitions>
-                            <!--Top distance -->
-                            <RowDefinition Height="*"/>
-                            <!--Titel-->
-                            <RowDefinition Height="Auto"/>
-                            <!--Top distance-->
-                            <RowDefinition Height="15"/>
-                            <!--Message Text-->
-                            <RowDefinition Height="Auto"/>
-                            <!--Top distance-->
-                            <RowDefinition Height="25"/>
-                            <!--Buttons-->
-                            <RowDefinition Height="Auto"/>
-                            <!--Bottom distance -->
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="1"
-                                   Name="tbNewFolderDlg_QuestionTitle"
-                                   Text="{lex:Loc}"
-                                   FontSize="20" 
-                                   Foreground="{DynamicResource DialogBtnSymbolColor}"
-                                   FontWeight="Bold"/>
-
-                        <StackPanel Grid.Row="3">
-
-                            <TextBlock MinWidth="300"
-                                       MaxWidth="500"
-                                       Foreground="{DynamicResource DialogTitleTextForegroundColor}"
-                                       TextWrapping="Wrap"
-                                       Name="tbNewFolderDlg_QuestionText"
-                                       Text="{lex:Loc}"/>
-
-                            <TextBox Height="25">
-                                <TextBox.Resources>
-                                    <validate_rules:BindingProxy x:Key="proxy" Data="{Binding}"/>
-                                </TextBox.Resources>
-
-                                <TextBox.Text>
-                                    <Binding Path="DialogOverlay_NewDirectoryName_Name" 
-                                             FallbackValue="New Directory Name"
-                                             UpdateSourceTrigger="PropertyChanged"
-                                             ValidatesOnDataErrors="True" 
-                                             ValidatesOnExceptions="True">
-                                        <Binding.ValidationRules>
-                                            <validate_rules:CheckDirectoryNameValidationRule ValidatesOnTargetUpdated="True">
-                                                <validate_rules:CheckDirectoryNameValidationRule.Wrapper>
-
-                                                    <validate_rules:CheckDirectoryNameValidationRuleWrapper RootDirectory="{Binding Data.DialogOverly_NewDirectoryRootPath, Source={StaticResource proxy}}"/>
-
-                                                </validate_rules:CheckDirectoryNameValidationRule.Wrapper>
-                                            </validate_rules:CheckDirectoryNameValidationRule>
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
-
-                        </StackPanel>
-
-                        <Button Grid.Row="5"
-                                HorizontalAlignment="Left"
-                                Style="{StaticResource DialogboxButtonStyle}" 
-                                Tag="&#xE10B;"
-                                Name="btnNewFolderDlg_Accept"
-                                Content="{lex:Loc}"
-                                Command="{Binding Cmd_Dlg_NewDirectoryNameAccept}"/>
-
-                        <Button Grid.Row="5"
-                                HorizontalAlignment="Right"
-                                Style="{StaticResource DialogboxButtonStyle}" 
-                                Tag="&#xE10A;"                                
-                                Name="btnNewFolderDlg_Cancle"
-                                Content="{lex:Loc}"
-                                Command="{Binding Cmd_Dlg_NewDirectoryNameAbort}"/>
-
-                    </Grid>
-
-                </StackPanel>
-
-                <Border.Effect>
-                    <DropShadowEffect ShadowDepth="0"                                                 
-                        BlurRadius="10"                                                                                       
-                        Color="WhiteSmoke"/>
-                </Border.Effect>
-
-            </Border>
-
-        </Grid>
+        <!-- Overlay Dalog Box -->
+        <userControl:DlgBoxUserControl Grid.Row="1"
+                                       Grid.RowSpan="2"
+                                       Grid.ColumnSpan="2"
+                                       Configuration="{Binding DlgBoxConfig, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue={x:Null}}"/>
 
     </Grid>
 </Window>

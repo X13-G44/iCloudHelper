@@ -192,17 +192,14 @@
   <data name="btnFileMoveDlg_Cancle" xml:space="preserve">
     <value>Cancle</value>
   </data>
-  <data name="tbNewFolderDlg_QuestionText" xml:space="preserve">
+  <data name="dlgNewFolder_QuestionText" xml:space="preserve">
     <value>New folder name:</value>
   </data>
-  <data name="btnNewFolderDlg_Accept" xml:space="preserve">
-    <value>Accept</value>
+  <data name="dlgNewFolder_Create" xml:space="preserve">
+    <value>Create</value>
   </data>
-  <data name="btnNewFolderDlg_Cancle" xml:space="preserve">
+  <data name="dlgNewFolder_Cancle" xml:space="preserve">
     <value>Cancle</value>
-  </data>
-  <data name="tbNewFolderDlg_QuestionTitle" xml:space="preserve">
-    <value>Question</value>
   </data>
   <data name="cmFavTargFolder_AddEntry2" xml:space="preserve">
     <value>Add entry</value>
@@ -276,7 +273,7 @@
   <data name="dlgVirtualDirSec_HelpText" xml:space="preserve">
     <value>Select folder to add</value>
   </data>
-  <data name="lNewFolder" xml:space="preserve">
+  <data name="dlgNewFolder_NewFolder" xml:space="preserve">
     <value>New folder name</value>
   </data>
   <data name="dlg_DelayNotEmptyDir" xml:space="preserve">
@@ -287,12 +284,6 @@
   </data>
   <data name="lError" xml:space="preserve">
     <value>Error</value>
-  </data>
-  <data name="dlg_InvalidNewDirName" xml:space="preserve">
-    <value>The folder name \"{0}\" is not valid.</value>
-  </data>
-  <data name="dlg_ADirWithTheNewNameExists" xml:space="preserve">
-    <value>A folder with the name \"{0}\" already exists.</value>
   </data>
   <data name="lNoText" xml:space="preserve">
     <value>Input field is empty</value>
@@ -365,5 +356,8 @@
   </data>
   <data name="cbConfig_LanguageGerman" xml:space="preserve">
     <value>German</value>
+  </data>
+  <data name="lQuestion" xml:space="preserve">
+    <value>Question</value>
   </data>
 </root>

@@ -1,0 +1,188 @@
+﻿<UserControl x:Class="QuickSort.view.UserControls.DlgBoxUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QuickSort.view.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+
+        <!-- DialogBox Button-Style -->
+        <Style x:Key="DlgBoxButton" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{DynamicResource DialogBtnTextColor}"/>
+            <Setter Property="Background" Value="{DynamicResource DialogBtnBackgroundColor}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource DialogBtnMouseOverColor}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="OUTER_BORDER"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="10">
+                            <StackPanel Orientation="Horizontal" 
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center">
+
+                                <TextBlock x:Name="PART_BTN_SYMBOLTEXT"
+                                           Text="{TemplateBinding Tag}" 
+                                           Foreground="{DynamicResource DialogBtnSymbolColor}" 
+                                           FontFamily="Segoe UI Symbol" 
+                                           FontSize="{TemplateBinding FontSize}" 
+                                           Margin="5,5,0,5"
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock x:Name="PART_BTN_TEXT"
+                                           Text="{TemplateBinding Content}" 
+                                           Foreground="{TemplateBinding Foreground}" 
+                                           FontSize="{TemplateBinding FontSize}" 
+                                           FontFamily="{TemplateBinding FontFamily}" 
+                                           FontWeight="DemiBold"
+                                           Margin="5,5,5,5"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource DialogBtnMouseOverColor}"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="Transparent"/>
+                                <Setter TargetName="PART_BTN_SYMBOLTEXT" Property="Foreground" Value="{DynamicResource DialogBtnTextDisabledColor}"/>
+                                <Setter TargetName="PART_BTN_TEXT" Property="Foreground" Value="{DynamicResource DialogBtnTextDisabledColor}"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid Name="PART_OUTER_GRID" 
+          Background="#EF1B1D1F"
+          SnapsToDevicePixels="True"
+          Visibility="Hidden">
+        
+        <Border BorderThickness="2"
+                BorderBrush="{DynamicResource DialogBorderBrushColor}"
+                Background="{DynamicResource DialogBackgroundColor}"                
+                CornerRadius="15"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                MinWidth="20"
+                MinHeight="20"
+                Padding="15" 
+                SnapsToDevicePixels="True">
+
+            <StackPanel Orientation="Horizontal">
+
+                <TextBlock Grid.Column="1"
+                           Grid.Row="1"
+                           Name="PART_SYMBOL"
+                           VerticalAlignment="Center"
+                           FontSize="92"
+                           Foreground="{DynamicResource DialogBtnSymbolColor}"
+                           Text="❔"/>
+
+                <Grid Margin="20,0,0,0">
+                    <Grid.RowDefinitions>
+                        <!--Top distance -->
+                        <RowDefinition Height="*"/>
+                        <!--Titel-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Top distance-->
+                        <RowDefinition Height="15"/>
+                        <!--Message Text-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Top distance-->
+                        <RowDefinition Height="25"/>
+                        <!--Buttons-->
+                        <RowDefinition Height="Auto"/>
+                        <!--Bottom distance -->
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="1"
+                               FontSize="20" 
+                               Name="PART_TITLE"
+                               Foreground="{DynamicResource DialogBtnSymbolColor}"
+                               FontWeight="Bold"
+                               Text="Title"/>
+
+                    <StackPanel Grid.Row="3">
+
+                        <TextBlock Name="PART_MESSAGE" 
+                                   MinWidth="300"
+                                   MaxWidth="500"
+                                   Foreground="{DynamicResource DialogTitleTextForegroundColor}"
+                                   TextWrapping="Wrap"
+                                   Text="Message"/>
+
+                        <TextBox Name="PART_TEXTBOX"
+                                 Height="25"
+                                 Margin="0,5,0,0"/>
+
+                    </StackPanel>
+
+                    <Button Grid.Row="5"
+                            Name="PART_BTN_LEFT"                            
+                            HorizontalAlignment="Left"
+                            Tag="&#xE10B;"
+                            Content="Left Button">
+
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}"
+                                   BasedOn="{StaticResource DlgBoxButton}">
+
+                                <Setter Property="IsEnabled" Value="false"/>
+
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+
+                                            <Condition Binding="{Binding ElementName=PART_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="IsEnabled" Value="true" />
+
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                    </Button>
+
+                    <Button Grid.Row="5"
+                            Name="PART_BTN_RIGHT"                            
+                            Style="{StaticResource DlgBoxButton}"
+                            HorizontalAlignment="Right"
+                            Tag="&#xE10A;"
+                            Content="Right Button"/>
+
+                </Grid>
+
+            </StackPanel>
+
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="0"                                                 
+                        BlurRadius="10"                                                                                       
+                        Color="WhiteSmoke"/>
+            </Border.Effect>
+
+        </Border>
+    </Grid>
+</UserControl>

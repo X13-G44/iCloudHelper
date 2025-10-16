@@ -192,17 +192,14 @@
   <data name="btnFileMoveDlg_Cancle" xml:space="preserve">
     <value>Abbrechen</value>
   </data>
-  <data name="tbNewFolderDlg_QuestionText" xml:space="preserve">
+  <data name="dlgNewFolder_QuestionText" xml:space="preserve">
     <value>Neuer Ordnername:</value>
   </data>
-  <data name="btnNewFolderDlg_Accept" xml:space="preserve">
-    <value>Übernehmen</value>
+  <data name="dlgNewFolder_Create" xml:space="preserve">
+    <value>Erstellen</value>
   </data>
-  <data name="btnNewFolderDlg_Cancle" xml:space="preserve">
+  <data name="dlgNewFolder_Cancle" xml:space="preserve">
     <value>Abbrechen</value>
-  </data>
-  <data name="tbNewFolderDlg_QuestionTitle" xml:space="preserve">
-    <value>Frage</value>
   </data>
   <data name="cmFavTargFolder_AddEntry2" xml:space="preserve">
     <value>Eintrag hinzufügen</value>
@@ -276,7 +273,7 @@
   <data name="dlgVirtualDirSec_HelpText" xml:space="preserve">
     <value>Ordner zum Hinzufügen auswählen</value>
   </data>
-  <data name="lNewFolder" xml:space="preserve">
+  <data name="dlgNewFolder_NewFolder" xml:space="preserve">
     <value>Neuer Ordnername</value>
   </data>
   <data name="dlg_DelayNotEmptyDir" xml:space="preserve">
@@ -287,12 +284,6 @@
   </data>
   <data name="lError" xml:space="preserve">
     <value>Fehler</value>
-  </data>
-  <data name="dlg_InvalidNewDirName" xml:space="preserve">
-    <value>Der Ordnername \"{0}\" ist ungültig.</value>
-  </data>
-  <data name="dlg_ADirWithTheNewNameExists" xml:space="preserve">
-    <value>Ein Ordner mit dem Namen \"{0}\" ist bereits vorhanden.</value>
   </data>
   <data name="lNoText" xml:space="preserve">
     <value>Eingabefeld ist leer.</value>
@@ -365,5 +356,8 @@
   </data>
   <data name="cbConfig_LanguageGerman" xml:space="preserve">
     <value>Deutsch</value>
+  </data>
+  <data name="lQuestion" xml:space="preserve">
+    <value>Frage</value>
   </data>
 </root>

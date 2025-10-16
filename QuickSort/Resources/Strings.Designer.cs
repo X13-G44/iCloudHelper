@@ -97,24 +97,6 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Accept ähnelt.
-        /// </summary>
-        public static string btnNewFolderDlg_Accept {
-            get {
-                return ResourceManager.GetString("btnNewFolderDlg_Accept", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Cancle ähnelt.
-        /// </summary>
-        public static string btnNewFolderDlg_Cancle {
-            get {
-                return ResourceManager.GetString("btnNewFolderDlg_Cancle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Default ähnelt.
         /// </summary>
         public static string cbConfig_LanguageDefault {
@@ -331,15 +313,6 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die A folder with the name \&quot;{0}\&quot; already exists. ähnelt.
-        /// </summary>
-        public static string dlg_ADirWithTheNewNameExists {
-            get {
-                return ResourceManager.GetString("dlg_ADirWithTheNewNameExists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Files are currently being processed in the background.\n\nIf you close the application, this process will be aborted. Not all selected files will be moved to the destination folder!\n\nAre you sure you want to close the application? ähnelt.
         /// </summary>
         public static string dlg_AppExitFileCopyStillActive {
@@ -376,15 +349,6 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The folder name \&quot;{0}\&quot; is not valid. ähnelt.
-        /// </summary>
-        public static string dlg_InvalidNewDirName {
-            get {
-                return ResourceManager.GetString("dlg_InvalidNewDirName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select default folder ähnelt.
         /// </summary>
         public static string dlgConfig_StartPath {
@@ -399,6 +363,42 @@ namespace QuickSort.Resources {
         public static string dlgFavTargFolder_HelpText {
             get {
                 return ResourceManager.GetString("dlgFavTargFolder_HelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cancle ähnelt.
+        /// </summary>
+        public static string dlgNewFolder_Cancle {
+            get {
+                return ResourceManager.GetString("dlgNewFolder_Cancle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Create ähnelt.
+        /// </summary>
+        public static string dlgNewFolder_Create {
+            get {
+                return ResourceManager.GetString("dlgNewFolder_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die New folder name ähnelt.
+        /// </summary>
+        public static string dlgNewFolder_NewFolder {
+            get {
+                return ResourceManager.GetString("dlgNewFolder_NewFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die New folder name: ähnelt.
+        /// </summary>
+        public static string dlgNewFolder_QuestionText {
+            get {
+                return ResourceManager.GetString("dlgNewFolder_QuestionText", resourceCulture);
             }
         }
         
@@ -448,15 +448,6 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die New folder name ähnelt.
-        /// </summary>
-        public static string lNewFolder {
-            get {
-                return ResourceManager.GetString("lNewFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Input field is empty ähnelt.
         /// </summary>
         public static string lNoText {
@@ -471,6 +462,15 @@ namespace QuickSort.Resources {
         public static string lNumberRangeError {
             get {
                 return ResourceManager.GetString("lNumberRangeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Question ähnelt.
+        /// </summary>
+        public static string lQuestion {
+            get {
+                return ResourceManager.GetString("lQuestion", resourceCulture);
             }
         }
         
@@ -687,24 +687,6 @@ namespace QuickSort.Resources {
         public static string tbFileTitleSec_Title {
             get {
                 return ResourceManager.GetString("tbFileTitleSec_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die New folder name: ähnelt.
-        /// </summary>
-        public static string tbNewFolderDlg_QuestionText {
-            get {
-                return ResourceManager.GetString("tbNewFolderDlg_QuestionText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Question ähnelt.
-        /// </summary>
-        public static string tbNewFolderDlg_QuestionTitle {
-            get {
-                return ResourceManager.GetString("tbNewFolderDlg_QuestionTitle", resourceCulture);
             }
         }
         

@@ -62,6 +62,7 @@
     <SolidColorBrush x:Key="DialogBtnTextColor" Color="#FFDCDCDD"/>
     <SolidColorBrush x:Key="DialogBtnSymbolColor" Color="#FF0099FF"/>
     <SolidColorBrush x:Key="DialogBtnMouseOverColor" Color="#FF444446"/>
+    <SolidColorBrush x:Key="DialogBtnTextDisabledColor" Color="#FF444446"/>    
 
     <!-- Tooltip Section -->
 
