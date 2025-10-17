@@ -180,17 +180,11 @@
   <data name="tbFileMovePopup_FileLabel" xml:space="preserve">
     <value>Bild: </value>
   </data>
-  <data name="tbFileMoveDlg_QuestionTitle" xml:space="preserve">
-    <value>Frage</value>
-  </data>
-  <data name="tbFileMoveDlg_QuestionText" xml:space="preserve">
+  <data name="dlgFileMove_QuestionText" xml:space="preserve">
     <value>Sollen die {0} ausgewählten Bilder nach "{1}" verschoben werden? </value>
   </data>
-  <data name="btnFileMoveDlg_StartMove" xml:space="preserve">
+  <data name="dlgFileMove_StartMove" xml:space="preserve">
     <value>Verschieben</value>
-  </data>
-  <data name="btnFileMoveDlg_Cancle" xml:space="preserve">
-    <value>Abbrechen</value>
   </data>
   <data name="dlgNewFolder_QuestionText" xml:space="preserve">
     <value>Neuer Ordnername:</value>
@@ -264,7 +258,7 @@
   <data name="cmVirtualDirSec_DeleteFolder" xml:space="preserve">
     <value>Ordner löschen</value>
   </data>
-  <data name="dlg_AppExitFileCopyStillActive" xml:space="preserve">
+  <data name="dlgAppExitFileCopyStillActive_Message" xml:space="preserve">
     <value>Es werden gerade noch Dateien im Hintergrund bearbeitet.\n\nWenn Sie die Anwendung beenden, wird dieser Vorgang abgebrochen. Es werden nicht alle ausgewählten Dateien in den Ziel-Ordner verschoben sein!\n\nSoll die Anwendung wirklich beendet werden?</value>
   </data>
   <data name="lWarning" xml:space="preserve">
@@ -276,10 +270,10 @@
   <data name="dlgNewFolder_NewFolder" xml:space="preserve">
     <value>Neuer Ordnername</value>
   </data>
-  <data name="dlg_DelayNotEmptyDir" xml:space="preserve">
-    <value>Das ausgewählte Verzeichnis:\n\n\t\"{0}\"\n\ist nicht leer!\n\nSind Sie sicher, dass Sie das Verzeichnis löschen möchten?</value>
+  <data name="dlgDelayNotEmptyDir_Message" xml:space="preserve">
+    <value>Das ausgewählte Verzeichnis:\n\n\t{0}\n\nist nicht leer!\n\nSind Sie sicher, dass Sie das Verzeichnis löschen möchten?</value>
   </data>
-  <data name="dlg_ErrorLoadingImagesFromDir" xml:space="preserve">
+  <data name="dlgErrorLoadingImagesFromDir_Message" xml:space="preserve">
     <value>Es konnten nicht alle Bilder geöffnet und dargestellt werden!\n\n[0]</value>
   </data>
   <data name="lError" xml:space="preserve">
@@ -359,5 +353,26 @@
   </data>
   <data name="lQuestion" xml:space="preserve">
     <value>Frage</value>
+  </data>
+  <data name="dlgFileMove_Cancle" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="dlgAppExitFileCopyStillActive_Cancle" xml:space="preserve">
+    <value>Nein</value>
+  </data>
+  <data name="dlgAppExitFileCopyStillActive_ExitApp" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="dlgDelayNotEmptyDir_Cancle" xml:space="preserve">
+    <value>Nein</value>
+  </data>
+  <data name="dlgDelayNotEmptyDir_DeleteDir" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="dlgDeleteDirError_Message" xml:space="preserve">
+    <value>Es ist ein Fehler beim Löschen des Ordners {0} aufgetreten.\Ursache: {1}</value>
+  </data>
+  <data name="dlgNewFolderError_Message" xml:space="preserve">
+    <value>Es ist ein Fehler beim erstellen des neuen Ordners aufgetreten.\nUrsache: {0}</value>
   </data>
 </root>

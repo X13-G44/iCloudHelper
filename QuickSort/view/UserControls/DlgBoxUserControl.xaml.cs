@@ -183,9 +183,15 @@ namespace QuickSort.view.UserControls
                         return "❔";
                     }
 
-                case DlgBoxType.Error:
+                case DlgBoxType.Warning:
                     {
                         return "⚠";
+                    }
+
+                case DlgBoxType.Error:
+                    {
+                        return "❌";
+                        //return "❗";
                     }
 
                 default:
@@ -201,6 +207,11 @@ namespace QuickSort.view.UserControls
         {
             switch (symbol)
             {
+                case DlgBoxButtonSymbol.Empty:
+                    {
+                        return "";
+                    }
+
                 case DlgBoxButtonSymbol.Check:
                     {
                         return "\uE10B";    // "&#xE10B;"
@@ -225,12 +236,14 @@ namespace QuickSort.view.UserControls
     {
         Question,
         Error,
+        Warning,
     }
 
 
 
     public enum DlgBoxButtonSymbol
     {
+Empty,
         Check,
         Cross,
     }

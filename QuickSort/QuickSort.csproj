@@ -91,7 +91,7 @@
     <Compile Include="help\IconHelper.cs" />
     <Compile Include="help\FavoriteTargetFolderSettingItem.cs" />
     <Compile Include="help\VirtualRootDirectorySettingItem.cs" />
-    <Compile Include="model\FileTileModel.cs" />
+    <Compile Include="model\FileTitleModel.cs" />
     <Compile Include="model\FileMoveProcPopupNotificationModel.cs" />
     <Compile Include="model\FavoriteTargetFolderModel.cs" />
     <Compile Include="model\VirtualDirectoryModel.cs" />

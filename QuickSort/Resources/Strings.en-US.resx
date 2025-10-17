@@ -180,17 +180,11 @@
   <data name="tbFileMovePopup_FileLabel" xml:space="preserve">
     <value>Image: </value>
   </data>
-  <data name="tbFileMoveDlg_QuestionTitle" xml:space="preserve">
-    <value>Question</value>
-  </data>
-  <data name="tbFileMoveDlg_QuestionText" xml:space="preserve">
+  <data name="dlgFileMove_QuestionText" xml:space="preserve">
     <value>Should the {0} selected images be moved to "{1}"?</value>
   </data>
-  <data name="btnFileMoveDlg_StartMove" xml:space="preserve">
+  <data name="dlgFileMove_StartMove" xml:space="preserve">
     <value>Move</value>
-  </data>
-  <data name="btnFileMoveDlg_Cancle" xml:space="preserve">
-    <value>Cancle</value>
   </data>
   <data name="dlgNewFolder_QuestionText" xml:space="preserve">
     <value>New folder name:</value>
@@ -264,7 +258,7 @@
   <data name="cmVirtualDirSec_DeleteFolder" xml:space="preserve">
     <value>Delete folder</value>
   </data>
-  <data name="dlg_AppExitFileCopyStillActive" xml:space="preserve">
+  <data name="dlgAppExitFileCopyStillActive_Message" xml:space="preserve">
     <value>Files are currently being processed in the background.\n\nIf you close the application, this process will be aborted. Not all selected files will be moved to the destination folder!\n\nAre you sure you want to close the application?</value>
   </data>
   <data name="lWarning" xml:space="preserve">
@@ -276,10 +270,10 @@
   <data name="dlgNewFolder_NewFolder" xml:space="preserve">
     <value>New folder name</value>
   </data>
-  <data name="dlg_DelayNotEmptyDir" xml:space="preserve">
-    <value>The selected directory:\n\n\t\"{0}\"\n\is not empty!\n\nAre your sure to delete the directory?</value>
+  <data name="dlgDelayNotEmptyDir_Message" xml:space="preserve">
+    <value>The selected directory:\n\n\t{0}\n\nis not empty!\n\nAre your sure to delete the directory?</value>
   </data>
-  <data name="dlg_ErrorLoadingImagesFromDir" xml:space="preserve">
+  <data name="dlgErrorLoadingImagesFromDir_Message" xml:space="preserve">
     <value>Not all images could be opened and displayed!\n\n[0]</value>
   </data>
   <data name="lError" xml:space="preserve">
@@ -359,5 +353,26 @@
   </data>
   <data name="lQuestion" xml:space="preserve">
     <value>Question</value>
+  </data>
+  <data name="dlgFileMove_Cancle" xml:space="preserve">
+    <value>Cancle</value>
+  </data>
+  <data name="dlgAppExitFileCopyStillActive_Cancle" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="dlgAppExitFileCopyStillActive_ExitApp" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="dlgDelayNotEmptyDir_Cancle" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="dlgDelayNotEmptyDir_DeleteDir" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="dlgDeleteDirError_Message" xml:space="preserve">
+    <value>An error occurred while deleting the folder {0}.\nCause: {1}</value>
+  </data>
+  <data name="dlgNewFolderError_Message" xml:space="preserve">
+    <value>An error occurred while creating the new folder.\nCause: {0}</value>
   </data>
 </root>

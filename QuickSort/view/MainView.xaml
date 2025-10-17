@@ -436,57 +436,6 @@
             </Setter>
         </Style>
 
-        <!-- DialogBox Button-Style -->
-        <Style x:Key="DialogboxButtonStyle" TargetType="Button">
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="{DynamicResource DialogBtnTextColor}"/>
-            <Setter Property="Background" Value="{DynamicResource DialogBtnBackgroundColor}"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource DialogBtnMouseOverColor}"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="MinWidth" Value="120"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="OUTER_BORDER"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}"
-                                Padding="{TemplateBinding Padding}"
-                                CornerRadius="10">
-                            <StackPanel Orientation="Horizontal" 
-                                        HorizontalAlignment="Center" 
-                                        VerticalAlignment="Center">
-
-                                <TextBlock Text="{TemplateBinding Tag}" 
-                                           Foreground="{DynamicResource DialogBtnSymbolColor}" 
-                                           FontFamily="Segoe UI Symbol" 
-                                           FontSize="{TemplateBinding FontSize}" 
-                                           Margin="5,5,0,5"
-                                           VerticalAlignment="Center"/>
-
-                                <TextBlock Text="{TemplateBinding Content}" 
-                                           Foreground="{TemplateBinding Foreground}" 
-                                           FontSize="{TemplateBinding FontSize}" 
-                                           FontFamily="{TemplateBinding FontFamily}" 
-                                           FontWeight="DemiBold"
-                                           Margin="5,5,5,5"
-                                           VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
-
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource DialogBtnMouseOverColor}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <!-- TextBox-Style -->
         <Style TargetType="TextBox">
             <Setter Property="Validation.ErrorTemplate">
@@ -601,8 +550,11 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5">
 
                 <!-- Minimize -->
-                <Button Width="32" Height="32" Margin="0,0,5,0"
-                        Background="Transparent" BorderThickness="0"
+                <Button Width="32"
+                        Height="32" 
+                        Margin="0,0,5,0"
+                        Background="Transparent" 
+                        BorderThickness="0"
                         Command="{Binding Cmd_ApplicationMinimize}">
 
                     <TextBlock Text="━"
@@ -613,8 +565,10 @@
                 </Button>
 
                 <!-- Maximize / Restore -->
-                <Button Width="32" Height="32"
-                        Background="Transparent" BorderThickness="0"
+                <Button Width="32" 
+                        Height="32"
+                        Background="Transparent" 
+                        BorderThickness="0"
                         Command="{Binding Cmd_ApplicationMaximizeRestore}">
                     <TextBlock Text="▢" 
                                FontSize="16" 
@@ -624,8 +578,11 @@
                 </Button>
 
                 <!-- Close -->
-                <Button Width="32" Height="32" Margin="0,0,5,0"
-                        Background="Transparent" BorderThickness="0"
+                <Button Width="32" 
+                        Height="32" 
+                        Margin="0,0,5,0"
+                        Background="Transparent" 
+                        BorderThickness="0"
                         Command="{Binding Cmd_ApplicationClose}">
 
                     <TextBlock Text="✕" 
@@ -1456,12 +1413,17 @@
                                  <Run Text=")"/>
                             </TextBlock>
 
-                            <!--<Button Grid.Column="1"
-                                        Grid.Row="0"
-                                        Margin="0,0,0,0" 
-                                        HorizontalAlignment="Right"
-                                        Content="×" 
-                                        Command="{Binding Cmd_ClosePopup}" />-->
+                            <Button Grid.Column="1"
+                                    Grid.Row="0"
+                                    Margin="0,0,0,0" 
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Foreground="{DynamicResource FileTitleBtnSelectedColor}"
+                                    FontSize="14" 
+                                    FontWeight="ExtraBold"
+                                    Content="✕"                                    
+                                    Style="{StaticResource SymbolButton}"                                   
+                                    Command="{Binding Cmd_Abort}"/>
 
                             <ProgressBar Grid.Column="0"
                                          Grid.Row="3" 
@@ -1478,7 +1440,9 @@
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                                                         To="0" 
+                                                         Duration="0:0:0.5"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </DataTrigger.EnterActions>
@@ -1497,109 +1461,12 @@
             </ItemsControl.Style>
         </ItemsControl>
 
-        <!-- Overlay Dlg: Start File Move process dialog -->
-        <Grid Grid.Row="1"
-              Grid.RowSpan="2"
-              Grid.ColumnSpan="2"
-              Background="#EF1B1D1F"
-              Visibility="{Binding DialogOverlay_MoveFiles_Show, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
-
-            <Border BorderThickness="2"
-                    BorderBrush="{DynamicResource DialogBorderBrushColor}"
-                    Background="{DynamicResource DialogBackgroundColor}"                
-                    CornerRadius="15"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    MinWidth="20"
-                    MinHeight="20"
-                    Padding="15" 
-                    SnapsToDevicePixels="True">
-
-                <StackPanel Orientation="Horizontal">
-
-                    <TextBlock Grid.Column="1"
-                               Grid.Row="1"
-                               Text="❔"
-                               VerticalAlignment="Center"
-                               FontSize="92"
-                               Foreground="{DynamicResource DialogBtnSymbolColor}"/>
-
-                    <Grid Margin="20,0,0,0">
-                        <Grid.RowDefinitions>
-                            <!--Top distance -->
-                            <RowDefinition Height="*"/>
-                            <!--Titel-->
-                            <RowDefinition Height="Auto"/>
-                            <!--Top distance-->
-                            <RowDefinition Height="15"/>
-                            <!--Message Text-->
-                            <RowDefinition Height="Auto"/>
-                            <!--Top distance-->
-                            <RowDefinition Height="25"/>
-                            <!--Buttons-->
-                            <RowDefinition Height="Auto"/>
-                            <!--Bottom distance -->
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="1"                                   
-                                   FontSize="20" 
-                                   Foreground="{DynamicResource DialogBtnSymbolColor}"
-                                   FontWeight="Bold"
-                                   Name="tbFileMoveDlg_QuestionTitle"
-                                   Text="{lex:Loc}"/>
-
-                        <TextBlock Grid.Row="3"
-                                   MinWidth="300"
-                                   MaxWidth="500"
-                                   Foreground="{DynamicResource DialogTitleTextForegroundColor}"
-                                   TextWrapping="Wrap">
-
-                            <TextBlock.Text>
-                                <MultiBinding Converter="{lex:StringFormatConverter}" >
-                                    <lex:BLoc Key="tbFileMoveDlg_QuestionText"/>
-                                    <Binding Path="DialogOverlay_MoveFiles_FileCount"/>
-                                    <Binding Path="DialogOverlay_MoveFiles_ShortTargetPath"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-
-                        </TextBlock>
-
-                        <Button Grid.Row="5"
-                                HorizontalAlignment="Left"
-                                Style="{StaticResource DialogboxButtonStyle}" 
-                                Tag="&#xE10B;"
-                                Name="btnFileMoveDlg_StartMove"
-                                Content="{lex:Loc}"
-                                Command="{Binding Cmd_Dlg_StartFileMoveProcess}"/>
-
-                        <Button Grid.Row="5"
-                                HorizontalAlignment="Right"
-                                Style="{StaticResource DialogboxButtonStyle}" 
-                                Tag="&#xE10A;"
-                                Name="btnFileMoveDlg_Cancle"
-                                Content="{lex:Loc}"
-                                Command="{Binding Cmd_Dlg_AbortStartFileMoveProcess}"/>
-
-                    </Grid>
-
-                </StackPanel>
-
-                <Border.Effect>
-                    <DropShadowEffect ShadowDepth="0"                                                 
-                                          BlurRadius="10"                                                                                       
-                                          Color="{DynamicResource ToolTipBackgroundColorColor}"/>
-                </Border.Effect>
-
-            </Border>
-
-        </Grid>
-
         <!-- Overlay Dalog Box -->
         <userControl:DlgBoxUserControl Grid.Row="1"
                                        Grid.RowSpan="2"
                                        Grid.ColumnSpan="2"
-                                       Configuration="{Binding DlgBoxConfig, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue={x:Null}}"/>
+                                       Visibility="Visible"
+                                       Configuration="{Binding DialogBoxConfiguration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue={x:Null}}"/>
 
     </Grid>
 </Window>

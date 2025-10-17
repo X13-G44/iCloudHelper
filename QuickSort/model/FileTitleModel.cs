@@ -46,7 +46,7 @@ using System.Windows.Media.Imaging;
 
 namespace QuickSort.model
 {
-    public class FileTileModel : INotifyPropertyChanged
+    public class FileTitleModel : INotifyPropertyChanged
     {
         private string _DisplayName;
         public string DisplayName
@@ -150,7 +150,7 @@ namespace QuickSort.model
             {
                 try
                 {
-                    return System.IO.Path.GetFileName (this.File);
+                    return Path.GetFileName (this.File);
                 }
                 catch
                 {
@@ -164,7 +164,7 @@ namespace QuickSort.model
             {
                 try
                 {
-                    return System.IO.Path.GetFullPath (this.File);
+                    return Path.GetFullPath (this.File);
                 }
                 catch
                 {

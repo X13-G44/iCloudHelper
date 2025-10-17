@@ -79,24 +79,6 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Cancle ähnelt.
-        /// </summary>
-        public static string btnFileMoveDlg_Cancle {
-            get {
-                return ResourceManager.GetString("btnFileMoveDlg_Cancle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Move ähnelt.
-        /// </summary>
-        public static string btnFileMoveDlg_StartMove {
-            get {
-                return ResourceManager.GetString("btnFileMoveDlg_StartMove", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Default ähnelt.
         /// </summary>
         public static string cbConfig_LanguageDefault {
@@ -313,38 +295,38 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Files are currently being processed in the background.\n\nIf you close the application, this process will be aborted. Not all selected files will be moved to the destination folder!\n\nAre you sure you want to close the application? ähnelt.
-        /// </summary>
-        public static string dlg_AppExitFileCopyStillActive {
-            get {
-                return ResourceManager.GetString("dlg_AppExitFileCopyStillActive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The selected directory:\n\n\t\&quot;{0}\&quot;\n\is not empty!\n\nAre your sure to delete the directory? ähnelt.
-        /// </summary>
-        public static string dlg_DelayNotEmptyDir {
-            get {
-                return ResourceManager.GetString("dlg_DelayNotEmptyDir", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Not all images could be opened and displayed!\n\n[0] ähnelt.
-        /// </summary>
-        public static string dlg_ErrorLoadingImagesFromDir {
-            get {
-                return ResourceManager.GetString("dlg_ErrorLoadingImagesFromDir", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Your configuration is invalid or has not been setup yet.\nFor this program to work properly, the folders must be configured correctly.\n\nShould the configuration window be displayed so that the settings can be adjusted? ähnelt.
         /// </summary>
         public static string dlg_InvalidConfig {
             get {
                 return ResourceManager.GetString("dlg_InvalidConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No ähnelt.
+        /// </summary>
+        public static string dlgAppExitFileCopyStillActive_Cancle {
+            get {
+                return ResourceManager.GetString("dlgAppExitFileCopyStillActive_Cancle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Yes ähnelt.
+        /// </summary>
+        public static string dlgAppExitFileCopyStillActive_ExitApp {
+            get {
+                return ResourceManager.GetString("dlgAppExitFileCopyStillActive_ExitApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Files are currently being processed in the background.\n\nIf you close the application, this process will be aborted. Not all selected files will be moved to the destination folder!\n\nAre you sure you want to close the application? ähnelt.
+        /// </summary>
+        public static string dlgAppExitFileCopyStillActive_Message {
+            get {
+                return ResourceManager.GetString("dlgAppExitFileCopyStillActive_Message", resourceCulture);
             }
         }
         
@@ -358,11 +340,83 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No ähnelt.
+        /// </summary>
+        public static string dlgDelayNotEmptyDir_Cancle {
+            get {
+                return ResourceManager.GetString("dlgDelayNotEmptyDir_Cancle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Yes ähnelt.
+        /// </summary>
+        public static string dlgDelayNotEmptyDir_DeleteDir {
+            get {
+                return ResourceManager.GetString("dlgDelayNotEmptyDir_DeleteDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The selected directory:\n\n\t{0}\n\nis not empty!\n\nAre your sure to delete the directory? ähnelt.
+        /// </summary>
+        public static string dlgDelayNotEmptyDir_Message {
+            get {
+                return ResourceManager.GetString("dlgDelayNotEmptyDir_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die An error occurred while deleting the folder {0}.\nCause: {1} ähnelt.
+        /// </summary>
+        public static string dlgDeleteDirError_Message {
+            get {
+                return ResourceManager.GetString("dlgDeleteDirError_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Not all images could be opened and displayed!\n\n[0] ähnelt.
+        /// </summary>
+        public static string dlgErrorLoadingImagesFromDir_Message {
+            get {
+                return ResourceManager.GetString("dlgErrorLoadingImagesFromDir_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select new Favorites folder ähnelt.
         /// </summary>
         public static string dlgFavTargFolder_HelpText {
             get {
                 return ResourceManager.GetString("dlgFavTargFolder_HelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cancle ähnelt.
+        /// </summary>
+        public static string dlgFileMove_Cancle {
+            get {
+                return ResourceManager.GetString("dlgFileMove_Cancle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Should the {0} selected images be moved to &quot;{1}&quot;? ähnelt.
+        /// </summary>
+        public static string dlgFileMove_QuestionText {
+            get {
+                return ResourceManager.GetString("dlgFileMove_QuestionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Move ähnelt.
+        /// </summary>
+        public static string dlgFileMove_StartMove {
+            get {
+                return ResourceManager.GetString("dlgFileMove_StartMove", resourceCulture);
             }
         }
         
@@ -399,6 +453,15 @@ namespace QuickSort.Resources {
         public static string dlgNewFolder_QuestionText {
             get {
                 return ResourceManager.GetString("dlgNewFolder_QuestionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die An error occurred while creating the new folder.\nCause: {0} ähnelt.
+        /// </summary>
+        public static string dlgNewFolderError_Message {
+            get {
+                return ResourceManager.GetString("dlgNewFolderError_Message", resourceCulture);
             }
         }
         
@@ -606,24 +669,6 @@ namespace QuickSort.Resources {
         public static string tbFavTargFolder_Title {
             get {
                 return ResourceManager.GetString("tbFavTargFolder_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Should the {0} selected images be moved to &quot;{1}&quot;? ähnelt.
-        /// </summary>
-        public static string tbFileMoveDlg_QuestionText {
-            get {
-                return ResourceManager.GetString("tbFileMoveDlg_QuestionText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Question ähnelt.
-        /// </summary>
-        public static string tbFileMoveDlg_QuestionTitle {
-            get {
-                return ResourceManager.GetString("tbFileMoveDlg_QuestionTitle", resourceCulture);
             }
         }
         
