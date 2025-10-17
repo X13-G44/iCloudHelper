@@ -394,16 +394,27 @@ namespace QuickSort.viewmodel
                     item =>
                     {
                         var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleModel> ();
-                        string targetPath = (item as VirtualDirectoryModel).Path;
+                        VirtualDirectoryModel virtualDirectoryModel = (item as VirtualDirectoryModel);
 
 
                         if (querrySelectedFileList.Count > 0)
                         {
-                            PrepareMoveFiles (targetPath);
+                            PrepareMoveFiles (virtualDirectoryModel.Path);
                         }
                         else
                         {
-                            LoadVirtualFirstStageDirectoryList (item as VirtualDirectoryModel);
+                            // Unselect all VirtualRootDirectoryList items.
+                            var selectedVirtRootDirItems = VirtualRootDirectoryList.Where (x => x.IsSelected);
+                            foreach (var virtRootDirItem in selectedVirtRootDirItems)
+                            {
+                                virtRootDirItem.IsSelected = false;
+                            }
+
+                            // Select the clicked item.
+                            virtualDirectoryModel.IsSelected = true;
+
+                            // Update the UI.
+                            LoadVirtualFirstStageDirectoryList (virtualDirectoryModel.Path);
                         }
                     },
                     param => true
@@ -419,16 +430,27 @@ namespace QuickSort.viewmodel
                     item =>
                     {
                         var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleModel> ();
-                        string targetPath = (item as VirtualDirectoryModel).Path;
+                        VirtualDirectoryModel virtualDirectoryModel = (item as VirtualDirectoryModel);
 
 
                         if (querrySelectedFileList.Count > 0)
                         {
-                            PrepareMoveFiles (targetPath);
+                            PrepareMoveFiles (virtualDirectoryModel.Path);
                         }
                         else
                         {
-                            LoadVirtualSecondStageDirectoryList (item as VirtualDirectoryModel);
+                            // Unselect all VirtualFirstDirectoryList items.
+                            var selectedVirtFirstDirItems = VirtualFirstStageDirectoryList.Where (x => x.IsSelected);
+                            foreach (var virtFirstDirItem in selectedVirtFirstDirItems)
+                            {
+                                virtFirstDirItem.IsSelected = false;
+                            }
+
+                            // Select the clicked item.
+                            virtualDirectoryModel.IsSelected = true;
+
+                            // Update the UI.
+                            LoadVirtualSecondStageDirectoryList (virtualDirectoryModel.Path);
                         }
                     },
                     param => true
@@ -653,14 +675,7 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     item =>
                     {
-                        try
-                        {
-                            LoadVirtualFirstStageDirectoryList (item as VirtualDirectoryModel);
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine ($"Exception in func Cmd_ContextMenu_ShowVirtualFirstStageDirectoryItem: {ex.Message}");
-                        }
+                        LoadVirtualFirstStageDirectoryList ((item as VirtualDirectoryModel).Path);
                     },
                     item =>
                     {
@@ -696,17 +711,20 @@ namespace QuickSort.viewmodel
                         VirtualDirectoryModel selectedVirtRootDirObject = null;
 
 
-                        if (this.VirtualRootDirectoryList.Where (x => x.IsSelected).Count () > 0)
+                        if (item is VirtualDirectoryModel)
                         {
-                            // Used, when user right-click on background (context menu item). Use "selected item from higher stage / path".
+                            // User did right-click on a virtual directory button; which is selected or not.
 
-                            selectedVirtRootDirObject = this.VirtualRootDirectoryList.Where (x => x.IsSelected).First ();
+                            selectedVirtRootDirObject = (VirtualDirectoryModel) item;
                         }
                         else
                         {
-                            // Used, when user right-click on a virtual directory button (context menu item).
+                            // User did right-click into the background of the "VirtualFirstStageDirectoryList" UI.
 
-                            selectedVirtRootDirObject = (VirtualDirectoryModel) item;
+                            if (this.VirtualRootDirectoryList.Where (x => x.IsSelected).Count () > 0)
+                            {
+                                selectedVirtRootDirObject = this.VirtualRootDirectoryList.Where (x => x.IsSelected).First ();
+                            }
                         }
 
                         if (selectedVirtRootDirObject != null)
@@ -741,7 +759,7 @@ namespace QuickSort.viewmodel
 
                                                             Directory.CreateDirectory (Path.Combine (rootPath, dlgBoxCfg.TextBox.Text));
 
-                                                            LoadVirtualFirstStageDirectoryList (srcVirtDirInstance);
+                                                            LoadVirtualFirstStageDirectoryList (rootPath);
                                                         }
                                                         catch (Exception ex)
                                                         {
@@ -771,7 +789,7 @@ namespace QuickSort.viewmodel
                         VirtualDirectoryModel selectedVirtDirObject = (VirtualDirectoryModel) item;
 
 
-                        if (Directory.GetDirectories (selectedVirtDirObject.Path).Length > 0 || Directory.GetFiles (selectedVirtDirObject.Path).Length > 0)
+                        if (Directory.GetDirectories (selectedVirtDirObject.Path).Length != 0 || Directory.GetFiles (selectedVirtDirObject.Path).Length != 0)
                         {
                             this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
 
@@ -802,7 +820,7 @@ namespace QuickSort.viewmodel
                                                             }
 
                                                             // Refresh the directory list.
-                                                            LoadVirtualFirstStageDirectoryList (selVirtDirObject);
+                                                            LoadVirtualFirstStageDirectoryList (selVirtDirObject.Path);
                                                         }
                                                         catch (Exception ex)
                                                         {
@@ -813,6 +831,28 @@ namespace QuickSort.viewmodel
                                                     }),
 
                                 null);
+                        }
+                        else
+                        {
+                            try
+                            {
+                                Directory.Delete (selectedVirtDirObject.Path, true);
+
+                                // Try to get parent path VirtualDirectory object.
+                                if (this.VirtualRootDirectoryList.Where (x => x.IsSelected).Count () > 0)
+                                {
+                                    selectedVirtDirObject = this.VirtualRootDirectoryList.Where (x => x.IsSelected).First ();
+                                }
+
+                                // Refresh the directory list.
+                                LoadVirtualFirstStageDirectoryList (selectedVirtDirObject.Path);
+                            }
+                            catch (Exception ex)
+                            {
+                                this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (view.UserControls.DlgBoxType.Error,
+                                    LocalizedStrings.GetString ("lError"),
+                                    LocalizedStrings.GetFormattedString ("dlgDeleteDirError_Message", selectedVirtDirObject.Path, ex.Message));
+                            }
                         }
                     },
                     param => true
@@ -827,14 +867,7 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     item =>
                     {
-                        try
-                        {
-                            LoadVirtualSecondStageDirectoryList (item as VirtualDirectoryModel);
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine ($"Exception in func Cmd_ContextMenu_ShowVirtualSecondStageDirectoryItem: {ex.Message}");
-                        }
+                        LoadVirtualSecondStageDirectoryList ((item as VirtualDirectoryModel).Path);
                     },
                     item =>
                     {
@@ -870,17 +903,20 @@ namespace QuickSort.viewmodel
                         VirtualDirectoryModel selectedVirtRootDirObject = null;
 
 
-                        if (this.VirtualFirstStageDirectoryList.Where (x => x.IsSelected).Count () > 0)
+                        if (item is VirtualDirectoryModel)
                         {
-                            // Used, when user right-click on background (context menu item). Use "selected item from higher stage / path".
+                            // User did right-click on a virtual directory button; which is selected or not.
 
-                            selectedVirtRootDirObject = this.VirtualFirstStageDirectoryList.Where (x => x.IsSelected).First ();
+                            selectedVirtRootDirObject = (VirtualDirectoryModel) item;
                         }
                         else
                         {
-                            // Used, when user right-click on a virtual directory button (context menu item).
+                            // User did right-click into the background of the "VirtualSecondStageDirectoryList" UI.
 
-                            selectedVirtRootDirObject = (VirtualDirectoryModel) item;
+                            if (this.VirtualFirstStageDirectoryList.Where (x => x.IsSelected).Count () > 0)
+                            {
+                                selectedVirtRootDirObject = this.VirtualFirstStageDirectoryList.Where (x => x.IsSelected).First ();
+                            }
                         }
 
                         if (selectedVirtRootDirObject != null)
@@ -915,7 +951,7 @@ namespace QuickSort.viewmodel
 
                                                             Directory.CreateDirectory (Path.Combine (rootPath, dlgBoxCfg.TextBox.Text));
 
-                                                            LoadVirtualSecondStageDirectoryList (srcVirtDirInstance);
+                                                            LoadVirtualSecondStageDirectoryList (rootPath);
                                                         }
                                                         catch (Exception ex)
                                                         {
@@ -945,48 +981,71 @@ namespace QuickSort.viewmodel
                         VirtualDirectoryModel selectedVirtDirObject = (VirtualDirectoryModel) item;
 
 
-                        this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
+                        if (Directory.GetFiles (selectedVirtDirObject.Path).Length != 0 || Directory.GetDirectories (selectedVirtDirObject.Path).Length != 0)
+                        {
+                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
 
-                            view.UserControls.DlgBoxType.Warning,
-                            LocalizedStrings.GetString ("lWarning"),
-                            LocalizedStrings.GetFormattedString ("dlgDelayNotEmptyDir_Message", selectedVirtDirObject.Path),
+                                view.UserControls.DlgBoxType.Warning,
+                                LocalizedStrings.GetString ("lWarning"),
+                                LocalizedStrings.GetFormattedString ("dlgDelayNotEmptyDir_Message", selectedVirtDirObject.Path),
 
-                            new DlgBoxButton (LocalizedStrings.GetString ("dlgDelayNotEmptyDir_Cancle"),
-                                                view.UserControls.DlgBoxButtonSymbol.Empty,
-                                                null,
-                                                dlgBoxCfg => {; }),
+                                new DlgBoxButton (LocalizedStrings.GetString ("dlgDelayNotEmptyDir_Cancle"),
+                                                    view.UserControls.DlgBoxButtonSymbol.Empty,
+                                                    null,
+                                                    dlgBoxCfg => {; }),
 
-                            new DlgBoxButton (LocalizedStrings.GetString ("dlgDelayNotEmptyDir_DeleteDir"),
-                                                view.UserControls.DlgBoxButtonSymbol.Empty,
-                                                selectedVirtDirObject,
-                                                dlgBoxCfg =>
-                                                {
-                                                    VirtualDirectoryModel selVirtDirObject = (VirtualDirectoryModel) dlgBoxCfg.LeftButton.Parameter;
-
-                                                    try
+                                new DlgBoxButton (LocalizedStrings.GetString ("dlgDelayNotEmptyDir_DeleteDir"),
+                                                    view.UserControls.DlgBoxButtonSymbol.Empty,
+                                                    selectedVirtDirObject,
+                                                    dlgBoxCfg =>
                                                     {
-                                                        Directory.Delete (selVirtDirObject.Path, true);
+                                                        VirtualDirectoryModel selVirtDirObject = (VirtualDirectoryModel) dlgBoxCfg.LeftButton.Parameter;
 
-                                                        // Try to get parent path VirtualDirectory object.
-                                                        if (this.VirtualFirstStageDirectoryList.Where (x => x.IsSelected).Count () > 0)
+                                                        try
                                                         {
-                                                            selVirtDirObject = this.VirtualFirstStageDirectoryList.Where (x => x.IsSelected).First ();
+                                                            Directory.Delete (selVirtDirObject.Path, true);
+
+                                                            // Try to get parent path VirtualDirectory object.
+                                                            if (this.VirtualFirstStageDirectoryList.Where (x => x.IsSelected).Count () > 0)
+                                                            {
+                                                                selVirtDirObject = this.VirtualFirstStageDirectoryList.Where (x => x.IsSelected).First ();
+                                                            }
+
+                                                            // Refresh the directory list.
+                                                            LoadVirtualSecondStageDirectoryList (selVirtDirObject.Path);
                                                         }
+                                                        catch (Exception ex)
+                                                        {
+                                                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (view.UserControls.DlgBoxType.Error,
+                                                                LocalizedStrings.GetString ("lError"),
+                                                                LocalizedStrings.GetFormattedString ("dlgDeleteDirError_Message", selVirtDirObject.Path, ex.Message));
+                                                        }
+                                                    }),
 
-                                                        // Refresh the directory list.
-                                                        LoadVirtualSecondStageDirectoryList (selVirtDirObject);
-                                                    }
-                                                    catch (Exception ex)
-                                                    {
-                                                        this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (view.UserControls.DlgBoxType.Error,
-                                                            LocalizedStrings.GetString ("lError"),
-                                                            LocalizedStrings.GetFormattedString ("dlgDeleteDirError_Message", selVirtDirObject.Path, ex.Message));
+                                null);
+                        }
+                        else
+                        {
+                            try
+                            {
+                                Directory.Delete (selectedVirtDirObject.Path, true);
 
-                                                        Debug.WriteLine ($"Exception in func Cmd_ContextMenu_VirtualSecondStageDeleteDirectory: {ex.Message}");
-                                                    }
-                                                }),
+                                // Try to get parent path VirtualDirectory object.
+                                if (this.VirtualFirstStageDirectoryList.Where (x => x.IsSelected).Count () > 0)
+                                {
+                                    selectedVirtDirObject = this.VirtualFirstStageDirectoryList.Where (x => x.IsSelected).First ();
+                                }
 
-                            null);
+                                // Refresh the directory list.
+                                LoadVirtualSecondStageDirectoryList (selectedVirtDirObject.Path);
+                            }
+                            catch (Exception ex)
+                            {
+                                this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (view.UserControls.DlgBoxType.Error,
+                                    LocalizedStrings.GetString ("lError"),
+                                    LocalizedStrings.GetFormattedString ("dlgDeleteDirError_Message", selectedVirtDirObject.Path, ex.Message));
+                            }
+                        }
                     },
                     param => true
                 );
@@ -1764,30 +1823,16 @@ namespace QuickSort.viewmodel
 
 
 
-        private void LoadVirtualFirstStageDirectoryList (VirtualDirectoryModel modelObject)
+        private void LoadVirtualFirstStageDirectoryList (string path)
         {
             VirtualFirstStageDirectoryList.Clear ();
             VirtualSecundStageDirectoryList.Clear ();
 
             try
             {
-                // Unselect all VirtualRootDirectoryList items.
-                var selectedVirtRootDirItems = VirtualRootDirectoryList.Where (x => x.IsSelected);
-                foreach (var virtRootDirItem in selectedVirtRootDirItems)
+                if (!string.IsNullOrEmpty (path) && Directory.Exists (path))
                 {
-                    virtRootDirItem.IsSelected = false;
-                }
-
-                // Select the clicked item.
-                modelObject.IsSelected = true;
-
-
-                // Process the sub directories.
-
-
-                if (!string.IsNullOrEmpty (modelObject.Path) && Directory.Exists (modelObject.Path))
-                {
-                    String[] subDirList = Directory.GetDirectories (modelObject.Path);
+                    String[] subDirList = Directory.GetDirectories (path);
 
 
                     foreach (var subDir in subDirList)
@@ -1819,29 +1864,15 @@ namespace QuickSort.viewmodel
 
 
 
-        private void LoadVirtualSecondStageDirectoryList (VirtualDirectoryModel modelObject)
+        private void LoadVirtualSecondStageDirectoryList (string path)
         {
             VirtualSecundStageDirectoryList.Clear ();
 
             try
             {
-                // Unselect all VirtualFirstDirectoryList items.
-                var selectedVirtFirstDirItems = VirtualFirstStageDirectoryList.Where (x => x.IsSelected);
-                foreach (var virtFirstDirItem in selectedVirtFirstDirItems)
+                if (!string.IsNullOrEmpty (path) && Directory.Exists (path))
                 {
-                    virtFirstDirItem.IsSelected = false;
-                }
-
-                // Select the clicked item.
-                modelObject.IsSelected = true;
-
-
-                // Process the sub directories.
-
-
-                if (!string.IsNullOrEmpty (modelObject.Path) && Directory.Exists (modelObject.Path))
-                {
-                    String[] subDirList = Directory.GetDirectories (modelObject.Path);
+                    String[] subDirList = Directory.GetDirectories (path);
 
 
                     foreach (var subDir in subDirList)
