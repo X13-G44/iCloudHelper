@@ -230,12 +230,12 @@ namespace QuickSort.viewmodel
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgAppExitFileCopyStillActive_Cancle"),
                                                     view.UserControls.DlgBoxButtonSymbol.Empty,
                                                     null,
-                                                    (dlgBoxCfg) => {; }),
+                                                    dlgBoxCfg => {; }),
 
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgAppExitFileCopyStillActive_ExitApp"),
                                                     view.UserControls.DlgBoxButtonSymbol.Empty,
                                                     null,
-                                                    (dlgBoxCfg) => { App.Current.Shutdown (0); }),
+                                                    dlgBoxCfg => { App.Current.Shutdown (0); }),
 
                                 null);
                         }
@@ -726,12 +726,12 @@ namespace QuickSort.viewmodel
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Cancle"),
                                                   view.UserControls.DlgBoxButtonSymbol.Cross,
                                                   null,
-                                                  _ => {; }),
+                                                  _dlgBoxCfg => {; }),
 
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Create"),
                                                     view.UserControls.DlgBoxButtonSymbol.Check,
                                                     selectedVirtRootDirObject,
-                                                    (dlgBoxCfg) =>
+                                                    dlgBoxCfg =>
                                                     {
                                                         try
                                                         {
@@ -782,12 +782,12 @@ namespace QuickSort.viewmodel
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgDelayNotEmptyDir_Cancle"),
                                                     view.UserControls.DlgBoxButtonSymbol.Empty,
                                                     null,
-                                                    (dlgBoxCfg) => {; }),
+                                                    dlgBoxCfg => {; }),
 
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgDelayNotEmptyDir_DeleteDir"),
                                                     view.UserControls.DlgBoxButtonSymbol.Empty,
                                                     selectedVirtDirObject,
-                                                    (dlgBoxCfg) =>
+                                                    dlgBoxCfg =>
                                                     {
                                                         VirtualDirectoryModel selVirtDirObject = (VirtualDirectoryModel) dlgBoxCfg.LeftButton.Parameter;
 
@@ -900,12 +900,12 @@ namespace QuickSort.viewmodel
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Cancle"),
                                                   view.UserControls.DlgBoxButtonSymbol.Cross,
                                                   null,
-                                                  _ => {; }),
+                                                  dlgBoxCfg => {; }),
 
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Create"),
                                                     view.UserControls.DlgBoxButtonSymbol.Check,
                                                     selectedVirtRootDirObject,
-                                                    (dlgBoxCfg) =>
+                                                    dlgBoxCfg =>
                                                     {
                                                         try
                                                         {
@@ -954,12 +954,12 @@ namespace QuickSort.viewmodel
                             new DlgBoxButton (LocalizedStrings.GetString ("dlgDelayNotEmptyDir_Cancle"),
                                                 view.UserControls.DlgBoxButtonSymbol.Empty,
                                                 null,
-                                                (dlgBoxCfg) => {; }),
+                                                dlgBoxCfg => {; }),
 
                             new DlgBoxButton (LocalizedStrings.GetString ("dlgDelayNotEmptyDir_DeleteDir"),
                                                 view.UserControls.DlgBoxButtonSymbol.Empty,
                                                 selectedVirtDirObject,
-                                                (dlgBoxCfg) =>
+                                                dlgBoxCfg =>
                                                 {
                                                     VirtualDirectoryModel selVirtDirObject = (VirtualDirectoryModel) dlgBoxCfg.LeftButton.Parameter;
 
@@ -1528,15 +1528,12 @@ namespace QuickSort.viewmodel
                         new DlgBoxButton (LocalizedStrings.GetString ("dlgFileMove_Cancle"),
                             view.UserControls.DlgBoxButtonSymbol.Check,
                             null,
-                            (_) => {; }),
+                            dlgBoxCfg => {; }),
 
                         new DlgBoxButton (LocalizedStrings.GetString ("dlgFileMove_StartMove"),
                             view.UserControls.DlgBoxButtonSymbol.Check,
                             targetPath,
-                            (dlgBoxCfg) =>
-                            {
-                                MoveFiles (dlgBoxCfg.LeftButton.Parameter as String);
-                            }),
+                            dlgBoxCfg => { MoveFiles (dlgBoxCfg.LeftButton.Parameter as String); }),
 
                         null);
                 }
@@ -1567,12 +1564,17 @@ namespace QuickSort.viewmodel
                 var existingFavTargetFolderItem = FavoriteTargetFolderList.Where (x => x.Path == targetPath).FirstOrDefault ();
                 if (existingFavTargetFolderItem != null)
                 {
+                    // Update favorite target folder item.
+
                     existingFavTargetFolderItem.AddDate = DateTime.Now.ToFileTimeUtc ();
                 }
                 else
                 {
+                    // Append new favorite target folder item.
+
                     if (QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionAutoInsert)
                     {
+                        // Check favorite target folder list limit.
                         if (FavoriteTargetFolderList.Count >= QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionLimit)
                         {
                             // Remove the oldest entry that is not pinned.
@@ -1628,47 +1630,45 @@ namespace QuickSort.viewmodel
                         _Dispatcher.Invoke (() => popup.FileProcessed++);
                         _Dispatcher.Invoke (() => popup.CurrentFileName = fileItem.DisplayName);
 
-#warning Testxode
-                        //if (File.Exists (fileItem.File) == true)
-                        //{
-                        //    try
-                        //    {
-                        //        if (File.Exists (targetFile) == false)
-                        //        {
-                        //            File.Move (fileItem.File, targetFile);
-                        //            File.Delete (fileItem.File);
-                        //        }
-                        //        else
-                        //        {
-                        //            // A file with the same name already exists in the target directory.
 
-                        //            // Check, if the both files have the same content.
-                        //            if (FileContentEqual (targetFile, fileItem.File) == true)
-                        //            {
-                        //                // File content is equal. Don't move the file; only delete them.
+                        if (File.Exists (fileItem.File) == true)
+                        {
+                            try
+                            {
+                                if (File.Exists (targetFile) == false)
+                                {
+                                    File.Move (fileItem.File, targetFile);
+                                    File.Delete (fileItem.File);
+                                }
+                                else
+                                {
+                                    // A file with the same name already exists in the target directory.
 
-                        //                File.Delete (fileItem.File);
-                        //            }
-                        //            else
-                        //            {
-                        //                // File content is not equal. Copy the file and add a name postfix.
+                                    // Check, if the both files have the same content.
+                                    if (FileContentEqual (targetFile, fileItem.File) == true)
+                                    {
+                                        // File content is equal. Don't move the file; only delete them.
 
-                        //                string randomSuffix = Path.GetRandomFileName ().Replace (".", string.Empty).Substring (0, 3); // Generate an random 3-Chars long suffix string.
-                        //                string targetFilePostfix = Path.Combine (targetPath, $"{Path.GetFileNameWithoutExtension (fileItem.Filename)}_{randomSuffix}{Path.GetExtension (fileItem.Filename)}");
+                                        File.Delete (fileItem.File);
+                                    }
+                                    else
+                                    {
+                                        // File content is not equal. Copy the file and add a name postfix.
+
+                                        string randomSuffix = Path.GetRandomFileName ().Replace (".", string.Empty).Substring (0, 3); // Generate a random 3-Chars long suffix string.
+                                        string targetFilePostfix = Path.Combine (targetPath, $"{Path.GetFileNameWithoutExtension (fileItem.Filename)}_{randomSuffix}{Path.GetExtension (fileItem.Filename)}");
 
 
-                        //                File.Move (fileItem.File, targetFilePostfix);
-                        //                File.Delete (fileItem.File);
-                        //            }
-                        //        }
-                        //    }
-                        //    catch (Exception ex)
-                        //    {
-                        //        //Debug.WriteLine ($"Error moving fileItem {fileItem.File} to {targetFile}: {ex.Message}");
-                        //    }
-                        //}
-
-                        Task.Delay (5000).Wait ();
+                                        File.Move (fileItem.File, targetFilePostfix);
+                                        File.Delete (fileItem.File);
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                _Dispatcher.Invoke (() => popup.HasFileProcessError = true);
+                            }
+                        }
 
                         if (cts.Token.IsCancellationRequested)
                         {
@@ -1677,24 +1677,26 @@ namespace QuickSort.viewmodel
                     }
 
 
-                    //_Dispatcher.Invoke (async () =>
-                    //{
-                    //    popup.IsFadingOut = true;
+                    _Dispatcher.Invoke (async () =>
+                    {
+                        // On file processing error, we show the faulted popup longer (by the bound property, the UI shows the popup in red color).
+                        if (popup.HasFileProcessError)
+                        {
+                            await Task.Delay (5000);
+                        }
 
-                    //    await Task.Delay (600);
+                        // Start Fadeout effect.
+                        popup.IsFadingOut = true;
 
-                    //    FileMoveProcPopupNotificationList.Remove (popup);
-                    //});
+                        // Delay for Fadeout effect before removing popup object from list.
+                        await Task.Delay (600);
 
-                }).ContinueWith (t =>
-                {
-                    //if (t.IsFaulted)
-                    //{
-                    //    Debug.WriteLine ($"Error moving files: {t.Exception?.Message}");
-                    //}
+                        // Remove popup object from list.
+                        FileMoveProcPopupNotificationList.Remove (popup);
 
-                    // Refresh the file title list.
-                    _Dispatcher.Invoke (() => UpdateFileTitleList ());
+                        // Refresh the file title list.
+                        UpdateFileTitleList ();
+                    });
                 });
             }
             else

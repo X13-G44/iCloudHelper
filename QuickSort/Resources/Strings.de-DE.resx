@@ -375,4 +375,7 @@
   <data name="dlgNewFolderError_Message" xml:space="preserve">
     <value>Es ist ein Fehler beim erstellen des neuen Ordners aufgetreten.\nUrsache: {0}</value>
   </data>
+  <data name="tbFileMovePopup_ErrorMessage" xml:space="preserve">
+    <value>Es ist ein Fehler bei der Dateiverarbeitung aufgetreten!</value>
+  </data>
 </root>

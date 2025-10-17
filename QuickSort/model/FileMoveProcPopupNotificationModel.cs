@@ -28,6 +28,8 @@
 
 
 
+using QuickSort.viewmodel;
+using QuickSort.model;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -37,13 +39,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using QuickSort.viewmodel;
 
 
 
 namespace QuickSort.model
 {
-    public class FileMoveProcPopupNotificationModel : INotifyPropertyChanged
+    public class FileMoveProcPopupNotificationModel : ViewModelBase
     {
         private string _TargetPath = "";
         public string TargetPath
@@ -86,19 +87,15 @@ namespace QuickSort.model
             }
         }
 
+        private bool _HasFileProcessError = false;
+        public bool HasFileProcessError
+        {
+            get { return _HasFileProcessError; }
+            set { _HasFileProcessError = value; OnPropertyChanged (nameof (HasFileProcessError)); }
+        }
+
 
 
         public RelayCommand Cmd_Abort { get; set; }  // Property will be setup during creating a new instance of this object in function "MoveFiles".
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-
-        public void OnPropertyChanged (string propertyName)
-        {
-            PropertyChanged?.Invoke (this, new PropertyChangedEventArgs (propertyName));
-        }
     }
 }

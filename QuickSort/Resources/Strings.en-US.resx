@@ -375,4 +375,7 @@
   <data name="dlgNewFolderError_Message" xml:space="preserve">
     <value>An error occurred while creating the new folder.\nCause: {0}</value>
   </data>
+  <data name="tbFileMovePopup_ErrorMessage" xml:space="preserve">
+    <value>An error occurred while processing the file!</value>
+  </data>
 </root>

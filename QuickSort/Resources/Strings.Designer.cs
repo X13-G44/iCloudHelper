@@ -673,6 +673,15 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die An error occurred while processing the file! ähnelt.
+        /// </summary>
+        public static string tbFileMovePopup_ErrorMessage {
+            get {
+                return ResourceManager.GetString("tbFileMovePopup_ErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Image:  ähnelt.
         /// </summary>
         public static string tbFileMovePopup_FileLabel {

@@ -1355,13 +1355,14 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border Margin="0,0,0,10" 
+                    <Border x:Name="PART_POPUP_BORDER"
+                            Margin="10" 
+                            Padding="10"
+                            Width="300"
                             Background="{DynamicResource ToolTipBackgroundColor}" 
                             BorderThickness="2"
                             BorderBrush="{DynamicResource CommonBorderBrushColor}"
-                            CornerRadius="5" 
-                            Padding="10" 
-                            Width="300">
+                            CornerRadius="5">
 
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -1372,7 +1373,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="15"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
@@ -1388,6 +1389,18 @@
                                        Text="{Binding TargetPath}" 
                                        HorizontalAlignment="Left"
                                        Foreground="{DynamicResource CommonForegroundColor}"/>
+
+                            <Button Grid.Column="1"
+                                    Grid.Row="0"
+                                    Margin="0" 
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Foreground="{DynamicResource FileTitleBtnSelectedColor}"
+                                    FontSize="14" 
+                                    FontWeight="ExtraBold"
+                                    Content="✕"                                    
+                                    Style="{StaticResource SymbolButton}"                                   
+                                    Command="{Binding Cmd_Abort}"/>
 
                             <TextBlock Grid.Column="0"
                                        Grid.Row="1"                                       
@@ -1406,36 +1419,47 @@
                                        Grid.Row="1"
                                        HorizontalAlignment="Right"
                                        Foreground="{DynamicResource CommonForegroundColor}">
-                                 <Run Text="("/>
+                                                               
+                                 <!--<Run Text="("/>
                                  <Run Text="{Binding FileProcessed}"/>
                                  <Run Text="/"/>
                                  <Run Text="{Binding FileCount}"/>
-                                 <Run Text=")"/>
+                                 <Run Text=")"/>-->
+
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}({0}/{1})">
+                                        <Binding Path="FileProcessed" />
+                                        <Binding Path="FileCount" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+
                             </TextBlock>
 
-                            <Button Grid.Column="1"
-                                    Grid.Row="0"
-                                    Margin="0,0,0,0" 
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Top"
-                                    Foreground="{DynamicResource FileTitleBtnSelectedColor}"
-                                    FontSize="14" 
-                                    FontWeight="ExtraBold"
-                                    Content="✕"                                    
-                                    Style="{StaticResource SymbolButton}"                                   
-                                    Command="{Binding Cmd_Abort}"/>
-
                             <ProgressBar Grid.Column="0"
-                                         Grid.Row="3" 
+                                         Grid.Row="2" 
                                          Grid.ColumnSpan="2"
+                                         x:Name="PART_POPUP_PROGRESSBAR"
                                          Height="10"
                                          Value="{Binding FileProcessed}" 
-                                         Maximum="{Binding FileCount}"/>
+                                         Maximum="{Binding FileCount}"
+                                         Margin="0,15,0,0"/>
+
+                            <TextBlock Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       Grid.Row="3"
+                                       x:Name="PART_POPUP_ERROR_MSG"
+                                       Margin="0,10,0,0"
+                                       HorizontalAlignment="Center"
+                                       Foreground="Red"
+                                       Visibility="Collapsed"
+                                       TextWrapping="Wrap"
+                                       Text="{lex:Loc tbFileMovePopup_ErrorMessage}"/>
 
                         </Grid>
                     </Border>
 
                     <DataTemplate.Triggers>
+                        
                         <DataTrigger Binding="{Binding IsFadingOut}" Value="true">
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard>
@@ -1447,6 +1471,13 @@
                                 </BeginStoryboard>
                             </DataTrigger.EnterActions>
                         </DataTrigger>
+
+                        <DataTrigger Binding="{Binding HasFileProcessError}" Value="true">
+                            <Setter TargetName="PART_POPUP_BORDER" Property="BorderBrush" Value="Red"/>
+                            <Setter TargetName="PART_POPUP_PROGRESSBAR" Property="Foreground" Value="Red"/>
+                            <Setter TargetName="PART_POPUP_ERROR_MSG" Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+
                     </DataTemplate.Triggers>
 
                 </DataTemplate>
