@@ -41,7 +41,7 @@ using System.Windows.Controls;
 
 
 
-namespace AutoUnzip.validationrules
+namespace AutoUnzip.ValidationRules
 {
     public class CheckDirPrefixValidationRule : ValidationRule
     {

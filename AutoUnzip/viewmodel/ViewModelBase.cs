@@ -38,7 +38,7 @@ using System.Runtime.CompilerServices;
 
 
 
-namespace AutoUnzip.viewmodel
+namespace AutoUnzip.ViewModel
 {
     /// <summary>
     /// Base class for all ViewModel classes in the application. Provides support for 

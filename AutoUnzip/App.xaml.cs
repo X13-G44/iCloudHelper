@@ -28,9 +28,9 @@
 
 
 
-using AutoUnzip.other;
+using AutoUnzip.Model;
 using AutoUnzip.Resources;
-using AutoUnzip.view;
+using AutoUnzip.View;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -96,7 +96,7 @@ namespace AutoUnzip
 
             START:
 
-            if (FileWork.CheckFolder (false) != true)
+            if (FileWorkModel.CheckFolder (false) != true)
             {
                 if (System.Windows.MessageBox.Show (LocalizedStrings.GetString ("dlg_InvalidConfig"),
                     $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
@@ -245,7 +245,7 @@ namespace AutoUnzip
                 }
 
                 // Process the new file.
-                var workResult = FileWork.DoWork (ev.FullPath);
+                var workResult = FileWorkModel.DoWork (ev.FullPath);
                 if (workResult.WorkSuccess)
                 {
                     ShowMainWindow (workResult.ExtractedFiles);

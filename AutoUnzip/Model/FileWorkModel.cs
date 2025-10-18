@@ -42,9 +42,9 @@ using System.Windows.Shell;
 
 
 
-namespace AutoUnzip.other
+namespace AutoUnzip.Model
 {
-    static class FileWork
+    static class FileWorkModel
     {
         public enum FileProcessingCheckpoint
         {
@@ -122,7 +122,7 @@ namespace AutoUnzip.other
                 lastCheckpoint = FileProcessingCheckpoint.BackupZipFile;
                 MakeBackupFile (srcArchiveFile);
 
-                lastCheckpoint = FileWork.FileProcessingCheckpoint.PrepareTempfolder;
+                lastCheckpoint = FileWorkModel.FileProcessingCheckpoint.PrepareTempfolder;
                 tempPath = MakeTempFolder ();
 
                 lastCheckpoint = FileProcessingCheckpoint.ExtractZipFile;

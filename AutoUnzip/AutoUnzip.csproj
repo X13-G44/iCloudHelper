@@ -71,44 +71,44 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="help\StoryboardHelper.cs" />
+    <Compile Include="Help\StoryboardHelper.cs" />
     <Compile Include="Resources\LocalizedStrings.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Include="validationrules\BindingProxy.cs" />
-    <Compile Include="validationrules\CheckFileExistsValidationRule.cs" />
-    <Compile Include="validationrules\CheckFileFilterValidationRule.cs" />
-    <Compile Include="validationrules\CheckIntValidationRule.cs" />
-    <Compile Include="validationrules\CheckPathExistsValidationRule.cs" />
-    <Compile Include="validationrules\CheckDirPrefixValidationRule.cs" />
-    <Compile Include="viewmodel\MainViewModel.cs" />
-    <Compile Include="viewmodel\ViewModelBase.cs" />
-    <Compile Include="view\ConfigView.xaml.cs">
+    <Compile Include="ValidationRules\BindingProxy.cs" />
+    <Compile Include="ValidationRules\CheckFileExistsValidationRule.cs" />
+    <Compile Include="ValidationRules\CheckFileFilterValidationRule.cs" />
+    <Compile Include="ValidationRules\CheckIntValidationRule.cs" />
+    <Compile Include="ValidationRules\CheckPathExistsValidationRule.cs" />
+    <Compile Include="ValidationRules\CheckDirPrefixValidationRule.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\ConfigView.xaml.cs">
       <DependentUpon>ConfigView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="viewmodel\ConfigViewModel.cs" />
-    <Compile Include="viewmodel\RelayCommand.cs" />
-    <Compile Include="other\FileWork.cs" />
-    <Page Include="view\StyleConfigView.xaml">
+    <Compile Include="ViewModel\ConfigViewModel.cs" />
+    <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="Model\FileWorkModel.cs" />
+    <Page Include="View\StyleConfigView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="view\theme\ColorThemeDarkMode.xaml">
+    <Page Include="View\Theme\ColorThemeDarkMode.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="view\theme\ColorThemeLightMode.xaml">
+    <Page Include="View\Theme\ColorThemeLightMode.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="view\ConfigView.xaml">
+    <Page Include="View\ConfigView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="view\MainView.xaml">
+    <Page Include="View\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -116,7 +116,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="view\MainView.xaml.cs">
+    <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -160,8 +160,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\icloud-logo-49272-Windows.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="model\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

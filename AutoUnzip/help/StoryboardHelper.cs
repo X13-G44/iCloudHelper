@@ -41,7 +41,7 @@ using System.Windows.Media.Animation;
 
 
 
-namespace AutoUnzip.help
+namespace AutoUnzip.Help
 {
     /// <summary>
     /// 

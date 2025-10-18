@@ -1,10 +1,10 @@
-﻿<Window x:Class="AutoUnzip.view.ConfigView"
+﻿<Window x:Class="AutoUnzip.View.ConfigView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AutoUnzip"
-        xmlns:validate_rules="clr-namespace:AutoUnzip.validationrules"
+        xmlns:local="clr-namespace:AutoUnzip.View"
+        xmlns:vr="clr-namespace:AutoUnzip.ValidationRules"
         xmlns:lex="http://wpflocalizeextension.codeplex.com"
         lex:LocalizeDictionary.DesignCulture="en"
         lex:ResxLocalizationProvider.DefaultAssembly="AutoUnzip"
@@ -75,7 +75,7 @@
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                            <vr:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -102,8 +102,8 @@
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckFileFilterValidationRule ValidatesOnTargetUpdated="True"
-                                                                          AllowStarChar="true"/>
+                            <vr:CheckFileFilterValidationRule ValidatesOnTargetUpdated="True"
+                                                              AllowStarChar="true"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -127,7 +127,7 @@
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                            <vr:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -154,7 +154,7 @@
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckDirPrefixValidationRule ValidatesOnTargetUpdated="True"/>
+                            <vr:CheckDirPrefixValidationRule ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -183,7 +183,7 @@
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                            <vr:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -210,9 +210,9 @@
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckIntValidationRule ValidatesOnTargetUpdated="True"
-                                                                   MinValue="0"
-                                                                   MaxValue="366"/>
+                            <vr:CheckIntValidationRule ValidatesOnTargetUpdated="True"
+                                                       MinValue="0"
+                                                       MaxValue="366"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -271,8 +271,8 @@
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckFileExistsValidationRule ValidatesOnTargetUpdated="True"
-                                                                          IgnoreFileExtension="false"/>
+                            <vr:CheckFileExistsValidationRule ValidatesOnTargetUpdated="True"
+                                                              IgnoreFileExtension="false"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>

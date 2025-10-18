@@ -52,7 +52,7 @@ using System.Windows.Threading;
 
 
 
-namespace AutoUnzip.viewmodel
+namespace AutoUnzip.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {

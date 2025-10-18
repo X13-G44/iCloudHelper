@@ -29,7 +29,7 @@
 
 
 using AutoUnzip.Resources;
-using AutoUnzip.view;
+using AutoUnzip.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -44,7 +44,7 @@ using System.Windows.Threading;
 
 
 
-namespace AutoUnzip.viewmodel
+namespace AutoUnzip.ViewModel
 {
     public class ConfigViewModel : ViewModelBase
     {

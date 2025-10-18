@@ -37,7 +37,7 @@ using System.Windows.Input;
 
 
 
-namespace AutoUnzip.viewmodel
+namespace AutoUnzip.ViewModel
 {
     public class RelayCommand : ICommand
     {

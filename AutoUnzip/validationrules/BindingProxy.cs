@@ -37,7 +37,7 @@ using System.Windows;
 
 
 
-namespace AutoUnzip.validationrules
+namespace AutoUnzip.ValidationRules
 {
     /// <summary>
     /// See this listening. We need a Binding Proxy for our Data Context (-> Bindings with dependency properties on our wrapper instances)
