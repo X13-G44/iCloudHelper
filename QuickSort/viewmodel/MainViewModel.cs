@@ -32,6 +32,7 @@ using QuickSort.Help;
 using QuickSort.Resources;
 using QuickSort.ValidationRules;
 using QuickSort.View;
+using QuickSort.View.UserControls;
 using QuickSort.Model;
 using System;
 using System.Threading;
@@ -221,17 +222,17 @@ namespace QuickSort.ViewModel
                         if (this.FileMoveProcPopupNotificationList.Count != 0)
                         {
                             this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
-                                view.UserControls.DlgBoxType.Warning,
+                                DlgBoxType.Warning,
                                 LocalizedStrings.GetString ("lWarning"),
                                 LocalizedStrings.GetString ("dlgAppExitFileCopyStillActive_Message"),
 
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgAppExitFileCopyStillActive_Cancle"),
-                                                    view.UserControls.DlgBoxButtonSymbol.Empty,
+                                                    DlgBoxButtonSymbol.Empty,
                                                     null,
                                                     dlgBoxCfg => {; }),
 
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgAppExitFileCopyStillActive_ExitApp"),
-                                                    view.UserControls.DlgBoxButtonSymbol.Empty,
+                                                    DlgBoxButtonSymbol.Empty,
                                                     null,
                                                     dlgBoxCfg => { App.Current.Shutdown (0); }),
 
@@ -735,17 +736,17 @@ namespace QuickSort.ViewModel
 
                             // Setup and show dialog box.
                             this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
-                                view.UserControls.DlgBoxType.Question,
+                                DlgBoxType.Question,
                                 LocalizedStrings.GetString ("lQuestion"),
                                 LocalizedStrings.GetString ("dlgNewFolder_QuestionText"),
 
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Cancle"),
-                                                  view.UserControls.DlgBoxButtonSymbol.Cross,
+                                                  DlgBoxButtonSymbol.Cross,
                                                   null,
                                                   _dlgBoxCfg => {; }),
 
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Create"),
-                                                    view.UserControls.DlgBoxButtonSymbol.Check,
+                                                    DlgBoxButtonSymbol.Check,
                                                     selectedVirtRootDirObject,
                                                     dlgBoxCfg =>
                                                     {
@@ -762,7 +763,7 @@ namespace QuickSort.ViewModel
                                                         catch (Exception ex)
                                                         {
                                                             this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (
-                                                                view.UserControls.DlgBoxType.Error,
+                                                                DlgBoxType.Error,
                                                                 LocalizedStrings.GetString ("lError"),
                                                                 LocalizedStrings.GetFormattedString ("dlgNewFolderError_Message", ex.Message));
                                                         }
@@ -790,18 +791,17 @@ namespace QuickSort.ViewModel
                         if (Directory.GetDirectories (selectedVirtDirObject.Path).Length != 0 || Directory.GetFiles (selectedVirtDirObject.Path).Length != 0)
                         {
                             this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
-
-                                view.UserControls.DlgBoxType.Warning,
+                                DlgBoxType.Warning,
                                 LocalizedStrings.GetString ("lWarning"),
                                 LocalizedStrings.GetFormattedString ("dlgDelayNotEmptyDir_Message", selectedVirtDirObject.Path),
 
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgDelayNotEmptyDir_Cancle"),
-                                                    view.UserControls.DlgBoxButtonSymbol.Empty,
+                                                    DlgBoxButtonSymbol.Empty,
                                                     null,
                                                     dlgBoxCfg => {; }),
 
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgDelayNotEmptyDir_DeleteDir"),
-                                                    view.UserControls.DlgBoxButtonSymbol.Empty,
+                                                    DlgBoxButtonSymbol.Empty,
                                                     selectedVirtDirObject,
                                                     dlgBoxCfg =>
                                                     {
@@ -822,7 +822,8 @@ namespace QuickSort.ViewModel
                                                         }
                                                         catch (Exception ex)
                                                         {
-                                                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (view.UserControls.DlgBoxType.Error,
+                                                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (
+                                                                DlgBoxType.Error,
                                                                 LocalizedStrings.GetString ("lError"),
                                                                 LocalizedStrings.GetFormattedString ("dlgDeleteDirError_Message", selVirtDirObject.Path, ex.Message));
                                                         }
@@ -847,7 +848,8 @@ namespace QuickSort.ViewModel
                             }
                             catch (Exception ex)
                             {
-                                this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (view.UserControls.DlgBoxType.Error,
+                                this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (
+                                    DlgBoxType.Error,
                                     LocalizedStrings.GetString ("lError"),
                                     LocalizedStrings.GetFormattedString ("dlgDeleteDirError_Message", selectedVirtDirObject.Path, ex.Message));
                             }
@@ -927,17 +929,17 @@ namespace QuickSort.ViewModel
 
                             // Setup and show dialog box.
                             this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
-                                view.UserControls.DlgBoxType.Question,
+                                DlgBoxType.Question,
                                 LocalizedStrings.GetString ("lQuestion"),
                                 LocalizedStrings.GetString ("dlgNewFolder_QuestionText"),
 
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Cancle"),
-                                                  view.UserControls.DlgBoxButtonSymbol.Cross,
+                                                  DlgBoxButtonSymbol.Cross,
                                                   null,
                                                   dlgBoxCfg => {; }),
 
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Create"),
-                                                    view.UserControls.DlgBoxButtonSymbol.Check,
+                                                    DlgBoxButtonSymbol.Check,
                                                     selectedVirtRootDirObject,
                                                     dlgBoxCfg =>
                                                     {
@@ -954,7 +956,7 @@ namespace QuickSort.ViewModel
                                                         catch (Exception ex)
                                                         {
                                                             this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (
-                                                                view.UserControls.DlgBoxType.Error,
+                                                                DlgBoxType.Error,
                                                                 LocalizedStrings.GetString ("lError"),
                                                                 LocalizedStrings.GetFormattedString ("dlgNewFolderError_Message", ex.Message));
                                                         }
@@ -982,18 +984,17 @@ namespace QuickSort.ViewModel
                         if (Directory.GetFiles (selectedVirtDirObject.Path).Length != 0 || Directory.GetDirectories (selectedVirtDirObject.Path).Length != 0)
                         {
                             this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
-
-                                view.UserControls.DlgBoxType.Warning,
+                                DlgBoxType.Warning,
                                 LocalizedStrings.GetString ("lWarning"),
                                 LocalizedStrings.GetFormattedString ("dlgDelayNotEmptyDir_Message", selectedVirtDirObject.Path),
 
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgDelayNotEmptyDir_Cancle"),
-                                                    view.UserControls.DlgBoxButtonSymbol.Empty,
+                                                    DlgBoxButtonSymbol.Empty,
                                                     null,
                                                     dlgBoxCfg => {; }),
 
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgDelayNotEmptyDir_DeleteDir"),
-                                                    view.UserControls.DlgBoxButtonSymbol.Empty,
+                                                    DlgBoxButtonSymbol.Empty,
                                                     selectedVirtDirObject,
                                                     dlgBoxCfg =>
                                                     {
@@ -1014,7 +1015,8 @@ namespace QuickSort.ViewModel
                                                         }
                                                         catch (Exception ex)
                                                         {
-                                                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (view.UserControls.DlgBoxType.Error,
+                                                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (
+                                                                DlgBoxType.Error,
                                                                 LocalizedStrings.GetString ("lError"),
                                                                 LocalizedStrings.GetFormattedString ("dlgDeleteDirError_Message", selVirtDirObject.Path, ex.Message));
                                                         }
@@ -1039,7 +1041,8 @@ namespace QuickSort.ViewModel
                             }
                             catch (Exception ex)
                             {
-                                this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (view.UserControls.DlgBoxType.Error,
+                                this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (
+                                    DlgBoxType.Error,
                                     LocalizedStrings.GetString ("lError"),
                                     LocalizedStrings.GetFormattedString ("dlgDeleteDirError_Message", selectedVirtDirObject.Path, ex.Message));
                             }
@@ -1148,7 +1151,7 @@ namespace QuickSort.ViewModel
                                         errorMessages.ForEach (s => errorMessageString += s + "\n");
 
                                         this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (
-                                            view.UserControls.DlgBoxType.Warning,
+                                            DlgBoxType.Warning,
                                             LocalizedStrings.GetString ("lWarning"),
                                             LocalizedStrings.GetFormattedString ("dlgErrorLoadingImagesFromDir_Message", errorMessageString));
                                     }
@@ -1214,7 +1217,7 @@ namespace QuickSort.ViewModel
                             errorMessages.ForEach (s => errorMessageString += s + "\n");
 
                             this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (
-                                view.UserControls.DlgBoxType.Warning,
+                                DlgBoxType.Warning,
                                 LocalizedStrings.GetString ("lWarning"),
                                 LocalizedStrings.GetFormattedString ("dlgErrorLoadingImagesFromDir_Message", errorMessageString));
                         }
@@ -1582,17 +1585,17 @@ namespace QuickSort.ViewModel
                 if (Properties.Settings.Default.ShowMoveDlg)
                 {
                     this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
-                        view.UserControls.DlgBoxType.Question,
+                        DlgBoxType.Question,
                         LocalizedStrings.GetString ("lQuestion"),
                         LocalizedStrings.GetFormattedString ("dlgFileMove_QuestionText", querrySelectedFileList.Count (), Path.GetFileName (targetPath)),
 
                         new DlgBoxButton (LocalizedStrings.GetString ("dlgFileMove_Cancle"),
-                            view.UserControls.DlgBoxButtonSymbol.Check,
+                            DlgBoxButtonSymbol.Check,
                             null,
                             dlgBoxCfg => {; }),
 
                         new DlgBoxButton (LocalizedStrings.GetString ("dlgFileMove_StartMove"),
-                            view.UserControls.DlgBoxButtonSymbol.Check,
+                            DlgBoxButtonSymbol.Check,
                             targetPath,
                             dlgBoxCfg => { MoveFiles (dlgBoxCfg.LeftButton.Parameter as String); }),
 

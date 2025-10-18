@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:QuickSort.View"
         xmlns:con="clr-namespace:QuickSort.Converter"
         xmlns:vr="clr-namespace:QuickSort.ValidationRules"
-        xmlns:userControl="clr-namespace:QuickSort.view.UserControls"
+        xmlns:uc="clr-namespace:QuickSort.View.UserControls"
         xmlns:lex="http://wpflocalizeextension.codeplex.com"
         lex:LocalizeDictionary.DesignCulture="en"
         lex:ResxLocalizationProvider.DefaultAssembly="QuickSort"
@@ -1493,7 +1493,7 @@
         </ItemsControl>
 
         <!-- Overlay Dalog Box -->
-        <userControl:DlgBoxUserControl Grid.Row="1"
+        <uc:DlgBoxUserControl Grid.Row="1"
                                        Grid.RowSpan="2"
                                        Grid.ColumnSpan="2"
                                        Visibility="Visible"

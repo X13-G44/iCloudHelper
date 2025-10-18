@@ -113,7 +113,7 @@
     <Compile Include="View\ConfigView.xaml.cs">
       <DependentUpon>ConfigView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\UserControls\DlgBoxUserControl.xaml.cs">
+    <Compile Include="View\UserControls\DlgBoxUserControl.xaml.cs">
       <DependentUpon>DlgBoxUserControl.xaml</DependentUpon>
     </Compile>
     <Page Include="..\AutoUnzip\view\StyleConfigView.xaml">
@@ -147,7 +147,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewModel\UserControls\DlgBoxUserControl.xaml">
+    <Page Include="View\UserControls\DlgBoxUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

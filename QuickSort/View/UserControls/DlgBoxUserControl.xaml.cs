@@ -41,7 +41,7 @@ using System.Windows.Data;
 
 
 
-namespace QuickSort.view.UserControls
+namespace QuickSort.View.UserControls
 {
     public partial class DlgBoxUserControl : UserControl
     {
