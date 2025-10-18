@@ -28,9 +28,8 @@
 
 
 
-using QuickSort;
 using QuickSort.Resources;
-using QuickSort.view;
+using QuickSort.View;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

@@ -37,7 +37,7 @@ using System.Windows.Input;
 
 
 
-namespace QuickSort.viewmodel
+namespace QuickSort.ViewModel
 {
     public class RelayCommand : ICommand
     {

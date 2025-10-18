@@ -29,7 +29,6 @@
 
 
 using QuickSort.view.UserControls;
-using QuickSort.viewmodel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

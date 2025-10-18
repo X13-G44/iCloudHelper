@@ -31,8 +31,7 @@
 using QuickSort.Help;
 using QuickSort.Resources;
 using QuickSort.ValidationRules;
-using QuickSort.view;
-using QuickSort.ViewModel;
+using QuickSort.View;
 using QuickSort.Model;
 using System;
 using System.Threading;
@@ -59,7 +58,7 @@ using System.Windows.Threading;
 
 
 
-namespace QuickSort.viewmodel
+namespace QuickSort.ViewModel
 {
     public class MainViewModel : ViewModelBase, IDisposable
     {

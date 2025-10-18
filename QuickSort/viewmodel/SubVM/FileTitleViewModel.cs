@@ -29,7 +29,6 @@
 
 
 using QuickSort.Resources;
-using QuickSort.viewmodel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

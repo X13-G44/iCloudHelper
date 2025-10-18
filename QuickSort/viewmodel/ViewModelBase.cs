@@ -38,7 +38,7 @@ using System.Runtime.CompilerServices;
 
 
 
-namespace QuickSort.viewmodel
+namespace QuickSort.ViewModel
 {
     /// <summary>
     /// Base class for all ViewModel classes in the application. Provides support for 

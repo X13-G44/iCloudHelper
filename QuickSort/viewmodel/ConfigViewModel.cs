@@ -29,7 +29,7 @@
 
 
 using QuickSort.Resources;
-using QuickSort.view;
+using QuickSort.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -43,7 +43,7 @@ using System.Windows.Threading;
 
 
 
-namespace QuickSort.viewmodel
+namespace QuickSort.ViewModel
 {
     public class ConfigViewModel : ViewModelBase
     {

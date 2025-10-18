@@ -28,7 +28,6 @@
 
 
 
-using QuickSort.viewmodel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +44,7 @@ using System.Windows.Shapes;
 
 
 
-namespace QuickSort.view
+namespace QuickSort.View
 {
     public partial class ConfigView : Window
     {
@@ -53,7 +52,7 @@ namespace QuickSort.view
         {
             InitializeComponent ();
 
-            this.DataContext = new ConfigViewModel (Dispatcher, this);
+            this.DataContext = new QuickSort.ViewModel.ConfigViewModel (Dispatcher, this);
         }
     }
 }

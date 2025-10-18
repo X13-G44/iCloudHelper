@@ -42,12 +42,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using QuickSort.viewmodel;
 using System.Diagnostics;
 
 
 
-namespace QuickSort
+namespace QuickSort.View
 {
     public partial class MainView : Window
     {
@@ -58,7 +57,7 @@ namespace QuickSort
 
             InitializeComponent ();
 
-            this.DataContext = new viewmodel.MainViewModel (Dispatcher, app.StartPath);
+            this.DataContext = new QuickSort.ViewModel.MainViewModel (Dispatcher, app.StartPath);
             this.Closing += (s, ev) => { (this.DataContext as IDisposable)?.Dispose (); };
         }
 
