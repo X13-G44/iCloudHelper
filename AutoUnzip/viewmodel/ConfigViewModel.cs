@@ -28,13 +28,14 @@
 
 
 
-using AutoUnzip.view;
 using AutoUnzip.Resources;
+using AutoUnzip.view;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -108,6 +109,13 @@ namespace AutoUnzip.viewmodel
         {
             get { return _Language; }
             set { _Language = value; OnPropertyChanged (nameof (Language)); }
+        }
+
+        private string _AppVersionStr;
+        public string AppVersionStr
+        {
+            get { return _AppVersionStr; }
+            set { _AppVersionStr = value; OnPropertyChanged (nameof (AppVersionStr)); }
         }
 
 
@@ -252,6 +260,27 @@ namespace AutoUnzip.viewmodel
             }
         }
 
+        public RelayCommand Cmd_OpenHomepage
+        {
+            get
+            {
+                return new RelayCommand (
+                    _ =>
+                    {
+                        try
+                        {
+                            System.Diagnostics.Process.Start ("https://github.com/X13-G44/iCloudHelper");
+                        }
+                        catch
+                        {
+                            ;
+                        }
+                    },
+                    param => true
+                );
+            }
+        }
+
 
 
         private readonly Dispatcher _Dispatcher;
@@ -273,6 +302,9 @@ namespace AutoUnzip.viewmodel
             this.QuickSortApp = AutoUnzip.Properties.Settings.Default.QuickSortApp;
             this.UseDarkModeColorTheme = AutoUnzip.Properties.Settings.Default.ColorThemeId == 1 ? true : false;
             this.Language = AutoUnzip.Properties.Settings.Default.Language;
+
+            Assembly assembly = Assembly.GetExecutingAssembly ();
+            this.AppVersionStr = $"V{assembly.GetName ().Version.ToString ()}";
         }
     }
 }

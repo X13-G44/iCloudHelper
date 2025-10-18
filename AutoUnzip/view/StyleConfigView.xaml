@@ -192,4 +192,31 @@
         <Setter Property="Padding" Value="5"/>
     </Style>
 
+    <!-- Symbol URL Button-Style -->
+    <Style x:Key="SymbolButton" TargetType="Button">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+
+                    <TextBlock Name="PART_TEXT"
+                                   Text="{TemplateBinding Content}"
+                                   FontFamily="Segoe UI Symbol" 
+                                   FontSize="{TemplateBinding FontSize}"
+                                   FontWeight="{TemplateBinding FontWeight}"
+                                   VerticalAlignment="Center" 
+                                   HorizontalAlignment="Center" 
+                                   Foreground="{TemplateBinding Foreground}"/>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" TargetName="PART_TEXT" Value="{DynamicResource CommonForegroundColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

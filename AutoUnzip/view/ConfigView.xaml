@@ -15,6 +15,12 @@
         Width="650" 
         Icon="/icloud-logo-49272-Windows.ico" 
         ResizeMode="CanMinimize">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="White"/>
+            <GradientStop Color="#FFC7C7C7" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>    
 
     <Grid>
         <Grid Margin="15">
@@ -42,6 +48,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
@@ -313,6 +320,30 @@
                     </Style>
                 </Button.Style>
             </Button>
+
+            <StackPanel Grid.Row="15"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="5"
+                        Orientation="Horizontal">
+
+                <TextBlock FontSize="10"
+                           Text="Christian Harscher (info@x13-g44.com)"
+                           Margin="0,10,0,0"/>
+
+                <TextBlock FontSize="10"
+                           Text="{Binding AppVersionStr, FallbackValue='V1.2.0.0'}"
+                           Margin="10,10,0,0"/>
+
+                <Button Style="{StaticResource SymbolButton}"
+                            Margin="10,10,0,0"
+                            Foreground="#FF0071E3"
+                            FontSize="9" 
+                            FontWeight="Light"
+                            Content="Project Website"
+                            Command="{Binding Cmd_OpenHomepage}"
+                            CommandParameter="{Binding}"/>
+
+            </StackPanel>
 
         </Grid>
     </Grid>

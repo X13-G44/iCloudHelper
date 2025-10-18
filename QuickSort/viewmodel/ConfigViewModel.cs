@@ -33,8 +33,10 @@ using QuickSort.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -96,6 +98,13 @@ namespace QuickSort.ViewModel
             set { _Language = value; OnPropertyChanged (nameof (Language)); }
         }
 
+        private string _AppVersionStr;
+        public string AppVersionStr
+        {
+            get { return _AppVersionStr; }
+            set { _AppVersionStr = value; OnPropertyChanged (nameof (AppVersionStr)); }
+        }
+
 
 
         public RelayCommand Cmd_BrowseStartFolder
@@ -112,7 +121,7 @@ namespace QuickSort.ViewModel
                                 dialog.SelectedPath = this.StartPath;
                             }
 
-                            dialog.Description = LocalizedStrings.GetString("dlgConfig_StartPath");
+                            dialog.Description = LocalizedStrings.GetString ("dlgConfig_StartPath");
 
                             if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
                             {
@@ -124,8 +133,6 @@ namespace QuickSort.ViewModel
                 );
             }
         }
-
-
 
         public RelayCommand<ConfigViewModel, object> Cmd_SaveConfig
         {
@@ -154,6 +161,27 @@ namespace QuickSort.ViewModel
             }
         }
 
+        public RelayCommand Cmd_OpenHomepage
+        {
+            get
+            {
+                return new RelayCommand (
+                    _ =>
+                    {
+                        try
+                        {
+                            System.Diagnostics.Process.Start ("https://github.com/X13-G44/iCloudHelper");
+                        }
+                        catch
+                        {
+                            ;
+                        }
+                    },
+                    param => true
+                );
+            }
+        }
+
 
 
         private readonly Dispatcher _Dispatcher;
@@ -173,6 +201,9 @@ namespace QuickSort.ViewModel
             this.MaxFavoriteTargetFolderCollectionItems = QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionLimit;
             this.AutoInsertFavoriteTargetFolderCollectionItems = QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionAutoInsert;
             this.Language = QuickSort.Properties.Settings.Default.Language;
+
+            Assembly assembly = Assembly.GetExecutingAssembly ();
+            this.AppVersionStr = $"V{assembly.GetName ().Version.ToString ()}";
         }
     }
 }
