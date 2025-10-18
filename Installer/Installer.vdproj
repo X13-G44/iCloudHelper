@@ -444,7 +444,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_685FBE5094824C27BEE54E39D6253815"
             {
-            "DefaultLocation" = "8:[ProgramFiles64Folder][Manufacturer]\\[ProductName]"
+            "DefaultLocation" = "8:[ProgramFiles64Folder][ProductName]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -481,15 +481,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:iCloudHelper"
-        "ProductCode" = "8:{12ED5DBA-85F2-4FAB-97F9-DCE93EBDCF2F}"
-        "PackageCode" = "8:{AE17974D-23A9-47A2-B03D-9E164D25845F}"
+        "ProductCode" = "8:{65834C3C-B782-47A8-9F0B-BFC13E2902E3}"
+        "PackageCode" = "8:{64EE201E-476C-4324-93CA-5B78363AAEA9}"
         "UpgradeCode" = "8:{9D42146E-AF78-4159-893A-C6F3996B4B7D}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.2.0"
+        "ProductVersion" = "8:1.3.0"
         "Manufacturer" = "8:Christian Harscher"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/X13-G44/iCloudHelper"
@@ -1045,7 +1045,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_02F6811FAF5745B78F1A5B1948E0407E"
             {
-            "SourcePath" = "8:..\\QuickSort\\obj\\Release\\QuickSort.exe"
+            "SourcePath" = "8:..\\QuickSort\\obj\\Debug\\QuickSort.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_685FBE5094824C27BEE54E39D6253815"
@@ -1073,7 +1073,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C6721670D53B4076A37C47A4E34E7B74"
             {
-            "SourcePath" = "8:..\\AutoUnzip\\obj\\Release\\AutoUnzip.exe"
+            "SourcePath" = "8:..\\AutoUnzip\\obj\\Debug\\AutoUnzip.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_685FBE5094824C27BEE54E39D6253815"
