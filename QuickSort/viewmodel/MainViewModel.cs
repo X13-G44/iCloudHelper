@@ -1044,6 +1044,71 @@ namespace QuickSort.ViewModel
             }
         }
 
+        public RelayCommand Cmd_ContextMenu_DeleteSelectedImageFiles
+        {
+            get
+            {
+                return new RelayCommand (
+                    _ =>
+                    {
+                        var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleViewModel> ();
+
+
+                        if (querrySelectedFileList.Count > 0)
+                        {
+                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
+                                 DlgBoxType.Warning,
+                                LocalizedStrings.GetString ("lWarning"),
+                                LocalizedStrings.GetFormattedString ("dlgDeleteImageFile_Message", querrySelectedFileList.Count),
+
+                                new DlgBoxButton (LocalizedStrings.GetString ("dlgDeleteImageFile_Cancle"),
+                                                    DlgBoxButtonSymbol.Cross,
+                                                    null,
+                                                    dlgBoxCfg => {; }),
+
+                                new DlgBoxButton (LocalizedStrings.GetString ("dlgDeleteImageFile_Delete"),
+                                                    DlgBoxButtonSymbol.Check,
+                                                    null,
+                                                    dlgBoxCfg =>
+                                                    {
+                                                        bool hasError = false;
+
+
+                                                        try
+                                                        {
+                                                            var querrySelectedFileListX = FileTileList.Where (x => x.IsSelected).ToList<FileTitleViewModel> ();
+
+
+                                                            foreach (var item in querrySelectedFileListX)
+                                                            {
+                                                                File.Delete (item.File);
+                                                            }
+
+                                                            UpdateFileTitleList ();
+                                                        }
+                                                        catch
+                                                        {
+                                                            hasError = true;
+                                                        }
+
+                                                        if (hasError)
+                                                        {
+                                                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (
+                                                                DlgBoxType.Error,
+                                                                LocalizedStrings.GetString ("lError"),
+                                                                LocalizedStrings.GetString ("dlgDeleteImageFile_ErrorMessage"));
+                                                        }
+
+                                                    }),
+
+                                null);
+                        }
+                    },
+                    param => true
+                );
+            }
+        }
+
         public RelayCommand Cmd_ContextMenu_SetFileTitleSize
         {
             get

@@ -58,7 +58,7 @@
 
                         <Border Grid.Row="0"
                                     Grid.Column="0"
-                                    BorderBrush="Red" 
+                                    BorderBrush="{DynamicResource CommonErrorColor}" 
                                     BorderThickness="2">
                             <AdornedElementPlaceholder x:Name="placeholder"/>
                         </Border>
@@ -66,7 +66,7 @@
                         <TextBlock Grid.Row="1"
                                        Grid.Column="0"
                                        Grid.ColumnSpan="2"
-                                       Foreground="Red"
+                                       Foreground="{DynamicResource CommonErrorColor}"
                                        Margin="0,2,0,0"
                                        FontSize="{TemplateBinding FontSize}"
                                        VerticalAlignment="Top"
@@ -80,7 +80,7 @@
 
         <Style.Triggers>
             <Trigger Property="Validation.HasError" Value="True">
-                <Setter Property="Foreground" Value="Red"/>
+                <Setter Property="Foreground" Value="{DynamicResource CommonErrorColor}"/>
                 <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
             </Trigger>
         </Style.Triggers>
@@ -113,7 +113,7 @@
 
                         <Border Grid.Row="0"
                                     Grid.Column="0"
-                                    BorderBrush="Red" 
+                                    BorderBrush="{DynamicResource CommonErrorColor}" 
                                     BorderThickness="2">
                             <AdornedElementPlaceholder x:Name="placeholder"/>
                         </Border>
@@ -121,7 +121,7 @@
                         <TextBlock Grid.Row="1"
                                        Grid.Column="0"
                                        Grid.ColumnSpan="2"
-                                       Foreground="Red"
+                                       Foreground="{DynamicResource CommonErrorColor}"
                                        Margin="0,2,0,0"
                                        FontSize="{TemplateBinding FontSize}"
                                        VerticalAlignment="Top"
@@ -135,7 +135,7 @@
 
         <Style.Triggers>
             <Trigger Property="Validation.HasError" Value="True">
-                <Setter Property="Foreground" Value="Red"/>
+                <Setter Property="Foreground" Value="{DynamicResource CommonErrorColor}"/>
             </Trigger>
         </Style.Triggers>
     </Style>

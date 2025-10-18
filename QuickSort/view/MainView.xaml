@@ -454,7 +454,7 @@
 
                             <Border Grid.Row="0"
                                     Grid.Column="0"
-                                    BorderBrush="Red" 
+                                    BorderBrush="{DynamicResource CommonErrorColor}" 
                                     BorderThickness="2">
                                 <AdornedElementPlaceholder x:Name="placeholder"/>
                             </Border>
@@ -462,7 +462,7 @@
                             <TextBlock Grid.Row="1"
                                        Grid.Column="0"
                                        Grid.ColumnSpan="2"
-                                       Foreground="Red"
+                                       Foreground="{DynamicResource CommonErrorColor}"
                                        Margin="0,2,0,0"
                                        FontSize="{TemplateBinding FontSize}"
                                        VerticalAlignment="Top"
@@ -840,11 +840,22 @@
 
                     <Button Style="{StaticResource SymbolButton}"
                             Margin="15,0,0,0"
+                            Foreground="{DynamicResource CommonErrorColor}"
+                            FontSize="16" 
+                            FontWeight="Light"
+                            Content="&#xE107;"
+                            Name="ttFileTitleSec_ButtonDelete"
+                            ToolTip="{lex:Loc}"
+                            Command="{Binding Cmd_ContextMenu_DeleteSelectedImageFiles}"
+                            CommandParameter="{Binding}"/>
+
+                    <Button Style="{StaticResource SymbolButton}"
+                            Margin="15,0,0,0"
                             Foreground="{DynamicResource FileTitleBtnSelectedColor}"
                             FontSize="16" 
                             FontWeight="Light"
                             Content="&#xE115;"
-                            Name="ttFileTitleSec_Buttonsettings"
+                            Name="ttFileTitleSec_ButtonSettings"
                             ToolTip="{lex:Loc}"
                             Command="{Binding Cmd_ShowConfigWindow}"
                             CommandParameter="{Binding}"/>
@@ -987,12 +998,17 @@
                               Command="{Binding Cmd_ContextMenu_SetFileTitleSize}" 
                               CommandParameter="2"/>
 
+                    <MenuItem Name="cmFileTitleSec_ButtonDelete"
+                              Header="{lex:Loc}" 
+                              Style="{StaticResource CustomMenuItemStyle}" 
+                              Tag="&#xE107;"
+                              Command="{Binding Cmd_ContextMenu_DeleteSelectedImageFiles}"/>
+
                     <MenuItem Name="cmFileTitleSec_RefreshView"
                               Header="{lex:Loc}" 
                               Style="{StaticResource CustomMenuItemStyle}" 
                               Tag="&#xE117;"
-                              Command="{Binding Cmd_ContextMenu_RefreshFileTitleList}"
-                              CommandParameter="2"/>
+                              Command="{Binding Cmd_ContextMenu_RefreshFileTitleList}"/>
                 </ContextMenu>
             </Border.ContextMenu>
         </Border>
@@ -1450,7 +1466,7 @@
                                        x:Name="PART_POPUP_ERROR_MSG"
                                        Margin="0,10,0,0"
                                        HorizontalAlignment="Center"
-                                       Foreground="Red"
+                                       Foreground="{DynamicResource CommonErrorColor}"
                                        Visibility="Collapsed"
                                        TextWrapping="Wrap"
                                        Text="{lex:Loc tbFileMovePopup_ErrorMessage}"/>
@@ -1473,8 +1489,8 @@
                         </DataTrigger>
 
                         <DataTrigger Binding="{Binding HasFileProcessError}" Value="true">
-                            <Setter TargetName="PART_POPUP_BORDER" Property="BorderBrush" Value="Red"/>
-                            <Setter TargetName="PART_POPUP_PROGRESSBAR" Property="Foreground" Value="Red"/>
+                            <Setter TargetName="PART_POPUP_BORDER" Property="BorderBrush" Value="{DynamicResource CommonErrorColor}"/>
+                            <Setter TargetName="PART_POPUP_PROGRESSBAR" Property="Foreground" Value="{DynamicResource CommonErrorColor}"/>
                             <Setter TargetName="PART_POPUP_ERROR_MSG" Property="Visibility" Value="Visible"/>
                         </DataTrigger>
 

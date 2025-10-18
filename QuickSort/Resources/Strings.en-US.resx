@@ -139,12 +139,12 @@
     <value>Large icon size</value>
   </data>
   <data name="ttFileTitleSec_ButtonSelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>Select all images</value>
   </data>
   <data name="ttFileTitleSec_ButtonDeselectAll" xml:space="preserve">
-    <value>Deselect all</value>
+    <value>Deselect all images</value>
   </data>
-  <data name="ttFileTitleSec_Buttonsettings" xml:space="preserve">
+  <data name="ttFileTitleSec_ButtonSettings" xml:space="preserve">
     <value>Settings</value>
   </data>
   <data name="tbFileTitleSec_SubTitle_1" xml:space="preserve">
@@ -377,5 +377,23 @@
   </data>
   <data name="tbFileMovePopup_ErrorMessage" xml:space="preserve">
     <value>An error occurred while processing the file!</value>
+  </data>
+  <data name="ttFileTitleSec_ButtonDelete" xml:space="preserve">
+    <value>Delete images</value>
+  </data>
+  <data name="cmFileTitleSec_ButtonDelete" xml:space="preserve">
+    <value>Delete images</value>
+  </data>
+  <data name="dlgDeleteImageFile_Message" xml:space="preserve">
+    <value>Do you really want to delete the {0} selected images?</value>
+  </data>
+  <data name="dlgDeleteImageFile_Cancle" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="dlgDeleteImageFile_Delete" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="dlgDeleteImageFile_ErrorMessage" xml:space="preserve">
+    <value>Errors occurred while deleting the images!</value>
   </data>
 </root>

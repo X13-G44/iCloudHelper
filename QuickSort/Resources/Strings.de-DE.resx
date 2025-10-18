@@ -139,12 +139,12 @@
     <value>Große Symbolgröße</value>
   </data>
   <data name="ttFileTitleSec_ButtonSelectAll" xml:space="preserve">
-    <value>Alles markieren</value>
+    <value>Alle Bilder markieren</value>
   </data>
   <data name="ttFileTitleSec_ButtonDeselectAll" xml:space="preserve">
     <value>Auswahl aufheben</value>
   </data>
-  <data name="ttFileTitleSec_Buttonsettings" xml:space="preserve">
+  <data name="ttFileTitleSec_ButtonSettings" xml:space="preserve">
     <value>Einstellungern</value>
   </data>
   <data name="tbFileTitleSec_SubTitle_1" xml:space="preserve">
@@ -377,5 +377,23 @@
   </data>
   <data name="tbFileMovePopup_ErrorMessage" xml:space="preserve">
     <value>Es ist ein Fehler bei der Dateiverarbeitung aufgetreten!</value>
+  </data>
+  <data name="ttFileTitleSec_ButtonDelete" xml:space="preserve">
+    <value>Bilder löschen</value>
+  </data>
+  <data name="cmFileTitleSec_ButtonDelete" xml:space="preserve">
+    <value>Bilder löschen</value>
+  </data>
+  <data name="dlgDeleteImageFile_Message" xml:space="preserve">
+    <value>Wollen Sie wirklich die {0} ausgewählten Bilder löschen?</value>
+  </data>
+  <data name="dlgDeleteImageFile_Cancle" xml:space="preserve">
+    <value>Nein</value>
+  </data>
+  <data name="dlgDeleteImageFile_Delete" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="dlgDeleteImageFile_ErrorMessage" xml:space="preserve">
+    <value>Es sind Fehler beim Löschen der Bilder aufgetreten!</value>
   </data>
 </root>

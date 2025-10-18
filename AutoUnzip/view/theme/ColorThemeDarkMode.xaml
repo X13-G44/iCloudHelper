@@ -7,6 +7,7 @@
     <SolidColorBrush x:Key="CommonBackgroundColorB" Color="#FF1C1C1E"/>
     <SolidColorBrush x:Key="CommonBorderBrushColor" Color="#ff0071E3"/>
     <SolidColorBrush x:Key="CommonForegroundColor" Color="#FFFBFBFB"/>
+    <SolidColorBrush x:Key="CommonErrorColor" Color="Red"/>
 
     <SolidColorBrush x:Key="MainWindowBackground" Color="#FF1C1C1E"/>
 

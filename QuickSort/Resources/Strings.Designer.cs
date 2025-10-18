@@ -160,6 +160,15 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Delete images ähnelt.
+        /// </summary>
+        public static string cmFileTitleSec_ButtonDelete {
+            get {
+                return ResourceManager.GetString("cmFileTitleSec_ButtonDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Large icon size ähnelt.
         /// </summary>
         public static string cmFileTitleSec_ButtonLargeIconSize {
@@ -372,6 +381,42 @@ namespace QuickSort.Resources {
         public static string dlgDeleteDirError_Message {
             get {
                 return ResourceManager.GetString("dlgDeleteDirError_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No ähnelt.
+        /// </summary>
+        public static string dlgDeleteImageFile_Cancle {
+            get {
+                return ResourceManager.GetString("dlgDeleteImageFile_Cancle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Yes ähnelt.
+        /// </summary>
+        public static string dlgDeleteImageFile_Delete {
+            get {
+                return ResourceManager.GetString("dlgDeleteImageFile_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Errors occurred while deleting the images! ähnelt.
+        /// </summary>
+        public static string dlgDeleteImageFile_ErrorMessage {
+            get {
+                return ResourceManager.GetString("dlgDeleteImageFile_ErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Do you really want to delete the {0} selected images? ähnelt.
+        /// </summary>
+        public static string dlgDeleteImageFile_Message {
+            get {
+                return ResourceManager.GetString("dlgDeleteImageFile_Message", resourceCulture);
             }
         }
         
@@ -772,7 +817,16 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Deselect all ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Delete images ähnelt.
+        /// </summary>
+        public static string ttFileTitleSec_ButtonDelete {
+            get {
+                return ResourceManager.GetString("ttFileTitleSec_ButtonDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Deselect all images ähnelt.
         /// </summary>
         public static string ttFileTitleSec_ButtonDeselectAll {
             get {
@@ -799,7 +853,7 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Select all ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select all images ähnelt.
         /// </summary>
         public static string ttFileTitleSec_ButtonSelectAll {
             get {
@@ -810,9 +864,9 @@ namespace QuickSort.Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Settings ähnelt.
         /// </summary>
-        public static string ttFileTitleSec_Buttonsettings {
+        public static string ttFileTitleSec_ButtonSettings {
             get {
-                return ResourceManager.GetString("ttFileTitleSec_Buttonsettings", resourceCulture);
+                return ResourceManager.GetString("ttFileTitleSec_ButtonSettings", resourceCulture);
             }
         }
         
