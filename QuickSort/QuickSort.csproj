@@ -85,6 +85,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter\Bool2VisibilityConverter.cs" />
     <Compile Include="Converter\Int2GridLengthConverter.cs" />
     <Compile Include="Converter\Int2Visibility.cs" />
     <Compile Include="Converter\InverseBooleanToVisibilityConverter.cs" />

@@ -1017,7 +1017,7 @@
         <Border Grid.Row="2"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                Height="250"
+                MaxHeight="250"
                 Margin="10,0,10,10"
                 Background="{DynamicResource VirtualDirectoryBackgroundColor}"
                 BorderBrush="{DynamicResource VirtualDirectorySeperatorColor}"

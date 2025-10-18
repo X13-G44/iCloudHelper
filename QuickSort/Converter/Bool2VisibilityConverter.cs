@@ -1,7 +1,7 @@
 ﻿/// ////////////////////////////////////////////////////////////////////////
 ///
 /// Project:			iCloudHelper
-/// Project Source:	https://github.com/X13-G44/iCloudHelper
+/// Project Source:	    https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
 /// Date:				06.10.2025
@@ -29,9 +29,11 @@
 
 
 using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
@@ -39,14 +41,14 @@ using System.Windows.Data;
 
 namespace QuickSort.Converter
 {
-    public class Int2Visibility : IValueConverter
+    public class Bool2VisibilityConverter : IValueConverter
     {
         /// <summary>
-        /// Converter from Integer to Visibility.
+        /// Converter from Boolean to Visibility.
         /// 
         /// Note: A parameter string must be defined and have the format "X;Y":
-        ///     X = Visibility Mode when integer value is == 0
-        ///     Y = Visibility Mode when integer value is != 0
+        ///     X = Visibility Mode when boolean value is == FALSE
+        ///     Y = Visibility Mode boolean value is == TRUE
         ///     
         /// Visibility Mode can be "visible", "hidden" or "collapsed"
         /// 
@@ -127,7 +129,7 @@ namespace QuickSort.Converter
                     }
             }
 
-            return ((value is int) && ((int) value) != 0) ? y : x;
+            return ((value is bool) && ((bool) value)) ? y : x;
         }
 
 
