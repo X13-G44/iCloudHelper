@@ -8,9 +8,6 @@ iCloudHelper is a free tool designed to simplify downloading images from Apple i
 The application offers a simple graphical user interface and is particularly suitable for users with little computer experience.
 The program consists of two components, **AutoUnzip** and **QuickSort**, which fulfill this task.
 
-> [!NOTE]
-> The UI currently uses German text. However, the error messages are written in English.
-
 ## Features
 
 - **AutoUnzip:** Automatically extracts photos from the downloaded iCloud `.zip` archive.
@@ -56,7 +53,7 @@ These are currently:
 - [X] Slow loading and display of images in the UI (especially for HEIC)
 - [X] Support for multiple languages ​​in the UI
 - [X] I don't yet like the current layout and display design of the *Features*, *File Preview*, and *File Selection* areas
-- [ ] Display all dialog messages in the UI (with consistent design), instead of Windows `MessageBox.Show` dialogs
+- [X] Display all dialog messages in the UI (with consistent design), instead of Windows `MessageBox.Show` dialogs
 
 ---
 
