@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuickSort.view"
-        xmlns:validate_rules="clr-namespace:QuickSort.validationrules"
+        xmlns:vr="clr-namespace:QuickSort.ValidationRules"
         xmlns:lex="http://wpflocalizeextension.codeplex.com"
         lex:LocalizeDictionary.DesignCulture="en"
         lex:ResxLocalizationProvider.DefaultAssembly="QuickSort"
@@ -66,7 +66,7 @@
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                            <vr:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
@@ -171,7 +171,7 @@
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
                         <Binding.ValidationRules>
-                            <validate_rules:CheckIntValidationRule ValidatesOnTargetUpdated="True"
+                            <vr:CheckIntValidationRule ValidatesOnTargetUpdated="True"
                                                                    MinValue="0"
                                                                    MaxValue="16"/>
                         </Binding.ValidationRules>

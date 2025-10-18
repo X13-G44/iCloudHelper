@@ -30,9 +30,10 @@
 
 using QuickSort.Help;
 using QuickSort.Resources;
-using QuickSort.validationrules;
+using QuickSort.ValidationRules;
 using QuickSort.view;
 using QuickSort.ViewModel;
+using QuickSort.Model;
 using System;
 using System.Threading;
 using System.Collections;
@@ -1230,20 +1231,24 @@ namespace QuickSort.viewmodel
         {
             // Store the selected folder in the settings.
 
+#warning In das Model verschieben?!
+
             Properties.Settings.Default.FavoriteTargetFolderCollection.Clear ();
 
             foreach (var favTargetFolder in FavoriteTargetFolderList)
             {
-                var item = new FavoriteTargetFolderSettingItem (favTargetFolder);
+                var item = new FavoriteTargetFolderSettingItem (favTargetFolder.Path, favTargetFolder.AddDate, favTargetFolder.DisplayName, favTargetFolder.IsPinned);
 
                 Properties.Settings.Default.FavoriteTargetFolderCollection.Add (item.ToString ());
             }
+
+#warning In das Model verschieben?!
 
             Properties.Settings.Default.VirtualRootDirectoryCollection.Clear ();
 
             foreach (var virtRootDir in VirtualRootDirectoryList)
             {
-                var item = new VirtualRootDirectorySettingItem (virtRootDir);
+                var item = new VirtualRootDirectorySettingItem (virtRootDir.Path, virtRootDir.DisplayName);
 
                 Properties.Settings.Default.VirtualRootDirectoryCollection.Add (item.ToString ());
             }

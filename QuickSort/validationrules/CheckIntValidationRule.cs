@@ -42,7 +42,7 @@ using System.Windows.Controls;
 
 
 
-namespace QuickSort.validationrules
+namespace QuickSort.ValidationRules
 {
     public class CheckIntValidationRule : ValidationRule
     {

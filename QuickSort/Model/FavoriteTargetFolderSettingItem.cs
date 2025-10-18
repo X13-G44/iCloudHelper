@@ -1,7 +1,7 @@
 ﻿/// ////////////////////////////////////////////////////////////////////////
 ///
 /// Project:			iCloudHelper
-/// Project Source:	    https://github.com/X13-G44/iCloudHelper
+/// Project Source:	https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
 /// Date:				06.10.2025
@@ -28,76 +28,72 @@
 
 
 
-using QuickSort.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 
 
-namespace QuickSort.Help
+namespace QuickSort.Model
 {
     /// <summary>
-    /// Help class to convert "Virtual Root Directory Model" object settings into a string and back.
+    /// Help class to convert "Favorite Target Folder Model" object settings into a string and back.
     /// It is used to store the date in application settings (string collection).
     /// </summary>
-    public class VirtualRootDirectorySettingItem
+    public class FavoriteTargetFolderSettingItem
     {
         public string Path { get; set; } = "";
+        public long Date { get; set; } = 0;
         public string DisplayName { get; set; } = "";
+        public bool IsPinned { get; set; } = false;
 
 
 
-        public VirtualRootDirectorySettingItem ()
+        public FavoriteTargetFolderSettingItem () 
         {
-            ;
+            ;               
         }
 
 
 
-        public VirtualRootDirectorySettingItem (string path, string displayName)
+        public FavoriteTargetFolderSettingItem (string path, long date, string displayName, bool isPinned)
         {
             this.Path = path;
+            this.Date = date;
             this.DisplayName = displayName;
-        }
-
-
-
-        public VirtualRootDirectorySettingItem (VirtualDirectoryViewModel model)
-        {
-            this.Path = model.Path;
-            this.DisplayName = model.DisplayName;
+            this.IsPinned = isPinned;
         }
 
 
 
         public override string ToString ()
         {
-            return $"{Path}?{DisplayName}";
+            return $"{Path}?{Date}?{DisplayName}?{IsPinned}";
         }
 
 
 
-        public static VirtualRootDirectorySettingItem Parse (string asString)
+        public static FavoriteTargetFolderSettingItem Parse (string asString)
         {
             try
             {
                 string[] elements = asString.Split ('?');
 
 
-                if (elements.Length == 2)
+                if (elements.Length == 4)
                 {
-                    return new VirtualRootDirectorySettingItem ()
+                    return new FavoriteTargetFolderSettingItem ()
                     {
                         Path = elements[0],
-                        DisplayName = elements[1],
+                        Date = long.Parse (elements[1]),
+                        DisplayName = elements[2],
+                        IsPinned = bool.Parse(elements[3]),
                     };
                 }
 
-                throw new FormatException ("Invalid format for VirtualRootDirectorySettingItem. Expected format: Path?DisplayName");
+                throw new FormatException ("Invalid format for FavoriteTargetFolderSettingItem. Expected format: Path?Date?DisplayName?IsPinned");
             }
             catch
             {

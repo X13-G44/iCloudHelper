@@ -85,22 +85,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="converter\Int2GridLengthConverter.cs" />
-    <Compile Include="converter\Int2Visibility.cs" />
-    <Compile Include="converter\InverseBooleanToVisibilityConverter.cs" />
+    <Compile Include="Converter\Int2GridLengthConverter.cs" />
+    <Compile Include="Converter\Int2Visibility.cs" />
+    <Compile Include="Converter\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Help\IconHelper.cs" />
-    <Compile Include="Help\FavoriteTargetFolderSettingItem.cs" />
-    <Compile Include="Help\VirtualRootDirectorySettingItem.cs" />
+    <Compile Include="Model\FavoriteTargetFolderSettingItem.cs" />
+    <Compile Include="Model\VirtualRootDirectorySettingItem.cs" />
     <Compile Include="Resources\LocalizedStrings.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Include="validationrules\BindingProxy.cs" />
-    <Compile Include="validationrules\CheckDirectoryNameValidationRule.cs" />
-    <Compile Include="validationrules\CheckIntValidationRule.cs" />
-    <Compile Include="validationrules\CheckPathExistsValidationRule.cs" />
+    <Compile Include="ValidationRules\BindingProxy.cs" />
+    <Compile Include="ValidationRules\CheckDirectoryNameValidationRule.cs" />
+    <Compile Include="ValidationRules\CheckIntValidationRule.cs" />
+    <Compile Include="ValidationRules\CheckPathExistsValidationRule.cs" />
     <Compile Include="viewmodel\ConfigViewModel.cs" />
     <Compile Include="viewmodel\MainViewModel.cs" />
     <Compile Include="viewmodel\RelayCommand.cs" />
@@ -203,8 +203,6 @@
   <ItemGroup>
     <Resource Include="icloud-logo-49272-Windows.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

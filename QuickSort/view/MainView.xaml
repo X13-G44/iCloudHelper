@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuickSort"
-        xmlns:myConverter="clr-namespace:QuickSort.converter"
-        xmlns:validate_rules="clr-namespace:QuickSort.validationrules"
+        xmlns:con="clr-namespace:QuickSort.Converter"
+        xmlns:vr="clr-namespace:QuickSort.ValidationRules"
         xmlns:userControl="clr-namespace:QuickSort.view.UserControls"
         xmlns:lex="http://wpflocalizeextension.codeplex.com"
         lex:LocalizeDictionary.DesignCulture="en"
@@ -22,9 +22,9 @@
     <Window.Resources>
 
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-        <myConverter:InverseBooleanToVisibilityConverter x:Key="InvBoolToVis"/>
-        <myConverter:Int2GridLengthConverter x:Key="IntToGridLen"/>
-        <myConverter:Int2Visibility x:Key="IntToVis"/>
+        <con:InverseBooleanToVisibilityConverter x:Key="InvBoolToVis"/>
+        <con:Int2GridLengthConverter x:Key="IntToGridLen"/>
+        <con:Int2Visibility x:Key="IntToVis"/>
 
         <!-- File Titles Context Menu Style -->
         <Style x:Key="CustomContextMenuStyle" TargetType="ContextMenu">

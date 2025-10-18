@@ -39,7 +39,7 @@ using System.Windows.Data;
 
 
 
-namespace QuickSort.converter
+namespace QuickSort.Converter
 {
     public class InverseBooleanToVisibilityConverter : IValueConverter
     {
