@@ -63,53 +63,6 @@ namespace QuickSort.ViewModel
 {
     public class MainViewModel : ViewModelBase, IDisposable
     {
-        private class ImageFileInfo
-        {
-            public string File { get; set; }
-            public BitmapImage Thumbnail { get; set; }
-            public bool IsSysIconImage { get; set; }
-
-            public bool FileExists
-            {
-                get
-                {
-                    try
-                    {
-                        return System.IO.File.Exists (this.File);
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                }
-            }
-
-
-
-            public bool CompareImageWith (ImageFileInfo imageFile)
-            {
-                try
-                {
-                    using (var sha256 = SHA256.Create ())
-                    using (var stream1 = System.IO.File.OpenRead (this.File))
-                    using (var stream2 = System.IO.File.OpenRead (imageFile.File))
-                    {
-                        var hash1 = sha256.ComputeHash (stream1);
-                        var hash2 = sha256.ComputeHash (stream2);
-
-
-                        return StructuralComparisons.StructuralEqualityComparer.Equals (hash1, hash2);
-                    }
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-        }
-
-
-
         public ObservableCollection<FavoriteTargetFolderViewModel> FavoriteTargetFolderList { get; set; } = new ObservableCollection<FavoriteTargetFolderViewModel> ();
 
         public ObservableCollection<FileTitleViewModel> FileTileList { get; set; } = new ObservableCollection<FileTitleViewModel> ();
@@ -1124,8 +1077,10 @@ namespace QuickSort.ViewModel
                         this.FileTileList.Clear ();
 
                         // Refresh the image buffer and update the file title list.
-                        LoadImageBufferAsync (true,
-                            (infoObj, curCnt, maxCnt) =>
+                        ImageFileBufferModel.RefreshBufferAsync (
+                            this.RootPath,
+                            true,
+                            (bufferImageFile, curCnt, maxCnt) =>
                             {
                                 // Add a new image (file info object) to the file title list.
 
@@ -1134,7 +1089,7 @@ namespace QuickSort.ViewModel
                                     this.FileTitleLoadStatus_Show = true;
                                     this.FileTitleLoadStatus_Text = LocalizedStrings.GetFormattedString ("tbFileTitleSec_LodingImages", curCnt, maxCnt);
 
-                                    UpdateFileTitleList (infoObj);
+                                    AddFileTitleList (bufferImageFile);
                                 });
                             },
                             (errorOccured, errorMessages) =>
@@ -1169,12 +1124,8 @@ namespace QuickSort.ViewModel
 
         private readonly Dispatcher _Dispatcher;
 
-        private List<ImageFileInfo> _FileTileImageBufferList { get; set; } = new List<ImageFileInfo> ();
-
         private int _StartSelectionStartIndex = -1;
         private int _EndSelectionStartIndex = -1;
-
-        private string _DlgHelper_MoveFiles_TargetPath;
 
 
 
@@ -1190,8 +1141,10 @@ namespace QuickSort.ViewModel
 
             // Load the image buffer and update the file title list.
             this.FileTileList.Clear ();
-            LoadImageBufferAsync (true,
-                (infoObj, curCnt, maxCnt) =>
+            ImageFileBufferModel.RefreshBufferAsync (
+                this.RootPath,
+                true,
+                (bufferImageFile, curCnt, maxCnt) =>
                 {
                     // Add a new image (file info object) to the file title list.
 
@@ -1200,7 +1153,7 @@ namespace QuickSort.ViewModel
                         this.FileTitleLoadStatus_Show = true;
                         this.FileTitleLoadStatus_Text = LocalizedStrings.GetFormattedString ("tbFileTitleSec_LodingImages", curCnt, maxCnt);
 
-                        UpdateFileTitleList (infoObj);
+                        AddFileTitleList (bufferImageFile);
                     });
                 },
                 (errorOccured, errorMessages) =>
@@ -1231,170 +1184,41 @@ namespace QuickSort.ViewModel
 
         public void Dispose ()
         {
-            // Store the selected folder in the settings.
+            FavoriteTargetFolderModel.ClearStorage ();
 
-#warning In das Model verschieben?!
-
-            Properties.Settings.Default.FavoriteTargetFolderCollection.Clear ();
-
-            foreach (var favTargetFolder in FavoriteTargetFolderList)
+            foreach (var item in this.FavoriteTargetFolderList)
             {
-                var item = new FavoriteTargetFolderSettingItem (favTargetFolder.Path, favTargetFolder.AddDate, favTargetFolder.DisplayName, favTargetFolder.IsPinned);
-
-                Properties.Settings.Default.FavoriteTargetFolderCollection.Add (item.ToString ());
+                FavoriteTargetFolderModel.AddItemToStorage (item.Path, item.AddDate, item.DisplayName, item.IsPinned);
             }
 
-#warning In das Model verschieben?!
+            FavoriteTargetFolderModel.SaveStorage ();
 
-            Properties.Settings.Default.VirtualRootDirectoryCollection.Clear ();
 
-            foreach (var virtRootDir in VirtualRootDirectoryList)
+            VirtualDirectoryModel.ClearStorage ();
+
+            foreach (var item in this.VirtualRootDirectoryList)
             {
-                var item = new VirtualRootDirectorySettingItem (virtRootDir.Path, virtRootDir.DisplayName);
-
-                Properties.Settings.Default.VirtualRootDirectoryCollection.Add (item.ToString ());
+                VirtualDirectoryModel.AddItemToStorage (item.Path, item.DisplayName);
             }
+
+            VirtualDirectoryModel.SaveStorage ();
         }
 
 
 
-        private Task LoadImageBufferAsync (bool forceFullLoad, Action<ImageFileInfo, int, int> onImageLoad, Action<bool, List<string>> onAllImagesLoad)
+        private void UpdateFileTitleList ()
         {
-            return Task.Run (() =>
+            this.FileTileList.Clear ();
+
+            foreach (var imageFileBufferItem in ImageFileBufferModel.Buffer)
             {
-                bool errorOccured = false;
-                List<string> errorMessages = new List<string> ();
-
-
-                try
-                {
-                    var files = Directory.GetFiles (this.RootPath);
-                    int fileCnt = 1;
-
-
-                    if (forceFullLoad)
-                    {
-                        _FileTileImageBufferList.Clear ();
-                    }
-
-                    // Load all images from the directory into our buffer list or update them.
-                    foreach (var file in files)
-                    {
-                        try
-                        {
-                            String fileExt = Path.GetExtension (file).ToLower ();
-                            bool loadImageMustBeExecute = false;
-                            ImageFileInfo imageFileInfoToUpdate = null;
-
-                            ImageFileInfo imageFileInfo = new ImageFileInfo () { File = file, Thumbnail = null };
-
-
-                            // Check if the image is already in the buffer list and or we have to load the (new) image.
-
-                            START_IMAGE_IN_BUFFER_CHECK:
-
-                            var matchingImageBufferList = _FileTileImageBufferList.Where (x => x.File == imageFileInfo.File).ToList ();
-                            if (matchingImageBufferList.Count == 0)
-                            {
-                                loadImageMustBeExecute = true;
-                            }
-                            else if (matchingImageBufferList.Count == 1)
-                            {
-                                // Image is in our buffer list, but has the file content been changed?
-                                if (imageFileInfo.CompareImageWith (matchingImageBufferList[0]) == false)
-                                {
-                                    loadImageMustBeExecute = true;
-                                    imageFileInfoToUpdate = matchingImageBufferList[0];
-                                }
-                            }
-                            else
-                            {
-                                // There must be only one image in the buffer list.
-                                // If there are more images (it is an error), remove all of them and reload the image.
-                                matchingImageBufferList.ForEach (x => _FileTileImageBufferList.Remove (x));
-
-                                goto START_IMAGE_IN_BUFFER_CHECK;
-                            }
-
-                            if (loadImageMustBeExecute)
-                            {
-                                if (fileExt == ".jpg" || fileExt == ".jpeg" || fileExt == ".png" || fileExt == ".bmp" || fileExt == ".heic")
-                                {
-                                    // This approach locks the file until the application is closed.
-                                    //thumb = new BitmapImage (new Uri (file));
-
-                                    BitmapImage bi = null;
-
-
-                                    using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
-                                    {
-                                        bi = new BitmapImage ();
-                                        bi.BeginInit ();
-                                        bi.CacheOption = BitmapCacheOption.OnLoad;
-                                        bi.StreamSource = fstream;
-                                        bi.StreamSource.Flush ();
-                                        bi.EndInit ();
-                                        bi.Freeze ();
-
-                                        bi.StreamSource.Dispose ();
-                                    }
-
-                                    imageFileInfo.Thumbnail = bi;
-                                    imageFileInfo.IsSysIconImage = false;
-                                }
-                                else
-                                {
-                                    // Get windows default icon.
-                                    ImageSource imageSource = IconHelper.GetFileIcon (file);
-                                    imageFileInfo.Thumbnail = IconHelper.ConvertImageSourceToBitmapImage (imageSource);
-                                    imageFileInfo.IsSysIconImage = true;
-                                }
-                            }
-
-                            if (imageFileInfoToUpdate == null)
-                            {
-                                if (loadImageMustBeExecute)
-                                {
-                                    // Add new image item to buffer list.
-                                    _FileTileImageBufferList.Add (imageFileInfo);
-                                }
-                            }
-                            else
-                            {
-                                // Update existing item in buffer.
-                                imageFileInfoToUpdate = imageFileInfo;
-                            }
-
-                            // Execute / fire the onImageLoad callback handler.
-                            onImageLoad?.Invoke (imageFileInfo, fileCnt++, files.Length);
-                        }
-                        catch (Exception ex)
-                        {
-                            errorOccured = true;
-                            errorMessages.Add ($"{file} -> {ex.Message}");
-                        }
-                    }
-
-                    // Remove none existing files from the buffer list.
-                    _FileTileImageBufferList.RemoveAll (x => !x.FileExists);
-
-                    // Execute / fire the onAllImageLoad callback handler.
-                    onAllImagesLoad?.Invoke (errorOccured, errorMessages);
-                }
-                catch (Exception ex)
-                {
-                    errorOccured = true;
-                    errorMessages.Add (ex.Message);
-
-                    // Execute / fire the onAllImageLoad callback handler.
-                    onAllImagesLoad?.Invoke (errorOccured, errorMessages);
-                }
-            });
+                AddFileTitleList (imageFileBufferItem);
+            }
         }
 
 
 
-        private void UpdateFileTitleList (ImageFileInfo singleImageFileInfo = null)
+        private void AddFileTitleList (ImageFileBufferItem imageFileBufferItem)
         {
             int height = 128;
             int width = 128;
@@ -1425,48 +1249,21 @@ namespace QuickSort.ViewModel
                     }
             }
 
-            if (singleImageFileInfo == null)
+            if (imageFileBufferItem.FileExists)
             {
-                this.FileTileList.Clear ();
-
-                foreach (var imageFileInfoItem in _FileTileImageBufferList)
+                FileTileList.Add (new FileTitleViewModel
                 {
-                    if (imageFileInfoItem.FileExists)
-                    {
-                        FileTileList.Add (new FileTitleViewModel
-                        {
-                            DisplayName = Path.GetFileName (imageFileInfoItem.File),
-                            Thumbnail = imageFileInfoItem.Thumbnail,
-                            Height = height,
-                            Width = width,
-                            HideFilenameText = !Properties.Settings.Default.ShowImageFileName,
-                            SizeLevel = Properties.Settings.Default.FolderTitleSizeLevel,
+                    DisplayName = Path.GetFileName (imageFileBufferItem.File),
+                    Thumbnail = imageFileBufferItem.Thumbnail,
+                    Height = height,
+                    Width = width,
+                    HideFilenameText = !Properties.Settings.Default.ShowImageFileName,
+                    SizeLevel = Properties.Settings.Default.FolderTitleSizeLevel,
 
-                            File = imageFileInfoItem.File,
+                    File = imageFileBufferItem.File,
 
-                            IsSysIconImage = imageFileInfoItem.IsSysIconImage,
-                        });
-                    }
-                }
-            }
-            else
-            {
-                if (singleImageFileInfo.FileExists)
-                {
-                    FileTileList.Add (new FileTitleViewModel
-                    {
-                        DisplayName = Path.GetFileName (singleImageFileInfo.File),
-                        Thumbnail = singleImageFileInfo.Thumbnail,
-                        Height = height,
-                        Width = width,
-                        HideFilenameText = !Properties.Settings.Default.ShowImageFileName,
-                        SizeLevel = Properties.Settings.Default.FolderTitleSizeLevel,
-
-                        File = singleImageFileInfo.File,
-
-                        IsSysIconImage = singleImageFileInfo.IsSysIconImage,
-                    });
-                }
+                    IsSysIconImage = imageFileBufferItem.IsSysIconImage,
+                });
             }
         }
 
@@ -1476,39 +1273,27 @@ namespace QuickSort.ViewModel
         {
             try
             {
-                List<FavoriteTargetFolderSettingItem> favTargetFolderList = new List<FavoriteTargetFolderSettingItem> ();
-
-
-                // Check if the Properties.Settings.FavoriteTargetFolderCollection setting exists, if not, create it.
-                if (Properties.Settings.Default.FavoriteTargetFolderCollection == null)
-                {
-                    Properties.Settings.Default.FavoriteTargetFolderCollection = new System.Collections.Specialized.StringCollection ();
-                }
-
                 // Clear the UI collections.
-                FavoriteTargetFolderList.Clear ();
+                this.FavoriteTargetFolderList.Clear ();
 
-                // Transfer the Properties.Settings.Default.FavoriteTargetFolderCollection entries into the favTargetFolderList for linq operations.
-                foreach (var targetFolderItemString in Properties.Settings.Default.FavoriteTargetFolderCollection)
+                FavoriteTargetFolderModel.LoadStorage (true);
+
+                for (int i = 0; i < FavoriteTargetFolderModel.CountStorageItems (); i++)
                 {
-                    favTargetFolderList.Add (FavoriteTargetFolderSettingItem.Parse (targetFolderItemString));
-                }
+                    string path;
+                    long date;
+                    string displayName;
+                    bool isPinned;
 
-                // Order and sort the list.
-                // Only entries that are younger / newer then 30 days or pinned entries are shown.
-                long dayLimitThreshold = DateTime.UtcNow.AddDays (-30).ToFileTimeUtc ();
-                var querryList = favTargetFolderList
-                    .Where (x => Directory.Exists (x.Path) && (x.Date > dayLimitThreshold) || (x.IsPinned))
-                    .OrderByDescending (x => x.Date);
 
-                foreach (var querryItem in querryList)
-                {
-                    FavoriteTargetFolderList.Add (new FavoriteTargetFolderViewModel
+                    FavoriteTargetFolderModel.GetStorageItem (i, out path, out date, out displayName, out isPinned);
+
+                    this.FavoriteTargetFolderList.Add (new FavoriteTargetFolderViewModel
                     {
-                        DisplayName = querryItem.DisplayName,
-                        Path = querryItem.Path,
-                        AddDate = querryItem.Date,
-                        IsPinned = querryItem.IsPinned,
+                        DisplayName = displayName,
+                        Path = path,
+                        AddDate = date,
+                        IsPinned = isPinned,
                         Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
                         Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
                         Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
@@ -1527,33 +1312,24 @@ namespace QuickSort.ViewModel
         {
             try
             {
-                List<VirtualRootDirectorySettingItem> virtRootDirList = new List<VirtualRootDirectorySettingItem> ();
-
-
-                // Check if the Properties.Settings.VirtualRootDirectoryCollection setting exists, if not, create it.
-                if (Properties.Settings.Default.VirtualRootDirectoryCollection == null)
-                {
-                    Properties.Settings.Default.VirtualRootDirectoryCollection = new System.Collections.Specialized.StringCollection ();
-                }
-
                 // Clear the UI collections.
-                VirtualRootDirectoryList.Clear ();
+                this.VirtualRootDirectoryList.Clear ();
 
-                // Transfer the Properties.Settings.Default.VirtualRootDirectoryCollection entries into the virtRootDirList for linq operations.
-                foreach (var virtRootDirItemstring in Properties.Settings.Default.VirtualRootDirectoryCollection)
+
+                VirtualDirectoryModel.LoadStorage (true);
+
+                for (int i = 0; i < VirtualDirectoryModel.CountStorageItems (); i++)
                 {
-                    virtRootDirList.Add (VirtualRootDirectorySettingItem.Parse (virtRootDirItemstring));
-                }
+                    string path;
+                    string displayName;
 
-                // Order and sort the list.
-                var querryList = virtRootDirList.Where (x => Directory.Exists (x.Path));
 
-                foreach (var querryItem in querryList)
-                {
-                    VirtualRootDirectoryList.Add (new VirtualDirectoryViewModel
+                    VirtualDirectoryModel.GetStorageItem (i, out path, out displayName);
+
+                    this.VirtualRootDirectoryList.Add (new VirtualDirectoryViewModel
                     {
-                        DisplayName = querryItem.DisplayName,
-                        Path = querryItem.Path,
+                        DisplayName = displayName,
+                        Path = path,
 
                         Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
 

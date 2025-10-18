@@ -89,8 +89,9 @@
     <Compile Include="Converter\Int2Visibility.cs" />
     <Compile Include="Converter\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Help\IconHelper.cs" />
-    <Compile Include="Model\FavoriteTargetFolderSettingItem.cs" />
-    <Compile Include="Model\VirtualRootDirectorySettingItem.cs" />
+    <Compile Include="Model\FavoriteTargetFolderModel.cs" />
+    <Compile Include="Model\ImageBufferModel.cs" />
+    <Compile Include="Model\VirtualDirectoryModel.cs" />
     <Compile Include="Resources\LocalizedStrings.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
