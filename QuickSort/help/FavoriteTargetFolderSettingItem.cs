@@ -28,7 +28,7 @@
 
 
 
-using QuickSort.model;
+using QuickSort.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +37,7 @@ using System.Threading.Tasks;
 
 
 
-namespace QuickSort.help
+namespace QuickSort.Help
 {
     /// <summary>
     /// Help class to convert "Favorite Target Folder Model" object settings into a string and back.
@@ -69,7 +69,7 @@ namespace QuickSort.help
 
 
 
-        public FavoriteTargetFolderSettingItem (FavoriteTargetFolderModel model)
+        public FavoriteTargetFolderSettingItem (FavoriteTargetFolderViewModel model)
         {
             this.Path = model.Path;
             this.Date = model.AddDate;

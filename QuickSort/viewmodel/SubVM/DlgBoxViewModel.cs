@@ -29,6 +29,7 @@
 
 
 using QuickSort.view.UserControls;
+using QuickSort.viewmodel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -41,7 +42,7 @@ using System.Windows.Controls;
 
 
 
-namespace QuickSort.viewmodel.DlgBox
+namespace QuickSort.ViewModel
 {
     /// <summary>
     /// Class to configure a DlgBoxUserControl instance.

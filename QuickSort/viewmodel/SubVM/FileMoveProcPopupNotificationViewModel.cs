@@ -1,7 +1,7 @@
 ﻿/// ////////////////////////////////////////////////////////////////////////
 ///
 /// Project:			iCloudHelper
-/// Project Source:	https://github.com/X13-G44/iCloudHelper
+/// Project Source:	    https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
 /// Date:				06.10.2025
@@ -29,7 +29,6 @@
 
 
 using QuickSort.viewmodel;
-using QuickSort.model;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -42,9 +41,9 @@ using System.Threading.Tasks;
 
 
 
-namespace QuickSort.model
+namespace QuickSort.ViewModel
 {
-    public class FileMoveProcPopupNotificationModel : ViewModelBase
+    public class FileMoveProcPopupNotificationViewModel : ViewModelBase
     {
         private string _TargetPath = "";
         public string TargetPath

@@ -44,9 +44,9 @@ using System.Windows.Media.Imaging;
 
 
 
-namespace QuickSort.model
+namespace QuickSort.ViewModel
 {
-    public class FileTitleModel : INotifyPropertyChanged
+    public class FileTitleViewModel : ViewModelBase
     {
         private string _DisplayName;
         public string DisplayName
@@ -213,17 +213,6 @@ namespace QuickSort.model
                     return DateTime.Today;
                 }
             }
-        }
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-
-        public void OnPropertyChanged (string propertyName)
-        {
-            PropertyChanged?.Invoke (this, new PropertyChangedEventArgs (propertyName));
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿/// ////////////////////////////////////////////////////////////////////////
 ///
 /// Project:			iCloudHelper
-/// Project Source:	https://github.com/X13-G44/iCloudHelper
+/// Project Source:	    https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
 /// Date:				06.10.2025
@@ -41,7 +41,7 @@ using System.Windows.Shapes;
 
 
 
-namespace QuickSort.help
+namespace QuickSort.Help
 {
     public static class IconHelper
     {

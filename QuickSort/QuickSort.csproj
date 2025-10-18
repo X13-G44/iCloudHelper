@@ -88,13 +88,9 @@
     <Compile Include="converter\Int2GridLengthConverter.cs" />
     <Compile Include="converter\Int2Visibility.cs" />
     <Compile Include="converter\InverseBooleanToVisibilityConverter.cs" />
-    <Compile Include="help\IconHelper.cs" />
-    <Compile Include="help\FavoriteTargetFolderSettingItem.cs" />
-    <Compile Include="help\VirtualRootDirectorySettingItem.cs" />
-    <Compile Include="model\FileTitleModel.cs" />
-    <Compile Include="model\FileMoveProcPopupNotificationModel.cs" />
-    <Compile Include="model\FavoriteTargetFolderModel.cs" />
-    <Compile Include="model\VirtualDirectoryModel.cs" />
+    <Compile Include="Help\IconHelper.cs" />
+    <Compile Include="Help\FavoriteTargetFolderSettingItem.cs" />
+    <Compile Include="Help\VirtualRootDirectorySettingItem.cs" />
     <Compile Include="Resources\LocalizedStrings.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -106,14 +102,18 @@
     <Compile Include="validationrules\CheckIntValidationRule.cs" />
     <Compile Include="validationrules\CheckPathExistsValidationRule.cs" />
     <Compile Include="viewmodel\ConfigViewModel.cs" />
-    <Compile Include="viewmodel\DlgBox\DlgBoxViewModel.cs" />
     <Compile Include="viewmodel\MainViewModel.cs" />
     <Compile Include="viewmodel\RelayCommand.cs" />
+    <Compile Include="viewmodel\SubVM\DlgBoxViewModel.cs" />
+    <Compile Include="viewmodel\SubVM\FavoriteTargetFolderViewModel.cs" />
+    <Compile Include="viewmodel\SubVM\FileMoveProcPopupNotificationViewModel.cs" />
+    <Compile Include="viewmodel\SubVM\FileTitleViewModel.cs" />
+    <Compile Include="viewmodel\SubVM\VirtualDirectoryViewModel.cs" />
     <Compile Include="viewmodel\ViewModelBase.cs" />
     <Compile Include="view\ConfigView.xaml.cs">
       <DependentUpon>ConfigView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="view\UserControls\DlgBoxUserControl.xaml.cs">
+    <Compile Include="viewmodel\UserControls\DlgBoxUserControl.xaml.cs">
       <DependentUpon>DlgBoxUserControl.xaml</DependentUpon>
     </Compile>
     <Page Include="..\AutoUnzip\view\StyleConfigView.xaml">
@@ -147,7 +147,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="view\UserControls\DlgBoxUserControl.xaml">
+    <Page Include="viewmodel\UserControls\DlgBoxUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -203,6 +203,8 @@
   <ItemGroup>
     <Resource Include="icloud-logo-49272-Windows.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

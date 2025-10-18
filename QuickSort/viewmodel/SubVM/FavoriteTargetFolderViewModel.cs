@@ -1,7 +1,7 @@
 ﻿/// ////////////////////////////////////////////////////////////////////////
 ///
 /// Project:			iCloudHelper
-/// Project Source:	https://github.com/X13-G44/iCloudHelper
+/// Project Source:	    https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
 /// Date:				06.10.2025
@@ -41,9 +41,9 @@ using System.Windows.Media;
 
 
 
-namespace QuickSort.model
+namespace QuickSort.ViewModel
 {
-    public class FavoriteTargetFolderModel : INotifyPropertyChanged
+    public class FavoriteTargetFolderViewModel : ViewModelBase
     {
         private string _DisplayName;
         public string DisplayName
@@ -131,16 +131,5 @@ namespace QuickSort.model
         public ICommand Cmd_AddFolderFromListCommand { get; set; } // Property will be setup during creating a new instance of this object in function "Cmd_ContextMenu_AddFavoriteTargetFolderItem" and "LoadTargetFolder".
         public ICommand Cmd_RemoveFolderFromListCommand { get; set; } // Property will be setup during creating a new instance of this object in function "Cmd_ContextMenu_AddFavoriteTargetFolderItem" and "LoadTargetFolder".
         public ICommand Cmd_MoveImagesCommand { get; set; } // Property will be setup during creating a new instance of this object in function "Cmd_ContextMenu_AddFavoriteTargetFolderItem" and "LoadTargetFolder".
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-
-        public void OnPropertyChanged (string propertyName)
-        {
-            PropertyChanged?.Invoke (this, new PropertyChangedEventArgs (propertyName));
-        }
     }
 }

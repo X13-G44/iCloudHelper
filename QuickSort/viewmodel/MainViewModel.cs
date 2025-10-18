@@ -28,13 +28,11 @@
 
 
 
-using QuickSort.help;
-using QuickSort.model;
+using QuickSort.Help;
 using QuickSort.Resources;
 using QuickSort.validationrules;
 using QuickSort.view;
-using QuickSort.viewmodel;
-using QuickSort.viewmodel.DlgBox;
+using QuickSort.ViewModel;
 using System;
 using System.Threading;
 using System.Collections;
@@ -111,15 +109,15 @@ namespace QuickSort.viewmodel
 
 
 
-        public ObservableCollection<FavoriteTargetFolderModel> FavoriteTargetFolderList { get; set; } = new ObservableCollection<FavoriteTargetFolderModel> ();
+        public ObservableCollection<FavoriteTargetFolderViewModel> FavoriteTargetFolderList { get; set; } = new ObservableCollection<FavoriteTargetFolderViewModel> ();
 
-        public ObservableCollection<FileTitleModel> FileTileList { get; set; } = new ObservableCollection<FileTitleModel> ();
+        public ObservableCollection<FileTitleViewModel> FileTileList { get; set; } = new ObservableCollection<FileTitleViewModel> ();
 
-        public ObservableCollection<VirtualDirectoryModel> VirtualRootDirectoryList { get; set; } = new ObservableCollection<VirtualDirectoryModel> ();
-        public ObservableCollection<VirtualDirectoryModel> VirtualFirstStageDirectoryList { get; set; } = new ObservableCollection<VirtualDirectoryModel> ();
-        public ObservableCollection<VirtualDirectoryModel> VirtualSecundStageDirectoryList { get; set; } = new ObservableCollection<VirtualDirectoryModel> ();
+        public ObservableCollection<VirtualDirectoryViewModel> VirtualRootDirectoryList { get; set; } = new ObservableCollection<VirtualDirectoryViewModel> ();
+        public ObservableCollection<VirtualDirectoryViewModel> VirtualFirstStageDirectoryList { get; set; } = new ObservableCollection<VirtualDirectoryViewModel> ();
+        public ObservableCollection<VirtualDirectoryViewModel> VirtualSecundStageDirectoryList { get; set; } = new ObservableCollection<VirtualDirectoryViewModel> ();
 
-        public ObservableCollection<FileMoveProcPopupNotificationModel> FileMoveProcPopupNotificationList { get; } = new ObservableCollection<FileMoveProcPopupNotificationModel> ();
+        public ObservableCollection<FileMoveProcPopupNotificationViewModel> FileMoveProcPopupNotificationList { get; } = new ObservableCollection<FileMoveProcPopupNotificationViewModel> ();
 
 
 
@@ -303,12 +301,12 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     item =>
                     {
-                        var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleModel> ();
+                        var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleViewModel> ();
 
 
-                        if (item is FavoriteTargetFolderModel)
+                        if (item is FavoriteTargetFolderViewModel)
                         {
-                            string targetPath = (item as FavoriteTargetFolderModel).Path;
+                            string targetPath = (item as FavoriteTargetFolderViewModel).Path;
 
 
                             if (querrySelectedFileList.Count > 0)
@@ -333,12 +331,12 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     item =>
                     {
-                        if (item is FileTitleModel)
+                        if (item is FileTitleViewModel)
                         {
                             bool shiftKeyIsPressed = false;
 
 
-                            (item as FileTitleModel).IsSelected = !(item as FileTitleModel).IsSelected;
+                            (item as FileTitleViewModel).IsSelected = !(item as FileTitleViewModel).IsSelected;
 
                             if (Keyboard.IsKeyDown (Key.LeftShift) || Keyboard.IsKeyDown (Key.RightShift))
                             {
@@ -347,7 +345,7 @@ namespace QuickSort.viewmodel
 
                             if (shiftKeyIsPressed == false)
                             {
-                                _StartSelectionStartIndex = this.FileTileList.IndexOf (item as FileTitleModel);
+                                _StartSelectionStartIndex = this.FileTileList.IndexOf (item as FileTitleViewModel);
                             }
 
                             else if (shiftKeyIsPressed == true)
@@ -358,7 +356,7 @@ namespace QuickSort.viewmodel
                                     int lowIndex;
 
 
-                                    _EndSelectionStartIndex = this.FileTileList.IndexOf (item as FileTitleModel);
+                                    _EndSelectionStartIndex = this.FileTileList.IndexOf (item as FileTitleViewModel);
 
                                     deltaIndex = Math.Abs (_EndSelectionStartIndex - _StartSelectionStartIndex);
                                     lowIndex = Math.Min (_EndSelectionStartIndex, _StartSelectionStartIndex);
@@ -374,7 +372,7 @@ namespace QuickSort.viewmodel
                                 else
                                 {
                                     // If the start selection index is not set, just select the current item.
-                                    _StartSelectionStartIndex = this.FileTileList.IndexOf (item as FileTitleModel);
+                                    _StartSelectionStartIndex = this.FileTileList.IndexOf (item as FileTitleViewModel);
                                 }
                             }
 
@@ -393,8 +391,8 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     item =>
                     {
-                        var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleModel> ();
-                        VirtualDirectoryModel virtualDirectoryModel = (item as VirtualDirectoryModel);
+                        var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleViewModel> ();
+                        VirtualDirectoryViewModel virtualDirectoryModel = (item as VirtualDirectoryViewModel);
 
 
                         if (querrySelectedFileList.Count > 0)
@@ -429,8 +427,8 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     item =>
                     {
-                        var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleModel> ();
-                        VirtualDirectoryModel virtualDirectoryModel = (item as VirtualDirectoryModel);
+                        var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleViewModel> ();
+                        VirtualDirectoryViewModel virtualDirectoryModel = (item as VirtualDirectoryViewModel);
 
 
                         if (querrySelectedFileList.Count > 0)
@@ -465,8 +463,8 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     item =>
                     {
-                        var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleModel> ();
-                        string targetPath = (item as VirtualDirectoryModel).Path;
+                        var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleViewModel> ();
+                        string targetPath = (item as VirtualDirectoryViewModel).Path;
 
 
                         if (querrySelectedFileList.Count > 0)
@@ -489,13 +487,13 @@ namespace QuickSort.viewmodel
                         string targetPath = String.Empty;
 
 
-                        if (item is FavoriteTargetFolderModel)
+                        if (item is FavoriteTargetFolderViewModel)
                         {
-                            targetPath = (item as FavoriteTargetFolderModel).Path;
+                            targetPath = (item as FavoriteTargetFolderViewModel).Path;
                         }
-                        else if (item is VirtualDirectoryModel)
+                        else if (item is VirtualDirectoryViewModel)
                         {
-                            targetPath = (item as VirtualDirectoryModel).Path;
+                            targetPath = (item as VirtualDirectoryViewModel).Path;
                         }
 
                         if (!string.IsNullOrEmpty (targetPath) && Directory.Exists (targetPath))
@@ -505,7 +503,7 @@ namespace QuickSort.viewmodel
                     },
                     item =>
                     {
-                        var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleModel> ();
+                        var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleViewModel> ();
 
 
                         return querrySelectedFileList.Count () > 0;
@@ -540,7 +538,7 @@ namespace QuickSort.viewmodel
 
 
                                     // Create a new FavoriteTargetFolderList instance and add it to the collection.
-                                    FavoriteTargetFolderList.Add (new FavoriteTargetFolderModel
+                                    FavoriteTargetFolderList.Add (new FavoriteTargetFolderViewModel
                                     {
                                         DisplayName = folderName,
                                         Path = selectedPath,
@@ -572,9 +570,9 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     item =>
                     {
-                        if (item is FavoriteTargetFolderModel)
+                        if (item is FavoriteTargetFolderViewModel)
                         {
-                            this.FavoriteTargetFolderList.Remove (item as FavoriteTargetFolderModel);
+                            this.FavoriteTargetFolderList.Remove (item as FavoriteTargetFolderViewModel);
                         }
                     },
                     param => true
@@ -609,7 +607,7 @@ namespace QuickSort.viewmodel
 
 
                                     // Create a new VirtualDirectoryList instance and add it to the collection.
-                                    VirtualRootDirectoryList.Add (new VirtualDirectoryModel
+                                    VirtualRootDirectoryList.Add (new VirtualDirectoryViewModel
                                     {
                                         DisplayName = folderName,
                                         Path = selectedPath,
@@ -648,12 +646,12 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     item =>
                     {
-                        if (item is VirtualDirectoryModel)
+                        if (item is VirtualDirectoryViewModel)
                         {
                             VirtualFirstStageDirectoryList.Clear ();
                             VirtualSecundStageDirectoryList.Clear ();
 
-                            VirtualRootDirectoryList.Remove (item as VirtualDirectoryModel);
+                            VirtualRootDirectoryList.Remove (item as VirtualDirectoryViewModel);
 
                             // Clear all selected items in the VirtualRootDirectoryList.
                             var selectedVirtRootDirItems = VirtualRootDirectoryList.Where (x => x.IsSelected);
@@ -675,17 +673,17 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     item =>
                     {
-                        LoadVirtualFirstStageDirectoryList ((item as VirtualDirectoryModel).Path);
+                        LoadVirtualFirstStageDirectoryList ((item as VirtualDirectoryViewModel).Path);
                     },
                     item =>
                     {
                         try
                         {
-                            if (item is VirtualDirectoryModel)
+                            if (item is VirtualDirectoryViewModel)
                             {
-                                if (!String.IsNullOrEmpty ((item as VirtualDirectoryModel).Path) && Directory.Exists ((item as VirtualDirectoryModel).Path))
+                                if (!String.IsNullOrEmpty ((item as VirtualDirectoryViewModel).Path) && Directory.Exists ((item as VirtualDirectoryViewModel).Path))
                                 {
-                                    return Directory.GetDirectories ((item as VirtualDirectoryModel).Path).Length > 0;
+                                    return Directory.GetDirectories ((item as VirtualDirectoryViewModel).Path).Length > 0;
                                 }
                             }
 
@@ -708,14 +706,14 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     item =>
                     {
-                        VirtualDirectoryModel selectedVirtRootDirObject = null;
+                        VirtualDirectoryViewModel selectedVirtRootDirObject = null;
 
 
-                        if (item is VirtualDirectoryModel)
+                        if (item is VirtualDirectoryViewModel)
                         {
                             // User did right-click on a virtual directory button; which is selected or not.
 
-                            selectedVirtRootDirObject = (VirtualDirectoryModel) item;
+                            selectedVirtRootDirObject = (VirtualDirectoryViewModel) item;
                         }
                         else
                         {
@@ -753,7 +751,7 @@ namespace QuickSort.viewmodel
                                                     {
                                                         try
                                                         {
-                                                            VirtualDirectoryModel srcVirtDirInstance = (dlgBoxCfg.LeftButton.Parameter as VirtualDirectoryModel);
+                                                            VirtualDirectoryViewModel srcVirtDirInstance = (dlgBoxCfg.LeftButton.Parameter as VirtualDirectoryViewModel);
                                                             string rootPath = srcVirtDirInstance.Path;
 
 
@@ -786,7 +784,7 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     item =>
                     {
-                        VirtualDirectoryModel selectedVirtDirObject = (VirtualDirectoryModel) item;
+                        VirtualDirectoryViewModel selectedVirtDirObject = (VirtualDirectoryViewModel) item;
 
 
                         if (Directory.GetDirectories (selectedVirtDirObject.Path).Length != 0 || Directory.GetFiles (selectedVirtDirObject.Path).Length != 0)
@@ -807,7 +805,7 @@ namespace QuickSort.viewmodel
                                                     selectedVirtDirObject,
                                                     dlgBoxCfg =>
                                                     {
-                                                        VirtualDirectoryModel selVirtDirObject = (VirtualDirectoryModel) dlgBoxCfg.LeftButton.Parameter;
+                                                        VirtualDirectoryViewModel selVirtDirObject = (VirtualDirectoryViewModel) dlgBoxCfg.LeftButton.Parameter;
 
                                                         try
                                                         {
@@ -867,17 +865,17 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     item =>
                     {
-                        LoadVirtualSecondStageDirectoryList ((item as VirtualDirectoryModel).Path);
+                        LoadVirtualSecondStageDirectoryList ((item as VirtualDirectoryViewModel).Path);
                     },
                     item =>
                     {
                         try
                         {
-                            if (item is VirtualDirectoryModel)
+                            if (item is VirtualDirectoryViewModel)
                             {
-                                if (!String.IsNullOrEmpty ((item as VirtualDirectoryModel).Path) && Directory.Exists ((item as VirtualDirectoryModel).Path))
+                                if (!String.IsNullOrEmpty ((item as VirtualDirectoryViewModel).Path) && Directory.Exists ((item as VirtualDirectoryViewModel).Path))
                                 {
-                                    return Directory.GetDirectories ((item as VirtualDirectoryModel).Path).Length > 0;
+                                    return Directory.GetDirectories ((item as VirtualDirectoryViewModel).Path).Length > 0;
                                 }
                             }
 
@@ -900,14 +898,14 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     item =>
                     {
-                        VirtualDirectoryModel selectedVirtRootDirObject = null;
+                        VirtualDirectoryViewModel selectedVirtRootDirObject = null;
 
 
-                        if (item is VirtualDirectoryModel)
+                        if (item is VirtualDirectoryViewModel)
                         {
                             // User did right-click on a virtual directory button; which is selected or not.
 
-                            selectedVirtRootDirObject = (VirtualDirectoryModel) item;
+                            selectedVirtRootDirObject = (VirtualDirectoryViewModel) item;
                         }
                         else
                         {
@@ -945,7 +943,7 @@ namespace QuickSort.viewmodel
                                                     {
                                                         try
                                                         {
-                                                            VirtualDirectoryModel srcVirtDirInstance = (dlgBoxCfg.LeftButton.Parameter as VirtualDirectoryModel);
+                                                            VirtualDirectoryViewModel srcVirtDirInstance = (dlgBoxCfg.LeftButton.Parameter as VirtualDirectoryViewModel);
                                                             string rootPath = srcVirtDirInstance.Path;
 
 
@@ -978,7 +976,7 @@ namespace QuickSort.viewmodel
                 return new RelayCommand (
                     item =>
                     {
-                        VirtualDirectoryModel selectedVirtDirObject = (VirtualDirectoryModel) item;
+                        VirtualDirectoryViewModel selectedVirtDirObject = (VirtualDirectoryViewModel) item;
 
 
                         if (Directory.GetFiles (selectedVirtDirObject.Path).Length != 0 || Directory.GetDirectories (selectedVirtDirObject.Path).Length != 0)
@@ -999,7 +997,7 @@ namespace QuickSort.viewmodel
                                                     selectedVirtDirObject,
                                                     dlgBoxCfg =>
                                                     {
-                                                        VirtualDirectoryModel selVirtDirObject = (VirtualDirectoryModel) dlgBoxCfg.LeftButton.Parameter;
+                                                        VirtualDirectoryViewModel selVirtDirObject = (VirtualDirectoryViewModel) dlgBoxCfg.LeftButton.Parameter;
 
                                                         try
                                                         {
@@ -1428,7 +1426,7 @@ namespace QuickSort.viewmodel
                 {
                     if (imageFileInfoItem.FileExists)
                     {
-                        FileTileList.Add (new FileTitleModel
+                        FileTileList.Add (new FileTitleViewModel
                         {
                             DisplayName = Path.GetFileName (imageFileInfoItem.File),
                             Thumbnail = imageFileInfoItem.Thumbnail,
@@ -1448,7 +1446,7 @@ namespace QuickSort.viewmodel
             {
                 if (singleImageFileInfo.FileExists)
                 {
-                    FileTileList.Add (new FileTitleModel
+                    FileTileList.Add (new FileTitleViewModel
                     {
                         DisplayName = Path.GetFileName (singleImageFileInfo.File),
                         Thumbnail = singleImageFileInfo.Thumbnail,
@@ -1498,7 +1496,7 @@ namespace QuickSort.viewmodel
 
                 foreach (var querryItem in querryList)
                 {
-                    FavoriteTargetFolderList.Add (new FavoriteTargetFolderModel
+                    FavoriteTargetFolderList.Add (new FavoriteTargetFolderViewModel
                     {
                         DisplayName = querryItem.DisplayName,
                         Path = querryItem.Path,
@@ -1545,7 +1543,7 @@ namespace QuickSort.viewmodel
 
                 foreach (var querryItem in querryList)
                 {
-                    VirtualRootDirectoryList.Add (new VirtualDirectoryModel
+                    VirtualRootDirectoryList.Add (new VirtualDirectoryViewModel
                     {
                         DisplayName = querryItem.DisplayName,
                         Path = querryItem.Path,
@@ -1572,7 +1570,7 @@ namespace QuickSort.viewmodel
 
         private void PrepareMoveFiles (string targetPath)
         {
-            var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleModel> ();
+            var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleViewModel> ();
 
 
             if (querrySelectedFileList.Count () > 0)
@@ -1614,7 +1612,7 @@ namespace QuickSort.viewmodel
 
         private void MoveFiles (string targetPath)
         {
-            var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleModel> ();
+            var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleViewModel> ();
 
 
             if (querrySelectedFileList.Count () > 0)
@@ -1644,7 +1642,7 @@ namespace QuickSort.viewmodel
                             }
                         }
 
-                        FavoriteTargetFolderList.Add (new FavoriteTargetFolderModel
+                        FavoriteTargetFolderList.Add (new FavoriteTargetFolderViewModel
                         {
                             DisplayName = Path.GetFileName (targetPath),
                             Path = targetPath,
@@ -1666,9 +1664,9 @@ namespace QuickSort.viewmodel
                 // Move the image files.
                 Task.Run (() =>
                 {
-                    List<FileTitleModel> querrySelectedFileList_Local = querrySelectedFileList;
+                    List<FileTitleViewModel> querrySelectedFileList_Local = querrySelectedFileList;
                     var cts = new CancellationTokenSource ();
-                    var popup = new FileMoveProcPopupNotificationModel ()
+                    var popup = new FileMoveProcPopupNotificationViewModel ()
                     {
                         TargetPath = Path.GetFileName (targetPath),
                         FileCount = querrySelectedFileList_Local.Count (),
@@ -1838,7 +1836,7 @@ namespace QuickSort.viewmodel
                     foreach (var subDir in subDirList)
                     {
                         // Create a new VirtualDirectoryList instance and add it to the collection.
-                        VirtualFirstStageDirectoryList.Add (new VirtualDirectoryModel
+                        VirtualFirstStageDirectoryList.Add (new VirtualDirectoryViewModel
                         {
                             DisplayName = Path.GetFileName (subDir),
                             Path = subDir,
@@ -1878,7 +1876,7 @@ namespace QuickSort.viewmodel
                     foreach (var subDir in subDirList)
                     {
                         // Create a new VirtualDirectoryList instance and add it to the collection.
-                        VirtualSecundStageDirectoryList.Add (new VirtualDirectoryModel
+                        VirtualSecundStageDirectoryList.Add (new VirtualDirectoryViewModel
                         {
                             DisplayName = Path.GetFileName (subDir),
                             Path = subDir,

@@ -29,7 +29,7 @@
 
 
 using QuickSort.viewmodel;
-using QuickSort.viewmodel.DlgBox;
+using QuickSort.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

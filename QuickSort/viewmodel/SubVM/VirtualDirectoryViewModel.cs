@@ -40,9 +40,9 @@ using System.Windows.Media;
 
 
 
-namespace QuickSort.model
+namespace QuickSort.ViewModel
 {
-    public class VirtualDirectoryModel : INotifyPropertyChanged
+    public class VirtualDirectoryViewModel : INotifyPropertyChanged
     {
         private string _DisplayName;
         public string DisplayName

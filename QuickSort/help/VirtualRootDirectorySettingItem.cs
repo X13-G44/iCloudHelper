@@ -1,7 +1,7 @@
 ﻿/// ////////////////////////////////////////////////////////////////////////
 ///
 /// Project:			iCloudHelper
-/// Project Source:	https://github.com/X13-G44/iCloudHelper
+/// Project Source:	    https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
 /// Date:				06.10.2025
@@ -28,7 +28,7 @@
 
 
 
-using QuickSort.model;
+using QuickSort.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +36,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickSort.help
+
+
+namespace QuickSort.Help
 {
     /// <summary>
     /// Help class to convert "Virtual Root Directory Model" object settings into a string and back.
@@ -64,7 +66,7 @@ namespace QuickSort.help
 
 
 
-        public VirtualRootDirectorySettingItem (VirtualDirectoryModel model)
+        public VirtualRootDirectorySettingItem (VirtualDirectoryViewModel model)
         {
             this.Path = model.Path;
             this.DisplayName = model.DisplayName;
