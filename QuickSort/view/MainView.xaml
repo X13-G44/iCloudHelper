@@ -390,6 +390,8 @@
 
                         <Border x:Name="OUTER_BORDER"
                                 Background="{DynamicResource VirtualDirectoryBtnBackgroundColor}"
+                                BorderBrush="{DynamicResource VirtualDirectoryBtnBackgroundColor}"
+                                BorderThickness="2"
                                 Padding="{TemplateBinding Padding}"
                                 CornerRadius="10">
                             <Grid>
@@ -420,6 +422,7 @@
                         <ControlTemplate.Triggers>
                             <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                 <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource VirtualDirectoryBtnSelectedColor}"/>
+                                <Setter TargetName="OUTER_BORDER" Property="BorderBrush" Value="{DynamicResource VirtualDirectoryBtnSelectedColor}"/>
                                 <Setter TargetName="SYMBOL_LABEL" Property="Foreground" Value="{DynamicResource VirtualDirectoryBtnSelectedTextColor}"/>
                                 <Setter TargetName="TEXT_LABEL" Property="Foreground" Value="{DynamicResource VirtualDirectoryBtnSelectedTextColor}"/>
                             </DataTrigger>
@@ -840,7 +843,7 @@
 
                     <Button Style="{StaticResource SymbolButton}"
                             Margin="15,0,0,0"
-                            Foreground="{DynamicResource CommonErrorColor}"
+                            Foreground="{DynamicResource FileTitleBtnSelectedColor}"
                             FontSize="16" 
                             FontWeight="Light"
                             Content="&#xE107;"
@@ -867,8 +870,7 @@
                            FontSize="12"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left" 
-                           FontFamily="Segoe UI Light"
-                           Visibility="{Binding FileTitleLoadStatus_Show, Converter={StaticResource InvBoolToVis}, FallbackValue='Visible'}"
+                           FontFamily="Segoe UI Light"                           
                            Text="{Binding FileTileStatusText, FallbackValue='1 Bild ausgewählt'}"/>
 
                 <ScrollViewer Grid.Row="2" 
@@ -1068,7 +1070,7 @@
 
                     <!-- Virtual Root Directory List -->
                     <ScrollViewer Grid.Column="0"
-                              Margin="0">
+                                  Margin="0">
                         <ItemsControl ItemsSource="{Binding VirtualRootDirectoryList}">
 
                             <ItemsControl.ItemsPanel>
@@ -1355,6 +1357,22 @@
                            Text="{lex:Loc}"/>
 
             </Grid>
+
+            <Border.ContextMenu>
+
+                    <ContextMenu Style="{StaticResource CustomContextMenuStyle}" 
+                                 Visibility="{Binding VirtualRootDirectoryList.Count, Converter={StaticResource IntToVis}, ConverterParameter='visible;collapsed', FallbackValue='Visible'}">
+
+                        <MenuItem Header="{lex:Loc cmVirtualDirSec_AddEntry}"
+                                  Style="{StaticResource CustomMenuItemStyle}"
+                                  Tag="&#xE0C5;"
+                                  Command="{Binding Cmd_ContextMenu_AddVirtualRootDirectoryItem}"
+                                  CommandParameter="{Binding}"/>
+
+                    </ContextMenu>
+
+            </Border.ContextMenu>
+            
         </Border>
 
         <!-- Overlay: File Move Process Popup Notification List -->
@@ -1512,7 +1530,7 @@
         <uc:DlgBoxUserControl Grid.Row="1"
                                        Grid.RowSpan="2"
                                        Grid.ColumnSpan="2"
-                                       Visibility="Visible"
+                                       Visibility="Hidden"
                                        Configuration="{Binding DialogBoxConfiguration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue={x:Null}}"/>
 
     </Grid>
