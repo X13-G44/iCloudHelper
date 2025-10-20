@@ -35,6 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -96,7 +97,10 @@ namespace AutoUnzip
 
             START:
 
-            if (FileWorkModel.CheckFolder (false) != true)
+            // Load system configuration.
+            bool configOkay = ConfigurationStorage.ConfigurationStorageModel.LoadConfiguration (true);
+
+            if (FileWorkModel.CheckFolder (false) != true || configOkay != true)
             {
                 if (System.Windows.MessageBox.Show (LocalizedStrings.GetString ("dlg_InvalidConfig"),
                     $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
@@ -165,6 +169,19 @@ namespace AutoUnzip
 
             // Make and add context menu items to the tray icon.
             var contextMenu = new ContextMenu ();
+            contextMenu.MenuItems.Add (LocalizedStrings.GetString ("dlg_TrayNotiStartQuickSort"), (s, ev) =>
+            {
+                try
+                {
+                    if (File.Exists (ConfigurationStorage.ConfigurationStorageModel.QuickSortApp))
+                    {
+                        Process.Start (ConfigurationStorage.ConfigurationStorageModel.QuickSortApp);
+                    }
+                }
+                catch
+                {; }
+            });
+            contextMenu.MenuItems.Add ("-");
             contextMenu.MenuItems.Add (LocalizedStrings.GetString ("dlg_TrayNotiSettings"), (s, ev) =>
             {
                 this.Dispatcher.Invoke (() =>
@@ -205,7 +222,7 @@ namespace AutoUnzip
                 _Watcher.Dispose ();
             }
 
-            _Watcher = new FileSystemWatcher (AutoUnzip.Properties.Settings.Default.WatchPath, AutoUnzip.Properties.Settings.Default.FilenameToSearch)
+            _Watcher = new FileSystemWatcher (ConfigurationStorage.ConfigurationStorageModel.MonitoringPath, ConfigurationStorage.ConfigurationStorageModel.MonitoringFilename)
             {
                 NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime,
                 EnableRaisingEvents = true,
@@ -213,6 +230,9 @@ namespace AutoUnzip
 
             _Watcher.Created += (s, ev) =>
             {
+                Debug.WriteLine ($"{DateTime.Now} New file detected {ev.Name}");
+                Stopwatch sw = Stopwatch.StartNew ();
+
                 try
                 {
                     // Wait until the files becomes unlocked.
@@ -222,6 +242,8 @@ namespace AutoUnzip
                         {
                             using (FileStream fs = File.Open (ev.FullPath, FileMode.Open, FileAccess.Read, FileShare.None))
                             {
+                                Debug.WriteLine ($"{DateTime.Now} FileAccess OK. Elapsed time {sw.ElapsedMilliseconds}ms");
+
                                 break;
                             }
                         }
@@ -231,13 +253,15 @@ namespace AutoUnzip
                         }
                     }
 
+                    Debug.WriteLine ($"{DateTime.Now} Elapsed time {sw.ElapsedMilliseconds}ms");
+                    sw.Stop ();
                 }
                 catch (Exception ex)
                 {
                     System.Windows.MessageBox.Show (LocalizedStrings.GetFormattedString (
                             "dlg_AchiveFileAccessError",
                             ev.Name,
-                            AutoUnzip.Properties.Settings.Default.WatchPath,
+                            ConfigurationStorage.ConfigurationStorageModel.MonitoringFilename,
                             ex.Message),
                         $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lError")}",
                         MessageBoxButton.OK,
@@ -255,8 +279,8 @@ namespace AutoUnzip
                     System.Windows.MessageBox.Show (LocalizedStrings.GetFormattedString (
                             "dlg_DoWorkError",
                             ev.Name,
-                            AutoUnzip.Properties.Settings.Default.WatchPath,
-                            AutoUnzip.Properties.Settings.Default.BackupPath,
+                            ConfigurationStorage.ConfigurationStorageModel.MonitoringFilename,
+                            ConfigurationStorage.ConfigurationStorageModel.BackupPath,
                             workResult.ErrorMessage),
                         $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lError")}",
                         MessageBoxButton.OK,
@@ -291,7 +315,7 @@ namespace AutoUnzip
 
         public void SetUiLanguage ()
         {
-            switch (AutoUnzip.Properties.Settings.Default.Language)
+            switch (ConfigurationStorage.ConfigurationStorageModel.LanguageId)
             {
                 default:
                 case 0:

@@ -29,13 +29,12 @@
 
 
 using QuickSort.Help;
+using QuickSort.Model;
 using QuickSort.Resources;
 using QuickSort.ValidationRules;
 using QuickSort.View;
 using QuickSort.View.UserControls;
-using QuickSort.Model;
 using System;
-using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -48,14 +47,18 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Security.Cryptography;
 using System.Security.Policy;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using System.Xml.Linq;
 
 
 
@@ -123,8 +126,8 @@ namespace QuickSort.ViewModel
 
                         var dialog = new ConfigView ();
 
-                        string oldStartPath = QuickSort.Properties.Settings.Default.StartPath;
-                        bool oldShowImageFileName = QuickSort.Properties.Settings.Default.ShowImageFileName;
+                        string oldStartPath = ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath;
+                        bool oldShowImageFileName = ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
 
 
                         dialog.ShowDialog ();
@@ -140,17 +143,17 @@ namespace QuickSort.ViewModel
                             // Refresh the file title list, when user changed the default start path.
                             // We call the Cmd_ContextMenu_RefreshFileTitleList command for do this,
                             // so we don't duplicate the code for this task.
-                            if (oldStartPath != QuickSort.Properties.Settings.Default.StartPath)
+                            if (oldStartPath != ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath)
                             {
-                                this.RootPath = QuickSort.Properties.Settings.Default.StartPath;
+                                this.RootPath = ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath;
 
                                 if (Cmd_ContextMenu_RefreshFileTitleList.CanExecute (null))
                                 {
                                     Cmd_ContextMenu_RefreshFileTitleList.Execute (null);
                                 }
                             }
-                            else if (oldShowImageFileName != QuickSort.Properties.Settings.Default.ShowImageFileName &&
-                                     oldStartPath == QuickSort.Properties.Settings.Default.StartPath)
+                            else if (oldShowImageFileName != ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName &&
+                                     oldStartPath == ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath)
                             {
                                 // Update the file title list only, when the image file buffer wasn't changed.
                                 // If it was changed, the file title list was indirect updated by refreshing the image file buffer (above).
@@ -477,8 +480,8 @@ namespace QuickSort.ViewModel
                         {
                             using (var dialog = new System.Windows.Forms.FolderBrowserDialog ())
                             {
-                                string initialPath = Directory.Exists (Properties.Settings.Default.LastUsedPath) ?
-                                                     Properties.Settings.Default.LastUsedPath :
+                                string initialPath = Directory.Exists (ConfigurationStorage.ConfigurationStorageModel.LastUsedPath) ?
+                                                     ConfigurationStorage.ConfigurationStorageModel.LastUsedPath :
                                                      Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
 
                                 dialog.Description = LocalizedStrings.GetString ("dlgFavTargFolder_HelpText");
@@ -503,7 +506,7 @@ namespace QuickSort.ViewModel
                                         Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
                                     });
 
-                                    Properties.Settings.Default.LastUsedPath = selectedPath;
+                                    ConfigurationStorage.ConfigurationStorageModel.LastUsedPath = selectedPath;
                                 }
                             }
                         }
@@ -545,8 +548,8 @@ namespace QuickSort.ViewModel
                         {
                             using (var dialog = new System.Windows.Forms.FolderBrowserDialog ())
                             {
-                                string initialPath = Directory.Exists (Properties.Settings.Default.LastUsedPath) ?
-                                                     Properties.Settings.Default.LastUsedPath :
+                                string initialPath = Directory.Exists (ConfigurationStorage.ConfigurationStorageModel.LastUsedPath) ?
+                                                     ConfigurationStorage.ConfigurationStorageModel.LastUsedPath :
                                                      Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
 
 
@@ -579,7 +582,7 @@ namespace QuickSort.ViewModel
 
                                     });
 
-                                    Properties.Settings.Default.LastUsedPath = selectedPath;
+                                    ConfigurationStorage.ConfigurationStorageModel.LastUsedPath = selectedPath;
                                 }
                             }
                         }
@@ -1083,8 +1086,6 @@ namespace QuickSort.ViewModel
                                                             {
                                                                 File.Delete (item.File);
                                                             }
-
-                                                            UpdateFileTitleList ();
                                                         }
                                                         catch
                                                         {
@@ -1099,6 +1100,7 @@ namespace QuickSort.ViewModel
                                                                 LocalizedStrings.GetString ("dlgDeleteImageFile_ErrorMessage"));
                                                         }
 
+                                                        UpdateFileTitleList ();
                                                     }),
 
                                 null);
@@ -1121,7 +1123,7 @@ namespace QuickSort.ViewModel
 
                         if (int.TryParse (sizeLevel as string, out fileTitleSizeLevel))
                         {
-                            Properties.Settings.Default.FolderTitleSizeLevel = fileTitleSizeLevel;
+                            ConfigurationStorage.ConfigurationStorageModel.FolderTitleSizeLevel = fileTitleSizeLevel;
 
                             UpdateFileTitleList ();
                         }
@@ -1145,7 +1147,7 @@ namespace QuickSort.ViewModel
                         ImageFileBufferModel.RefreshBufferAsync (
                             this.RootPath,
                             true,
-                            (bufferImageFile, curCnt, maxCnt) =>
+                            (bufferImageFile, curCnt, maxCnt, useMultiTask) =>
                             {
                                 // Add a new image (file info object) to the file title list.
 
@@ -1154,16 +1156,16 @@ namespace QuickSort.ViewModel
                                     this.FileTitleLoadStatus_Show = true;
                                     this.FileTitleLoadStatus_Text = LocalizedStrings.GetFormattedString ("tbFileTitleSec_LodingImages", curCnt, maxCnt);
 
-                                    AddFileTitleList (bufferImageFile);
+                                    AddFileTitleList (bufferImageFile, useMultiTask);
                                 });
                             },
-                            (errorOccured, errorMessages) =>
+                            (errorMessages) =>
                             {
                                 // All images have been processed. Check if an error has been occurred.
 
                                 _Dispatcher.Invoke (() =>
                                 {
-                                    if (errorOccured)
+                                    if (errorMessages?.Count > 0)
                                     {
                                         string errorMessageString = string.Empty;
 
@@ -1205,11 +1207,10 @@ namespace QuickSort.ViewModel
             LoadVirtualDirectoryList ();
 
             // Load the image buffer and update the file title list.
-            this.FileTileList.Clear ();
             ImageFileBufferModel.RefreshBufferAsync (
                 this.RootPath,
                 true,
-                (bufferImageFile, curCnt, maxCnt) =>
+                (bufferImageFile, curCnt, maxCnt, useMultiTask) =>
                 {
                     // Add a new image (file info object) to the file title list.
 
@@ -1218,16 +1219,16 @@ namespace QuickSort.ViewModel
                         this.FileTitleLoadStatus_Show = true;
                         this.FileTitleLoadStatus_Text = LocalizedStrings.GetFormattedString ("tbFileTitleSec_LodingImages", curCnt, maxCnt);
 
-                        AddFileTitleList (bufferImageFile);
+                        AddFileTitleList (bufferImageFile, useMultiTask);
                     });
                 },
-                (errorOccured, errorMessages) =>
+                (errorMessages) =>
                 {
                     // All images have been processed. Check if an error has been occurred.
 
                     _Dispatcher.Invoke (() =>
                     {
-                        if (errorOccured)
+                        if (errorMessages?.Count > 0)
                         {
                             string errorMessageString = string.Empty;
 
@@ -1249,24 +1250,20 @@ namespace QuickSort.ViewModel
 
         public void Dispose ()
         {
-            FavoriteTargetFolderModel.ClearStorage ();
+            ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolder_ClearStorage ();
 
             foreach (var item in this.FavoriteTargetFolderList)
             {
-                FavoriteTargetFolderModel.AddItemToStorage (item.Path, item.AddDate, item.DisplayName, item.IsPinned);
+                ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolder_AddItemToStorage (item.Path, item.AddDate, item.DisplayName, item.IsPinned);
             }
 
-            FavoriteTargetFolderModel.SaveStorage ();
 
-
-            VirtualDirectoryModel.ClearStorage ();
+            ConfigurationStorage.ConfigurationStorageModel.VirtualDirectory_ClearStorage ();
 
             foreach (var item in this.VirtualRootDirectoryList)
             {
-                VirtualDirectoryModel.AddItemToStorage (item.Path, item.DisplayName);
+                ConfigurationStorage.ConfigurationStorageModel.VirtualDirectory_AddItemToStorage (item.Path, item.DisplayName);
             }
-
-            VirtualDirectoryModel.SaveStorage ();
         }
 
 
@@ -1277,19 +1274,19 @@ namespace QuickSort.ViewModel
 
             foreach (var imageFileBufferItem in ImageFileBufferModel.Buffer)
             {
-                AddFileTitleList (imageFileBufferItem);
+                AddFileTitleList (imageFileBufferItem, false);
             }
         }
 
 
 
-        private void AddFileTitleList (ImageFileBufferItem imageFileBufferItem)
+        private void AddFileTitleList (ImageFileBufferItem imageFileBufferItem, bool sortImages)
         {
             int height = 128;
             int width = 128;
 
 
-            switch (Properties.Settings.Default.FolderTitleSizeLevel)
+            switch (ConfigurationStorage.ConfigurationStorageModel.FolderTitleSizeLevel)
             {
                 case 0:
                     {
@@ -1322,13 +1319,33 @@ namespace QuickSort.ViewModel
                     Thumbnail = imageFileBufferItem.Thumbnail,
                     Height = height,
                     Width = width,
-                    HideFilenameText = !Properties.Settings.Default.ShowImageFileName,
-                    SizeLevel = Properties.Settings.Default.FolderTitleSizeLevel,
+                    HideFilenameText = !ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName,
+                    SizeLevel = ConfigurationStorage.ConfigurationStorageModel.FolderTitleSizeLevel,
 
                     File = imageFileBufferItem.File,
 
                     IsSysIconImage = imageFileBufferItem.IsSysIconImage,
                 });
+
+
+                // When flag is set, we must sort the items in the FileTileList its DisplayName in alphabetical order.
+                if (sortImages)
+                {
+                    var sortableList = new List<FileTitleViewModel> (FileTileList);
+
+                    sortableList.Sort (delegate (FileTitleViewModel x, FileTitleViewModel y)
+                    {
+                        if (x.DisplayName == null && y.DisplayName == null) return 0;
+                        else if (x.DisplayName == null) return -1;
+                        else if (y.DisplayName == null) return 1;
+                        else return x.DisplayName.CompareTo (y.DisplayName);
+                    });
+
+                    for (int i = 0; i < sortableList.Count; i++)
+                    {
+                        FileTileList.Move (FileTileList.IndexOf (sortableList[i]), i);
+                    }
+                }
             }
         }
 
@@ -1341,9 +1358,7 @@ namespace QuickSort.ViewModel
                 // Clear the UI collections.
                 this.FavoriteTargetFolderList.Clear ();
 
-                FavoriteTargetFolderModel.LoadStorage (true);
-
-                for (int i = 0; i < FavoriteTargetFolderModel.CountStorageItems (); i++)
+                for (int i = 0; i < ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolder_CountStorageItems (); i++)
                 {
                     string path;
                     long date;
@@ -1351,7 +1366,7 @@ namespace QuickSort.ViewModel
                     bool isPinned;
 
 
-                    FavoriteTargetFolderModel.GetStorageItem (i, out path, out date, out displayName, out isPinned);
+                    ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolder_GetStorageItem (i, out path, out date, out displayName, out isPinned);
 
                     this.FavoriteTargetFolderList.Add (new FavoriteTargetFolderViewModel
                     {
@@ -1380,16 +1395,13 @@ namespace QuickSort.ViewModel
                 // Clear the UI collections.
                 this.VirtualRootDirectoryList.Clear ();
 
-
-                VirtualDirectoryModel.LoadStorage (true);
-
-                for (int i = 0; i < VirtualDirectoryModel.CountStorageItems (); i++)
+                for (int i = 0; i < ConfigurationStorage.ConfigurationStorageModel.VirtualDirectory_CountStorageItems (); i++)
                 {
                     string path;
                     string displayName;
 
 
-                    VirtualDirectoryModel.GetStorageItem (i, out path, out displayName);
+                    ConfigurationStorage.ConfigurationStorageModel.VirtualDirectory_GetStorageItem (i, out path, out displayName);
 
                     this.VirtualRootDirectoryList.Add (new VirtualDirectoryViewModel
                     {
@@ -1423,7 +1435,7 @@ namespace QuickSort.ViewModel
 
             if (querrySelectedFileList.Count () > 0)
             {
-                if (Properties.Settings.Default.ShowMoveDlg)
+                if (ConfigurationStorage.ConfigurationStorageModel.ShowMoveDlg)
                 {
                     this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
                         DlgBoxType.Question,
@@ -1477,10 +1489,10 @@ namespace QuickSort.ViewModel
                 {
                     // Append new favorite target folder item.
 
-                    if (QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionAutoInsert)
+                    if (ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert)
                     {
                         // Check favorite target folder list limit.
-                        if (FavoriteTargetFolderList.Count >= QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionLimit)
+                        if (FavoriteTargetFolderList.Count >= ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit)
                         {
                             // Remove the oldest entry that is not pinned.
                             var itemToRemove = FavoriteTargetFolderList.Where (x => x.IsPinned == false).OrderBy (x => x.AddDate).FirstOrDefault ();
@@ -1618,7 +1630,7 @@ namespace QuickSort.ViewModel
         private void SetColorTheme ()
         {
             string themeFile;
-            switch (QuickSort.Properties.Settings.Default.ColorThemeId)
+            switch (ConfigurationStorage.ConfigurationStorageModel.ColorThemeId)
             {
                 default:
                 case 0:

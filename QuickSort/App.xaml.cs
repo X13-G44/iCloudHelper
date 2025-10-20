@@ -67,7 +67,11 @@ namespace QuickSort
 
         protected override void OnStartup (StartupEventArgs e)
         {
+            MainView mainView = null;
             string starPath = e.Args.Length == 1 ? e.Args[0] : string.Empty;
+
+            // Load system configuration.
+            bool configOkay = ConfigurationStorage.ConfigurationStorageModel.LoadConfiguration (true);
 
 
             base.OnStartup (e);
@@ -75,26 +79,30 @@ namespace QuickSort
             // Update the UI language (for dlg message box).
             SetUiLanguage ();
 
-            if (string.IsNullOrEmpty (starPath) || !Directory.Exists (starPath))
+            if (string.IsNullOrEmpty (starPath) || !Directory.Exists (starPath) || configOkay == false)
             {
                 // No path argument. Use default start path from configuration.
-                if (CheckConfiguration () == false)
+                if (CheckConfiguration () == false || configOkay == false)
                 {
-                    if (System.Windows.MessageBox.Show (LocalizedStrings.GetString ("dlg_InvalidConfig"),
+                    if (MessageBox.Show (LocalizedStrings.GetString ("dlg_InvalidConfig"),
                         $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
                         MessageBoxButton.YesNo,
                         MessageBoxImage.Warning) == MessageBoxResult.Yes)
                     {
+
+                        // Start and show main UI window.
+                        mainView = new MainView ();
+
+
+
                         // Show configuration window.
 
                         var dialog = new ConfigView ();
-
-
                         dialog.ShowDialog ();
 
                         if (dialog.DialogResult.Value)
                         {
-                            this.StartPath = QuickSort.Properties.Settings.Default.StartPath;
+                            this.StartPath = ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath;
                         }
                         else
                         {
@@ -114,7 +122,7 @@ namespace QuickSort
                 }
                 else
                 {
-                    this.StartPath = QuickSort.Properties.Settings.Default.StartPath;
+                    this.StartPath = ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath;
                 }
             }
             else
@@ -125,8 +133,8 @@ namespace QuickSort
             // Update the UI language.
             SetUiLanguage ();
 
-            // Start and show main UI window.
-            var mainView = new MainView ();
+            //// Start and show main UI window.
+            mainView = new MainView ();
             mainView.Show ();
         }
 
@@ -134,7 +142,7 @@ namespace QuickSort
 
         protected override void OnExit (ExitEventArgs e)
         {
-            QuickSort.Properties.Settings.Default.Save ();
+            ConfigurationStorage.ConfigurationStorageModel.SaveConfiguration ();
 
             base.OnExit (e);
         }
@@ -145,9 +153,9 @@ namespace QuickSort
         {
             try
             {
-                if (!String.IsNullOrEmpty (QuickSort.Properties.Settings.Default.StartPath))
+                if (!String.IsNullOrEmpty (ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath))
                 {
-                    return Directory.Exists (QuickSort.Properties.Settings.Default.StartPath);
+                    return Directory.Exists (ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath);
                 }
 
                 return false;
@@ -162,7 +170,7 @@ namespace QuickSort
 
         public void SetUiLanguage ()
         {
-            switch (QuickSort.Properties.Settings.Default.Language)
+            switch (ConfigurationStorage.ConfigurationStorageModel.LanguageId)
             {
                 default:
                 case 0:

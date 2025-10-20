@@ -240,4 +240,13 @@
   <data name="cbConfig_LanguageEnglish" xml:space="preserve">
     <value>English</value>
   </data>
+  <data name="tbConfig_BackupEnable" xml:space="preserve">
+    <value>Enable backup from iCloud archive files</value>
+  </data>
+  <data name="tbConfig_BackupEnableRetention" xml:space="preserve">
+    <value>Enable retention monitoring for the backup folder</value>
+  </data>
+  <data name="dlg_TrayNotiStartQuickSort" xml:space="preserve">
+    <value>Start QuickSort</value>
+  </data>
 </root>

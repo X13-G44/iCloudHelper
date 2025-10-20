@@ -141,15 +141,15 @@ namespace QuickSort.ViewModel
                 return new RelayCommand<ConfigViewModel, object> (
                     (param, viewModel, userParam) =>
                     {
-                        QuickSort.Properties.Settings.Default.StartPath = this.StartPath;
-                        QuickSort.Properties.Settings.Default.ShowMoveDlg = this.ShowMoveDlg;
-                        QuickSort.Properties.Settings.Default.ShowImageFileName = this.ShowImgFileName;
-                        QuickSort.Properties.Settings.Default.ColorThemeId = (uint) (this.UseDarkModeColorTheme == true ? 1 : 0);
-                        QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionLimit = this.MaxFavoriteTargetFolderCollectionItems;
-                        QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionAutoInsert = this.AutoInsertFavoriteTargetFolderCollectionItems;
-                        QuickSort.Properties.Settings.Default.Language = this.Language;
+                        ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath = this.StartPath;
+                        ConfigurationStorage.ConfigurationStorageModel.ShowMoveDlg = this.ShowMoveDlg;
+                        ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName = this.ShowImgFileName;
+                        ConfigurationStorage.ConfigurationStorageModel.ColorThemeId = (int) (this.UseDarkModeColorTheme == true ? 1 : 0);
+                        ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit = this.MaxFavoriteTargetFolderCollectionItems;
+                        ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert = this.AutoInsertFavoriteTargetFolderCollectionItems;
+                        ConfigurationStorage.ConfigurationStorageModel.LanguageId = this.Language;
 
-                        QuickSort.Properties.Settings.Default.Save ();
+                        ConfigurationStorage.ConfigurationStorageModel.SaveConfiguration();
 
                         viewModel._View.DialogResult = true;
                         viewModel._View.Close ();
@@ -194,13 +194,13 @@ namespace QuickSort.ViewModel
             this._Dispatcher = dispatcher;
             this._View = view;
 
-            this.StartPath = QuickSort.Properties.Settings.Default.StartPath;
-            this.ShowMoveDlg = QuickSort.Properties.Settings.Default.ShowMoveDlg;
-            this.ShowImgFileName = QuickSort.Properties.Settings.Default.ShowImageFileName;
-            this.UseDarkModeColorTheme = QuickSort.Properties.Settings.Default.ColorThemeId == 1 ? true : false;
-            this.MaxFavoriteTargetFolderCollectionItems = QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionLimit;
-            this.AutoInsertFavoriteTargetFolderCollectionItems = QuickSort.Properties.Settings.Default.FavoriteTargetFolderCollectionAutoInsert;
-            this.Language = QuickSort.Properties.Settings.Default.Language;
+            this.StartPath = ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath;
+            this.ShowMoveDlg = ConfigurationStorage.ConfigurationStorageModel.ShowMoveDlg;
+            this.ShowImgFileName = ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
+            this.UseDarkModeColorTheme = ConfigurationStorage.ConfigurationStorageModel.ColorThemeId == 1 ? true : false;
+            this.MaxFavoriteTargetFolderCollectionItems = ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit;
+            this.AutoInsertFavoriteTargetFolderCollectionItems = ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert;
+            this.Language = ConfigurationStorage.ConfigurationStorageModel.LanguageId;
 
             Assembly assembly = Assembly.GetExecutingAssembly ();
             this.AppVersionStr = $"V{assembly.GetName ().Version.ToString ()}";

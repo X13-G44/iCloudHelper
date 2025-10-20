@@ -96,9 +96,9 @@ namespace AutoUnzip.ViewModel
                     {
                         try
                         {
-                            if (File.Exists (Properties.Settings.Default.QuickSortApp))
+                            if (File.Exists (ConfigurationStorage.ConfigurationStorageModel.QuickSortApp))
                             {
-                                Process.Start (Properties.Settings.Default.QuickSortApp, "\"" + Properties.Settings.Default.ExtractPath + "\"");
+                                Process.Start (ConfigurationStorage.ConfigurationStorageModel.QuickSortApp, "\"" + ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath + "\"");
 
                                 _View.Close ();
                             }
@@ -107,7 +107,7 @@ namespace AutoUnzip.ViewModel
                         {
                         }
                     },
-                    param => File.Exists (Properties.Settings.Default.QuickSortApp)
+                    param => File.Exists (ConfigurationStorage.ConfigurationStorageModel.QuickSortApp)
                 );
             }
         }
@@ -218,7 +218,7 @@ namespace AutoUnzip.ViewModel
         private void SetColorTheme ()
         {
             string themeFile;
-            switch (AutoUnzip.Properties.Settings.Default.ColorThemeId)
+            switch (ConfigurationStorage.ConfigurationStorageModel.ColorThemeId)
             {
                 default:
                 case 0:

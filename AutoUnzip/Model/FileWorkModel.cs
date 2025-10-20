@@ -162,41 +162,41 @@ namespace AutoUnzip.Model
 
         static public bool CheckFolder (bool allowExceptionOnError)
         {
-            if (Directory.Exists (AutoUnzip.Properties.Settings.Default.ExtractPath) == false)
+            if (Directory.Exists (ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath) == false)
             {
                 if (allowExceptionOnError)
                 {
-                    throw new FileNotFoundException ("Extract directory \"" + AutoUnzip.Properties.Settings.Default.ExtractPath + "\" does not exists.");
+                    throw new FileNotFoundException ("Extract directory \"" + ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath + "\" does not exists.");
                 }
 
                 return false;
             }
 
-            if (Directory.Exists (AutoUnzip.Properties.Settings.Default.BackupPath) == false)
+            if (Directory.Exists (ConfigurationStorage.ConfigurationStorageModel.BackupPath) == false)
             {
                 if (allowExceptionOnError)
                 {
-                    throw new FileNotFoundException ("Backup directory \"" + AutoUnzip.Properties.Settings.Default.BackupPath + "\" does not exists.");
+                    throw new FileNotFoundException ("Backup directory \"" + ConfigurationStorage.ConfigurationStorageModel.BackupPath + "\" does not exists.");
                 }
 
                 return false;
             }
 
-            if (Directory.Exists (AutoUnzip.Properties.Settings.Default.WatchPath) == false)
+            if (Directory.Exists (ConfigurationStorage.ConfigurationStorageModel.MonitoringPath) == false)
             {
                 if (allowExceptionOnError)
                 {
-                    throw new FileNotFoundException ("Monitoring directory \"" + AutoUnzip.Properties.Settings.Default.WatchPath + "\" does not exists.");
+                    throw new FileNotFoundException ("Monitoring directory \"" + ConfigurationStorage.ConfigurationStorageModel.MonitoringPath + "\" does not exists.");
                 }
 
                 return false;
             }
 
-            if (File.Exists (AutoUnzip.Properties.Settings.Default.QuickSortApp) == false)
+            if (File.Exists (ConfigurationStorage.ConfigurationStorageModel.QuickSortApp) == false)
             {
                 if (allowExceptionOnError)
                 {
-                    throw new FileNotFoundException ("Quicksort application \"" + AutoUnzip.Properties.Settings.Default.QuickSortApp + "\" does not exists.");
+                    throw new FileNotFoundException ("Quicksort application \"" + ConfigurationStorage.ConfigurationStorageModel.QuickSortApp + "\" does not exists.");
                 }
 
                 return false;
@@ -209,7 +209,7 @@ namespace AutoUnzip.Model
 
         static private string MakeTempFolder ()
         {
-            string tempPath = Path.Combine (Path.GetTempPath (), AutoUnzip.Properties.Settings.Default.TempFolderPrefix + Path.GetRandomFileName ().Replace (".", string.Empty).Substring (0, 8));
+            string tempPath = Path.Combine (Path.GetTempPath (), ConfigurationStorage.ConfigurationStorageModel.TempFolderPrefix + Path.GetRandomFileName ().Replace (".", string.Empty).Substring (0, 8));
 
 
             if (Directory.Exists (tempPath))
@@ -232,10 +232,10 @@ namespace AutoUnzip.Model
 
         static private void MakeBackupFile (string srcArchiveFile)
         {
-            if (AutoUnzip.Properties.Settings.Default.BackupRetentionPeriod >= 0)
+            if (ConfigurationStorage.ConfigurationStorageModel.BackupEnabled)
             {
                 string backupZipFileName = Path.GetFileNameWithoutExtension (srcArchiveFile) + "_" + DateTime.Now.ToString ("yyyyMMdd_HHmmss") + ".zip";
-                string backupZipFile = Path.Combine (AutoUnzip.Properties.Settings.Default.BackupPath, backupZipFileName);
+                string backupZipFile = Path.Combine (ConfigurationStorage.ConfigurationStorageModel.BackupPath, backupZipFileName);
 
 
                 if (File.Exists (backupZipFile))
@@ -256,7 +256,7 @@ namespace AutoUnzip.Model
 
             foreach (var file in fileList)
             {
-                string newTargetFile = Path.Combine (AutoUnzip.Properties.Settings.Default.ExtractPath, Path.GetFileName (file));
+                string newTargetFile = Path.Combine (ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath, Path.GetFileName (file));
 
 
                 if (File.Exists (newTargetFile))
@@ -273,11 +273,11 @@ namespace AutoUnzip.Model
                         string randomSuffix = Path.GetRandomFileName ().Replace (".", string.Empty).Substring (0, 3); // Generate an random 3-Chars long suffix string.
 
 
-                        newTargetFile = Path.Combine (AutoUnzip.Properties.Settings.Default.ExtractPath, $"{Path.GetFileNameWithoutExtension (file)}_{randomSuffix}{Path.GetExtension (file)}");
+                        newTargetFile = Path.Combine (ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath, $"{Path.GetFileNameWithoutExtension (file)}_{randomSuffix}{Path.GetExtension (file)}");
                     }
                 }
 
-                File.Move (file, Path.Combine (AutoUnzip.Properties.Settings.Default.ExtractPath, Path.GetFileName (newTargetFile)));
+                File.Move (file, Path.Combine (ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath, Path.GetFileName (newTargetFile)));
 
                 result.Add (newTargetFile);
             }
@@ -319,16 +319,16 @@ namespace AutoUnzip.Model
 
         static private void CleanupBackupFolder ()
         {
-            if (AutoUnzip.Properties.Settings.Default.BackupRetentionPeriod > 0)
+            if (ConfigurationStorage.ConfigurationStorageModel.BackupRetentionCheckEnabled)
             {
-                var files = Directory.GetFiles (AutoUnzip.Properties.Settings.Default.BackupPath, "*", SearchOption.TopDirectoryOnly);
+                var files = Directory.GetFiles (ConfigurationStorage.ConfigurationStorageModel.BackupPath, "*", SearchOption.TopDirectoryOnly);
 
 
                 foreach (var backupFile in files)
                 {
                     try
                     {
-                        if (File.GetCreationTime (backupFile) < DateTime.Now.AddDays (AutoUnzip.Properties.Settings.Default.BackupRetentionPeriod * -1))
+                        if (File.GetCreationTime (backupFile) < DateTime.Now.AddDays (ConfigurationStorage.ConfigurationStorageModel.BackupRetentionPeriod * -1))
                         {
                             File.Delete (backupFile);
                         }

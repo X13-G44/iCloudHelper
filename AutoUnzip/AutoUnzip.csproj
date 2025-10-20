@@ -160,6 +160,11 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\icloud-logo-49272-Windows.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ConfigurationStorage\ConfigurationStorage.csproj">
+      <Project>{c9a7fcf6-b397-4a67-a94a-e6fd011a47d7}</Project>
+      <Name>ConfigurationStorage</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

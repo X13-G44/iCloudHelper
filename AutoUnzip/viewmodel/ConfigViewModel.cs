@@ -39,6 +39,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Threading;
 
@@ -76,11 +77,25 @@ namespace AutoUnzip.ViewModel
             set { _TempFolderPrefix = value; OnPropertyChanged (nameof (TempFolderPrefix)); }
         }
 
+        private bool _BackupEnabled;
+        public bool BackupEnabled
+        {
+            get { return _BackupEnabled; }
+            set { _BackupEnabled = value; OnPropertyChanged (nameof (BackupEnabled)); }
+        }
+
         private string _BackupPath;
         public string BackupPath
         {
             get { return _BackupPath; }
             set { _BackupPath = value; OnPropertyChanged (nameof (BackupPath)); }
+        }
+
+        private bool _BackupRetentionCheckEnabled;
+        public bool BackupRetentionCheckEnabled
+        {
+            get { return _BackupRetentionCheckEnabled; }
+            set { _BackupRetentionCheckEnabled = value; OnPropertyChanged (nameof (BackupRetentionCheckEnabled)); }
         }
 
         private int _BackupRetentionPeriod;
@@ -238,17 +253,19 @@ namespace AutoUnzip.ViewModel
                 return new RelayCommand<ConfigViewModel, Object> (
                     (param, viewModel, userParam) =>
                     {
-                        AutoUnzip.Properties.Settings.Default.WatchPath = this.WatchPath;
-                        AutoUnzip.Properties.Settings.Default.FilenameToSearch = this.FilenameToSearch;
-                        AutoUnzip.Properties.Settings.Default.ExtractPath = this.ExtractPath;
-                        AutoUnzip.Properties.Settings.Default.TempFolderPrefix = this.TempFolderPrefix;
-                        AutoUnzip.Properties.Settings.Default.BackupPath = this.BackupPath;
-                        AutoUnzip.Properties.Settings.Default.BackupRetentionPeriod = this.BackupRetentionPeriod;
-                        AutoUnzip.Properties.Settings.Default.QuickSortApp = this.QuickSortApp;
-                        AutoUnzip.Properties.Settings.Default.ColorThemeId = (uint) (this.UseDarkModeColorTheme == true ? 1 : 0);
-                        AutoUnzip.Properties.Settings.Default.Language = this.Language;
+                        ConfigurationStorage.ConfigurationStorageModel.MonitoringPath = this.WatchPath;
+                        ConfigurationStorage.ConfigurationStorageModel.MonitoringFilename = this.FilenameToSearch;
+                        ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath = this.ExtractPath;
+                        ConfigurationStorage.ConfigurationStorageModel.TempFolderPrefix = this.TempFolderPrefix;
+                        ConfigurationStorage.ConfigurationStorageModel.BackupEnabled = this.BackupEnabled;                        
+                        ConfigurationStorage.ConfigurationStorageModel.BackupPath = this.BackupPath;
+                        ConfigurationStorage.ConfigurationStorageModel.BackupRetentionCheckEnabled = this.BackupRetentionCheckEnabled;
+                        ConfigurationStorage.ConfigurationStorageModel.BackupRetentionPeriod = this.BackupRetentionPeriod;
+                        ConfigurationStorage.ConfigurationStorageModel.QuickSortApp = this.QuickSortApp;
+                        ConfigurationStorage.ConfigurationStorageModel.ColorThemeId = (int) (this.UseDarkModeColorTheme == true ? 1 : 0);
+                        ConfigurationStorage.ConfigurationStorageModel.LanguageId = this.Language;                        
 
-                        AutoUnzip.Properties.Settings.Default.Save ();
+                        ConfigurationStorage.ConfigurationStorageModel.SaveConfiguration ();
 
                         viewModel._View.DialogResult = true;
                         viewModel._View.Close ();
@@ -293,15 +310,17 @@ namespace AutoUnzip.ViewModel
             this._Dispatcher = dispatcher;
             this._View = view;
 
-            this.WatchPath = AutoUnzip.Properties.Settings.Default.WatchPath;
-            this.FilenameToSearch = AutoUnzip.Properties.Settings.Default.FilenameToSearch;
-            this.ExtractPath = AutoUnzip.Properties.Settings.Default.ExtractPath;
-            this.TempFolderPrefix = AutoUnzip.Properties.Settings.Default.TempFolderPrefix;
-            this.BackupPath = AutoUnzip.Properties.Settings.Default.BackupPath;
-            this.BackupRetentionPeriod = AutoUnzip.Properties.Settings.Default.BackupRetentionPeriod;
-            this.QuickSortApp = AutoUnzip.Properties.Settings.Default.QuickSortApp;
-            this.UseDarkModeColorTheme = AutoUnzip.Properties.Settings.Default.ColorThemeId == 1 ? true : false;
-            this.Language = AutoUnzip.Properties.Settings.Default.Language;
+            this.WatchPath = ConfigurationStorage.ConfigurationStorageModel.MonitoringPath;
+            this.FilenameToSearch = ConfigurationStorage.ConfigurationStorageModel.MonitoringFilename;
+            this.ExtractPath = ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath;
+            this.TempFolderPrefix = ConfigurationStorage.ConfigurationStorageModel.TempFolderPrefix;
+            this.BackupEnabled = ConfigurationStorage.ConfigurationStorageModel.BackupEnabled;
+            this.BackupPath = ConfigurationStorage.ConfigurationStorageModel.BackupPath;
+            this.BackupRetentionCheckEnabled = ConfigurationStorage.ConfigurationStorageModel.BackupRetentionCheckEnabled;
+            this.BackupRetentionPeriod = ConfigurationStorage.ConfigurationStorageModel.BackupRetentionPeriod;
+            this.QuickSortApp = ConfigurationStorage.ConfigurationStorageModel.QuickSortApp;
+            this.UseDarkModeColorTheme = ConfigurationStorage.ConfigurationStorageModel.ColorThemeId == 1 ? true : false;
+            this.Language = ConfigurationStorage.ConfigurationStorageModel.LanguageId;
 
             Assembly assembly = Assembly.GetExecutingAssembly ();
             this.AppVersionStr = $"V{assembly.GetName ().Version.ToString ()}";

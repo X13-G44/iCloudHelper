@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickSort", "QuickSort\Quic
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "Installer\Installer.vdproj", "{52B20422-474D-5734-629F-99A1F7DE9787}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationStorage", "ConfigurationStorage\ConfigurationStorage.csproj", "{C9A7FCF6-B397-4A67-A94A-E6FD011A47D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{52B20422-474D-5734-629F-99A1F7DE9787}.Debug|Any CPU.Build.0 = Debug
 		{52B20422-474D-5734-629F-99A1F7DE9787}.Release|Any CPU.ActiveCfg = Release
 		{52B20422-474D-5734-629F-99A1F7DE9787}.Release|Any CPU.Build.0 = Release
+		{C9A7FCF6-B397-4A67-A94A-E6FD011A47D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9A7FCF6-B397-4A67-A94A-E6FD011A47D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9A7FCF6-B397-4A67-A94A-E6FD011A47D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9A7FCF6-B397-4A67-A94A-E6FD011A47D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -240,4 +240,13 @@
   <data name="cbConfig_LanguageEnglish" xml:space="preserve">
     <value>Englisch</value>
   </data>
+  <data name="tbConfig_BackupEnable" xml:space="preserve">
+    <value>Backup von iCloud Bildarchiv Dateien erstellen</value>
+  </data>
+  <data name="tbConfig_BackupEnableRetention" xml:space="preserve">
+    <value>Aufbewahrungsüberwachung für den Backup Ordner aktivieren</value>
+  </data>
+  <data name="dlg_TrayNotiStartQuickSort" xml:space="preserve">
+    <value>QuickSort starten</value>
+  </data>
 </root>

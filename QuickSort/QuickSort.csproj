@@ -90,9 +90,7 @@
     <Compile Include="Converter\Int2Visibility.cs" />
     <Compile Include="Converter\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Help\IconHelper.cs" />
-    <Compile Include="Model\FavoriteTargetFolderModel.cs" />
     <Compile Include="Model\ImageBufferModel.cs" />
-    <Compile Include="Model\VirtualDirectoryModel.cs" />
     <Compile Include="Resources\LocalizedStrings.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -205,6 +203,11 @@
   <ItemGroup>
     <Resource Include="icloud-logo-49272-Windows.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ConfigurationStorage\ConfigurationStorage.csproj">
+      <Project>{c9a7fcf6-b397-4a67-a94a-e6fd011a47d7}</Project>
+      <Name>ConfigurationStorage</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

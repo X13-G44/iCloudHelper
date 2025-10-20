@@ -29,17 +29,23 @@
 
 
 using QuickSort.Help;
+using QuickSort.ViewModel;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using static System.Net.WebRequestMethods;
 
 
 
@@ -53,8 +59,12 @@ namespace QuickSort.Model
     /// </summary>
     static public class ImageFileBufferModel
     {
-        static private readonly List<ImageFileBufferItem> _BufferList;
+        const int THRESHOLD_MULTI_TASK = 15;
+        const int MAX_TASK_COUNT = 3;
 
+
+
+        static private readonly List<ImageFileBufferItem> _BufferList;
         public static List<ImageFileBufferItem> Buffer { get { return _BufferList; } }
 
 
@@ -68,146 +78,333 @@ namespace QuickSort.Model
 
         /// <summary>
         /// Scan and load image files in a given directory. 
-        /// The image file will only be open, while reading the data content; then the file will be closed (sit is not the WPF default behavior 😉 ).
-        /// The load image data are buffed in this class for later use.
+        /// The image file will be only open, while reading the data content. After this, the file will be closed (this is not the WPF default behavior 😉 ).
+        /// The load image data are buffed in this class for later use and can be accessed via property "Buffer".       
         /// </summary>
+        /// <note>
+        /// Depending on the count of HiRes image files (".heic"), one or multiple task will be used to red the image files.
+        /// When using multiple tasks are used, the call order of callback "onImageLoad" is not linear; user must sort the images manually.
+        /// </note>
         /// <param name="path">Directory to search and load the images files.</param>
         /// <param name="forceFullLoad">Set to true to clear the full buffer and read all image files in path otherwise the buffer will only be updated with new or changed images.</param>
         /// <param name="onImageLoad">Optional callback handler, fired on each load image file.</param>
         /// <param name="onAllImagesLoad">Optional callback handler, fired at operation end (all files in directory processed).</param>
         /// <returns></returns>
-        static public Task RefreshBufferAsync (string path, bool forceFullLoad, Action<ImageFileBufferItem, int, int> onImageLoad, Action<bool, List<string>> onAllImagesLoad)
+        static public Task RefreshBufferAsync (string path, bool forceFullLoad, Action<ImageFileBufferItem, int, int, bool> onImageLoad, Action<List<string>> onAllImagesLoad)
         {
-            return Task.Run (() =>
+            string[] files;
+            int filesWithHiRes = 0;
+
+
+            try
             {
-                bool errorOccured = false;
-                List<string> errorMessages = new List<string> ();
+                // Get the count of HiRes pictures in directory.
+
+                files = Directory.GetFiles (path);
+                filesWithHiRes = files.Where (x => Path.GetExtension (x).ToLower () == ".heic").Count ();
 
 
-                try
+                if (filesWithHiRes < THRESHOLD_MULTI_TASK)
                 {
-                    var files = Directory.GetFiles (path);
-                    int fileCnt = 1;
+                    #region SIINGLE TASK VERSION
 
 
-                    if (forceFullLoad)
+                    return Task.Run (() =>
                     {
-                        _BufferList.Clear ();
-                    }
+                        List<string> errorMessages = new List<string> ();
 
-                    // Load all images from the directory into our buffer list or update them.
-                    foreach (var file in files)
-                    {
+
                         try
                         {
-                            String fileExt = Path.GetExtension (file).ToLower ();
-                            bool loadImageMustBeExecute = false;
-                            ImageFileBufferItem bufferItemToUpdate = null;
-
-                            ImageFileBufferItem newBufferItem = new ImageFileBufferItem () { File = file, Thumbnail = null };
+                            int fileCnt = 1;
 
 
-                            // Check if the image is already in the buffer list and or we have to load the (new) image.
-
-                            START_IMAGE_IN_BUFFER_CHECK:
-
-                            var matchingImageBufferList = _BufferList.Where (x => x.File == newBufferItem.File).ToList ();
-                            if (matchingImageBufferList.Count == 0)
+                            if (forceFullLoad)
                             {
-                                loadImageMustBeExecute = true;
+                                _BufferList.Clear ();
                             }
-                            else if (matchingImageBufferList.Count == 1)
+
+                            // Load all images from the directory into our buffer list or update them.
+                            foreach (var file in files)
                             {
-                                // Image is in our buffer list, but has the file content been changed?
-                                if (newBufferItem.IsEqualWith (matchingImageBufferList[0]) == false)
+                                try
                                 {
-                                    loadImageMustBeExecute = true;
-                                    bufferItemToUpdate = matchingImageBufferList[0];
-                                }
-                            }
-                            else
-                            {
-                                // There must be only one image in the buffer list.
-                                // If there are more images (it is an error), remove all of them and reload the image.
-                                matchingImageBufferList.ForEach (x => _BufferList.Remove (x));
+                                    String fileExt = Path.GetExtension (file).ToLower ();
+                                    bool loadImageMustBeExecute = false;
+                                    ImageFileBufferItem bufferItemToUpdate = null;
 
-                                goto START_IMAGE_IN_BUFFER_CHECK;
-                            }
-
-                            if (loadImageMustBeExecute)
-                            {
-                                if (fileExt == ".jpg" || fileExt == ".jpeg" || fileExt == ".png" || fileExt == ".bmp" || fileExt == ".heic")
-                                {
-                                    // This approach locks the file until the application is closed.
-                                    //thumb = new BitmapImage (new Uri (file));
-
-                                    BitmapImage bi = null;
+                                    ImageFileBufferItem newBufferItem = new ImageFileBufferItem () { File = file, Thumbnail = null };
 
 
-                                    using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                                    // Check if the image is already in the buffer list and or we have to load the (new) image.
+
+                                    START_IMAGE_IN_BUFFER_CHECK:
+
+                                    var matchingImageBufferList = _BufferList.Where (x => x.File == newBufferItem.File).ToList ();
+                                    if (matchingImageBufferList.Count == 0)
                                     {
-                                        bi = new BitmapImage ();
-                                        bi.BeginInit ();
-                                        bi.CacheOption = BitmapCacheOption.OnLoad;
-                                        bi.StreamSource = fstream;
-                                        bi.StreamSource.Flush ();
-                                        bi.EndInit ();
-                                        bi.Freeze ();
+                                        loadImageMustBeExecute = true;
+                                    }
+                                    else if (matchingImageBufferList.Count == 1)
+                                    {
+                                        // Image is in our buffer list, but has the file content been changed?
+                                        if (newBufferItem.IsEqualWith (matchingImageBufferList[0]) == false)
+                                        {
+                                            loadImageMustBeExecute = true;
+                                            bufferItemToUpdate = matchingImageBufferList[0];
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // There must be only one image in the buffer list.
+                                        // If there are more images (it is an error), remove all of them and reload the image.
+                                        matchingImageBufferList.ForEach (x => _BufferList.Remove (x));
 
-                                        bi.StreamSource.Dispose ();
+                                        goto START_IMAGE_IN_BUFFER_CHECK;
                                     }
 
-                                    newBufferItem.Thumbnail = bi;
-                                    newBufferItem.IsSysIconImage = false;
+                                    if (loadImageMustBeExecute)
+                                    {
+                                        if (fileExt == ".jpg" || fileExt == ".jpeg" || fileExt == ".png" || fileExt == ".bmp" || fileExt == ".heic")
+                                        {
+                                            // This approach locks the file until the application is closed.
+                                            //thumb = new BitmapImage (new Url (file));
+
+                                            BitmapImage bi = null;
+
+
+                                            using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                                            {
+                                                bi = new BitmapImage ();
+                                                bi.BeginInit ();
+                                                bi.CacheOption = BitmapCacheOption.OnLoad;
+                                                bi.StreamSource = fstream;
+                                                bi.StreamSource.Flush ();
+                                                bi.EndInit ();
+                                                bi.Freeze ();
+
+                                                bi.StreamSource.Dispose ();
+                                            }
+
+                                            newBufferItem.Thumbnail = bi;
+                                            newBufferItem.IsSysIconImage = false;
+                                        }
+                                        else
+                                        {
+                                            // Get windows default icon.
+                                            ImageSource imageSource = IconHelper.GetFileIcon (file);
+                                            newBufferItem.Thumbnail = IconHelper.ConvertImageSourceToBitmapImage (imageSource);
+                                            newBufferItem.IsSysIconImage = true;
+                                        }
+                                    }
+
+                                    if (bufferItemToUpdate == null)
+                                    {
+                                        if (loadImageMustBeExecute)
+                                        {
+                                            // Add new image item to buffer list.
+                                            _BufferList.Add (newBufferItem);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // Update existing item in buffer.
+                                        bufferItemToUpdate = newBufferItem;
+                                    }
+
+                                    // Execute / fire the onImageLoad callback handler.
+                                    onImageLoad?.Invoke (newBufferItem, fileCnt++, files.Length, false);
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    // Get windows default icon.
-                                    ImageSource imageSource = IconHelper.GetFileIcon (file);
-                                    newBufferItem.Thumbnail = IconHelper.ConvertImageSourceToBitmapImage (imageSource);
-                                    newBufferItem.IsSysIconImage = true;
+                                    errorMessages.Add ($"{file} -> {ex.Message}");
                                 }
                             }
 
-                            if (bufferItemToUpdate == null)
-                            {
-                                if (loadImageMustBeExecute)
-                                {
-                                    // Add new image item to buffer list.
-                                    _BufferList.Add (newBufferItem);
-                                }
-                            }
-                            else
-                            {
-                                // Update existing item in buffer.
-                                bufferItemToUpdate = newBufferItem;
-                            }
+                            // Remove none existing files from the buffer list.
+                            _BufferList.RemoveAll (x => !x.FileExists);
 
-                            // Execute / fire the onImageLoad callback handler.
-                            onImageLoad?.Invoke (newBufferItem, fileCnt++, files.Length);
+                            // Execute / fire the onAllImageLoad callback handler.
+                            onAllImagesLoad?.Invoke (errorMessages);
                         }
                         catch (Exception ex)
                         {
-                            errorOccured = true;
-                            errorMessages.Add ($"{file} -> {ex.Message}");
+                            errorMessages.Add (ex.Message);
+
+                            // Execute / fire the onAllImageLoad callback handler.
+                            onAllImagesLoad?.Invoke (errorMessages);
                         }
-                    }
+                    });
 
-                    // Remove none existing files from the buffer list.
-                    _BufferList.RemoveAll (x => !x.FileExists);
 
-                    // Execute / fire the onAllImageLoad callback handler.
-                    onAllImagesLoad?.Invoke (errorOccured, errorMessages);
+                    #endregion
                 }
-                catch (Exception ex)
+                else
                 {
-                    errorOccured = true;
-                    errorMessages.Add (ex.Message);
+                    #region MULTIBLE TASK VERSION
 
-                    // Execute / fire the onAllImageLoad callback handler.
-                    onAllImagesLoad?.Invoke (errorOccured, errorMessages);
+
+                    return Task.Run (() =>
+                    {
+                        try
+                        {
+                            Semaphore semaphoreBufferList = new Semaphore (initialCount: MAX_TASK_COUNT - 1, maximumCount: MAX_TASK_COUNT);
+                            ConcurrentQueue<string> errorMessages = new ConcurrentQueue<string> ();
+                            int fileCnt = 1;
+
+
+                            if (forceFullLoad)
+                            {
+                                _BufferList.Clear ();
+                            }
+
+                            // Load all images from the directory into our buffer list or update them.
+                            Parallel.ForEach (files,
+                                new ParallelOptions { MaxDegreeOfParallelism = MAX_TASK_COUNT },
+                                file =>
+                                {
+                                    try
+                                    {
+                                        String fileExt = Path.GetExtension (file).ToLower ();
+                                        bool loadImageMustBeExecute = false;
+                                        ImageFileBufferItem bufferItemToUpdate = null;
+
+                                        ImageFileBufferItem newBufferItem = new ImageFileBufferItem () { File = file, Thumbnail = null };
+
+
+                                        // Check if the image is already in the buffer list and or we have to load the (new) image.
+
+                                        START_IMAGE_IN_BUFFER_CHECK:
+
+                                        var matchingImageBufferList = _BufferList.Where (x => x.File == newBufferItem.File).ToList ();
+                                        if (matchingImageBufferList.Count == 0)
+                                        {
+                                            loadImageMustBeExecute = true;
+                                        }
+                                        else if (matchingImageBufferList.Count == 1)
+                                        {
+                                            // Image is in our buffer list, but has the file content been changed?
+                                            if (newBufferItem.IsEqualWith (matchingImageBufferList[0]) == false)
+                                            {
+                                                loadImageMustBeExecute = true;
+                                                bufferItemToUpdate = matchingImageBufferList[0];
+                                            }
+                                        }
+                                        else
+                                        {
+                                            // There must be only one image in the buffer list.
+                                            // If there are more images (it is an error), remove all of them and reload the image.
+                                            matchingImageBufferList.ForEach (x => _BufferList.Remove (x));
+
+                                            goto START_IMAGE_IN_BUFFER_CHECK;
+                                        }
+
+                                        if (loadImageMustBeExecute)
+                                        {
+                                            if (fileExt == ".jpg" || fileExt == ".jpeg" || fileExt == ".png" || fileExt == ".bmp" || fileExt == ".heic")
+                                            {
+                                                // This approach locks the file until the application is closed.
+                                                //thumb = new BitmapImage (new Url (file));
+
+                                                BitmapImage bi = null;
+
+
+                                                using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                                                {
+                                                    bi = new BitmapImage ();
+                                                    bi.BeginInit ();
+                                                    bi.CacheOption = BitmapCacheOption.OnLoad;
+                                                    bi.StreamSource = fstream;
+                                                    bi.StreamSource.Flush ();
+                                                    bi.EndInit ();
+                                                    bi.Freeze ();
+
+                                                    bi.StreamSource.Dispose ();
+                                                }
+
+                                                newBufferItem.Thumbnail = bi;
+                                                newBufferItem.IsSysIconImage = false;
+                                            }
+                                            else
+                                            {
+                                                // Get windows default icon.
+                                                ImageSource imageSource = IconHelper.GetFileIcon (file);
+                                                newBufferItem.Thumbnail = IconHelper.ConvertImageSourceToBitmapImage (imageSource);
+                                                newBufferItem.IsSysIconImage = true;
+                                            }
+                                        }
+
+                                        semaphoreBufferList.WaitOne ();
+
+                                        if (bufferItemToUpdate == null)
+                                        {
+                                            if (loadImageMustBeExecute)
+                                            {
+                                                // Add new image item to buffer list.
+                                                _BufferList.Add (newBufferItem);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            // Update existing item in buffer.
+                                            bufferItemToUpdate = newBufferItem;
+                                        }
+
+                                        semaphoreBufferList.Release ();
+
+
+                                        // Execute / fire the onImageLoad callback handler.
+                                        onImageLoad?.Invoke (newBufferItem, fileCnt++, files.Length, true);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        errorMessages.Enqueue ($"{file} -> {ex.Message}");
+                                    }
+                                });
+
+
+                            // Remove none existing files from the buffer list.
+                            _BufferList.RemoveAll (x => !x.FileExists);
+
+
+                            // Sorted list of ImageFileBuffer items.
+                            var sortBuffer = _BufferList.OrderBy (x => x.Filename).ToList ();
+
+                            _BufferList.Clear ();
+                            foreach (var sortBufferItem in sortBuffer)
+                            {
+                                _BufferList.Add (sortBufferItem);
+                            }
+
+
+                            // Read all data from error message queue.
+                            var errorMessageList = new List<string> ();
+                            var errorMessage = String.Empty;
+                            for (int i = 0; i < errorMessages.Count (); i++)
+                            {
+                                errorMessages.TryDequeue (out errorMessage);
+                                errorMessageList.Add (errorMessage);
+                            }
+
+
+                            // Execute / fire the onAllImageLoad callback handler.
+                            onAllImagesLoad?.Invoke (errorMessageList);
+                        }
+                        catch (Exception ex)
+                        {
+                            // Execute / fire the onAllImageLoad callback handler.
+                            onAllImagesLoad?.Invoke (new List<string> { ex.Message });
+                        }
+                    });
+
+
+                    #endregion
                 }
-            });
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 
@@ -218,7 +415,6 @@ namespace QuickSort.Model
         public string File { get; set; }
         public BitmapImage Thumbnail { get; set; }
         public bool IsSysIconImage { get; set; }
-
         public bool FileExists
         {
             get
@@ -233,6 +429,7 @@ namespace QuickSort.Model
                 }
             }
         }
+        public string Filename { get { return Path.GetFileName (this.File); } }
 
 
 

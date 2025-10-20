@@ -196,6 +196,15 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Start QuickSort ähnelt.
+        /// </summary>
+        public static string dlg_TrayNotiStartQuickSort {
+            get {
+                return ResourceManager.GetString("dlg_TrayNotiStartQuickSort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Application file does not exists. ähnelt.
         /// </summary>
         public static string lApplFileNotExists {
@@ -291,6 +300,24 @@ namespace AutoUnzip.Resources {
         public static string lWarning {
             get {
                 return ResourceManager.GetString("lWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enable backup from iCloud archive files ähnelt.
+        /// </summary>
+        public static string tbConfig_BackupEnable {
+            get {
+                return ResourceManager.GetString("tbConfig_BackupEnable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enable retention monitoring for the backup folder ähnelt.
+        /// </summary>
+        public static string tbConfig_BackupEnableRetention {
+            get {
+                return ResourceManager.GetString("tbConfig_BackupEnableRetention", resourceCulture);
             }
         }
         
