@@ -169,6 +169,15 @@ namespace AutoUnzip
 
             // Make and add context menu items to the tray icon.
             var contextMenu = new ContextMenu ();
+            contextMenu.MenuItems.Add (LocalizedStrings.GetString ("dlg_TrayNotiOpenICloud"), (s, ev) =>
+            {
+                try
+                {
+                    Process.Start ("https://www.icloud.com");
+                }
+                catch
+                {; }
+            });
             contextMenu.MenuItems.Add (LocalizedStrings.GetString ("dlg_TrayNotiStartQuickSort"), (s, ev) =>
             {
                 try
@@ -176,6 +185,20 @@ namespace AutoUnzip
                     if (File.Exists (ConfigurationStorage.ConfigurationStorageModel.QuickSortApp))
                     {
                         Process.Start (ConfigurationStorage.ConfigurationStorageModel.QuickSortApp);
+                    }
+                }
+                catch
+                {; }
+            });
+            contextMenu.MenuItems.Add (LocalizedStrings.GetString ("dlg_TrayNotiStartSerachManual"), (s, ev) =>
+            {
+                try
+                {
+                    string[] files = Directory.GetFiles (ConfigurationStorage.ConfigurationStorageModel.MonitoringPath, ConfigurationStorage.ConfigurationStorageModel.MonitoringFilename);
+
+                    foreach (string file in files)
+                    {
+                        NewImageArchiveFileDetected (file);
                     }
                 }
                 catch
@@ -218,7 +241,7 @@ namespace AutoUnzip
         {
             if (_Watcher != null)
             {
-                _Watcher.EnableRaisingEvents = false;
+                _Watcher.EnableRaisingEvents = true;
                 _Watcher.Dispose ();
             }
 
@@ -228,65 +251,33 @@ namespace AutoUnzip
                 EnableRaisingEvents = true,
             };
 
-            _Watcher.Created += (s, ev) =>
+            _Watcher.Created += (s, ev) => NewImageArchiveFileDetected (ev.FullPath);
+            _Watcher.Renamed += (s, ev) => NewImageArchiveFileDetected (ev.FullPath);
+        }
+
+
+
+        private void NewImageArchiveFileDetected (string file)
+        {
+            // Process the new detected image archive file.
+
+            var workResult = FileWorkModel.DoWork (file);
+            if (workResult.WorkSuccess)
             {
-                Debug.WriteLine ($"{DateTime.Now} New file detected {ev.Name}");
-                Stopwatch sw = Stopwatch.StartNew ();
-
-                try
-                {
-                    // Wait until the files becomes unlocked.
-                    for (int i = 0; i < 10; i++)
-                    {
-                        try
-                        {
-                            using (FileStream fs = File.Open (ev.FullPath, FileMode.Open, FileAccess.Read, FileShare.None))
-                            {
-                                Debug.WriteLine ($"{DateTime.Now} FileAccess OK. Elapsed time {sw.ElapsedMilliseconds}ms");
-
-                                break;
-                            }
-                        }
-                        catch (IOException)
-                        {
-                            System.Threading.Thread.Sleep (500);
-                        }
-                    }
-
-                    Debug.WriteLine ($"{DateTime.Now} Elapsed time {sw.ElapsedMilliseconds}ms");
-                    sw.Stop ();
-                }
-                catch (Exception ex)
-                {
-                    System.Windows.MessageBox.Show (LocalizedStrings.GetFormattedString (
-                            "dlg_AchiveFileAccessError",
-                            ev.Name,
-                            ConfigurationStorage.ConfigurationStorageModel.MonitoringFilename,
-                            ex.Message),
-                        $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lError")}",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
-
-                // Process the new file.
-                var workResult = FileWorkModel.DoWork (ev.FullPath);
-                if (workResult.WorkSuccess)
-                {
-                    ShowMainWindow (workResult.ExtractedFiles);
-                }
-                else
-                {
-                    System.Windows.MessageBox.Show (LocalizedStrings.GetFormattedString (
-                            "dlg_DoWorkError",
-                            ev.Name,
-                            ConfigurationStorage.ConfigurationStorageModel.MonitoringFilename,
-                            ConfigurationStorage.ConfigurationStorageModel.BackupPath,
-                            workResult.ErrorMessage),
-                        $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lError")}",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                }
-            };
+                ShowMainWindow (workResult.ExtractedFiles);
+            }
+            else
+            {
+                System.Windows.MessageBox.Show (LocalizedStrings.GetFormattedString (
+                        "dlg_DoWorkError",
+                        file,
+                        ConfigurationStorage.ConfigurationStorageModel.MonitoringFilename,
+                        ConfigurationStorage.ConfigurationStorageModel.BackupPath,
+                        workResult.ErrorMessage),
+                    $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lError")}",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
 
 

@@ -123,9 +123,6 @@
   <data name="btnConfig_SaveConfig" xml:space="preserve">
     <value>Save settings</value>
   </data>
-  <data name="dlg_AchiveFileAccessError" xml:space="preserve">
-    <value>An error occurred while waiting for file access to file \"{0}\" located in folder \"{1}\".\n\nNo images was extracted and no backup files was created!\nSystem error message is \"{2}\".</value>
-  </data>
   <data name="dlg_SelectExtractPath" xml:space="preserve">
     <value>Select the destination folder for the unpacked image files:</value>
   </data>
@@ -248,5 +245,11 @@
   </data>
   <data name="dlg_TrayNotiStartQuickSort" xml:space="preserve">
     <value>Start QuickSort</value>
+  </data>
+  <data name="dlg_TrayNotiStartSerachManual" xml:space="preserve">
+    <value>Serach for iCloud image archive file(s)</value>
+  </data>
+  <data name="dlg_TrayNotiOpenICloud" xml:space="preserve">
+    <value>Open iCloud Website</value>
   </data>
 </root>

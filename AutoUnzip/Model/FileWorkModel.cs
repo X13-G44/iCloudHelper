@@ -31,6 +31,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -116,6 +117,9 @@ namespace AutoUnzip.Model
 
             try
             {
+                lastCheckpoint = FileProcessingCheckpoint.WaitForFreeFileHandle;
+                WaitForUnlockedFile (srcArchiveFile);
+
                 lastCheckpoint = FileProcessingCheckpoint.CheckFolders;
                 CheckFolder (true);
 
@@ -155,6 +159,28 @@ namespace AutoUnzip.Model
                 }
 
                 return new DoWorkResult (false, lastCheckpoint, null, e.Message);
+            }
+        }
+
+
+
+        static private void WaitForUnlockedFile (string srcArchiveFile)
+        {
+            // Wait until the files becomes unlocked.
+
+            for (int i = 0; i < 10; i++)
+            {
+                try
+                {
+                    using (FileStream fs = File.Open (srcArchiveFile, FileMode.Open, FileAccess.Read, FileShare.None))
+                    {
+                        break;
+                    }
+                }
+                catch (IOException)
+                {
+                    Task.Delay (2500).Wait ();
+                }
             }
         }
 

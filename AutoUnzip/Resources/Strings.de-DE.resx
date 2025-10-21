@@ -123,9 +123,6 @@
   <data name="btnConfig_SaveConfig" xml:space="preserve">
     <value>Einstellungen speichern</value>
   </data>
-  <data name="dlg_AchiveFileAccessError" xml:space="preserve">
-    <value>Beim Warten auf den Dateizugriff auf die Datei „{0}“ im Ordner „{1}“ ist ein Fehler aufgetreten.\n\nEs wurden keine Bilder extrahiert und keine Sicherungsdateien erstellt!\nDie Systemfehlermeldung lautet „{2}“.</value>
-  </data>
   <data name="dlg_SelectExtractPath" xml:space="preserve">
     <value>Zielordner der entpackten Bilddateien auswählen:</value>
   </data>
@@ -248,5 +245,11 @@
   </data>
   <data name="dlg_TrayNotiStartQuickSort" xml:space="preserve">
     <value>QuickSort starten</value>
+  </data>
+  <data name="dlg_TrayNotiStartSerachManual" xml:space="preserve">
+    <value>Suche nach iCloud Bildarchiv Datei(n)</value>
+  </data>
+  <data name="dlg_TrayNotiOpenICloud" xml:space="preserve">
+    <value>iCloud-Website öffnen</value>
   </data>
 </root>

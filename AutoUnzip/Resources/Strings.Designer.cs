@@ -106,15 +106,6 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die An error occurred while waiting for file access to file \&quot;{0}\&quot; located in folder \&quot;{1}\&quot;.\n\nNo images was extracted and no backup files was created!\nSystem error message is \&quot;{2}\&quot;. ähnelt.
-        /// </summary>
-        public static string dlg_AchiveFileAccessError {
-            get {
-                return ResourceManager.GetString("dlg_AchiveFileAccessError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die An error occurred while processing a new \&quot;{0}\&quot; file in \&quot;{1}\&quot; folder.\nThe error occurred at the following processing step: {2}.\n\nBackup files exist in the folder \&quot;{3}\&quot;.\n\nOptional error message: \&quot;{4}\&quot;. ähnelt.
         /// </summary>
         public static string dlg_DoWorkError {
@@ -187,6 +178,15 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Open iCloud Website ähnelt.
+        /// </summary>
+        public static string dlg_TrayNotiOpenICloud {
+            get {
+                return ResourceManager.GetString("dlg_TrayNotiOpenICloud", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Settings ähnelt.
         /// </summary>
         public static string dlg_TrayNotiSettings {
@@ -201,6 +201,15 @@ namespace AutoUnzip.Resources {
         public static string dlg_TrayNotiStartQuickSort {
             get {
                 return ResourceManager.GetString("dlg_TrayNotiStartQuickSort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Serach for iCloud image archive file(s) ähnelt.
+        /// </summary>
+        public static string dlg_TrayNotiStartSerachManual {
+            get {
+                return ResourceManager.GetString("dlg_TrayNotiStartSerachManual", resourceCulture);
             }
         }
         
