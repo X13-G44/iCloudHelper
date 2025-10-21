@@ -213,5 +213,19 @@ namespace QuickSort.ViewModel
                 }
             }
         }
+        public bool FileExists
+        {
+            get
+            {
+                try
+                {
+                    return System.IO.File.Exists (this.File);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
     }
 }

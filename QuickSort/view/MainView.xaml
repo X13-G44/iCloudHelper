@@ -505,6 +505,30 @@
             </Setter>
         </Style>
 
+        <!-- Symbol Button-Style -->
+        <Style x:Key="SymbolButton2" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Image Source="/iCloud_white.png" 
+                               Height="24"
+                               Width="24"
+                               Stretch="Fill">
+                        </Image>
+
+                        <!--<ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" TargetName="PART_TEXT" Value="{DynamicResource CommonForegroundColor}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>-->
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
     </Window.Resources>
 
     <Window.InputBindings>
@@ -549,6 +573,13 @@
                            HorizontalAlignment="Center" 
                            Foreground="White"/>
             </Button>
+
+            <TextBlock VerticalAlignment="Center" 
+                       HorizontalAlignment="Center"
+                       FontSize="24" 
+                       FontStretch="ExtraExpanded"
+                       Foreground="White"
+                       Text="QuickSort - iCloudHelper" FontWeight="Light" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5">
 
@@ -786,12 +817,18 @@
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top">
 
+                    <Button Style="{StaticResource SymbolButton2}" 
+                            Margin="5,0,0,0"
+                            Name="ttFileTitleSec_OpenICloud"
+                            ToolTip="{lex:Loc}"
+                            Command="{Binding Cmd_ContextMenu_OpenICloud}"/>
+
                     <Button Style="{StaticResource SymbolButton}"
                             Margin="5,0,0,0"
                             Foreground="{DynamicResource FileTitleBtnSelectedColor}"
-                            FontSize="16" 
+                            FontSize="14" 
                             FontWeight="Light"
-                            Content="&#xE12E;"
+                            Content="&#xE1A4;"
                             Name="ttFileTitleSec_ButtonSmalIconSize"
                             ToolTip="{lex:Loc}"
                             Command="{Binding Cmd_ContextMenu_SetFileTitleSize}"
@@ -800,9 +837,9 @@
                     <Button Style="{StaticResource SymbolButton}"
                             Margin="5,0,0,0"
                             Foreground="{DynamicResource FileTitleBtnSelectedColor}"
-                            FontSize="16" 
+                            FontSize="14" 
                             FontWeight="Light"
-                            Content="&#xE12E;"
+                            Content="&#xE1A3;"
                             Name="ttFileTitleSec_ButtonMediumIconSize"
                             ToolTip="{lex:Loc}"
                             Command="{Binding Cmd_ContextMenu_SetFileTitleSize}"
@@ -949,7 +986,48 @@
                         <TextBlock Foreground="{DynamicResource CommonBorderBrushColor}"
                            FontSize="14"
                            FontWeight="SemiBold"                           
-                           Text="{Binding FileTitleLoadStatus_Text, FallbackValue='Bilder werden geladen... (1/20)'}" FontStyle="Italic"/>
+                           Text="{Binding FileTitleLoadStatus_Text, FallbackValue='Bilder werden geladen... (1/20)'}" FontStyle="Italic">
+
+                            <!--<TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+
+                                        <DataTrigger Binding="{Binding FileTitleLoadStatus_Show}" Value="False">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        --><!-- Fadeout Animation --><!--
+
+                                                        <DoubleAnimation Storyboard.TargetProperty="FontSize" 
+                                                                 From="14"
+                                                                 To="0" 
+                                                                 Duration="0:0:0.5"/>
+
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.EnterActions>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding FileTitleLoadStatus_Show}" Value="True">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        --><!-- Fadein Animation --><!--
+
+                                                        <DoubleAnimation Storyboard.TargetProperty="FontSize" 
+                                                                 From="0"
+                                                                 To="14" 
+                                                                 Duration="0:0:0.5"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.EnterActions>
+                                        </DataTrigger>
+
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>-->
+
+                        </TextBlock>
 
                         <!-- ToDo: Place a Spinner Animation here -->
 
@@ -960,6 +1038,49 @@
                                           BlurRadius="10"                                                                                       
                                           Color="{DynamicResource ToolTipBackgroundColorColor}"/>
                     </Border.Effect>
+
+                    <!--<Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+
+                                <DataTrigger Binding="{Binding FileTitleLoadStatus_Show}" Value="False">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                -->
+                    <!-- Fadeout Animation -->
+                    <!--
+
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                                                                 From="1"
+                                                                 To="0" 
+                                                                 Duration="0:0:0.5"/>
+
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding FileTitleLoadStatus_Show}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                -->
+                    <!-- Fadein Animation -->
+                    <!--
+
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                                                                 From="0"
+                                                                 To="1" 
+                                                                 Duration="0:0:0.5"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>-->
 
                 </Border>
 
@@ -982,14 +1103,14 @@
                     <MenuItem Name="cmFileTitleSec_ButtonSmalIconSize"
                               Header="{lex:Loc}" 
                               Style="{StaticResource CustomMenuItemStyle}" 
-                              Tag="&#xE12E;"
+                              Tag="&#xE1A4;"
                               Command="{Binding Cmd_ContextMenu_SetFileTitleSize}" 
                               CommandParameter="0"/>
 
                     <MenuItem Name="cmFileTitleSec_ButtonMediumIconSize"
                               Header="{lex:Loc}" 
                               Style="{StaticResource CustomMenuItemStyle}" 
-                              Tag="&#xE12E;"
+                              Tag="&#xE1A3;"
                               Command="{Binding Cmd_ContextMenu_SetFileTitleSize}"
                               CommandParameter="1"/>
 
@@ -1360,19 +1481,19 @@
 
             <Border.ContextMenu>
 
-                    <ContextMenu Style="{StaticResource CustomContextMenuStyle}" 
+                <ContextMenu Style="{StaticResource CustomContextMenuStyle}" 
                                  Visibility="{Binding VirtualRootDirectoryList.Count, Converter={StaticResource IntToVis}, ConverterParameter='visible;collapsed', FallbackValue='Visible'}">
 
-                        <MenuItem Header="{lex:Loc cmVirtualDirSec_AddEntry}"
+                    <MenuItem Header="{lex:Loc cmVirtualDirSec_AddEntry}"
                                   Style="{StaticResource CustomMenuItemStyle}"
                                   Tag="&#xE0C5;"
                                   Command="{Binding Cmd_ContextMenu_AddVirtualRootDirectoryItem}"
                                   CommandParameter="{Binding}"/>
 
-                    </ContextMenu>
+                </ContextMenu>
 
             </Border.ContextMenu>
-            
+
         </Border>
 
         <!-- Overlay: File Move Process Popup Notification List -->
@@ -1493,7 +1614,7 @@
                     </Border>
 
                     <DataTemplate.Triggers>
-                        
+
                         <DataTrigger Binding="{Binding IsFadingOut}" Value="true">
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard>
@@ -1528,10 +1649,10 @@
 
         <!-- Overlay Dalog Box -->
         <uc:DlgBoxUserControl Grid.Row="1"
-                                       Grid.RowSpan="2"
-                                       Grid.ColumnSpan="2"
-                                       Visibility="Hidden"
-                                       Configuration="{Binding DialogBoxConfiguration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue={x:Null}}"/>
+                              Grid.RowSpan="2"
+                              Grid.ColumnSpan="2"
+                              Visibility="Visible"
+                              Configuration="{Binding DialogBoxConfiguration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue={x:Null}}"/>
 
     </Grid>
 </Window>

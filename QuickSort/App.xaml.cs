@@ -90,9 +90,10 @@ namespace QuickSort
                         MessageBoxImage.Warning) == MessageBoxResult.Yes)
                     {
 
-                        // Start and show main UI window.
+#warning 'Check and solve this problem'
+                        // Initialize main UI window.
+                        // We need this to do before we show the ConfigurationWindow. Without this, the application will exit, then we instantiate the mainView instance!?
                         mainView = new MainView ();
-
 
 
                         // Show configuration window.

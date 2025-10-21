@@ -889,6 +889,15 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Open iCloud Website ähnelt.
+        /// </summary>
+        public static string ttFileTitleSec_OpenICloud {
+            get {
+                return ResourceManager.GetString("ttFileTitleSec_OpenICloud", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Name:            \t[0]\nFolder:          \t[1]\nFile count:      \t[2]\nSubfilder count: \t[3] ähnelt.
         /// </summary>
         public static string ttVirtualDirSec_DirItem {

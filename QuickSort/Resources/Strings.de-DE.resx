@@ -396,4 +396,7 @@
   <data name="dlgDeleteImageFile_ErrorMessage" xml:space="preserve">
     <value>Es sind Fehler beim Löschen der Bilder aufgetreten!</value>
   </data>
+  <data name="ttFileTitleSec_OpenICloud" xml:space="preserve">
+    <value>iCloud-Website öffnen</value>
+  </data>
 </root>

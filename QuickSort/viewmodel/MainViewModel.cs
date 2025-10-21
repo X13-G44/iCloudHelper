@@ -57,6 +57,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 using System.Xml.Linq;
 
@@ -1009,6 +1010,29 @@ namespace QuickSort.ViewModel
             }
         }
 
+
+
+
+        public RelayCommand Cmd_ContextMenu_OpenICloud
+        {
+            get
+            {
+                return new RelayCommand (
+                    _ =>
+                    {
+                        try
+                        {
+                            Process.Start ("https://www.icloud.com");
+                        }
+                        catch
+                        {; }
+                    },
+                    param => true
+                );
+            }
+        }
+
+
         public RelayCommand Cmd_ContextMenu_SelectAllFileTitles
         {
             get
@@ -1270,11 +1294,48 @@ namespace QuickSort.ViewModel
 
         private void UpdateFileTitleList ()
         {
-            this.FileTileList.Clear ();
+            int height = 128;
+            int width = 128;
 
-            foreach (var imageFileBufferItem in ImageFileBufferModel.Buffer)
+
+            switch (ConfigurationStorage.ConfigurationStorageModel.FolderTitleSizeLevel)
             {
-                AddFileTitleList (imageFileBufferItem, false);
+                case 0:
+                    {
+                        // Small symbol size.
+                        height = width = 180;
+                        break;
+                    }
+
+                default:
+                case 1:
+                    {
+                        // Middle symbol size.
+                        height = width = 275;
+                        break;
+                    }
+
+                case 2:
+                    {
+                        // Large symbol size.
+                        height = width = 560;
+                        break;
+                    }
+            }
+
+            // Check for and remove none existing image files.
+            var querryDeletedImages = this.FileTileList.Where (x => !x.FileExists);
+            foreach (var image in querryDeletedImages)
+            {
+                this.FileTileList.Remove (image);
+            }
+
+            // Update the image size.
+            for (int i = 0; i < this.FileTileList.Count; i++)
+            {
+                this.FileTileList[i].Height = height;
+                this.FileTileList[i].Width = width;
+                this.FileTileList[i].SizeLevel = ConfigurationStorage.ConfigurationStorageModel.FolderTitleSizeLevel;
             }
         }
 
