@@ -129,7 +129,7 @@
   <data name="dlg_DoWorkError" xml:space="preserve">
     <value>Beim Verarbeiten einer neuen \"{0}\"-Datei im Ordner \"{1}\" ist ein Fehler aufgetreten.\nDer Fehler ist beim folgenden Verarbeitungsschritt aufgetreten: {2}.\n\nSicherungsdateien sind im Ordner \"{3}\" vorhanden.\n\nOptionale Fehlermeldung: \"{4}\".</value>
   </data>
-  <data name="dlg_InvalidConfig" xml:space="preserve">
+  <data name="dlg_InvalidConfigDirs" xml:space="preserve">
     <value>Mindestens ein erforderlicher Ordner fehlt.\nDamit dieses Programm ordnungsgemäß funktioniert, müssen die Ordner korrekt konfiguriert sein.\n\nSoll das Konfigurationsfenster angezeigt werden, damit die Einstellungen angepasst werden können?</value>
   </data>
   <data name="dlg_SelectWatchPath" xml:space="preserve">
@@ -158,9 +158,6 @@
   </data>
   <data name="tbConfig_FilenameToSearch" xml:space="preserve">
     <value>iCloud Bildarchiv Datei</value>
-  </data>
-  <data name="tbConfig_TempFolderPrefix" xml:space="preserve">
-    <value>Präfix für Temporären Ordner</value>
   </data>
   <data name="tbConfig_Title1" xml:space="preserve">
     <value>Allgemeine Ordner-Einstellungen</value>
@@ -251,5 +248,11 @@
   </data>
   <data name="dlg_TrayNotiOpenICloud" xml:space="preserve">
     <value>iCloud-Website öffnen</value>
+  </data>
+  <data name="dlg_CreateDefaultConfig" xml:space="preserve">
+    <value>Es ist keine Konfiguration vorhanden!\n\nSoll eine neue Konfiguration mit folgenden Standard-Ordnern erstellt werden?\n\nÜberwachter Ordner:\n\t{0}\n\nOrdner für entpackte Bilddateien:\n\t{1}\n\nBackup Ordner:\n\t{2}</value>
+  </data>
+  <data name="dlg_CreateDefaultDirError" xml:space="preserve">
+    <value>Die Standardordner konnten nicht erstellt werden!\n\nDie Anwendung wird nun geschlossen.\nBitte starten Sie die Anwendung erneut und wählen Sie die gewünschten Ordner manuell aus.</value>
   </data>
 </root>

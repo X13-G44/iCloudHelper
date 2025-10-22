@@ -106,6 +106,24 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No configuration exists!\n\nShould a new configuration be created with the following default folders?\n\nMonitored folder:\n\t{0}\n\nFolder for extracted image files:\n\t{1}\n\nBackup folder:\n\t{2} ähnelt.
+        /// </summary>
+        public static string dlg_CreateDefaultConfig {
+            get {
+                return ResourceManager.GetString("dlg_CreateDefaultConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Could not create default folders!\n\nThe application will now close. Please restart the application and manually select the required folders. ähnelt.
+        /// </summary>
+        public static string dlg_CreateDefaultDirError {
+            get {
+                return ResourceManager.GetString("dlg_CreateDefaultDirError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die An error occurred while processing a new \&quot;{0}\&quot; file in \&quot;{1}\&quot; folder.\nThe error occurred at the following processing step: {2}.\n\nBackup files exist in the folder \&quot;{3}\&quot;.\n\nOptional error message: \&quot;{4}\&quot;. ähnelt.
         /// </summary>
         public static string dlg_DoWorkError {
@@ -117,9 +135,9 @@ namespace AutoUnzip.Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die At least one required folder is missing.\nFor this program to work properly, the folders must be configured correctly.\n\nShould the configuration window be displayed so that the settings can be adjusted? ähnelt.
         /// </summary>
-        public static string dlg_InvalidConfig {
+        public static string dlg_InvalidConfigDirs {
             get {
-                return ResourceManager.GetString("dlg_InvalidConfig", resourceCulture);
+                return ResourceManager.GetString("dlg_InvalidConfigDirs", resourceCulture);
             }
         }
         
@@ -376,15 +394,6 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Prefix for temporary folder ähnelt.
-        /// </summary>
-        public static string tbConfig_TempFolderPrefix {
-            get {
-                return ResourceManager.GetString("tbConfig_TempFolderPrefix", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die General folder settings ähnelt.
         /// </summary>
         public static string tbConfig_Title1 {
@@ -430,7 +439,7 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Watched folder ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Monitored folder ähnelt.
         /// </summary>
         public static string tbConfig_WatchPath {
             get {

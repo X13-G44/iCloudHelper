@@ -129,7 +129,7 @@
   <data name="dlg_DoWorkError" xml:space="preserve">
     <value>An error occurred while processing a new \"{0}\" file in \"{1}\" folder.\nThe error occurred at the following processing step: {2}.\n\nBackup files exist in the folder \"{3}\".\n\nOptional error message: \"{4}\".</value>
   </data>
-  <data name="dlg_InvalidConfig" xml:space="preserve">
+  <data name="dlg_InvalidConfigDirs" xml:space="preserve">
     <value>At least one required folder is missing.\nFor this program to work properly, the folders must be configured correctly.\n\nShould the configuration window be displayed so that the settings can be adjusted?</value>
   </data>
   <data name="dlg_SelectWatchPath" xml:space="preserve">
@@ -159,9 +159,6 @@
   <data name="tbConfig_FilenameToSearch" xml:space="preserve">
     <value>iCloud image archive file</value>
   </data>
-  <data name="tbConfig_TempFolderPrefix" xml:space="preserve">
-    <value>Prefix for temporary folder</value>
-  </data>
   <data name="tbConfig_Title1" xml:space="preserve">
     <value>General folder settings</value>
   </data>
@@ -175,7 +172,7 @@
     <value>Use Dark Mode theme</value>
   </data>
   <data name="tbConfig_WatchPath" xml:space="preserve">
-    <value>Watched folder</value>
+    <value>Monitored folder</value>
   </data>
   <data name="tbConfig_WindowTitle" xml:space="preserve">
     <value>iCloudHelper - Settings</value>
@@ -251,5 +248,11 @@
   </data>
   <data name="dlg_TrayNotiOpenICloud" xml:space="preserve">
     <value>Open iCloud Website</value>
+  </data>
+  <data name="dlg_CreateDefaultConfig" xml:space="preserve">
+    <value>No configuration exists!\n\nShould a new configuration be created with the following default folders?\n\nMonitored folder:\n\t{0}\n\nFolder for extracted image files:\n\t{1}\n\nBackup folder:\n\t{2}</value>
+  </data>
+  <data name="dlg_CreateDefaultDirError" xml:space="preserve">
+    <value>Could not create default folders!\n\nThe application will now close. Please restart the application and manually select the required folders.</value>
   </data>
 </root>

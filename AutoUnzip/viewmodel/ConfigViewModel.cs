@@ -70,13 +70,6 @@ namespace AutoUnzip.ViewModel
             set { _ExtractPath = value; OnPropertyChanged (nameof (ExtractPath)); }
         }
 
-        private string _TempFolderPrefix;
-        public string TempFolderPrefix
-        {
-            get { return _TempFolderPrefix; }
-            set { _TempFolderPrefix = value; OnPropertyChanged (nameof (TempFolderPrefix)); }
-        }
-
         private bool _BackupEnabled;
         public bool BackupEnabled
         {
@@ -256,7 +249,6 @@ namespace AutoUnzip.ViewModel
                         ConfigurationStorage.ConfigurationStorageModel.MonitoringPath = this.WatchPath;
                         ConfigurationStorage.ConfigurationStorageModel.MonitoringFilename = this.FilenameToSearch;
                         ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath = this.ExtractPath;
-                        ConfigurationStorage.ConfigurationStorageModel.TempFolderPrefix = this.TempFolderPrefix;
                         ConfigurationStorage.ConfigurationStorageModel.BackupEnabled = this.BackupEnabled;                        
                         ConfigurationStorage.ConfigurationStorageModel.BackupPath = this.BackupPath;
                         ConfigurationStorage.ConfigurationStorageModel.BackupRetentionCheckEnabled = this.BackupRetentionCheckEnabled;
@@ -313,7 +305,6 @@ namespace AutoUnzip.ViewModel
             this.WatchPath = ConfigurationStorage.ConfigurationStorageModel.MonitoringPath;
             this.FilenameToSearch = ConfigurationStorage.ConfigurationStorageModel.MonitoringFilename;
             this.ExtractPath = ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath;
-            this.TempFolderPrefix = ConfigurationStorage.ConfigurationStorageModel.TempFolderPrefix;
             this.BackupEnabled = ConfigurationStorage.ConfigurationStorageModel.BackupEnabled;
             this.BackupPath = ConfigurationStorage.ConfigurationStorageModel.BackupPath;
             this.BackupRetentionCheckEnabled = ConfigurationStorage.ConfigurationStorageModel.BackupRetentionCheckEnabled;

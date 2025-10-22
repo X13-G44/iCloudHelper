@@ -333,8 +333,8 @@
   <data name="dlgConfig_StartPath" xml:space="preserve">
     <value>Standardordner auswählen</value>
   </data>
-  <data name="dlg_InvalidConfig" xml:space="preserve">
-    <value>Ihre Konfiguration ist ungültig oder wurde noch nicht eingerichtet.\nDamit dieses Programm ordnungsgemäß funktioniert, müssen die Ordner korrekt konfiguriert sein.\n\nSoll das Konfigurationsfenster angezeigt werden, damit die Einstellungen angepasst werden können?</value>
+  <data name="dlg_InvalidConfigDirs" xml:space="preserve">
+    <value>Mindestens ein erforderlicher Ordner fehlt.\nDamit dieses Programm ordnungsgemäß funktioniert, müssen die Ordner korrekt konfiguriert sein.\n\nSoll das Konfigurationsfenster angezeigt werden, damit die Einstellungen angepasst werden können?</value>
   </data>
   <data name="tbConfig_Title2" xml:space="preserve">
     <value>Oberflächen-Einstellungen</value>
@@ -398,5 +398,8 @@
   </data>
   <data name="ttFileTitleSec_OpenICloud" xml:space="preserve">
     <value>iCloud-Website öffnen</value>
+  </data>
+  <data name="dlg_CreateDefaultConfig" xml:space="preserve">
+    <value>Es ist keine Konfiguration vorhanden!\n\nSoll eine neue Standard-Konfiguration erstellt werden?</value>
   </data>
 </root>

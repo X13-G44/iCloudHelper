@@ -70,32 +70,31 @@ namespace QuickSort
             MainView mainView = null;
             string starPath = e.Args.Length == 1 ? e.Args[0] : string.Empty;
 
-            // Load system configuration.
-            bool configOkay = ConfigurationStorage.ConfigurationStorageModel.LoadConfiguration (true);
-
 
             base.OnStartup (e);
 
             // Update the UI language (for dlg message box).
             SetUiLanguage ();
 
-            if (string.IsNullOrEmpty (starPath) || !Directory.Exists (starPath) || configOkay == false)
+
+#warning 'Check and solve this problem'
+            // Initialize main UI window.
+            // We need this to do before we show the ConfigurationWindow. Without this, the application will exit, then we instantiate the mainView instance!?
+            mainView = new MainView ();
+
+
+            // Load system configuration.
+            if (ConfigurationStorage.ConfigurationStorageModel.LoadConfiguration () == true)
             {
-                // No path argument. Use default start path from configuration.
-                if (CheckConfiguration () == false || configOkay == false)
+                // Configuration is ok. Check directories.
+
+                if (CheckConfiguration () == false)
                 {
                     if (MessageBox.Show (LocalizedStrings.GetString ("dlg_InvalidConfig"),
                         $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
                         MessageBoxButton.YesNo,
                         MessageBoxImage.Warning) == MessageBoxResult.Yes)
                     {
-
-#warning 'Check and solve this problem'
-                        // Initialize main UI window.
-                        // We need this to do before we show the ConfigurationWindow. Without this, the application will exit, then we instantiate the mainView instance!?
-                        mainView = new MainView ();
-
-
                         // Show configuration window.
 
                         var dialog = new ConfigView ();
@@ -108,6 +107,7 @@ namespace QuickSort
                         else
                         {
                             // User closed window without changing the wrong settings => Exit.
+
                             this.Shutdown ();
 
                             return;
@@ -115,16 +115,47 @@ namespace QuickSort
                     }
                     else
                     {
-                        // No valid start path argument + No valid start path setting + User does not want to fix configuration => Exit.
-                        this.Shutdown ();
+                        // setting + User does not want to fix configuration => Exit.
 
+                        this.Shutdown ();
                         return;
                     }
                 }
+            }
+            else
+            {
+                // No configuration is present create new one + default directories.
+
+                if (System.Windows.MessageBox.Show (LocalizedStrings.GetString ("dlg_CreateDefaultConfig"),
+                    $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    // User want default config.
+
+                    ConfigurationStorage.ConfigurationStorageModel.SaveConfiguration ();
+                }
                 else
                 {
-                    this.StartPath = ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath;
+                    // User don't want use default configuration. Show config dlg.
+
+                    ConfigView dialog = new ConfigView ();
+                    dialog.ShowDialog ();
+
+                    if (dialog.DialogResult == false)
+                    {
+                        // User closed the config window without saving the config.
+
+                        Shutdown ();
+                        return;
+                    }
                 }
+            }
+
+            // Select working root path.
+            if (string.IsNullOrEmpty (starPath) || !Directory.Exists (starPath))
+            {
+                this.StartPath = ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath;
             }
             else
             {
@@ -134,7 +165,7 @@ namespace QuickSort
             // Update the UI language.
             SetUiLanguage ();
 
-            //// Start and show main UI window.
+            // Start and show main UI window.
             mainView = new MainView ();
             mainView.Show ();
         }

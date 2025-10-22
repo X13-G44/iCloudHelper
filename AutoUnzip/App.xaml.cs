@@ -98,15 +98,79 @@ namespace AutoUnzip
             START:
 
             // Load system configuration.
-            bool configOkay = ConfigurationStorage.ConfigurationStorageModel.LoadConfiguration (true);
-
-            if (FileWorkModel.CheckFolder (false) != true || configOkay != true)
+            if (ConfigurationStorage.ConfigurationStorageModel.LoadConfiguration ())
             {
-                if (System.Windows.MessageBox.Show (LocalizedStrings.GetString ("dlg_InvalidConfig"),
+                // Configuration is ok. Check directories.
+
+                if (FileWorkModel.CheckFolder (false) != true)
+                {
+                    if (System.Windows.MessageBox.Show (LocalizedStrings.GetString ("dlg_InvalidConfigDirs"),
+                        $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                    {
+                        // Show configuration window.
+
+                        ConfigView dialog = new ConfigView ();
+                        dialog.ShowDialog ();
+
+                        if (dialog.DialogResult == false)
+                        {
+                            // User closed window without changing the wrong settings => Exit.
+
+                            Shutdown ();
+                            return;
+                        }
+
+                        goto START;
+                    }
+                    else
+                    {
+                        // setting + User does not want to fix configuration => Exit.
+
+                        Shutdown ();
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                // No configuration is present create new one + default directories.
+
+                if (System.Windows.MessageBox.Show (LocalizedStrings.GetFormattedString ("dlg_CreateDefaultConfig",
+                        ConfigurationStorage.ConfigurationStorageModel.MonitoringPath,
+                        ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath,
+                        ConfigurationStorage.ConfigurationStorageModel.BackupPath),
                     $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
+                    // User want default config + directories.
+                    // Try to create default directories...
+
+                    try
+                    {
+                        Directory.CreateDirectory (ConfigurationStorage.ConfigurationStorageModel.MonitoringPath);
+                        Directory.CreateDirectory (ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath);
+                        Directory.CreateDirectory (ConfigurationStorage.ConfigurationStorageModel.BackupPath);
+
+                        ConfigurationStorage.ConfigurationStorageModel.SaveConfiguration ();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Windows.MessageBox.Show (LocalizedStrings.GetString("dlg_CreateDefaultDirError"),
+                            $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lError")}",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+
+                        Shutdown ();
+                        return;
+                    }
+                }
+                else
+                {
+                    // User don't want use default configuration. Show config dlg.
+
                     ConfigView dialog = new ConfigView ();
                     dialog.ShowDialog ();
 
@@ -117,13 +181,6 @@ namespace AutoUnzip
                         Shutdown ();
                         return;
                     }
-
-                    goto START;
-                }
-                else
-                {
-                    Shutdown ();
-                    return;
                 }
             }
 

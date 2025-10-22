@@ -304,11 +304,20 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Your configuration is invalid or has not been setup yet.\nFor this program to work properly, the folders must be configured correctly.\n\nShould the configuration window be displayed so that the settings can be adjusted? ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die No configuration exists!\n\nDo you want to create a new default configuration? ähnelt.
         /// </summary>
-        public static string dlg_InvalidConfig {
+        public static string dlg_CreateDefaultConfig {
             get {
-                return ResourceManager.GetString("dlg_InvalidConfig", resourceCulture);
+                return ResourceManager.GetString("dlg_CreateDefaultConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die At least one required folder is missing.\nFor this program to work properly, the folders must be configured correctly.\n\nShould the configuration window be displayed so that the settings can be adjusted? ähnelt.
+        /// </summary>
+        public static string dlg_InvalidConfigDirs {
+            get {
+                return ResourceManager.GetString("dlg_InvalidConfigDirs", resourceCulture);
             }
         }
         

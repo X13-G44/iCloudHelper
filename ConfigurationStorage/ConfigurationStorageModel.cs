@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Text;
@@ -23,74 +24,37 @@ namespace ConfigurationStorage
 
 
 
-        static public int ColorThemeId { get; set; }
-        static public int LanguageId { get; set; }
+        static public int ColorThemeId { get; set; } = 0;
+        static public int LanguageId { get; set; } = 0;
 
-        static public string MonitoringFilename { get; set; }
-        static public string MonitoringPath { get; set; }
-        static public string ExtractImagePath { get; set; }
+        static public string MonitoringFilename { get; set; } = "iCloud*.zip";
+        static public string MonitoringPath { get; set; } = SpecialFolders.GetDownloadPath ();
+        static public string ExtractImagePath { get; set; } = Path.Combine (MonitoringPath, "iCloudHelper");
 
-        static public bool BackupEnabled { get; set; }
-        static public string BackupPath { get; set; }
-        static public bool BackupRetentionCheckEnabled { get; set; }
-        static public int BackupRetentionPeriod { get; set; }
+        static public bool BackupEnabled { get; set; } = true;
+        static public string BackupPath { get; set; } = Path.Combine (MonitoringPath, "iCloudHelper\\Backup");
+        static public bool BackupRetentionCheckEnabled { get; set; } = true;
+        static public int BackupRetentionPeriod { get; set; } = 365;
 
-        static public string TempFolderPrefix { get; set; }
+        static public string QuickSortApp { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "QuickSort.exe");
 
-        static public string QuickSortApp { get; set; }
+        static public string DefaultStartPath { get; set; } = ExtractImagePath;
+        static public string LastUsedPath { get; set; } = ExtractImagePath;
 
-        static public string DefaultStartPath { get; set; }
-        static public string LastUsedPath { get; set; }
-
-        static public bool ShowMoveDlg { get; set; }
-        static public bool ShowImageFileName { get; set; }
+        static public bool ShowMoveDlg { get; set; } = true;
+        static public bool ShowImageFileName { get; set; } = true;
 
         static private StringCollection VirtualRootDirectoryCollection = new StringCollection ();
 
         static private StringCollection FavoriteTargetFolderCollection = new StringCollection ();
-        static public int FavoriteTargetFolderCollectionLimit { get; set; }
-        static public bool FavoriteTargetFolderCollectionAutoInsert { get; set; }
+        static public int FavoriteTargetFolderCollectionLimit { get; set; } = 15;
+        static public bool FavoriteTargetFolderCollectionAutoInsert { get; set; } = true;
 
-        static public int FolderTitleSizeLevel { get; set; }
-
-
-
-        static public void InitConfiguration ()
-        {
-            ColorThemeId = 0;
-            LanguageId = 0;
-
-            MonitoringFilename = "iCloud*.zip";
-            MonitoringPath = SpecialFolders.GetDownloadPath ();
-            ExtractImagePath = Path.Combine (MonitoringPath, "iCloudHelper");
-
-            BackupEnabled = true;
-            BackupPath = Path.Combine (MonitoringPath, "iCloudHelper\\Backup");
-            BackupRetentionCheckEnabled = false;
-            BackupRetentionPeriod = 365;
-
-            TempFolderPrefix = "iCloud_Temp_";
-
-            QuickSortApp = "QuickSort.exe";
-
-            DefaultStartPath = MonitoringPath;
-            LastUsedPath = MonitoringPath;
-
-            ShowMoveDlg = true;
-            ShowImageFileName = true;
-
-            VirtualRootDirectoryCollection.Clear ();
-
-            FavoriteTargetFolderCollection.Clear ();
-            FavoriteTargetFolderCollectionLimit = 15;
-            FavoriteTargetFolderCollectionAutoInsert = true;
-
-            FolderTitleSizeLevel = 1;
-        }
+        static public int FolderTitleSizeLevel { get; set; } = 1;
 
 
 
-        static public bool LoadConfiguration (bool loadDefaultOnError)
+        static public bool LoadConfiguration ()
         {
             try
             {
@@ -99,22 +63,12 @@ namespace ConfigurationStorage
                 RegistryKey keyApp = keyRoot.OpenSubKey (APP_TITLE, false);
                 if (keyApp == null)
                 {
-                    if (loadDefaultOnError)
-                    {
-                        InitConfiguration ();
-                    }
-
                     return false;
                 }
 
                 RegistryKey keyVer = keyApp.OpenSubKey ("V1.4.0", false);
                 if (keyVer == null)
                 {
-                    if (loadDefaultOnError)
-                    {
-                        InitConfiguration ();
-                    }
-
                     return false;
                 }
 
@@ -129,8 +83,6 @@ namespace ConfigurationStorage
                 BackupPath = (string) keyVer.GetValue (nameof (BackupPath));
                 BackupRetentionCheckEnabled = bool.Parse ((string) keyVer.GetValue (nameof (BackupRetentionCheckEnabled)));
                 BackupRetentionPeriod = int.Parse ((string) keyVer.GetValue (nameof (BackupRetentionPeriod)));
-
-                TempFolderPrefix = (string) keyVer.GetValue (nameof (TempFolderPrefix));
 
                 QuickSortApp = (string) keyVer.GetValue (nameof (QuickSortApp));
 
@@ -157,11 +109,6 @@ namespace ConfigurationStorage
             }
             catch
             {
-                if (loadDefaultOnError)
-                {
-                    InitConfiguration ();
-                }
-
                 return false;
             }
         }
@@ -192,8 +139,6 @@ namespace ConfigurationStorage
                 keyVer.SetValue (nameof (BackupPath), BackupPath, RegistryValueKind.ExpandString);
                 keyVer.SetValue (nameof (BackupRetentionCheckEnabled), BackupRetentionCheckEnabled, RegistryValueKind.ExpandString);
                 keyVer.SetValue (nameof (BackupRetentionPeriod), BackupRetentionPeriod, RegistryValueKind.ExpandString);
-
-                keyVer.SetValue (nameof (TempFolderPrefix), TempFolderPrefix, RegistryValueKind.ExpandString);
 
                 keyVer.SetValue (nameof (QuickSortApp), QuickSortApp, RegistryValueKind.ExpandString);
 

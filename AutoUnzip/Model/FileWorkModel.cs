@@ -235,7 +235,10 @@ namespace AutoUnzip.Model
 
         static private string MakeTempFolder ()
         {
-            string tempPath = Path.Combine (Path.GetTempPath (), ConfigurationStorage.ConfigurationStorageModel.TempFolderPrefix + Path.GetRandomFileName ().Replace (".", string.Empty).Substring (0, 8));
+            const string TEMPFOLDERPREFIX = "iCloud_Temp_";
+
+
+            string tempPath = Path.Combine (Path.GetTempPath (), TEMPFOLDERPREFIX + Path.GetRandomFileName ().Replace (".", string.Empty).Substring (0, 8));
 
 
             if (Directory.Exists (tempPath))
