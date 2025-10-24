@@ -36,9 +36,6 @@ namespace ConfigurationStorage
         static public bool BackupRetentionCheckEnabled { get; set; } = true;
         static public int BackupRetentionPeriod { get; set; } = 365;
 
-        static public string QuickSortApp { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "QuickSort.exe");
-
-        static public string DefaultStartPath { get; set; } = ExtractImagePath;
         static public string LastUsedPath { get; set; } = ExtractImagePath;
 
         static public bool ShowMoveDlg { get; set; } = true;
@@ -83,10 +80,7 @@ namespace ConfigurationStorage
                 BackupPath = (string) keyVer.GetValue (nameof (BackupPath));
                 BackupRetentionCheckEnabled = bool.Parse ((string) keyVer.GetValue (nameof (BackupRetentionCheckEnabled)));
                 BackupRetentionPeriod = int.Parse ((string) keyVer.GetValue (nameof (BackupRetentionPeriod)));
-
-                QuickSortApp = (string) keyVer.GetValue (nameof (QuickSortApp));
-
-                DefaultStartPath = (string) keyVer.GetValue (nameof (DefaultStartPath));
+               
                 LastUsedPath = (string) keyVer.GetValue (nameof (LastUsedPath));
 
                 ShowMoveDlg = bool.Parse ((string) keyVer.GetValue (nameof (ShowMoveDlg)));
@@ -140,9 +134,6 @@ namespace ConfigurationStorage
                 keyVer.SetValue (nameof (BackupRetentionCheckEnabled), BackupRetentionCheckEnabled, RegistryValueKind.ExpandString);
                 keyVer.SetValue (nameof (BackupRetentionPeriod), BackupRetentionPeriod, RegistryValueKind.ExpandString);
 
-                keyVer.SetValue (nameof (QuickSortApp), QuickSortApp, RegistryValueKind.ExpandString);
-
-                keyVer.SetValue (nameof (DefaultStartPath), DefaultStartPath, RegistryValueKind.ExpandString);
                 keyVer.SetValue (nameof (LastUsedPath), LastUsedPath, RegistryValueKind.ExpandString);
 
                 keyVer.SetValue (nameof (ShowMoveDlg), ShowMoveDlg, RegistryValueKind.ExpandString);

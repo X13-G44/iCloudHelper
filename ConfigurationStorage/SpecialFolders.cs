@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ConfigurationStorage
 {
-    internal static class SpecialFolders
+    public static class SpecialFolders
     {
         public static class KnownFolder
         {

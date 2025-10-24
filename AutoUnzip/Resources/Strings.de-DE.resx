@@ -160,13 +160,13 @@
     <value>iCloud Bildarchiv Datei</value>
   </data>
   <data name="tbConfig_Title1" xml:space="preserve">
-    <value>Allgemeine Ordner-Einstellungen</value>
+    <value>Ordner Einstellungen</value>
   </data>
   <data name="tbConfig_Title2" xml:space="preserve">
-    <value>Backup-Einstellungen</value>
+    <value>Backup Einstellungen [ AutoUnzip ]</value>
   </data>
   <data name="tbConfig_Title4" xml:space="preserve">
-    <value>Sonstige-Einstellungen</value>
+    <value>Sonstige Einstellungen [ QuickSort ]</value>
   </data>
   <data name="tbConfig_UseDarkModeColorTheme" xml:space="preserve">
     <value>Benutze Dark Mode</value>
@@ -182,12 +182,6 @@
   </data>
   <data name="dlg_SelectBackupPath" xml:space="preserve">
     <value>Ordner für das Backup auswählen:</value>
-  </data>
-  <data name="dlg_SelectQuickSortFileDlgTitle" xml:space="preserve">
-    <value>Wählen Sie die QuickSort-Anwendung</value>
-  </data>
-  <data name="dlg_SelectQuickSortFileDlgFilter" xml:space="preserve">
-    <value>Ausführbare Dateien (*.exe)|*.exe|Alle Dateien (*.*)|*.*</value>
   </data>
   <data name="lNoText" xml:space="preserve">
     <value>Eingabefeld ist leer.</value>
@@ -220,7 +214,7 @@
     <value>Hier klicken um Quicksort Anwendung zu starten</value>
   </data>
   <data name="tbConfig_Title3" xml:space="preserve">
-    <value>Oberflächen-Einstellungen</value>
+    <value>Oberflächen Einstellungen</value>
   </data>
   <data name="tbConfig_Language" xml:space="preserve">
     <value>Sprache auswählen</value>
@@ -254,5 +248,20 @@
   </data>
   <data name="dlg_CreateDefaultDirError" xml:space="preserve">
     <value>Die Standardordner konnten nicht erstellt werden!\n\nDie Anwendung wird nun geschlossen.\nBitte starten Sie die Anwendung erneut und wählen Sie die gewünschten Ordner manuell aus.</value>
+  </data>
+  <data name="tbConfig_ShowMoveDlg" xml:space="preserve">
+    <value>Sicherheitsabfrage vor dem Verschieben von Bildern anzeigen</value>
+  </data>
+  <data name="tbConfig_ShowImgFileName" xml:space="preserve">
+    <value>Dateinamen von Bildern anzeigen</value>
+  </data>
+  <data name="tbConfig_FavoriteTargetFolderCollectionAutoInsert" xml:space="preserve">
+    <value>Einträge automatisch der Favoritenliste hinzufügen</value>
+  </data>
+  <data name="tbConfig_FavoriteTargetFolderCollectionLimit" xml:space="preserve">
+    <value>Maximale Einträge in der Favoritenliste</value>
+  </data>
+  <data name="dlg_MissingFile" xml:space="preserve">
+    <value>Die Datei "{0}" wurde nicht gefunden.\n\nBitte installieren Sie die Software neu.</value>
   </data>
 </root>

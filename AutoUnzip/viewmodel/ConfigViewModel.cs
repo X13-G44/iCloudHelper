@@ -98,13 +98,6 @@ namespace AutoUnzip.ViewModel
             set { _BackupRetentionPeriod = value; OnPropertyChanged (nameof (BackupRetentionPeriod)); }
         }
 
-        private string _QuickSortApp;
-        public string QuickSortApp
-        {
-            get { return _QuickSortApp; }
-            set { _QuickSortApp = value; OnPropertyChanged (nameof (QuickSortApp)); }
-        }
-
         private bool _UseDarkModeColorTheme = false;
         public bool UseDarkModeColorTheme
         {
@@ -119,6 +112,34 @@ namespace AutoUnzip.ViewModel
             set { _Language = value; OnPropertyChanged (nameof (Language)); }
         }
 
+        private bool _ShowMoveDlg;
+        public bool ShowMoveDlg
+        {
+            get { return _ShowMoveDlg; }
+            set { _ShowMoveDlg = value; OnPropertyChanged (nameof (ShowMoveDlg)); }
+        }
+
+        private bool _ShowImageFileName;
+        public bool ShowImageFileName
+        {
+            get { return _ShowImageFileName; }
+            set { _ShowImageFileName = value; OnPropertyChanged (nameof (ShowImageFileName)); }
+        }
+
+        private bool _FavoriteTargetFolderCollectionAutoInsert;
+        public bool FavoriteTargetFolderCollectionAutoInsert
+        {
+            get { return _FavoriteTargetFolderCollectionAutoInsert; }
+            set { _FavoriteTargetFolderCollectionAutoInsert = value; OnPropertyChanged (nameof (FavoriteTargetFolderCollectionAutoInsert)); }
+        }
+
+        private int _FavoriteTargetFolderCollectionLimit;
+        public int FavoriteTargetFolderCollectionLimit
+        {
+            get { return _FavoriteTargetFolderCollectionLimit; }
+            set { _FavoriteTargetFolderCollectionLimit = value; OnPropertyChanged (nameof (FavoriteTargetFolderCollectionLimit)); }
+        }
+        
         private string _AppVersionStr;
         public string AppVersionStr
         {
@@ -209,36 +230,6 @@ namespace AutoUnzip.ViewModel
             }
         }
 
-        public RelayCommand Cmd_BrowseQuickSortApp
-        {
-            get
-            {
-                return new RelayCommand (
-                    _ =>
-                    {
-                        using (var dialog = new OpenFileDialog ())
-                        {
-                            dialog.Title = LocalizedStrings.GetString("dlg_SelectQuickSortFileDlgTitle");
-                            dialog.Filter = LocalizedStrings.GetString("dlg_SelectQuickSortFileDlgFilter");
-                            dialog.InitialDirectory = Environment.GetFolderPath (Environment.SpecialFolder.ProgramFiles);
-                            dialog.CheckFileExists = true;
-
-                            if (File.Exists (QuickSortApp))
-                            {
-                                dialog.InitialDirectory = QuickSortApp;
-                            }
-
-                            if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
-                            {
-                                QuickSortApp = dialog.FileName;
-                            }
-                        }
-                    },
-                    param => true
-                );
-            }
-        }
-
         public RelayCommand<ConfigViewModel, Object> Cmd_SaveConfig
         {
             get
@@ -253,9 +244,12 @@ namespace AutoUnzip.ViewModel
                         ConfigurationStorage.ConfigurationStorageModel.BackupPath = this.BackupPath;
                         ConfigurationStorage.ConfigurationStorageModel.BackupRetentionCheckEnabled = this.BackupRetentionCheckEnabled;
                         ConfigurationStorage.ConfigurationStorageModel.BackupRetentionPeriod = this.BackupRetentionPeriod;
-                        ConfigurationStorage.ConfigurationStorageModel.QuickSortApp = this.QuickSortApp;
                         ConfigurationStorage.ConfigurationStorageModel.ColorThemeId = (int) (this.UseDarkModeColorTheme == true ? 1 : 0);
-                        ConfigurationStorage.ConfigurationStorageModel.LanguageId = this.Language;                        
+                        ConfigurationStorage.ConfigurationStorageModel.LanguageId = this.Language;
+                        ConfigurationStorage.ConfigurationStorageModel.ShowMoveDlg = this.ShowMoveDlg;
+                        ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName = this.ShowImageFileName;
+                        ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert = this.FavoriteTargetFolderCollectionAutoInsert;
+                        ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit = this.FavoriteTargetFolderCollectionLimit;
 
                         ConfigurationStorage.ConfigurationStorageModel.SaveConfiguration ();
 
@@ -309,9 +303,12 @@ namespace AutoUnzip.ViewModel
             this.BackupPath = ConfigurationStorage.ConfigurationStorageModel.BackupPath;
             this.BackupRetentionCheckEnabled = ConfigurationStorage.ConfigurationStorageModel.BackupRetentionCheckEnabled;
             this.BackupRetentionPeriod = ConfigurationStorage.ConfigurationStorageModel.BackupRetentionPeriod;
-            this.QuickSortApp = ConfigurationStorage.ConfigurationStorageModel.QuickSortApp;
             this.UseDarkModeColorTheme = ConfigurationStorage.ConfigurationStorageModel.ColorThemeId == 1 ? true : false;
             this.Language = ConfigurationStorage.ConfigurationStorageModel.LanguageId;
+            this.ShowMoveDlg= ConfigurationStorage.ConfigurationStorageModel.ShowMoveDlg;
+            this.ShowImageFileName= ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
+            this.FavoriteTargetFolderCollectionAutoInsert= ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert;
+            this.FavoriteTargetFolderCollectionLimit= ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit;
 
             Assembly assembly = Assembly.GetExecutingAssembly ();
             this.AppVersionStr = $"V{assembly.GetName ().Version.ToString ()}";

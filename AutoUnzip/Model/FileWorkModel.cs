@@ -218,16 +218,6 @@ namespace AutoUnzip.Model
                 return false;
             }
 
-            if (File.Exists (ConfigurationStorage.ConfigurationStorageModel.QuickSortApp) == false)
-            {
-                if (allowExceptionOnError)
-                {
-                    throw new FileNotFoundException ("Quicksort application \"" + ConfigurationStorage.ConfigurationStorageModel.QuickSortApp + "\" does not exists.");
-                }
-
-                return false;
-            }
-
             return true;
         }
 

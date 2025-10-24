@@ -142,6 +142,15 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The file &quot;{0}&quot; was not found.\n\nPlease reinstall the software. ähnelt.
+        /// </summary>
+        public static string dlg_MissingFile {
+            get {
+                return ResourceManager.GetString("dlg_MissingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select folder for backup: ähnelt.
         /// </summary>
         public static string dlg_SelectBackupPath {
@@ -156,24 +165,6 @@ namespace AutoUnzip.Resources {
         public static string dlg_SelectExtractPath {
             get {
                 return ResourceManager.GetString("dlg_SelectExtractPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Executable files (*.exe)|*.exe|All files (*.*)|*.* ähnelt.
-        /// </summary>
-        public static string dlg_SelectQuickSortFileDlgFilter {
-            get {
-                return ResourceManager.GetString("dlg_SelectQuickSortFileDlgFilter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Select QuickSort application ähnelt.
-        /// </summary>
-        public static string dlg_SelectQuickSortFileDlgTitle {
-            get {
-                return ResourceManager.GetString("dlg_SelectQuickSortFileDlgTitle", resourceCulture);
             }
         }
         
@@ -376,6 +367,24 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Automatically add entries to the favorites list ähnelt.
+        /// </summary>
+        public static string tbConfig_FavoriteTargetFolderCollectionAutoInsert {
+            get {
+                return ResourceManager.GetString("tbConfig_FavoriteTargetFolderCollectionAutoInsert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Maximum entries in the favorites list ähnelt.
+        /// </summary>
+        public static string tbConfig_FavoriteTargetFolderCollectionLimit {
+            get {
+                return ResourceManager.GetString("tbConfig_FavoriteTargetFolderCollectionLimit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die iCloud image archive file ähnelt.
         /// </summary>
         public static string tbConfig_FilenameToSearch {
@@ -394,7 +403,25 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die General folder settings ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Show filenames of images ähnelt.
+        /// </summary>
+        public static string tbConfig_ShowImgFileName {
+            get {
+                return ResourceManager.GetString("tbConfig_ShowImgFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Show security prompt before moving images ähnelt.
+        /// </summary>
+        public static string tbConfig_ShowMoveDlg {
+            get {
+                return ResourceManager.GetString("tbConfig_ShowMoveDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Folder Settings ähnelt.
         /// </summary>
         public static string tbConfig_Title1 {
             get {
@@ -403,7 +430,7 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Backup settings ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Backup Settings [ AutoUnzip ] ähnelt.
         /// </summary>
         public static string tbConfig_Title2 {
             get {
@@ -412,7 +439,7 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Interface settings ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Interface Settings ähnelt.
         /// </summary>
         public static string tbConfig_Title3 {
             get {
@@ -421,7 +448,7 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Other settings ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Other Settings [ QuickSort ] ähnelt.
         /// </summary>
         public static string tbConfig_Title4 {
             get {

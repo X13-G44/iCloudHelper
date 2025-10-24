@@ -43,7 +43,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -96,9 +95,12 @@ namespace AutoUnzip.ViewModel
                     {
                         try
                         {
-                            if (File.Exists (ConfigurationStorage.ConfigurationStorageModel.QuickSortApp))
+                            App app = (App) Application.Current;
+
+
+                            if (String.IsNullOrEmpty (app.GetQuickSortFile ()) == false)
                             {
-                                Process.Start (ConfigurationStorage.ConfigurationStorageModel.QuickSortApp, "\"" + ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath + "\"");
+                                Process.Start (app.GetQuickSortFile (), "\"" + ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath + "\"");
 
                                 _View.Close ();
                             }
@@ -107,7 +109,13 @@ namespace AutoUnzip.ViewModel
                         {
                         }
                     },
-                    param => File.Exists (ConfigurationStorage.ConfigurationStorageModel.QuickSortApp)
+                    param =>
+                    {
+                        App app = (App) Application.Current;
+
+
+                        return !String.IsNullOrEmpty (app.GetQuickSortFile ());
+                    }
                 );
             }
         }

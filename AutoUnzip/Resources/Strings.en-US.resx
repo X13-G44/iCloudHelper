@@ -160,13 +160,13 @@
     <value>iCloud image archive file</value>
   </data>
   <data name="tbConfig_Title1" xml:space="preserve">
-    <value>General folder settings</value>
+    <value>Folder Settings</value>
   </data>
   <data name="tbConfig_Title2" xml:space="preserve">
-    <value>Backup settings</value>
+    <value>Backup Settings [ AutoUnzip ]</value>
   </data>
   <data name="tbConfig_Title4" xml:space="preserve">
-    <value>Other settings</value>
+    <value>Other Settings [ QuickSort ]</value>
   </data>
   <data name="tbConfig_UseDarkModeColorTheme" xml:space="preserve">
     <value>Use Dark Mode theme</value>
@@ -182,12 +182,6 @@
   </data>
   <data name="dlg_SelectBackupPath" xml:space="preserve">
     <value>Select folder for backup:</value>
-  </data>
-  <data name="dlg_SelectQuickSortFileDlgTitle" xml:space="preserve">
-    <value>Select QuickSort application</value>
-  </data>
-  <data name="dlg_SelectQuickSortFileDlgFilter" xml:space="preserve">
-    <value>Executable files (*.exe)|*.exe|All files (*.*)|*.*</value>
   </data>
   <data name="lNoText" xml:space="preserve">
     <value>Input field is empty</value>
@@ -220,7 +214,7 @@
     <value>Click here to start Quicksort application</value>
   </data>
   <data name="tbConfig_Title3" xml:space="preserve">
-    <value>Interface settings</value>
+    <value>Interface Settings</value>
   </data>
   <data name="tbConfig_Language" xml:space="preserve">
     <value>Select language</value>
@@ -254,5 +248,20 @@
   </data>
   <data name="dlg_CreateDefaultDirError" xml:space="preserve">
     <value>Could not create default folders!\n\nThe application will now close. Please restart the application and manually select the required folders.</value>
+  </data>
+  <data name="tbConfig_ShowMoveDlg" xml:space="preserve">
+    <value>Show security prompt before moving images</value>
+  </data>
+  <data name="tbConfig_ShowImgFileName" xml:space="preserve">
+    <value>Show filenames of images</value>
+  </data>
+  <data name="tbConfig_FavoriteTargetFolderCollectionAutoInsert" xml:space="preserve">
+    <value>Automatically add entries to the favorites list</value>
+  </data>
+  <data name="tbConfig_FavoriteTargetFolderCollectionLimit" xml:space="preserve">
+    <value>Maximum entries in the favorites list</value>
+  </data>
+  <data name="dlg_MissingFile" xml:space="preserve">
+    <value>The file "{0}" was not found.\n\nPlease reinstall the software.</value>
   </data>
 </root>

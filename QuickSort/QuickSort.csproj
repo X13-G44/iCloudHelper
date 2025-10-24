@@ -101,7 +101,6 @@
     <Compile Include="ValidationRules\CheckDirectoryNameValidationRule.cs" />
     <Compile Include="ValidationRules\CheckIntValidationRule.cs" />
     <Compile Include="ValidationRules\CheckPathExistsValidationRule.cs" />
-    <Compile Include="ViewModel\ConfigViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\SubVM\DlgBoxViewModel.cs" />
@@ -110,9 +109,6 @@
     <Compile Include="ViewModel\SubVM\FileTitleViewModel.cs" />
     <Compile Include="ViewModel\SubVM\VirtualDirectoryViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
-    <Compile Include="View\ConfigView.xaml.cs">
-      <DependentUpon>ConfigView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\UserControls\DlgBoxUserControl.xaml.cs">
       <DependentUpon>DlgBoxUserControl.xaml</DependentUpon>
     </Compile>
@@ -143,10 +139,6 @@
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\ConfigView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\UserControls\DlgBoxUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

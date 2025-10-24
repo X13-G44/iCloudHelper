@@ -334,7 +334,7 @@ namespace QuickSort.Model
                                             }
                                         }
 
-                                        semaphoreBufferList.WaitOne ();
+                                        semaphoreBufferList.WaitOne (10000);
 
                                         if (bufferItemToUpdate == null)
                                         {

@@ -297,59 +297,8 @@
   <data name="lDirectoyExists" xml:space="preserve">
     <value>Folder already exists.</value>
   </data>
-  <data name="tbConfig_Title1" xml:space="preserve">
-    <value>General folder settings</value>
-  </data>
-  <data name="tbConfig_StartPath" xml:space="preserve">
-    <value>Default folder</value>
-  </data>
-  <data name="tbConfig_Title3" xml:space="preserve">
-    <value>Other settings</value>
-  </data>
-  <data name="tbConfig_ShowMoveDlg" xml:space="preserve">
-    <value>Show security prompt before moving images</value>
-  </data>
-  <data name="tbConfig_ShowImgFileName" xml:space="preserve">
-    <value>Show filenames of images</value>
-  </data>
-  <data name="tbConfig_UseDarkModeColorTheme" xml:space="preserve">
-    <value>Use Dark Mode theme</value>
-  </data>
-  <data name="tbConfig_AutoInsertFavoriteTargetFolderCollectionItems" xml:space="preserve">
-    <value>Automatically add entries to the favorites list</value>
-  </data>
-  <data name="tbConfig_MaxFavoriteTargetFolderCollectionItems" xml:space="preserve">
-    <value>Maximum entries in the favorites list</value>
-  </data>
-  <data name="tbConfig_WindowTitle" xml:space="preserve">
-    <value>iCloudHelper - Settings</value>
-  </data>
-  <data name="btnConfig_Browse" xml:space="preserve">
-    <value>Browse...</value>
-  </data>
-  <data name="btnConfig_SaveConfig" xml:space="preserve">
-    <value>Save settings</value>
-  </data>
-  <data name="dlgConfig_StartPath" xml:space="preserve">
-    <value>Select default folder</value>
-  </data>
   <data name="dlg_InvalidConfigDirs" xml:space="preserve">
     <value>At least one required folder is missing.\nFor this program to work properly, the folders must be configured correctly.\n\nShould the configuration window be displayed so that the settings can be adjusted?</value>
-  </data>
-  <data name="tbConfig_Title2" xml:space="preserve">
-    <value>Interface settings</value>
-  </data>
-  <data name="tbConfig_Language" xml:space="preserve">
-    <value>Select language</value>
-  </data>
-  <data name="cbConfig_LanguageDefault" xml:space="preserve">
-    <value>Default</value>
-  </data>
-  <data name="cbConfig_LanguageEnglish" xml:space="preserve">
-    <value>English</value>
-  </data>
-  <data name="cbConfig_LanguageGerman" xml:space="preserve">
-    <value>German</value>
   </data>
   <data name="lQuestion" xml:space="preserve">
     <value>Question</value>
@@ -400,6 +349,12 @@
     <value>Open iCloud Website</value>
   </data>
   <data name="dlg_CreateDefaultConfig" xml:space="preserve">
-    <value>No configuration exists!\n\nDo you want to create a new default configuration?</value>
+    <value>No configuration exists!\n\nShould a new configuration be created with the following default folders?\n\nMonitored folder:\n\t{0}\n\nFolder for extracted image files:\n\t{1}\n\nBackup folder:\n\t{2}</value>
+  </data>
+  <data name="dlg_CreateDefaultDirError" xml:space="preserve">
+    <value>Could not create default folders!\n\nThe application will now close. Please restart the application and manually select the required folders.</value>
+  </data>
+  <data name="dlg_MissingFile" xml:space="preserve">
+    <value>The file "{0}" was not found.\n\nPlease reinstall the software.</value>
   </data>
 </root>

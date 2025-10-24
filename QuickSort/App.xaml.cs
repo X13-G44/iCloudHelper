@@ -34,6 +34,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -48,6 +49,7 @@ namespace QuickSort
     public partial class App : Application
     {
         public const string APP_TITLE = "iCloudHelper";
+        public const string AUTOUNZIP_FILENAME = "AutoUnzip.exe";
 
         public readonly CultureInfo SystemCultureInfo;
 
@@ -76,6 +78,17 @@ namespace QuickSort
             // Update the UI language (for dlg message box).
             SetUiLanguage ();
 
+            if (String.IsNullOrEmpty (GetAutoUnzipFile ()))
+            {
+                MessageBox.Show (LocalizedStrings.GetFormattedString ("dlg_MissingFile", App.AUTOUNZIP_FILENAME),
+                                        $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lError")}",
+                                        MessageBoxButton.OK,
+                                        MessageBoxImage.Error);
+
+                Shutdown ();
+                return;
+            }
+
 
 #warning 'Check and solve this problem'
             // Initialize main UI window.
@@ -86,30 +99,36 @@ namespace QuickSort
             // Load system configuration.
             if (ConfigurationStorage.ConfigurationStorageModel.LoadConfiguration () == true)
             {
-                // Configuration is ok. Check directories.
+                // Configuration is okay. Check directories.
 
-                if (CheckConfiguration () == false)
+                if (CheckConfiguration (false) == false)
                 {
-                    if (MessageBox.Show (LocalizedStrings.GetString ("dlg_InvalidConfig"),
+                    if (MessageBox.Show (LocalizedStrings.GetString ("dlg_InvalidConfigDirs"),
                         $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
                         MessageBoxButton.YesNo,
                         MessageBoxImage.Warning) == MessageBoxResult.Yes)
                     {
                         // Show configuration window.
+                        // Start AutoUnzop with parameter "showconfig" to show configuration dialog window.
 
-                        var dialog = new ConfigView ();
-                        dialog.ShowDialog ();
+                        Process prc = Process.Start (GetAutoUnzipFile (), "showconfig");
+                        prc.WaitForExit ();
 
-                        if (dialog.DialogResult.Value)
+
+                        if (prc.ExitCode == 1)
                         {
-                            this.StartPath = ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath;
+                            // User closed the config window without saving the config.
+                            // If result code is "1", then user have saved configuration.
+
+                            ConfigurationStorage.ConfigurationStorageModel.LoadConfiguration ();
+
+                            StartPath = ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath;
                         }
                         else
                         {
                             // User closed window without changing the wrong settings => Exit.
 
-                            this.Shutdown ();
-
+                            Shutdown ();
                             return;
                         }
                     }
@@ -117,37 +136,63 @@ namespace QuickSort
                     {
                         // setting + User does not want to fix configuration => Exit.
 
-                        this.Shutdown ();
+                        Shutdown ();
                         return;
                     }
                 }
             }
             else
             {
-                // No configuration is present create new one + default directories.
+                // No configuration is present. Create new one + default directories.
 
-                if (System.Windows.MessageBox.Show (LocalizedStrings.GetString ("dlg_CreateDefaultConfig"),
+                if (MessageBox.Show (LocalizedStrings.GetFormattedString ("dlg_CreateDefaultConfig",
+                        ConfigurationStorage.ConfigurationStorageModel.MonitoringPath,
+                        ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath,
+                        ConfigurationStorage.ConfigurationStorageModel.BackupPath),
                     $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lWarning")}",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    // User want default config.
+                    // User want default config + directories.
+                    // Try to create default directories...
 
-                    ConfigurationStorage.ConfigurationStorageModel.SaveConfiguration ();
-                }
-                else
-                {
-                    // User don't want use default configuration. Show config dlg.
-
-                    ConfigView dialog = new ConfigView ();
-                    dialog.ShowDialog ();
-
-                    if (dialog.DialogResult == false)
+                    try
                     {
-                        // User closed the config window without saving the config.
+                        Directory.CreateDirectory (ConfigurationStorage.ConfigurationStorageModel.MonitoringPath);
+                        Directory.CreateDirectory (ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath);
+                        Directory.CreateDirectory (ConfigurationStorage.ConfigurationStorageModel.BackupPath);
+
+                        ConfigurationStorage.ConfigurationStorageModel.SaveConfiguration ();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show (LocalizedStrings.GetString ("dlg_CreateDefaultDirError"),
+                            $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lError")}",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
 
                         Shutdown ();
                         return;
+                    }
+                }
+                else
+                {
+                    // Start AutoUnzop with parameter "showconfig" to show configuration dialog window.
+
+                    Process prc = Process.Start (GetAutoUnzipFile (), "showconfig");
+                    prc.WaitForExit ();
+
+                    if (prc.ExitCode != 1)
+                    {
+                        // User closed the config window without saving the config.
+                        // If result code is "1", then user have saved configuration.
+
+                        Shutdown ();
+                        return;
+                    }
+                    else
+                    {
+                        ConfigurationStorage.ConfigurationStorageModel.LoadConfiguration ();
                     }
                 }
             }
@@ -155,7 +200,14 @@ namespace QuickSort
             // Select working root path.
             if (string.IsNullOrEmpty (starPath) || !Directory.Exists (starPath))
             {
-                this.StartPath = ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath;
+                if (string.IsNullOrEmpty (ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath) || !Directory.Exists (ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath))
+                {
+                    starPath = ConfigurationStorage.SpecialFolders.GetPicturePath ();
+                }
+                else
+                {
+                    this.StartPath = ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath;
+                }
             }
             else
             {
@@ -172,6 +224,10 @@ namespace QuickSort
 
 
 
+        /// <summary>
+        /// Exit application and save / update configuration.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnExit (ExitEventArgs e)
         {
             ConfigurationStorage.ConfigurationStorageModel.SaveConfiguration ();
@@ -181,25 +237,47 @@ namespace QuickSort
 
 
 
-        static public bool CheckConfiguration ()
+        static public bool CheckConfiguration (bool allowExceptionOnError)
         {
-            try
+            if (Directory.Exists (ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath) == false)
             {
-                if (!String.IsNullOrEmpty (ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath))
+                if (allowExceptionOnError)
                 {
-                    return Directory.Exists (ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath);
+                    throw new FileNotFoundException ("Extract directory \"" + ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath + "\" does not exists.");
                 }
 
                 return false;
             }
-            catch
+
+            if (Directory.Exists (ConfigurationStorage.ConfigurationStorageModel.BackupPath) == false)
             {
+                if (allowExceptionOnError)
+                {
+                    throw new FileNotFoundException ("Backup directory \"" + ConfigurationStorage.ConfigurationStorageModel.BackupPath + "\" does not exists.");
+                }
+
                 return false;
             }
+
+            if (Directory.Exists (ConfigurationStorage.ConfigurationStorageModel.MonitoringPath) == false)
+            {
+                if (allowExceptionOnError)
+                {
+                    throw new FileNotFoundException ("Monitoring directory \"" + ConfigurationStorage.ConfigurationStorageModel.MonitoringPath + "\" does not exists.");
+                }
+
+                return false;
+            }
+
+            return true;
         }
 
 
 
+        /// <summary>
+        /// Update / set UI language by our configuration.
+        /// See property "ConfigurationStorageModel.LanguageId".
+        /// </summary>
         public void SetUiLanguage ()
         {
             switch (ConfigurationStorage.ConfigurationStorageModel.LanguageId)
@@ -223,6 +301,32 @@ namespace QuickSort
                         LocalizedStrings.SetCulture ("en-US");
                         break;
                     }
+            }
+        }
+
+
+
+        /// <summary>
+        /// Get the path to AutoUnzip application ("AutoUnzip.exe").
+        /// </summary>
+        /// <returns>File (Filename + Path) to "AutoUnzip.exe". On error, an empty string is returned. </returns>
+        public string GetAutoUnzipFile ()
+        {
+            try
+            {
+                String quicksortFile = Path.Combine (AppDomain.CurrentDomain.BaseDirectory, AUTOUNZIP_FILENAME);
+
+
+                if (File.Exists (quicksortFile))
+                {
+                    return quicksortFile;
+                }
+
+                return String.Empty;
+            }
+            catch
+            {
+                return String.Empty;
             }
         }
     }

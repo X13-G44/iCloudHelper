@@ -61,51 +61,6 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Browse... ähnelt.
-        /// </summary>
-        public static string btnConfig_Browse {
-            get {
-                return ResourceManager.GetString("btnConfig_Browse", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Save settings ähnelt.
-        /// </summary>
-        public static string btnConfig_SaveConfig {
-            get {
-                return ResourceManager.GetString("btnConfig_SaveConfig", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Default ähnelt.
-        /// </summary>
-        public static string cbConfig_LanguageDefault {
-            get {
-                return ResourceManager.GetString("cbConfig_LanguageDefault", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die English ähnelt.
-        /// </summary>
-        public static string cbConfig_LanguageEnglish {
-            get {
-                return ResourceManager.GetString("cbConfig_LanguageEnglish", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die German ähnelt.
-        /// </summary>
-        public static string cbConfig_LanguageGerman {
-            get {
-                return ResourceManager.GetString("cbConfig_LanguageGerman", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Add entry ähnelt.
         /// </summary>
         public static string cmFavTargFolder_AddEntry {
@@ -304,11 +259,20 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die No configuration exists!\n\nDo you want to create a new default configuration? ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die No configuration exists!\n\nShould a new configuration be created with the following default folders?\n\nMonitored folder:\n\t{0}\n\nFolder for extracted image files:\n\t{1}\n\nBackup folder:\n\t{2} ähnelt.
         /// </summary>
         public static string dlg_CreateDefaultConfig {
             get {
                 return ResourceManager.GetString("dlg_CreateDefaultConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Could not create default folders!\n\nThe application will now close. Please restart the application and manually select the required folders. ähnelt.
+        /// </summary>
+        public static string dlg_CreateDefaultDirError {
+            get {
+                return ResourceManager.GetString("dlg_CreateDefaultDirError", resourceCulture);
             }
         }
         
@@ -318,6 +282,15 @@ namespace QuickSort.Resources {
         public static string dlg_InvalidConfigDirs {
             get {
                 return ResourceManager.GetString("dlg_InvalidConfigDirs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The file &quot;{0}&quot; was not found.\n\nPlease reinstall the software. ähnelt.
+        /// </summary>
+        public static string dlg_MissingFile {
+            get {
+                return ResourceManager.GetString("dlg_MissingFile", resourceCulture);
             }
         }
         
@@ -345,15 +318,6 @@ namespace QuickSort.Resources {
         public static string dlgAppExitFileCopyStillActive_Message {
             get {
                 return ResourceManager.GetString("dlgAppExitFileCopyStillActive_Message", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Select default folder ähnelt.
-        /// </summary>
-        public static string dlgConfig_StartPath {
-            get {
-                return ResourceManager.GetString("dlgConfig_StartPath", resourceCulture);
             }
         }
         
@@ -606,105 +570,6 @@ namespace QuickSort.Resources {
         public static string lWarning {
             get {
                 return ResourceManager.GetString("lWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Automatically add entries to the favorites list ähnelt.
-        /// </summary>
-        public static string tbConfig_AutoInsertFavoriteTargetFolderCollectionItems {
-            get {
-                return ResourceManager.GetString("tbConfig_AutoInsertFavoriteTargetFolderCollectionItems", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Select language ähnelt.
-        /// </summary>
-        public static string tbConfig_Language {
-            get {
-                return ResourceManager.GetString("tbConfig_Language", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Maximum entries in the favorites list ähnelt.
-        /// </summary>
-        public static string tbConfig_MaxFavoriteTargetFolderCollectionItems {
-            get {
-                return ResourceManager.GetString("tbConfig_MaxFavoriteTargetFolderCollectionItems", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Show filenames of images ähnelt.
-        /// </summary>
-        public static string tbConfig_ShowImgFileName {
-            get {
-                return ResourceManager.GetString("tbConfig_ShowImgFileName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Show security prompt before moving images ähnelt.
-        /// </summary>
-        public static string tbConfig_ShowMoveDlg {
-            get {
-                return ResourceManager.GetString("tbConfig_ShowMoveDlg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Default folder ähnelt.
-        /// </summary>
-        public static string tbConfig_StartPath {
-            get {
-                return ResourceManager.GetString("tbConfig_StartPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die General folder settings ähnelt.
-        /// </summary>
-        public static string tbConfig_Title1 {
-            get {
-                return ResourceManager.GetString("tbConfig_Title1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Interface settings ähnelt.
-        /// </summary>
-        public static string tbConfig_Title2 {
-            get {
-                return ResourceManager.GetString("tbConfig_Title2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Other settings ähnelt.
-        /// </summary>
-        public static string tbConfig_Title3 {
-            get {
-                return ResourceManager.GetString("tbConfig_Title3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Use Dark Mode theme ähnelt.
-        /// </summary>
-        public static string tbConfig_UseDarkModeColorTheme {
-            get {
-                return ResourceManager.GetString("tbConfig_UseDarkModeColorTheme", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die iCloudHelper - Settings ähnelt.
-        /// </summary>
-        public static string tbConfig_WindowTitle {
-            get {
-                return ResourceManager.GetString("tbConfig_WindowTitle", resourceCulture);
             }
         }
         

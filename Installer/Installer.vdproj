@@ -57,6 +57,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_75B8D9FB312EA402F2AFD9DA2AF6D2C0"
+        "OwnerKey" = "8:_2D2984E4822345438F68291F9A26A994"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_75B8D9FB312EA402F2AFD9DA2AF6D2C0"
+        "OwnerKey" = "8:_889DA6C0C840427BBEBAEBD780CF2007"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_7AAD09D2DD21664B29756A30BDDB2A1E"
         "OwnerKey" = "8:_2D2984E4822345438F68291F9A26A994"
         "MsmSig" = "8:_UNDEFINED"
@@ -87,20 +99,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_DEC37A6D5D6FC7C32F3D51DB04BA4009"
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_2D2984E4822345438F68291F9A26A994"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_DEC37A6D5D6FC7C32F3D51DB04BA4009"
-        "OwnerKey" = "8:_889DA6C0C840427BBEBAEBD780CF2007"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2D2984E4822345438F68291F9A26A994"
+        "OwnerKey" = "8:_75B8D9FB312EA402F2AFD9DA2AF6D2C0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -119,12 +125,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_00984985F48AA0A7E66C684E0CA7E950"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_DEC37A6D5D6FC7C32F3D51DB04BA4009"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -339,6 +339,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_75B8D9FB312EA402F2AFD9DA2AF6D2C0"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:ConfigurationStorage, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_75B8D9FB312EA402F2AFD9DA2AF6D2C0"
+                    {
+                    "Name" = "8:ConfigurationStorage.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:ConfigurationStorage.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_685FBE5094824C27BEE54E39D6253815"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7AAD09D2DD21664B29756A30BDDB2A1E"
             {
             "AssemblyRegister" = "3:1"
@@ -432,37 +463,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DEC37A6D5D6FC7C32F3D51DB04BA4009"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ConfigurationStorage, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_DEC37A6D5D6FC7C32F3D51DB04BA4009"
-                    {
-                    "Name" = "8:ConfigurationStorage.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:ConfigurationStorage.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_685FBE5094824C27BEE54E39D6253815"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
         }
         "FileType"
         {
@@ -531,7 +531,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:iCloudHelper"
         "ProductCode" = "8:{2A0DD13B-358D-4085-9DB1-8AE7041D1436}"
-        "PackageCode" = "8:{D9E00C4B-6CEF-4811-860C-4713FA8A551B}"
+        "PackageCode" = "8:{B9B85D85-E144-4C6B-AB76-9C750786DE54}"
         "UpgradeCode" = "8:{9D42146E-AF78-4159-893A-C6F3996B4B7D}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -1094,7 +1094,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2D2984E4822345438F68291F9A26A994"
             {
-            "SourcePath" = "8:..\\AutoUnzip\\obj\\Debug\\AutoUnzip.exe"
+            "SourcePath" = "8:..\\AutoUnzip\\obj\\Release\\AutoUnzip.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_685FBE5094824C27BEE54E39D6253815"
@@ -1122,7 +1122,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_889DA6C0C840427BBEBAEBD780CF2007"
             {
-            "SourcePath" = "8:..\\QuickSort\\obj\\Debug\\QuickSort.exe"
+            "SourcePath" = "8:..\\QuickSort\\obj\\Release\\QuickSort.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_685FBE5094824C27BEE54E39D6253815"

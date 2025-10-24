@@ -11,7 +11,7 @@
         lex:ResxLocalizationProvider.DefaultDictionary="Strings"
         mc:Ignorable="d"
         Title="{lex:Loc tbConfig_WindowTitle}"
-        Height="750" 
+        Height="800" 
         Width="710" 
         Icon="/icloud-logo-49272-Windows.ico" 
         ResizeMode="CanMinimize">
@@ -20,38 +20,18 @@
             <GradientStop Color="White"/>
             <GradientStop Color="#FFC7C7C7" Offset="1"/>
         </LinearGradientBrush>
-    </Window.Background>    
+    </Window.Background>
 
-    <Grid>
-        <Grid Margin="15">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="250"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+    <Grid Margin="15">
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+                    Grid.IsSharedSizeScope="True">
 
             <Label Grid.Row="0" 
                    Grid.Column="0" 
@@ -60,284 +40,420 @@
                    Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_HeadLine}"/>
 
-            <Label Grid.Row="1"
-                   Grid.Column="0"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0" Width="220" />
+                    <ColumnDefinition SharedSizeGroup="Col1" Width="10"/>
+                    <ColumnDefinition SharedSizeGroup="Col2" Width="250"/>
+                    <ColumnDefinition SharedSizeGroup="Col3" Width="10"/>
+                    <ColumnDefinition SharedSizeGroup="Col4" Width="*"/>
+                    <ColumnDefinition SharedSizeGroup="Col5" Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
                    Name="tbConfig_WatchPath"
                    Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
-            <TextBox Grid.Row="1"
-                     Grid.Column="2"
+                <TextBox Grid.Column="2"
                      Name="WATCHPATH_TEXTBOX"
                      Style="{StaticResource ConfigView_TextBox}">
-                <TextBox.Text>
-                    <Binding Path="WatchPath" 
+                    <TextBox.Text>
+                        <Binding Path="WatchPath" 
                              UpdateSourceTrigger="PropertyChanged"
                              FallbackValue='C:\'
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
-                        <Binding.ValidationRules>
-                            <vr:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <Button Grid.Row="1"
-                    Grid.Column="4"
+                            <Binding.ValidationRules>
+                                <vr:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <Button Grid.Column="4"
                     Style="{StaticResource ConfigView_Button}"
                     Content="{lex:Loc btnConfig_Browse}"
                     Command="{Binding Path=Cmd_BrowseWatchPath}"/>
+            </Grid>
 
-            <Label Grid.Row="2"
-                   Grid.Column="0"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
                    Name="tbConfig_FilenameToSearch"
                    Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
-            <TextBox Grid.Row="2"
-                     Grid.Column="2"
+                <TextBox Grid.Column="2"
                      Name="FILENAMETOSEARCH_TEXTBOX"
                      Style="{StaticResource ConfigView_TextBox}">
-                <TextBox.Text>
-                    <Binding Path="FilenameToSearch" 
+                    <TextBox.Text>
+                        <Binding Path="FilenameToSearch" 
                              UpdateSourceTrigger="PropertyChanged"
                              FallbackValue='iCloud*.zip'
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
-                        <Binding.ValidationRules>
-                            <vr:CheckFileFilterValidationRule ValidatesOnTargetUpdated="True"
+                            <Binding.ValidationRules>
+                                <vr:CheckFileFilterValidationRule ValidatesOnTargetUpdated="True"
                                                               AllowStarChar="true"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
 
-            <TextBlock Grid.Row="3"
-                       Grid.Column="0"
-                       MaxWidth="250"
-                       TextWrapping="Wrap"
-                       Name="tbConfig_ExtractPath"
-                       Text="{lex:Loc}"
-                       Style="{StaticResource ConfigView_TextBlock_Top}"/>
-            <TextBox Grid.Row="3"
-                     Grid.Column="2"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           TextWrapping="Wrap"
+                           Name="tbConfig_ExtractPath"
+                           Text="{lex:Loc}"
+                           Style="{StaticResource ConfigView_TextBlock_Top}"/>
+                <TextBox Grid.Column="2"
                      Name="EXTRACTPATH_TEXTBOX"
                      Style="{StaticResource ConfigView_TextBox_Top}">
-                <TextBox.Text>
-                    <Binding Path="ExtractPath" 
+                    <TextBox.Text>
+                        <Binding Path="ExtractPath" 
                              UpdateSourceTrigger="PropertyChanged"
                              FallbackValue='C:\'
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
-                        <Binding.ValidationRules>
-                            <vr:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <Button Grid.Row="3"
-                    Grid.Column="4"
+                            <Binding.ValidationRules>
+                                <vr:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <Button Grid.Column="4"
                     Style="{StaticResource ConfigView_Button}"
                     Content="{lex:Loc btnConfig_Browse}"
                     Command="{Binding Path=Cmd_BrowseExtractPath}"/>
+            </Grid>
 
-            <Label Grid.Row="4" 
-                   Grid.Column="0" 
-                   Grid.ColumnSpan="6"
-                   Name="tbConfig_Title2"
+            <Label Name="tbConfig_Title2"
                    Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_HeadLine}"/>
 
-            <Label Grid.Row="5"
-                   Grid.Column="0"
-                   Name="tbConfig_BackupEnable"
-                   Content="{lex:Loc}"
-                   Style="{StaticResource ConfigView_Label}"/>
-            <CheckBox Grid.Row="5"
-                      Grid.Column="2"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           Name="tbConfig_BackupEnable"
+                           TextWrapping="Wrap"
+                           Text="{lex:Loc}"
+                           Style="{StaticResource ConfigView_TextBlock_Top}"/>
+                <CheckBox Grid.Column="2"
                       Style="{StaticResource ConfigView_CheckBox}"
                       IsChecked="{Binding BackupEnabled, UpdateSourceTrigger=PropertyChanged}"/>
-            
-            <Label Grid.Row="6"
-                   Grid.Column="0"
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
                    Name="tbConfig_BackupPath"
                    Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
-            <TextBox Grid.Row="6"
-                     Grid.Column="2"
+                <TextBox Grid.Column="2"
                      Name="BACKUPPATH_TEXTBOX"
                      Style="{StaticResource ConfigView_TextBox}">
-                <TextBox.Text>
-                    <Binding Path="BackupPath" 
+                    <TextBox.Text>
+                        <Binding Path="BackupPath" 
                              UpdateSourceTrigger="PropertyChanged"
                              FallbackValue='C:\'
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
-                        <Binding.ValidationRules>
-                            <vr:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <Button Grid.Row="6"
-                    Grid.Column="4"
+                            <Binding.ValidationRules>
+                                <vr:CheckPathExistsValidationRule ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <Button Grid.Column="4"
                     Style="{StaticResource ConfigView_Button}"
                     Content="{lex:Loc btnConfig_Browse}"
                     Command="{Binding Path=Cmd_BrowseBackupPath}"/>
+            </Grid>
 
-            <TextBlock Grid.Row="7"
-                       Grid.Column="0"
-                       MaxWidth="250"
-                       TextWrapping="Wrap"                       
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           TextWrapping="Wrap"                       
                        Name="tbConfig_BackupEnableRetention"
                        Text="{lex:Loc}"
                        Style="{StaticResource ConfigView_TextBlock_Top}"/>
-            <CheckBox Grid.Row="7"
-                      Grid.Column="2"
+                <CheckBox Grid.Column="2"
                       Style="{StaticResource ConfigView_CheckBox_Top}"
-                      IsChecked="{Binding BackupRetentionCheckEnabled, UpdateSourceTrigger=PropertyChanged}"/>            
-            
-            <Label Grid.Row="8"
-                   Grid.Column="0"
+                      IsChecked="{Binding BackupRetentionCheckEnabled, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
                    Name="tbConfig_BackupRetentionPeriod"
                    Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
-            <TextBox Grid.Row="8"
-                     Grid.Column="2"
+                <TextBox Grid.Column="2"
                      Name="BACKUPRETENTIONPERIOD_TEXTBOX"
                      Style="{StaticResource ConfigView_TextBox}">
-                <TextBox.Text>
-                    <Binding Path="BackupRetentionPeriod" 
+                    <TextBox.Text>
+                        <Binding Path="BackupRetentionPeriod" 
                              UpdateSourceTrigger="PropertyChanged"
                              FallbackValue='90'
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
-                        <Binding.ValidationRules>
-                            <vr:CheckIntValidationRule ValidatesOnTargetUpdated="True"
+                            <Binding.ValidationRules>
+                                <vr:CheckIntValidationRule ValidatesOnTargetUpdated="True"
                                                        MinValue="0"
                                                        MaxValue="366"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
 
-            <Label Grid.Row="9" 
-                   Grid.Column="0" 
-                   Grid.ColumnSpan="6"
-                   Name="tbConfig_Title3"
+            <Label Name="tbConfig_Title3"
                    Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_HeadLine}"/>
 
-            <Label Grid.Row="10"
-                   Grid.Column="0"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
                    Name="tbConfig_UseDarkModeColorTheme"
                    Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
-            <CheckBox Grid.Row="10"
-                      Grid.Column="2"
+                <CheckBox Grid.Column="2"
                       Style="{StaticResource ConfigView_CheckBox}"
                       IsChecked="{Binding UseDarkModeColorTheme, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
 
-            <Label Grid.Row="11"
-                   Grid.Column="0"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
                    Name="tbConfig_Language"
                    Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
-            <ComboBox Grid.Row="11"
-                      Grid.Column="2"
+                <ComboBox Grid.Column="2"
                       SelectedIndex="{Binding Language, FallbackValue=0}"
                       Style="{StaticResource ConfigView_ComboBox}">
-                <ComboBoxItem Content="{lex:Loc cbConfig_LanguageDefault}"/>
-                <ComboBoxItem Content="{lex:Loc cbConfig_LanguageGerman}"/>
-                <ComboBoxItem Content="{lex:Loc cbConfig_LanguageEnglish}"/>
-            </ComboBox>
+                    <ComboBoxItem Content="{lex:Loc cbConfig_LanguageDefault}"/>
+                    <ComboBoxItem Content="{lex:Loc cbConfig_LanguageGerman}"/>
+                    <ComboBoxItem Content="{lex:Loc cbConfig_LanguageEnglish}"/>
+                </ComboBox>
+            </Grid>
 
-            <Label Grid.Row="12" 
-                   Grid.Column="0" 
-                   Grid.ColumnSpan="6"
-                   Name="tbConfig_Title4"
+            <Label Name="tbConfig_Title4"
                    Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_HeadLine}"/>
 
-            <Label Grid.Row="13"
-                   Grid.Column="0"
-                   Content="QuickSort App"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           TextWrapping="Wrap"
+                           Name="tbConfig_ShowMoveDlg"
+                           Text="{lex:Loc}"
+                           Style="{StaticResource ConfigView_TextBlock_Top}"/>
+                <CheckBox Grid.Column="2"
+                      Style="{StaticResource ConfigView_CheckBox_Top}"
+                      IsChecked="{Binding ShowMoveDlg, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
+                   Name="tbConfig_ShowImgFileName"
+                   Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
-            <TextBox Grid.Row="13"
-                     Grid.Column="2"
-                     Name="QUICKSORTAPP_TEXTBOX"
-                     Style="{StaticResource ConfigView_TextBox}">
-                <TextBox.Text>
-                    <Binding Path="QuickSortApp" 
+                <CheckBox Grid.Column="2"
+                      Style="{StaticResource ConfigView_CheckBox}"
+                      IsChecked="{Binding ShowImgFileName, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"                       
+                       TextWrapping="Wrap"
+                       Name="tbConfig_FavoriteTargetFolderCollectionAutoInsert"
+                       Text="{lex:Loc}"
+                       Style="{StaticResource ConfigView_TextBlock_Top}"/>
+                <CheckBox Grid.Column="2"
+                      Style="{StaticResource ConfigView_CheckBox_Top}"
+                      IsChecked="{Binding FavoriteTargetFolderCollectionAutoInsert, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                       TextWrapping="Wrap"
+                       Name="tbConfig_FavoriteTargetFolderCollectionLimit"
+                       Text="{lex:Loc}"
+                       Style="{StaticResource ConfigView_TextBlock_Top}"/>
+                <TextBox Grid.Column="2"
+                     Name="MAXFAVTARGETFOLDERITEMS_TEXTBOX"
+                     Style="{StaticResource ConfigView_TextBox_Top}"
+                     MaxLength="2"
+                     Width="50" 
+                     HorizontalAlignment="Left">
+                    <TextBox.Text>
+                        <Binding Path="FavoriteTargetFolderCollectionLimit" 
                              UpdateSourceTrigger="PropertyChanged"
-                             FallbackValue='C:\windows\explorer.exe'
+                             FallbackValue="10"
                              ValidatesOnDataErrors="True" 
                              ValidatesOnExceptions="True">
-                        <Binding.ValidationRules>
-                            <vr:CheckFileExistsValidationRule ValidatesOnTargetUpdated="True"
-                                                              IgnoreFileExtension="false"/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <Button Grid.Row="13"
-                    Grid.Column="4"
-                    Style="{StaticResource ConfigView_Button}"
-                    Content="{lex:Loc btnConfig_Browse}"
-                    Command="{Binding Path=Cmd_BrowseQuickSortApp}"/>
+                            <Binding.ValidationRules>
+                                <vr:CheckIntValidationRule ValidatesOnTargetUpdated="True"
+                                                           MinValue="0"
+                                                           MaxValue="16"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
 
-            <Button Grid.Row="15"
-                    Grid.Column="2"
-                    Grid.ColumnSpan="3"
-                    Padding="15,5"
-                    Height="30"
-                    HorizontalAlignment="Right"                    
-                    Name="btnConfig_SaveConfig"
-                    Content="{lex:Loc}"
-                    Command="{Binding Path=Cmd_SaveConfig}">
+        </StackPanel>
 
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}"
+        <Button Grid.Row="1"
+                Margin="0,15,15,0"
+                Padding="15,5"
+                Height="30"
+                HorizontalAlignment="Right"                    
+                Name="btnConfig_SaveConfig"
+                Content="{lex:Loc}"
+                Command="{Binding Path=Cmd_SaveConfig}">
+
+            <Button.Style>
+                <Style TargetType="{x:Type Button}"
                            BasedOn="{StaticResource ConfigView_Button}">
 
-                        <Setter Property="IsEnabled" Value="false"/>
+                    <Setter Property="IsEnabled" Value="false"/>
 
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
 
-                                    <Condition Binding="{Binding ElementName=WATCHPATH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
-                                    <Condition Binding="{Binding ElementName=FILENAMETOSEARCH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
-                                    <Condition Binding="{Binding ElementName=EXTRACTPATH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
-                                    <Condition Binding="{Binding ElementName=TEMPFOLDERPREFIX_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
-                                    <Condition Binding="{Binding ElementName=BACKUPPATH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
-                                    <Condition Binding="{Binding ElementName=BACKUPRETENTIONPERIOD_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
-                                    <Condition Binding="{Binding ElementName=QUICKSORTAPP_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+                                <Condition Binding="{Binding ElementName=WATCHPATH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+                                <Condition Binding="{Binding ElementName=FILENAMETOSEARCH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+                                <Condition Binding="{Binding ElementName=EXTRACTPATH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+                                <Condition Binding="{Binding ElementName=BACKUPPATH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+                                <Condition Binding="{Binding ElementName=BACKUPRETENTIONPERIOD_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+                                <Condition Binding="{Binding ElementName=MAXFAVTARGETFOLDERITEMS_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
 
-                                </MultiDataTrigger.Conditions>
+                            </MultiDataTrigger.Conditions>
 
-                                <Setter Property="IsEnabled" Value="true" />
+                            <Setter Property="IsEnabled" Value="true" />
 
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
 
-            <StackPanel Grid.Row="16"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="5"
-                        Orientation="Horizontal">
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Bottom">
 
-                <TextBlock FontSize="10"
+            <TextBlock FontSize="10"
                            Text="Christian Harscher (info@x13-g44.com)"
                            Margin="0,10,0,0"
                            VerticalAlignment="Bottom"/>
 
-                <TextBlock FontSize="10"
+            <TextBlock FontSize="10"
                            Text="{Binding AppVersionStr, FallbackValue='V1.2.0.0'}"
                            Margin="10,10,0,0"
                            VerticalAlignment="Bottom"/>
 
-                <Button Style="{StaticResource SymbolButton}"
+            <Button Style="{StaticResource SymbolButton}"
                         Margin="10,10,0,0"
                         Foreground="#FF0071E3"
                         FontSize="9" 
@@ -347,8 +463,7 @@
                         Command="{Binding Cmd_OpenHomepage}"
                         CommandParameter="{Binding}"/>
 
-            </StackPanel>
+        </StackPanel>
 
-        </Grid>
     </Grid>
 </Window>

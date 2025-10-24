@@ -125,46 +125,59 @@ namespace QuickSort.ViewModel
                     {
                         App app = (App) Application.Current;
 
-                        var dialog = new ConfigView ();
-
-                        string oldStartPath = ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath;
+                        string oldStartPath = ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath;
                         bool oldShowImageFileName = ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
 
 
-                        dialog.ShowDialog ();
-
-                        if (dialog.DialogResult.Value)
+                        try
                         {
-                            // Update the color theme.
-                            SetColorTheme ();
+                            // Start AutoUnzop with parameter "showconfig" to show configuration dialog window.
 
-                            // Update the UI language.
-                            app.SetUiLanguage ();
+                            Process prc = Process.Start (app.GetAutoUnzipFile (), "showconfig");
+                            prc.WaitForExit ();
 
-                            // Refresh the file title list, when user changed the default start path.
-                            // We call the Cmd_ContextMenu_RefreshFileTitleList command for do this,
-                            // so we don't duplicate the code for this task.
-                            if (oldStartPath != ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath)
+                            if (prc.ExitCode == 1)
                             {
-                                this.RootPath = ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath;
+                                // If result code is "1", then user have saved configuration.
+                                // Load configuration and update out file title list.
 
-                                if (Cmd_ContextMenu_RefreshFileTitleList.CanExecute (null))
+                                ConfigurationStorage.ConfigurationStorageModel.LoadConfiguration ();
+
+                                // Update the color theme.
+                                SetColorTheme ();
+
+                                // Update the UI language.
+                                app.SetUiLanguage ();
+
+                                // Refresh the file title list, when user changed the root path.
+                                // We call the Cmd_ContextMenu_RefreshFileTitleList command for do this,
+                                // so we don't duplicate the code for this task.
+                                if (oldStartPath != ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath)
                                 {
-                                    Cmd_ContextMenu_RefreshFileTitleList.Execute (null);
+                                    this.RootPath = ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath;
+
+                                    if (Cmd_ContextMenu_RefreshFileTitleList.CanExecute (null))
+                                    {
+                                        Cmd_ContextMenu_RefreshFileTitleList.Execute (null);
+                                    }
+                                }
+                                else if (oldShowImageFileName != ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName)
+                                {
+                                    // Update the file title list.
+                                    UpdateFileTitleList ();
                                 }
                             }
-                            else if (oldShowImageFileName != ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName &&
-                                     oldStartPath == ConfigurationStorage.ConfigurationStorageModel.DefaultStartPath)
-                            {
-                                // Update the file title list only, when the image file buffer wasn't changed.
-                                // If it was changed, the file title list was indirect updated by refreshing the image file buffer (above).
-
-                                UpdateFileTitleList ();
-                            }
-
                         }
+                        catch
+                        {; }
                     },
-                    param => true
+                    _ =>
+                    {
+                        App app = (App) Application.Current;
+
+
+                        return !String.IsNullOrEmpty (app.GetAutoUnzipFile ());
+                    }
                 );
             }
         }
@@ -1010,9 +1023,6 @@ namespace QuickSort.ViewModel
             }
         }
 
-
-
-
         public RelayCommand Cmd_ContextMenu_OpenICloud
         {
             get
@@ -1031,7 +1041,6 @@ namespace QuickSort.ViewModel
                 );
             }
         }
-
 
         public RelayCommand Cmd_ContextMenu_SelectAllFileTitles
         {
@@ -1330,12 +1339,14 @@ namespace QuickSort.ViewModel
                 this.FileTileList.Remove (image);
             }
 
-            // Update the image size.
+            // Update the image size and file name text.
             for (int i = 0; i < this.FileTileList.Count; i++)
             {
                 this.FileTileList[i].Height = height;
                 this.FileTileList[i].Width = width;
                 this.FileTileList[i].SizeLevel = ConfigurationStorage.ConfigurationStorageModel.FolderTitleSizeLevel;
+
+                this.FileTileList[i].HideFilenameText = !ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
             }
         }
 
