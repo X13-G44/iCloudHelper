@@ -180,11 +180,11 @@
   <data name="tbFileMovePopup_FileLabel" xml:space="preserve">
     <value>Bild: </value>
   </data>
-  <data name="dlgFileMove_QuestionText" xml:space="preserve">
+  <data name="dlgFileMove_QuestionText_A" xml:space="preserve">
     <value>Sollen die {0} ausgewählten Bilder nach "{1}" verschoben werden? </value>
   </data>
   <data name="dlgFileMove_StartMove" xml:space="preserve">
-    <value>Verschieben</value>
+    <value>Bilder verschieben</value>
   </data>
   <data name="dlgNewFolder_QuestionText" xml:space="preserve">
     <value>Neuer Ordnername:</value>
@@ -356,5 +356,11 @@
   </data>
   <data name="dlg_MissingFile" xml:space="preserve">
     <value>Die Datei "{0}" wurde nicht gefunden.\n\nBitte installieren Sie die Software neu.</value>
+  </data>
+  <data name="dlgFileMove_OpenDirOnly" xml:space="preserve">
+    <value>Ordner öffnen</value>
+  </data>
+  <data name="dlgFileMove_QuestionText_B" xml:space="preserve">
+    <value>Sollen die {0} ausgewählten Bilder nach "{1}" verschoben werden? \n\nOder soll nur der Ordnerinhalt von "{1}" angezeigt werden?</value>
   </data>
 </root>

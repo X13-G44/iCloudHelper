@@ -55,6 +55,7 @@ namespace QuickSort.ViewModel
 
 
         public DlgBoxButton LeftButton { get; private set; } = null;
+        public DlgBoxButton CenterButton { get; private set; } = null;
         public DlgBoxButton RightButton { get; private set; } = null;
         /// <summary>
         /// TextBox config property. Use this to get the entered user text from the TextBox.
@@ -72,16 +73,21 @@ namespace QuickSort.ViewModel
         /// <param name="title">Dialog title</param>
         /// <param name="message">Dialog message</param>
         /// <param name="rightButton">Right button configuration</param>
+        /// <param name="centerButton">Center button configuration</param>
         /// <param name="leftButton">Optional left button configuration</param>
         /// <param name="textBox">Optional TextBox configuration</param>
         /// <returns>Initialized DlgBoxViewModel instance to use by the DlgBoxUserControl.Configuration instance</returns>
-        static public DlgBoxViewModel ShowDialog (DlgBoxType type, String title, String message, DlgBoxButton rightButton, DlgBoxButton leftButton = null, DlgBoxTextBox textBox = null)
+        static public DlgBoxViewModel ShowDialog (DlgBoxType type, String title, String message, DlgBoxButton rightButton, DlgBoxButton centerButton = null, DlgBoxButton leftButton = null, DlgBoxTextBox textBox = null)
         {
             if (rightButton == null)
             {
                 throw new ArgumentNullException ("Param \"rightButton\" is null");
             }
 
+            if (centerButton != null && leftButton == null)
+            {
+                throw new ArgumentNullException ("Param \"leftButton\" is null. Setup first the left button before setup the center button.");
+            }
 
             return new DlgBoxViewModel
             {
@@ -89,6 +95,7 @@ namespace QuickSort.ViewModel
                 Title = title,
                 Message = message,
                 LeftButton = leftButton,
+                CenterButton = centerButton,
                 RightButton = rightButton,
                 TextBox = textBox
             };

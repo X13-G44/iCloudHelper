@@ -4,8 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QuickSort.View.UserControls"
+             Name="PART_DLGBOXUSERCONTROL"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" 
+             d:DesignWidth="800"
+             Visibility="Collapsed">
 
     <UserControl.Resources>
 
@@ -71,10 +74,8 @@
 
     </UserControl.Resources>
 
-    <Grid Name="PART_OUTER_GRID" 
-          Background="#EF1B1D1F"
-          SnapsToDevicePixels="True"
-          Visibility="Hidden">
+    <Grid Background="#EF1B1D1F"
+          SnapsToDevicePixels="True">
         
         <Border BorderThickness="2"
                 BorderBrush="{DynamicResource DialogBorderBrushColor}"
@@ -82,8 +83,6 @@
                 CornerRadius="15"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
-                MinWidth="20"
-                MinHeight="20"
                 Padding="15" 
                 SnapsToDevicePixels="True">
 
@@ -133,7 +132,7 @@
 
                         <TextBox Name="PART_TEXTBOX"
                                  Height="25"
-                                 Margin="0,5,0,0"/>
+                                 Margin="0,8,0,0"/>
 
                     </StackPanel>
 
@@ -142,6 +141,35 @@
                             HorizontalAlignment="Left"
                             Tag="&#xE10B;"
                             Content="Left Button">
+
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}"
+                                   BasedOn="{StaticResource DlgBoxButton}">
+
+                                <Setter Property="IsEnabled" Value="false"/>
+
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+
+                                            <Condition Binding="{Binding ElementName=PART_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="IsEnabled" Value="true" />
+
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                    </Button>
+
+                    <Button Grid.Row="5"
+                            Name="PART_BTN_CENTER"                            
+                            HorizontalAlignment="Center"
+                            Tag="&#xE10B;"
+                            Content="Center Button">
 
                         <Button.Style>
                             <Style TargetType="{x:Type Button}"

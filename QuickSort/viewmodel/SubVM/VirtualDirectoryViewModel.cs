@@ -44,6 +44,22 @@ namespace QuickSort.ViewModel
 {
     public class VirtualDirectoryViewModel : INotifyPropertyChanged
     {
+        public enum StageType
+        {
+            RootStage,
+            FirstStage,
+            SecondStage,
+        }
+
+
+
+        private StageType _Stage;
+        public StageType Stage
+        {
+            get { return _Stage; }
+            set { _Stage = value; OnPropertyChanged (nameof (Stage)); }
+        }
+
         private string _DisplayName;
         public string DisplayName
         {

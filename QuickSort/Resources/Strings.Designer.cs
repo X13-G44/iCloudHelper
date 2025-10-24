@@ -421,16 +421,34 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Should the {0} selected images be moved to &quot;{1}&quot;? ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Open folder ähnelt.
         /// </summary>
-        public static string dlgFileMove_QuestionText {
+        public static string dlgFileMove_OpenDirOnly {
             get {
-                return ResourceManager.GetString("dlgFileMove_QuestionText", resourceCulture);
+                return ResourceManager.GetString("dlgFileMove_OpenDirOnly", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Move ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Should the {0} selected images be moved to &quot;{1}&quot;? ähnelt.
+        /// </summary>
+        public static string dlgFileMove_QuestionText_A {
+            get {
+                return ResourceManager.GetString("dlgFileMove_QuestionText_A", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Should the {0} selected images be moved to &quot;{1}&quot;?\n\nOr should only the folder contents of &quot;{1}&quot; be displayed? ähnelt.
+        /// </summary>
+        public static string dlgFileMove_QuestionText_B {
+            get {
+                return ResourceManager.GetString("dlgFileMove_QuestionText_B", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Move images ähnelt.
         /// </summary>
         public static string dlgFileMove_StartMove {
             get {

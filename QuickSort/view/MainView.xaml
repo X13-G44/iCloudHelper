@@ -715,7 +715,7 @@
                                         <MenuItem Name="cmFavTargFolder_MoveImageHere" 
                                                   Header="{lex:Loc cmFavTargFolder_MoveImageHere}"
                                                   Style="{StaticResource CustomMenuItemStyle}"
-                                                  Tag="&#xE16D;"
+                                                  Tag="&#xE1AE;"
                                                   Command="{Binding Cmd_MoveImagesCommand}"
                                                   CommandParameter="{Binding}"/>
 
@@ -1233,7 +1233,7 @@
 
                                                 <MenuItem Header="{lex:Loc cmVirtualDirSec_MoveImageHere}"
                                                           Style="{StaticResource CustomMenuItemStyle}"
-                                                          Tag="&#xE16D;"
+                                                          Tag="&#xE1AE;"
                                                           Command="{Binding Cmd_MoveImagesCommand}"
                                                           CommandParameter="{Binding}"/>
 
@@ -1334,7 +1334,7 @@
 
                                                 <MenuItem Header="{lex:Loc cmVirtualDirSec_MoveImageHere}"
                                                           Style="{StaticResource CustomMenuItemStyle}"
-                                                          Tag="&#xE16D;"
+                                                          Tag="&#xE1AE;"
                                                           Command="{Binding Cmd_MoveImagesCommand}"
                                                           CommandParameter="{Binding}"/>
 
@@ -1429,7 +1429,7 @@
 
                                                 <MenuItem Header="{lex:Loc cmVirtualDirSec_MoveImageHere}"
                                                           Style="{StaticResource CustomMenuItemStyle}"
-                                                          Tag="&#xE16D;"
+                                                          Tag="&#xE1AE;"
                                                           Command="{Binding Cmd_MoveImagesCommand}"
                                                           CommandParameter="{Binding}"/>
 
@@ -1651,7 +1651,6 @@
         <uc:DlgBoxUserControl Grid.Row="1"
                               Grid.RowSpan="2"
                               Grid.ColumnSpan="2"
-                              Visibility="Visible"
                               Configuration="{Binding DialogBoxConfiguration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue={x:Null}}"/>
 
     </Grid>

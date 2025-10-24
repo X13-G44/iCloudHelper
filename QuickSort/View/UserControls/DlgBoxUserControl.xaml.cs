@@ -48,6 +48,8 @@ namespace QuickSort.View.UserControls
         public DlgBoxUserControl ()
         {
             InitializeComponent ();
+
+            PART_DLGBOXUSERCONTROL.Visibility = Visibility.Collapsed;
         }
 
 
@@ -58,7 +60,7 @@ namespace QuickSort.View.UserControls
             set { SetValue (ConfigurationProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Configuration.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for Configuration. This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ConfigurationProperty =
             DependencyProperty.Register ("Configuration", typeof (DlgBoxViewModel), typeof (DlgBoxUserControl), new PropertyMetadata (null, OnConfigurationPropertyChanged));
 
@@ -100,15 +102,18 @@ namespace QuickSort.View.UserControls
 
             if (vm == null)
             {
-                control.PART_OUTER_GRID.Visibility = Visibility.Hidden;
+                control.PART_DLGBOXUSERCONTROL.Visibility = Visibility.Hidden;
 
                 return;
             }
-            control.PART_OUTER_GRID.Visibility = Visibility.Visible;
+
+            control.PART_DLGBOXUSERCONTROL.Visibility = Visibility.Visible;
 
             control.PART_SYMBOL.Text = GetDlgSymbol (vm.Type);
             control.PART_TITLE.Text = vm.Title;
             control.PART_MESSAGE.Text = vm.Message;
+            control.PART_MESSAGE.MinWidth = vm.CenterButton != null ? 500 : 300;
+            control.PART_MESSAGE.MaxWidth = vm.CenterButton != null ? 500 : 500;
 
             control.PART_TEXTBOX.Visibility = Visibility.Hidden;
             if (vm.TextBox != null)
@@ -149,7 +154,23 @@ namespace QuickSort.View.UserControls
                     (param) =>
                     {
                         vm.LeftButton.Action.Invoke (vm);
-                        control.PART_OUTER_GRID.Visibility = Visibility.Hidden;
+                        control.PART_DLGBOXUSERCONTROL.Visibility = Visibility.Hidden;
+                    }
+                );
+            }
+
+            control.PART_BTN_CENTER.Visibility = Visibility.Hidden;
+            if (vm.CenterButton != null)
+            {
+                control.PART_BTN_CENTER.Visibility = Visibility.Visible;
+                control.PART_BTN_CENTER.Content = vm.CenterButton.Text;
+                control.PART_BTN_CENTER.Tag = GetButtonSymbol (vm.CenterButton.Symbol);
+
+                control.PART_BTN_CENTER.Command = new RelayCommand (
+                    (param) =>
+                    {
+                        vm.CenterButton.Action.Invoke (vm);
+                        control.PART_DLGBOXUSERCONTROL.Visibility = Visibility.Hidden;
                     }
                 );
             }
@@ -165,7 +186,7 @@ namespace QuickSort.View.UserControls
                     (param) =>
                     {
                         vm.RightButton.Action.Invoke (vm);
-                        control.PART_OUTER_GRID.Visibility = Visibility.Hidden;
+                        control.PART_DLGBOXUSERCONTROL.Visibility = Visibility.Hidden;
                     }
                 );
             }
@@ -221,6 +242,16 @@ namespace QuickSort.View.UserControls
                         return "\uE10A";    // "&#xE10A;"
                     }
 
+                case DlgBoxButtonSymbol.Move:
+                    {
+                        return "\uE1AE";    // "&#xE1AE;"
+                    }
+
+                case DlgBoxButtonSymbol.OpenFolder:
+                    {
+                        return "\uE19C";    // "&#xE19C;"
+                    }
+
                 default:
                     {
                         return "";
@@ -242,8 +273,10 @@ namespace QuickSort.View.UserControls
 
     public enum DlgBoxButtonSymbol
     {
-Empty,
+        Empty,
         Check,
         Cross,
+        Move,
+        OpenFolder,
     }
 }

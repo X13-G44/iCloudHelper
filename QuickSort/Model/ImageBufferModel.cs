@@ -43,6 +43,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using static System.Net.WebRequestMethods;
@@ -96,6 +97,9 @@ namespace QuickSort.Model
             int filesWithHiRes = 0;
 
 
+            if (forceFullLoad == false)
+                throw new NotImplementedException ("Feature is currently not controllable, since we always use this function with this parameter set!");
+
             try
             {
                 // Get the count of HiRes pictures in directory.
@@ -119,10 +123,10 @@ namespace QuickSort.Model
                             int fileCnt = 1;
 
 
-                            if (forceFullLoad)
-                            {
-                                _BufferList.Clear ();
-                            }
+                            //if (forceFullLoad)
+                            //{
+                            _BufferList.Clear ();
+                            //}
 
                             // Load all images from the directory into our buffer list or update them.
                             foreach (var file in files)
@@ -135,33 +139,38 @@ namespace QuickSort.Model
 
                                     ImageFileBufferItem newBufferItem = new ImageFileBufferItem () { File = file, Thumbnail = null };
 
-
-                                    // Check if the image is already in the buffer list and or we have to load the (new) image.
-
-                                    START_IMAGE_IN_BUFFER_CHECK:
-
-                                    var matchingImageBufferList = _BufferList.Where (x => x.File == newBufferItem.File).ToList ();
-                                    if (matchingImageBufferList.Count == 0)
-                                    {
-                                        loadImageMustBeExecute = true;
-                                    }
-                                    else if (matchingImageBufferList.Count == 1)
-                                    {
-                                        // Image is in our buffer list, but has the file content been changed?
-                                        if (newBufferItem.IsEqualWith (matchingImageBufferList[0]) == false)
-                                        {
-                                            loadImageMustBeExecute = true;
-                                            bufferItemToUpdate = matchingImageBufferList[0];
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // There must be only one image in the buffer list.
-                                        // If there are more images (it is an error), remove all of them and reload the image.
-                                        matchingImageBufferList.ForEach (x => _BufferList.Remove (x));
-
-                                        goto START_IMAGE_IN_BUFFER_CHECK;
-                                    }
+                                    
+                                    // ++++++++++++++++++++++++ [START] ++++++++++++++++++++++++
+                                    // ++++ Feature is currently not controllable, since we always use this function with this parameter set! ++++
+                                    //
+                                    //// Check if the image is already in the buffer list and or we have to load the (new) image.
+                                    //
+                                    //START_IMAGE_IN_BUFFER_CHECK:
+                                    //
+                                    //var matchingImageBufferList = _BufferList.Where (x => x.File == newBufferItem.File).ToList ();
+                                    //if (matchingImageBufferList.Count == 0)
+                                    //{
+                                    loadImageMustBeExecute = true;
+                                    //}
+                                    //else if (matchingImageBufferList.Count == 1)
+                                    //{
+                                    //    // Image is in our buffer list, but has the file content been changed?
+                                    //    if (newBufferItem.IsEqualWith (matchingImageBufferList[0]) == false)
+                                    //    {
+                                    //        loadImageMustBeExecute = true;
+                                    //        bufferItemToUpdate = matchingImageBufferList[0];
+                                    //    }
+                                    //}
+                                    //else
+                                    //{
+                                    //    // There must be only one image in the buffer list.
+                                    //    // If there are more images (it is an error), remove all of them and reload the image.
+                                    //    matchingImageBufferList.ForEach (x => _BufferList.Remove (x));
+                                    //
+                                    //    goto START_IMAGE_IN_BUFFER_CHECK;
+                                    //}
+                                    //
+                                    // ++++++++++++++++++++++++ [END] ++++++++++++++++++++++++
 
                                     if (loadImageMustBeExecute)
                                     {
@@ -253,10 +262,10 @@ namespace QuickSort.Model
                             int fileCnt = 1;
 
 
-                            if (forceFullLoad)
-                            {
-                                _BufferList.Clear ();
-                            }
+                            //if (forceFullLoad)
+                            //{
+                            _BufferList.Clear ();
+                            //}
 
                             // Load all images from the directory into our buffer list or update them.
                             Parallel.ForEach (files,
@@ -272,32 +281,41 @@ namespace QuickSort.Model
                                         ImageFileBufferItem newBufferItem = new ImageFileBufferItem () { File = file, Thumbnail = null };
 
 
-                                        // Check if the image is already in the buffer list and or we have to load the (new) image.
-
-                                        START_IMAGE_IN_BUFFER_CHECK:
-
-                                        var matchingImageBufferList = _BufferList.Where (x => x.File == newBufferItem.File).ToList ();
-                                        if (matchingImageBufferList.Count == 0)
-                                        {
-                                            loadImageMustBeExecute = true;
-                                        }
-                                        else if (matchingImageBufferList.Count == 1)
-                                        {
-                                            // Image is in our buffer list, but has the file content been changed?
-                                            if (newBufferItem.IsEqualWith (matchingImageBufferList[0]) == false)
-                                            {
-                                                loadImageMustBeExecute = true;
-                                                bufferItemToUpdate = matchingImageBufferList[0];
-                                            }
-                                        }
-                                        else
-                                        {
-                                            // There must be only one image in the buffer list.
-                                            // If there are more images (it is an error), remove all of them and reload the image.
-                                            matchingImageBufferList.ForEach (x => _BufferList.Remove (x));
-
-                                            goto START_IMAGE_IN_BUFFER_CHECK;
-                                        }
+                                        // ++++++++++++++++++++++++ [START] ++++++++++++++++++++++++
+                                        // ++++ Feature is currently not controllable, since we always use this function with this parameter set! ++++
+                                        //
+                                        ////Check if the image is already in the buffer list and or we have to load the (new) image.
+                                        //  
+                                        //semaphoreBufferList.WaitOne (10000);
+                                        //
+                                        //START_IMAGE_IN_BUFFER_CHECK:
+                                        //
+                                        //var matchingImageBufferList = _BufferList.Where (x => x.File == newBufferItem.File).ToList ();
+                                        //if (matchingImageBufferList.Count == 0)
+                                        //{
+                                        loadImageMustBeExecute = true;
+                                        //}
+                                        //else if (matchingImageBufferList.Count == 1)
+                                        //{
+                                        //    // Image is in our buffer list, but has the file content changed?
+                                        //    if (newBufferItem.IsEqualWith (matchingImageBufferList[0]) == false)
+                                        //    {
+                                        //        loadImageMustBeExecute = true;
+                                        //        bufferItemToUpdate = matchingImageBufferList[0];
+                                        //    }
+                                        //}
+                                        //else
+                                        //{
+                                        //    // There must be only one image in the buffer list.
+                                        //    // If there are more images (it is an error), remove all of them and reload the image.
+                                        //    matchingImageBufferList.ForEach (x => _BufferList.Remove (x));
+                                        //
+                                        //    goto START_IMAGE_IN_BUFFER_CHECK;
+                                        //}
+                                        //
+                                        //semaphoreBufferList.Release ();
+                                        //
+                                        // ++++++++++++++++++++++++ [END] ++++++++++++++++++++++++
 
                                         if (loadImageMustBeExecute)
                                         {
