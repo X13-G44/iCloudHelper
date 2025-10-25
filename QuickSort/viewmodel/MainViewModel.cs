@@ -1205,8 +1205,21 @@ namespace QuickSort.ViewModel
 
                                     FileTitleListAdd (bufferImageFile);
 
-#warning When multiTaks is used, we chould sort the list every n-time.
+                                    // About "useMultiTask":
+                                    // When there are HEIF image files present, the function "RefreshBufferAsync" use multiple task to seed up the loading process.
+                                    // This results in the situation, that the files will be processed in a random order.
+                                    // To keep the files sorted during loading, we have to call the sort function periodically; to save resources on the other hand,
+                                    // the sort function is only executed by the 10th image.
+                                    // Note: function _Dispatcher.Invoke makes us thread save.
+                                    if (useMultiTask)
+                                    {
+                                        if (++_RunFileTitleSortCounter > 10)
+                                        {
+                                            FileTitleListSort ();
 
+                                            _RunFileTitleSortCounter = 0;
+                                        }
+                                    }
                                 });
                             },
                             (errorMessages) =>
@@ -1246,6 +1259,8 @@ namespace QuickSort.ViewModel
         private int _StartSelectionStartIndex = -1;
         private int _EndSelectionStartIndex = -1;
 
+        private int _RunFileTitleSortCounter = 0;
+
 
 
         public MainViewModel (Dispatcher dispatcher, String path)
@@ -1272,6 +1287,22 @@ namespace QuickSort.ViewModel
                         this.FileTitleLoadStatus_Text = LocalizedStrings.GetFormattedString ("tbFileTitleSec_LodingImages", curCnt, maxCnt);
 
                         FileTitleListAdd (bufferImageFile);
+
+                        // About "useMultiTask":
+                        // When there are HEIF image files present, the function "RefreshBufferAsync" use multiple task to seed up the loading process.
+                        // This results in the situation, that the files will be processed in a random order.
+                        // To keep the files sorted during loading, we have to call the sort function periodically; to save resources on the other hand,
+                        // the sort function is only executed by the 10th image.
+                        // Note: function _Dispatcher.Invoke makes us thread save.
+                        if (useMultiTask)
+                        {
+                            if (++_RunFileTitleSortCounter > 10)
+                            {
+                                FileTitleListSort ();
+
+                                _RunFileTitleSortCounter = 0;
+                            }
+                        }
                     });
                 },
                 (errorMessages) =>
