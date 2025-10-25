@@ -196,7 +196,7 @@ namespace QuickSort.Model
                                                 bi.EndInit ();
                                                 bi.Freeze ();
 
-                                                takenDate = GetTakenDate (bi, fstream, file);
+                                                takenDate = GetTakenDate (fstream, file);
 
                                                 bi.StreamSource.Dispose ();
                                             }
@@ -352,7 +352,7 @@ namespace QuickSort.Model
                                                     bi.EndInit ();
                                                     bi.Freeze ();
 
-                                                    takenDate = GetTakenDate (bi, fstream, file);
+                                                    takenDate = GetTakenDate (fstream, file);
 
                                                     bi.StreamSource.Dispose ();
                                                 }
@@ -459,56 +459,39 @@ namespace QuickSort.Model
         /// <param name="fs">A open file stream (for Variant #2)</param>
         /// <param name="file">For fallback Variant #3</param>
         /// <returns></returns>
-        static private DateTime GetTakenDate (BitmapImage bi, FileStream fs, string file)
+        static private DateTime GetTakenDate (FileStream fs, string file)
         {
-            Debug.WriteLine ($"Filename: {file}");
+#warning "HEIF files are currently not supported. Try his lib to support them https://github.com/0xC0000054/libheif-sharp"
+
 
             try
             {
-                // Variant #1
+                // Retrieves the datetime WITHOUT loading the whole image.
+                // By using FileStream, you can tell GDI + not to load the whole image for verification.It runs over 10 × as faster.
+                // https://stackoverflow.com/a/7713780
 
-                BitmapMetadata md = (BitmapMetadata) bi.Metadata;
+                fs.Position = 0;
 
-                Debug.WriteLine ($"\tVariant #1: {md.DateTaken}");
-                return DateTime.Parse (md.DateTaken);
+                using (System.Drawing.Image myImage = System.Drawing.Image.FromStream (fs, false, false))
+                {
+                    PropertyItem propItem = myImage.GetPropertyItem (36867);
+                    Regex r = new Regex (":");
+
+
+                    string dateTaken = r.Replace (Encoding.UTF8.GetString (propItem.Value), "-", 2);
+
+                    return DateTime.Parse (dateTaken);
+                }
             }
             catch
             {
                 try
                 {
-                    // Variant #2 (If Variant #1 fails)
-                    //
-                    // Retrieves the datetime WITHOUT loading the whole image.
-                    // By using FileStream, you can tell GDI + not to load the whole image for verification.It runs over 10 × as faster.
-                    // https://stackoverflow.com/a/7713780
-
-                    fs.Position = 0;
-
-                    using (System.Drawing.Image myImage = System.Drawing.Image.FromStream (fs, false, false))
-                    {
-                        PropertyItem propItem = myImage.GetPropertyItem (36867);
-                        Regex r = new Regex (":");
-
-
-                        string dateTaken = r.Replace (Encoding.UTF8.GetString (propItem.Value), "-", 2);
-
-                        Debug.WriteLine ($"\tVariant #2: {dateTaken}");
-                        return DateTime.Parse (dateTaken);
-                    }
+                    return System.IO.File.GetCreationTime (file);
                 }
                 catch
                 {
-                    // Variant #3 (If Variant #1 and #2 failed, return the file creation time).
-                    try
-                    {
-                        Debug.WriteLine ($"\tVariant #3: FileDate");
-                        return System.IO.File.GetCreationTime (file);
-                    }
-                    catch
-                    {
-                        Debug.WriteLine ($"\tVariant #3: ToDay");
-                        return DateTime.Today;
-                    }
+                    return DateTime.Today;
                 }
             }
         }
