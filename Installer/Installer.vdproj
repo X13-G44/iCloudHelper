@@ -531,7 +531,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:iCloudHelper"
         "ProductCode" = "8:{2A0DD13B-358D-4085-9DB1-8AE7041D1436}"
-        "PackageCode" = "8:{B9B85D85-E144-4C6B-AB76-9C750786DE54}"
+        "PackageCode" = "8:{165DEAE7-CF79-48E6-B913-5B1F4E790A91}"
         "UpgradeCode" = "8:{9D42146E-AF78-4159-893A-C6F3996B4B7D}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
