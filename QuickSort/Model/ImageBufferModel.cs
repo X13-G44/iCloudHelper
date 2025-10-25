@@ -35,11 +35,14 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -135,11 +138,11 @@ namespace QuickSort.Model
                                 {
                                     String fileExt = Path.GetExtension (file).ToLower ();
                                     bool loadImageMustBeExecute = false;
-                                    ImageFileBufferItem bufferItemToUpdate = null;
+                                    //ImageFileBufferItem bufferItemToUpdate = null;
 
-                                    ImageFileBufferItem newBufferItem = new ImageFileBufferItem () { File = file, Thumbnail = null };
+                                    ImageFileBufferItem newBufferItem = null;
 
-                                    
+
                                     // ++++++++++++++++++++++++ [START] ++++++++++++++++++++++++
                                     // ++++ Feature is currently not controllable, since we always use this function with this parameter set! ++++
                                     //
@@ -177,9 +180,10 @@ namespace QuickSort.Model
                                         if (fileExt == ".jpg" || fileExt == ".jpeg" || fileExt == ".png" || fileExt == ".bmp" || fileExt == ".heic")
                                         {
                                             // This approach locks the file until the application is closed.
-                                            //thumb = new BitmapImage (new Url (file));
+                                            ////BitmapImage bi = new BitmapImage (new Url (file));
 
                                             BitmapImage bi = null;
+                                            DateTime takenDate;
 
 
                                             using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -192,34 +196,43 @@ namespace QuickSort.Model
                                                 bi.EndInit ();
                                                 bi.Freeze ();
 
+                                                takenDate = GetTakenDate (bi, fstream, file);
+
                                                 bi.StreamSource.Dispose ();
                                             }
 
-                                            newBufferItem.Thumbnail = bi;
-                                            newBufferItem.IsSysIconImage = false;
+                                            newBufferItem = new ImageFileBufferItem (file, bi, false, takenDate, System.IO.File.GetCreationTime (file));
                                         }
                                         else
                                         {
                                             // Get windows default icon.
                                             ImageSource imageSource = IconHelper.GetFileIcon (file);
-                                            newBufferItem.Thumbnail = IconHelper.ConvertImageSourceToBitmapImage (imageSource);
-                                            newBufferItem.IsSysIconImage = true;
+                                            BitmapImage bi = IconHelper.ConvertImageSourceToBitmapImage (imageSource);
+                                            DateTime takenDate = System.IO.File.GetCreationTime (file);
+
+
+                                            newBufferItem = new ImageFileBufferItem (file, bi, true, takenDate, takenDate);
                                         }
                                     }
 
-                                    if (bufferItemToUpdate == null)
-                                    {
-                                        if (loadImageMustBeExecute)
-                                        {
-                                            // Add new image item to buffer list.
-                                            _BufferList.Add (newBufferItem);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // Update existing item in buffer.
-                                        bufferItemToUpdate = newBufferItem;
-                                    }
+                                    // ++++++++++++++++++++++++ [START] ++++++++++++++++++++++++
+                                    // ++++ Feature is currently not controllable, since we always use this function with this parameter set! ++++
+                                    //
+                                    //if (bufferItemToUpdate == null)
+                                    //{
+                                    //    if (loadImageMustBeExecute)
+                                    //    {
+                                    //      // Add new image item to buffer list.
+                                    _BufferList.Add (newBufferItem);
+                                    //    }
+                                    //}
+                                    //else
+                                    //{
+                                    //    // Update existing item in buffer.
+                                    //    bufferItemToUpdate = newBufferItem;
+                                    //}
+                                    //
+                                    // ++++++++++++++++++++++++ [END] ++++++++++++++++++++++++
 
                                     // Execute / fire the onImageLoad callback handler.
                                     onImageLoad?.Invoke (newBufferItem, fileCnt++, files.Length, false);
@@ -276,9 +289,10 @@ namespace QuickSort.Model
                                     {
                                         String fileExt = Path.GetExtension (file).ToLower ();
                                         bool loadImageMustBeExecute = false;
-                                        ImageFileBufferItem bufferItemToUpdate = null;
+                                        //ImageFileBufferItem bufferItemToUpdate = null;
 
-                                        ImageFileBufferItem newBufferItem = new ImageFileBufferItem () { File = file, Thumbnail = null };
+                                        ImageFileBufferItem newBufferItem = null;
+
 
 
                                         // ++++++++++++++++++++++++ [START] ++++++++++++++++++++++++
@@ -322,9 +336,10 @@ namespace QuickSort.Model
                                             if (fileExt == ".jpg" || fileExt == ".jpeg" || fileExt == ".png" || fileExt == ".bmp" || fileExt == ".heic")
                                             {
                                                 // This approach locks the file until the application is closed.
-                                                //thumb = new BitmapImage (new Url (file));
+                                                //BitmapImage bi = new BitmapImage (new Url (file));
 
                                                 BitmapImage bi = null;
+                                                DateTime takenDate;
 
 
                                                 using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -337,36 +352,45 @@ namespace QuickSort.Model
                                                     bi.EndInit ();
                                                     bi.Freeze ();
 
+                                                    takenDate = GetTakenDate (bi, fstream, file);
+
                                                     bi.StreamSource.Dispose ();
                                                 }
 
-                                                newBufferItem.Thumbnail = bi;
-                                                newBufferItem.IsSysIconImage = false;
+                                                newBufferItem = new ImageFileBufferItem (file, bi, false, takenDate, System.IO.File.GetCreationTime (file));
                                             }
                                             else
                                             {
                                                 // Get windows default icon.
                                                 ImageSource imageSource = IconHelper.GetFileIcon (file);
-                                                newBufferItem.Thumbnail = IconHelper.ConvertImageSourceToBitmapImage (imageSource);
-                                                newBufferItem.IsSysIconImage = true;
+                                                BitmapImage bi = IconHelper.ConvertImageSourceToBitmapImage (imageSource);
+                                                DateTime takenDate = System.IO.File.GetCreationTime (file);
+
+
+                                                newBufferItem = new ImageFileBufferItem (file, bi, true, takenDate, takenDate);
                                             }
                                         }
 
                                         semaphoreBufferList.WaitOne (10000);
 
-                                        if (bufferItemToUpdate == null)
-                                        {
-                                            if (loadImageMustBeExecute)
-                                            {
-                                                // Add new image item to buffer list.
-                                                _BufferList.Add (newBufferItem);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            // Update existing item in buffer.
-                                            bufferItemToUpdate = newBufferItem;
-                                        }
+                                        // ++++++++++++++++++++++++ [START] ++++++++++++++++++++++++
+                                        // ++++ Feature is currently not controllable, since we always use this function with this parameter set! ++++
+                                        //
+                                        //if (bufferItemToUpdate == null)
+                                        //{
+                                        //    if (loadImageMustBeExecute)
+                                        //    {
+                                        //      // Add new image item to buffer list.
+                                        _BufferList.Add (newBufferItem);
+                                        //    }
+                                        //}
+                                        //else
+                                        //{
+                                        //    // Update existing item in buffer.
+                                        //    bufferItemToUpdate = newBufferItem;
+                                        //}
+                                        //
+                                        // ++++++++++++++++++++++++ [END] ++++++++++++++++++++++++
 
                                         semaphoreBufferList.Release ();
 
@@ -424,15 +448,84 @@ namespace QuickSort.Model
                 return null;
             }
         }
+
+
+
+        /// <summary>
+        /// Try to extract the taken time for a image file.
+        /// It tries to use 2 various variants.
+        /// </summary>
+        /// <param name="bi">A BitmapImage instance (for Variant #1)</param>
+        /// <param name="fs">A open file stream (for Variant #2)</param>
+        /// <param name="file">For fallback Variant #3</param>
+        /// <returns></returns>
+        static private DateTime GetTakenDate (BitmapImage bi, FileStream fs, string file)
+        {
+            Debug.WriteLine ($"Filename: {file}");
+
+            try
+            {
+                // Variant #1
+
+                BitmapMetadata md = (BitmapMetadata) bi.Metadata;
+
+                Debug.WriteLine ($"\tVariant #1: {md.DateTaken}");
+                return DateTime.Parse (md.DateTaken);
+            }
+            catch
+            {
+                try
+                {
+                    // Variant #2 (If Variant #1 fails)
+                    //
+                    // Retrieves the datetime WITHOUT loading the whole image.
+                    // By using FileStream, you can tell GDI + not to load the whole image for verification.It runs over 10 × as faster.
+                    // https://stackoverflow.com/a/7713780
+
+                    fs.Position = 0;
+
+                    using (System.Drawing.Image myImage = System.Drawing.Image.FromStream (fs, false, false))
+                    {
+                        PropertyItem propItem = myImage.GetPropertyItem (36867);
+                        Regex r = new Regex (":");
+
+
+                        string dateTaken = r.Replace (Encoding.UTF8.GetString (propItem.Value), "-", 2);
+
+                        Debug.WriteLine ($"\tVariant #2: {dateTaken}");
+                        return DateTime.Parse (dateTaken);
+                    }
+                }
+                catch
+                {
+                    // Variant #3 (If Variant #1 and #2 failed, return the file creation time).
+                    try
+                    {
+                        Debug.WriteLine ($"\tVariant #3: FileDate");
+                        return System.IO.File.GetCreationTime (file);
+                    }
+                    catch
+                    {
+                        Debug.WriteLine ($"\tVariant #3: ToDay");
+                        return DateTime.Today;
+                    }
+                }
+            }
+        }
+
     }
 
 
 
     public class ImageFileBufferItem
     {
-        public string File { get; set; }
-        public BitmapImage Thumbnail { get; set; }
-        public bool IsSysIconImage { get; set; }
+        public string File { get; private set; }
+        public BitmapImage Thumbnail { get; private set; }
+        public bool IsSysIconImage { get; private set; }
+        public DateTime TakenDate { get; private set; }
+        public DateTime CreationTime { get; private set; }
+
+
         public bool FileExists
         {
             get
@@ -448,6 +541,17 @@ namespace QuickSort.Model
             }
         }
         public string Filename { get { return Path.GetFileName (this.File); } }
+
+
+
+        public ImageFileBufferItem (string file, BitmapImage thumbnail, bool isSysIconImage, DateTime takenDate, DateTime creationTime)
+        {
+            File = file;
+            Thumbnail = thumbnail;
+            IsSysIconImage = isSysIconImage;
+            TakenDate = takenDate;
+            CreationTime = creationTime;
+        }
 
 
 

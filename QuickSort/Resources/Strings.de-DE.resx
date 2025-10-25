@@ -163,7 +163,7 @@
     <value>Zielordner</value>
   </data>
   <data name="ttFileTitleSec_FileTitleItem" xml:space="preserve">
-    <value>Name:            \t[0]\nOrdner:          \t[1]\nGröße:           \t[2]kB\nErstelldatum:    \t[3]\nLetzter Zugriff: \t[4]</value>
+    <value>Name:            \t[0]\nOrdner:          \t[1]\nGröße:           \t[2]kB\nAufnahmedatum:\t[3]\nErstelldatum:    \t[4]</value>
   </data>
   <data name="ttVirtualDirSec_DirItem" xml:space="preserve">
     <value>Name:            \t[0]\nOrdner:          \t[1]\nDateien:         \t[2]\nUnter-Ordner:    \t[3]</value>
@@ -362,5 +362,14 @@
   </data>
   <data name="dlgFileMove_QuestionText_B" xml:space="preserve">
     <value>Sollen die {0} ausgewählten Bilder nach "{1}" verschoben werden? \n\nOder soll nur der Ordnerinhalt von "{1}" angezeigt werden?</value>
+  </data>
+  <data name="cmFileTitleSec_ButtonSortByDisplayName" xml:space="preserve">
+    <value>Nach Bildnamen sortieren</value>
+  </data>
+  <data name="cmFileTitleSec_ButtonSortByFileCreatDate" xml:space="preserve">
+    <value>Nach Erstellungsdatum sortieren</value>
+  </data>
+  <data name="cmFileTitleSec_ButtonSortByFileTakeDate" xml:space="preserve">
+    <value>Nach Bildaufnahmedatum sortieren</value>
   </data>
 </root>

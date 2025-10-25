@@ -127,6 +127,8 @@ namespace QuickSort.ViewModel
 
                         string oldStartPath = ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath;
                         bool oldShowImageFileName = ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
+                        int oldFileTitleSizeLevel = ConfigurationStorage.ConfigurationStorageModel.FileTitleSizeLevel;
+                        int oldFileTitleListSortOrder = ConfigurationStorage.ConfigurationStorageModel.FileTitleSortOrder;
 
 
                         try
@@ -161,10 +163,18 @@ namespace QuickSort.ViewModel
                                         Cmd_ContextMenu_RefreshFileTitleList.Execute (null);
                                     }
                                 }
-                                else if (oldShowImageFileName != ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName)
+
+                                // Change item size or change the filename text in FileTitle list.
+                                if (oldShowImageFileName != ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName ||
+                                    oldFileTitleSizeLevel != ConfigurationStorage.ConfigurationStorageModel.FileTitleSizeLevel)
                                 {
-                                    // Update the file title list.
-                                    UpdateFileTitleList ();
+                                    FileTitleListResize ();
+                                }
+
+                                // Sort FileTitle list.
+                                if (oldFileTitleListSortOrder != ConfigurationStorage.ConfigurationStorageModel.FileTitleSortOrder)
+                                {
+                                    FileTitleListSort ();
                                 }
                             }
                         }
@@ -282,7 +292,7 @@ namespace QuickSort.ViewModel
 
                             if (querrySelectedFileList.Count > 0)
                             {
-                                PrepareMoveFiles (targetPath);
+                                MoveFilesPrepare (targetPath);
                             }
                             else if (Directory.Exists (targetPath))
                             {
@@ -368,7 +378,7 @@ namespace QuickSort.ViewModel
 
                         if (querrySelectedFileList.Count > 0)
                         {
-                            PrepareMoveFiles (virtualDirectoryModel.Path, virtualDirectoryModel);
+                            MoveFilesPrepare (virtualDirectoryModel.Path, virtualDirectoryModel);
                         }
                         else
                         {
@@ -393,7 +403,7 @@ namespace QuickSort.ViewModel
 
                         if (querrySelectedFileList.Count > 0)
                         {
-                            PrepareMoveFiles (virtualDirectoryModel.Path, virtualDirectoryModel);
+                            MoveFilesPrepare (virtualDirectoryModel.Path, virtualDirectoryModel);
                         }
                         else
                         {
@@ -418,7 +428,7 @@ namespace QuickSort.ViewModel
 
                         if (querrySelectedFileList.Count > 0)
                         {
-                            PrepareMoveFiles (virtualDirectoryModel.Path);
+                            MoveFilesPrepare (virtualDirectoryModel.Path);
                         }
                         else
                         {
@@ -1115,7 +1125,7 @@ namespace QuickSort.ViewModel
                                                                 LocalizedStrings.GetString ("dlgDeleteImageFile_ErrorMessage"));
                                                         }
 
-                                                        UpdateFileTitleList ();
+                                                        FileTitleListResize ();
                                                     }),
 
                                 null);
@@ -1138,9 +1148,31 @@ namespace QuickSort.ViewModel
 
                         if (int.TryParse (sizeLevel as string, out fileTitleSizeLevel))
                         {
-                            ConfigurationStorage.ConfigurationStorageModel.FolderTitleSizeLevel = fileTitleSizeLevel;
+                            ConfigurationStorage.ConfigurationStorageModel.FileTitleSizeLevel = fileTitleSizeLevel;
 
-                            UpdateFileTitleList ();
+                            FileTitleListResize ();
+                        }
+                    },
+                    param => true
+                );
+            }
+        }
+
+        public RelayCommand Cmd_ContextMenu_SetFileTitleSortOrder
+        {
+            get
+            {
+                return new RelayCommand (
+                    sizeLevel =>
+                    {
+                        int fileTitleSortOrder;
+
+
+                        if (int.TryParse (sizeLevel as string, out fileTitleSortOrder))
+                        {
+                            ConfigurationStorage.ConfigurationStorageModel.FileTitleSortOrder = fileTitleSortOrder;
+
+                            FileTitleListSort ();
                         }
                     },
                     param => true
@@ -1171,7 +1203,10 @@ namespace QuickSort.ViewModel
                                     this.FileTitleLoadStatus_Show = true;
                                     this.FileTitleLoadStatus_Text = LocalizedStrings.GetFormattedString ("tbFileTitleSec_LodingImages", curCnt, maxCnt);
 
-                                    AddFileTitleList (bufferImageFile, useMultiTask);
+                                    FileTitleListAdd (bufferImageFile);
+
+#warning When multiTaks is used, we chould sort the list every n-time.
+
                                 });
                             },
                             (errorMessages) =>
@@ -1180,6 +1215,8 @@ namespace QuickSort.ViewModel
 
                                 _Dispatcher.Invoke (() =>
                                 {
+                                    FileTitleListSort ();
+
                                     if (errorMessages?.Count > 0)
                                     {
                                         string errorMessageString = string.Empty;
@@ -1234,7 +1271,7 @@ namespace QuickSort.ViewModel
                         this.FileTitleLoadStatus_Show = true;
                         this.FileTitleLoadStatus_Text = LocalizedStrings.GetFormattedString ("tbFileTitleSec_LodingImages", curCnt, maxCnt);
 
-                        AddFileTitleList (bufferImageFile, useMultiTask);
+                        FileTitleListAdd (bufferImageFile);
                     });
                 },
                 (errorMessages) =>
@@ -1243,6 +1280,8 @@ namespace QuickSort.ViewModel
 
                     _Dispatcher.Invoke (() =>
                     {
+                        FileTitleListSort ();
+
                         if (errorMessages?.Count > 0)
                         {
                             string errorMessageString = string.Empty;
@@ -1283,64 +1322,13 @@ namespace QuickSort.ViewModel
 
 
 
-        private void UpdateFileTitleList ()
+        private void FileTitleListAdd (ImageFileBufferItem imageFileBufferItem)
         {
             int height = 128;
             int width = 128;
 
 
-            switch (ConfigurationStorage.ConfigurationStorageModel.FolderTitleSizeLevel)
-            {
-                case 0:
-                    {
-                        // Small symbol size.
-                        height = width = 180;
-                        break;
-                    }
-
-                default:
-                case 1:
-                    {
-                        // Middle symbol size.
-                        height = width = 275;
-                        break;
-                    }
-
-                case 2:
-                    {
-                        // Large symbol size.
-                        height = width = 560;
-                        break;
-                    }
-            }
-
-            // Check for and remove none existing image files.
-            var querryDeletedImages = this.FileTileList.Where (x => !x.FileExists);
-            foreach (var image in querryDeletedImages)
-            {
-                this.FileTileList.Remove (image);
-            }
-
-            // Update the image size and file name text.
-            for (int i = 0; i < this.FileTileList.Count; i++)
-            {
-                this.FileTileList[i].Height = height;
-                this.FileTileList[i].Width = width;
-                this.FileTileList[i].SizeLevel = ConfigurationStorage.ConfigurationStorageModel.FolderTitleSizeLevel;
-
-                this.FileTileList[i].HideFilenameText = !ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
-            }
-        }
-
-
-
-        private void AddFileTitleList (ImageFileBufferItem imageFileBufferItem, bool sortImages)
-        {
-            int height = 128;
-            int width = 128;
-
-
-            switch (ConfigurationStorage.ConfigurationStorageModel.FolderTitleSizeLevel)
+            switch (ConfigurationStorage.ConfigurationStorageModel.FileTitleSizeLevel)
             {
                 case 0:
                     {
@@ -1374,32 +1362,167 @@ namespace QuickSort.ViewModel
                     Height = height,
                     Width = width,
                     HideFilenameText = !ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName,
-                    SizeLevel = ConfigurationStorage.ConfigurationStorageModel.FolderTitleSizeLevel,
+                    SizeLevel = ConfigurationStorage.ConfigurationStorageModel.FileTitleSizeLevel,
 
                     File = imageFileBufferItem.File,
 
                     IsSysIconImage = imageFileBufferItem.IsSysIconImage,
+
+                    TakenDate = imageFileBufferItem.TakenDate,
+                    CreationTime = imageFileBufferItem.CreationTime,
                 });
+            }
+        }
 
 
-                // When flag is set, we must sort the items in the FileTileList its DisplayName in alphabetical order.
-                if (sortImages)
-                {
-                    var sortableList = new List<FileTitleViewModel> (FileTileList);
 
-                    sortableList.Sort (delegate (FileTitleViewModel x, FileTitleViewModel y)
+        private void FileTitleListSort ()
+        {
+            // Check for and removed, none existing image files.
+            var querryDeletedImages = this.FileTileList.Where (x => !x.FileExists);
+            foreach (var image in querryDeletedImages)
+            {
+                this.FileTileList.Remove (image);
+            }
+
+            // Start item sort.
+            switch (ConfigurationStorage.ConfigurationStorageModel.FileTitleSizeLevel)
+            {
+                case 0:
                     {
-                        if (x.DisplayName == null && y.DisplayName == null) return 0;
-                        else if (x.DisplayName == null) return -1;
-                        else if (y.DisplayName == null) return 1;
-                        else return x.DisplayName.CompareTo (y.DisplayName);
-                    });
+                        // Sort by Display Name
 
-                    for (int i = 0; i < sortableList.Count; i++)
-                    {
-                        FileTileList.Move (FileTileList.IndexOf (sortableList[i]), i);
+                        var sortableList = new List<FileTitleViewModel> (this.FileTileList);
+
+
+                        sortableList.Sort (delegate (FileTitleViewModel x, FileTitleViewModel y)
+                        {
+                            if (x.DisplayName == null && y.DisplayName == null) return 0;
+                            else if (x.DisplayName == null) return -1;
+                            else if (y.DisplayName == null) return 1;
+                            else return x.DisplayName.CompareTo (y.DisplayName);
+                        });
+
+                        for (int i = 0; i < sortableList.Count; i++)
+                        {
+                            FileTileList.Move (FileTileList.IndexOf (sortableList[i]), i);
+                        }
+
+                        break;
                     }
-                }
+
+                case 1:
+                    {
+                        // Sort by File Name
+
+                        var sortableList = new List<FileTitleViewModel> (this.FileTileList);
+
+
+                        sortableList.Sort (delegate (FileTitleViewModel x, FileTitleViewModel y)
+                        {
+                            if (x.Filename == null && y.Filename == null) return 0;
+                            else if (x.Filename == null) return -1;
+                            else if (y.Filename == null) return 1;
+                            else return x.Filename.CompareTo (y.Filename);
+                        });
+
+                        for (int i = 0; i < sortableList.Count; i++)
+                        {
+                            FileTileList.Move (FileTileList.IndexOf (sortableList[i]), i);
+                        }
+
+                        break;
+                    }
+
+                case 2:
+                    {
+                        // Sort by File Creation Date
+
+                        var sortableList = new List<FileTitleViewModel> (this.FileTileList);
+
+
+                        sortableList.Sort ((x, y) => DateTime.Compare (x.CreationTime, y.CreationTime));
+
+                        for (int i = 0; i < sortableList.Count; i++)
+                        {
+                            FileTileList.Move (FileTileList.IndexOf (sortableList[i]), i);
+                        }
+
+                        break;
+                    }
+
+                case 3:
+                    {
+                        // Sort by Image Take Date
+
+                        var sortableList = new List<FileTitleViewModel> (this.FileTileList);
+
+
+                        sortableList.Sort ((x, y) => DateTime.Compare (x.TakenDate, y.TakenDate));
+
+                        for (int i = 0; i < sortableList.Count; i++)
+                        {
+                            FileTileList.Move (FileTileList.IndexOf (sortableList[i]), i);
+                        }
+
+                        break;
+                    }
+
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
+
+
+
+        private void FileTitleListResize ()
+        {
+            int height = 128;
+            int width = 128;
+
+
+            switch (ConfigurationStorage.ConfigurationStorageModel.FileTitleSizeLevel)
+            {
+                case 0:
+                    {
+                        // Small symbol size.
+                        height = width = 180;
+                        break;
+                    }
+
+                default:
+                case 1:
+                    {
+                        // Middle symbol size.
+                        height = width = 275;
+                        break;
+                    }
+
+                case 2:
+                    {
+                        // Large symbol size.
+                        height = width = 560;
+                        break;
+                    }
+            }
+
+            // Check for and removed, none existing image files.
+            var querryDeletedImages = this.FileTileList.Where (x => !x.FileExists);
+            foreach (var image in querryDeletedImages)
+            {
+                this.FileTileList.Remove (image);
+            }
+
+            // Update the image size and file name text.
+            for (int i = 0; i < this.FileTileList.Count; i++)
+            {
+                this.FileTileList[i].Height = height;
+                this.FileTileList[i].Width = width;
+                this.FileTileList[i].SizeLevel = ConfigurationStorage.ConfigurationStorageModel.FileTitleSizeLevel;
+
+                this.FileTileList[i].HideFilenameText = !ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
             }
         }
 
@@ -1483,7 +1606,7 @@ namespace QuickSort.ViewModel
 
 
 
-        private void PrepareMoveFiles (string targetPath, VirtualDirectoryViewModel optionalOpenTargetVirtualDirectory = null)
+        private void MoveFilesPrepare (string targetPath, VirtualDirectoryViewModel optionalOpenTargetVirtualDirectory = null)
         {
             var querrySelectedFileList = FileTileList.Where (x => x.IsSelected).ToList<FileTitleViewModel> ();
 
@@ -1492,9 +1615,9 @@ namespace QuickSort.ViewModel
             {
                 if (ConfigurationStorage.ConfigurationStorageModel.ShowMoveDlg)
                 {
-                    string questionText = optionalOpenTargetVirtualDirectory == null ? 
+                    string questionText = optionalOpenTargetVirtualDirectory == null ?
                         LocalizedStrings.GetFormattedString ("dlgFileMove_QuestionText_A", querrySelectedFileList.Count (), Path.GetFileName (targetPath)) :
-                        LocalizedStrings.GetFormattedString ("dlgFileMove_QuestionText_B", querrySelectedFileList.Count (), Path.GetFileName (targetPath)) ;
+                        LocalizedStrings.GetFormattedString ("dlgFileMove_QuestionText_B", querrySelectedFileList.Count (), Path.GetFileName (targetPath));
 
                     this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
                         DlgBoxType.Question,
@@ -1675,7 +1798,7 @@ namespace QuickSort.ViewModel
                         FileMoveProcPopupNotificationList.Remove (popup);
 
                         // Refresh the file title list.
-                        UpdateFileTitleList ();
+                        FileTitleListResize ();
                     });
                 });
             }

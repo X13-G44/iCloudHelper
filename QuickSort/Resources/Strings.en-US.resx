@@ -163,7 +163,7 @@
     <value>Target folder</value>
   </data>
   <data name="ttFileTitleSec_FileTitleItem" xml:space="preserve">
-    <value>Name:            \t[0]\nFolder:          \t[1]\nSize:            \t[2]kB\nCreation date:   \t[3]\nLast access:     \t[4]</value>
+    <value>Name:            \t[0]\nFolder:          \t[1]\nSize:            \t[2]kB\nCapture date:    \t[3]\nCreation date:   \t[4]</value>
   </data>
   <data name="ttVirtualDirSec_DirItem" xml:space="preserve">
     <value>Name:            \t[0]\nFolder:          \t[1]\nFile count:      \t[2]\nSubfilder count: \t[3]</value>
@@ -362,5 +362,14 @@
   </data>
   <data name="dlgFileMove_QuestionText_B" xml:space="preserve">
     <value>Should the {0} selected images be moved to "{1}"?\n\nOr should only the folder contents of "{1}" be displayed?</value>
+  </data>
+  <data name="cmFileTitleSec_ButtonSortByDisplayName" xml:space="preserve">
+    <value>Sort by image name</value>
+  </data>
+  <data name="cmFileTitleSec_ButtonSortByFileCreatDate" xml:space="preserve">
+    <value>Sort by create date</value>
+  </data>
+  <data name="cmFileTitleSec_ButtonSortByFileTakeDate" xml:space="preserve">
+    <value>Sort by image capture date</value>
   </data>
 </root>

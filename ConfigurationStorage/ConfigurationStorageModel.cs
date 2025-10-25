@@ -47,7 +47,8 @@ namespace ConfigurationStorage
         static public int FavoriteTargetFolderCollectionLimit { get; set; } = 15;
         static public bool FavoriteTargetFolderCollectionAutoInsert { get; set; } = true;
 
-        static public int FolderTitleSizeLevel { get; set; } = 1;
+        static public int FileTitleSizeLevel { get; set; } = 1;
+        static public int FileTitleSortOrder { get; set; } = 0;
 
 
 
@@ -92,7 +93,8 @@ namespace ConfigurationStorage
                 FavoriteTargetFolderCollectionLimit = int.Parse ((string) keyVer.GetValue (nameof (FavoriteTargetFolderCollectionLimit)));
                 FavoriteTargetFolderCollectionAutoInsert = bool.Parse ((string) keyVer.GetValue (nameof (FavoriteTargetFolderCollectionAutoInsert)));
 
-                FolderTitleSizeLevel = int.Parse ((string) keyVer.GetValue (nameof (FolderTitleSizeLevel)));
+                FileTitleSizeLevel = int.Parse ((string) keyVer.GetValue (nameof (FileTitleSizeLevel)));
+                FileTitleSortOrder = int.Parse ((string) keyVer.GetValue (nameof (FileTitleSortOrder)));
 
 
                 keyVer?.Close ();
@@ -145,7 +147,8 @@ namespace ConfigurationStorage
                 keyVer.SetValue (nameof (FavoriteTargetFolderCollectionLimit), FavoriteTargetFolderCollectionLimit, RegistryValueKind.ExpandString);
                 keyVer.SetValue (nameof (FavoriteTargetFolderCollectionAutoInsert), FavoriteTargetFolderCollectionAutoInsert, RegistryValueKind.ExpandString);
 
-                keyVer.SetValue (nameof (FolderTitleSizeLevel), FolderTitleSizeLevel, RegistryValueKind.ExpandString);
+                keyVer.SetValue (nameof (FileTitleSizeLevel), FileTitleSizeLevel, RegistryValueKind.ExpandString);
+                keyVer.SetValue (nameof (FileTitleSortOrder), FileTitleSortOrder, RegistryValueKind.ExpandString);
 
 
                 keyVer?.Close ();

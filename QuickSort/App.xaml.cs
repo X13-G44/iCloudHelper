@@ -164,7 +164,7 @@ namespace QuickSort
 
                         ConfigurationStorage.ConfigurationStorageModel.SaveConfiguration ();
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         MessageBox.Show (LocalizedStrings.GetString ("dlg_CreateDefaultDirError"),
                             $"{App.APP_TITLE} - {LocalizedStrings.GetString ("lError")}",

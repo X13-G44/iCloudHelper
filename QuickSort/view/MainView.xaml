@@ -1100,6 +1100,12 @@
                               Tag="&#xE1EC;"
                               Command="{Binding Cmd_ContextMenu_UnSelectAllFileTitles}"/>
 
+                    <MenuItem Name="cmFileTitleSec_ButtonDelete"
+                              Header="{lex:Loc}" 
+                              Style="{StaticResource CustomMenuItemStyle}" 
+                              Tag="&#xE107;"
+                              Command="{Binding Cmd_ContextMenu_DeleteSelectedImageFiles}"/>
+
                     <MenuItem Name="cmFileTitleSec_ButtonSmalIconSize"
                               Header="{lex:Loc}" 
                               Style="{StaticResource CustomMenuItemStyle}" 
@@ -1121,11 +1127,38 @@
                               Command="{Binding Cmd_ContextMenu_SetFileTitleSize}" 
                               CommandParameter="2"/>
 
-                    <MenuItem Name="cmFileTitleSec_ButtonDelete"
+
+
+                    <MenuItem Name="cmFileTitleSec_ButtonSortByDisplayName"
                               Header="{lex:Loc}" 
                               Style="{StaticResource CustomMenuItemStyle}" 
-                              Tag="&#xE107;"
-                              Command="{Binding Cmd_ContextMenu_DeleteSelectedImageFiles}"/>
+                              Tag="&#xE174;"
+                              Command="{Binding Cmd_ContextMenu_SetFileTitleSortOrder}" 
+                              CommandParameter="0"/>
+
+                    <!-- Since "DisplayName" and "FileName" are equal, we can remove one of them from ContextMenu.
+                    <MenuItem Name="cmFileTitleSec_ButtonSortByFileName"
+                              Header="{lex:Loc}" 
+                              Style="{StaticResource CustomMenuItemStyle}" 
+                              Tag="&#xE174;"
+                              Command="{Binding Cmd_ContextMenu_SetFileTitleSortOrder}" 
+                              CommandParameter="1"/>-->
+
+                    <MenuItem Name="cmFileTitleSec_ButtonSortByFileCreatDate"
+                              Header="{lex:Loc}" 
+                              Style="{StaticResource CustomMenuItemStyle}" 
+                              Tag="&#xE174;"
+                              Command="{Binding Cmd_ContextMenu_SetFileTitleSortOrder}" 
+                              CommandParameter="2"/>
+
+                    <MenuItem Name="cmFileTitleSec_ButtonSortByFileTakeDate"
+                              Header="{lex:Loc}" 
+                              Style="{StaticResource CustomMenuItemStyle}" 
+                              Tag="&#xE174;"
+                              Command="{Binding Cmd_ContextMenu_SetFileTitleSortOrder}" 
+                              CommandParameter="3"/>
+
+
 
                     <MenuItem Name="cmFileTitleSec_RefreshView"
                               Header="{lex:Loc}" 

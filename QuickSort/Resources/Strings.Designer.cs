@@ -151,6 +151,33 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sort by image name ähnelt.
+        /// </summary>
+        public static string cmFileTitleSec_ButtonSortByDisplayName {
+            get {
+                return ResourceManager.GetString("cmFileTitleSec_ButtonSortByDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sort by create date ähnelt.
+        /// </summary>
+        public static string cmFileTitleSec_ButtonSortByFileCreatDate {
+            get {
+                return ResourceManager.GetString("cmFileTitleSec_ButtonSortByFileCreatDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sort by image capture date ähnelt.
+        /// </summary>
+        public static string cmFileTitleSec_ButtonSortByFileTakeDate {
+            get {
+                return ResourceManager.GetString("cmFileTitleSec_ButtonSortByFileTakeDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Deselect all ähnelt.
         /// </summary>
         public static string cmFileTitleSec_DeSelectAll {
@@ -772,7 +799,7 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Name:            \t[0]\nFolder:          \t[1]\nSize:            \t[2]kB\nCreation date:   \t[3]\nLast access:     \t[4] ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Name:            \t[0]\nFolder:          \t[1]\nSize:            \t[2]kB\nCapture date:    \t[3]\nCreation date:   \t[4] ähnelt.
         /// </summary>
         public static string ttFileTitleSec_FileTitleItem {
             get {

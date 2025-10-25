@@ -97,17 +97,17 @@ namespace QuickSort.ViewModel
                     Name:            \t[0]\n
                     Ordner:          \t[1]\n
                     Größe:           \t[2]kB\n
-                    Erstelldatum:    \t[3]\n
-                    Letzter Zugriff: \t[4]
+                    Aufnahmedatum:   \t[3]\n
+                    Erstelldatum:    \t[4]
 
                     Name:            \t[0]\n
                     Folder:          \t[1]\n
                     Size:            \t[2]kB\n
-                    Creation date:   \t[3]\n
-                    Last access:     \t[4]
+                    Capture date:    \t[3]\n
+                    Creation date:   \t[4]
                 */
 
-                return LocalizedStrings.GetFormattedString ("ttFileTitleSec_FileTitleItem", this.Filename, this.Filepath, this.Filesize, this.CreationTime, this.LastAccessTime);
+                return LocalizedStrings.GetFormattedString ("ttFileTitleSec_FileTitleItem", this.Filename, this.Filepath, this.Filesize, this.TakenDate, this.CreationTime);
             }
         }
 
@@ -138,7 +138,7 @@ namespace QuickSort.ViewModel
                 OnPropertyChanged (nameof (Filepath));
                 OnPropertyChanged (nameof (Filesize));
                 OnPropertyChanged (nameof (CreationTime));
-                OnPropertyChanged (nameof (LastAccessTime));
+                OnPropertyChanged (nameof (TakenDate));
 
                 OnPropertyChanged (nameof (ToolTip));
             }
@@ -185,34 +185,22 @@ namespace QuickSort.ViewModel
                 }
             }
         }
+
+        private DateTime _TakenDate;
+        public DateTime TakenDate
+        {
+            get { return _TakenDate; }
+            set { _TakenDate = value; OnPropertyChanged (nameof (TakenDate)); }
+        }
+
+        private DateTime _CreationTime;
         public DateTime CreationTime
         {
-            get
-            {
-                try
-                {
-                    return System.IO.File.GetCreationTime (this.File);
-                }
-                catch
-                {
-                    return DateTime.Today;
-                }
-            }
+            get { return _CreationTime; }
+            set { _CreationTime = value; OnPropertyChanged (nameof (CreationTime)); }
         }
-        public DateTime LastAccessTime
-        {
-            get
-            {
-                try
-                {
-                    return System.IO.File.GetLastAccessTime (this.File);
-                }
-                catch
-                {
-                    return DateTime.Today;
-                }
-            }
-        }
+
+
         public bool FileExists
         {
             get
