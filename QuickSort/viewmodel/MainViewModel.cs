@@ -201,7 +201,7 @@ namespace QuickSort.ViewModel
                     {
                         if (this.FileMoveProcPopupNotificationList.Count != 0)
                         {
-                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
+                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_TwoButton (
                                 DlgBoxType.Warning,
                                 LocalizedStrings.GetString ("lWarning"),
                                 LocalizedStrings.GetString ("dlgAppExitFileCopyStillActive_Message"),
@@ -697,7 +697,7 @@ namespace QuickSort.ViewModel
                             rules.Add (new CheckDirectoryNameValidationRule () { RootDirectory = selectedVirtRootDirObject.Path });
 
                             // Setup and show dialog box.
-                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
+                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_TwoButton (
                                 DlgBoxType.Question,
                                 LocalizedStrings.GetString ("lQuestion"),
                                 LocalizedStrings.GetString ("dlgNewFolder_QuestionText"),
@@ -707,7 +707,7 @@ namespace QuickSort.ViewModel
                                                   null,
                                                   _dlgBoxCfg => {; }),
 
-                                leftButton: new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Create"),
+                                new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Create"),
                                                     DlgBoxButtonSymbol.Check,
                                                     selectedVirtRootDirObject,
                                                     dlgBoxCfg =>
@@ -752,7 +752,7 @@ namespace QuickSort.ViewModel
 
                         if (Directory.GetDirectories (selectedVirtDirObject.Path).Length != 0 || Directory.GetFiles (selectedVirtDirObject.Path).Length != 0)
                         {
-                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
+                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_TwoButton (
                                 DlgBoxType.Warning,
                                 LocalizedStrings.GetString ("lWarning"),
                                 LocalizedStrings.GetFormattedString ("dlgDelayNotEmptyDir_Message", selectedVirtDirObject.Path),
@@ -890,7 +890,7 @@ namespace QuickSort.ViewModel
                             rules.Add (new CheckDirectoryNameValidationRule () { RootDirectory = selectedVirtRootDirObject.Path });
 
                             // Setup and show dialog box.
-                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
+                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_TwoButton (
                                 DlgBoxType.Question,
                                 LocalizedStrings.GetString ("lQuestion"),
                                 LocalizedStrings.GetString ("dlgNewFolder_QuestionText"),
@@ -900,7 +900,7 @@ namespace QuickSort.ViewModel
                                                   null,
                                                   dlgBoxCfg => {; }),
 
-                                leftButton: new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Create"),
+                                new DlgBoxButton (LocalizedStrings.GetString ("dlgNewFolder_Create"),
                                                     DlgBoxButtonSymbol.Check,
                                                     selectedVirtRootDirObject,
                                                     dlgBoxCfg =>
@@ -945,7 +945,7 @@ namespace QuickSort.ViewModel
 
                         if (Directory.GetFiles (selectedVirtDirObject.Path).Length != 0 || Directory.GetDirectories (selectedVirtDirObject.Path).Length != 0)
                         {
-                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
+                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_TwoButton (
                                 DlgBoxType.Warning,
                                 LocalizedStrings.GetString ("lWarning"),
                                 LocalizedStrings.GetFormattedString ("dlgDelayNotEmptyDir_Message", selectedVirtDirObject.Path),
@@ -1084,7 +1084,7 @@ namespace QuickSort.ViewModel
 
                         if (querrySelectedFileList.Count > 0)
                         {
-                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
+                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_TwoButton (
                                  DlgBoxType.Warning,
                                 LocalizedStrings.GetString ("lWarning"),
                                 LocalizedStrings.GetFormattedString ("dlgDeleteImageFile_Message", querrySelectedFileList.Count),
@@ -1417,7 +1417,7 @@ namespace QuickSort.ViewModel
             }
 
             // Start item sort.
-            switch (ConfigurationStorage.ConfigurationStorageModel.FileTitleSizeLevel)
+            switch (ConfigurationStorage.ConfigurationStorageModel.FileTitleSortOrder)
             {
                 case 0:
                     {
@@ -1650,7 +1650,7 @@ namespace QuickSort.ViewModel
                         LocalizedStrings.GetFormattedString ("dlgFileMove_QuestionText_A", querrySelectedFileList.Count (), Path.GetFileName (targetPath)) :
                         LocalizedStrings.GetFormattedString ("dlgFileMove_QuestionText_B", querrySelectedFileList.Count (), Path.GetFileName (targetPath));
 
-                    this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog (
+                    this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_ThreeButton (
                         DlgBoxType.Question,
                         LocalizedStrings.GetString ("lQuestion"),
                         questionText,

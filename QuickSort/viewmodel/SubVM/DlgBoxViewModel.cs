@@ -73,20 +73,80 @@ namespace QuickSort.ViewModel
         /// <param name="title">Dialog title</param>
         /// <param name="message">Dialog message</param>
         /// <param name="rightButton">Right button configuration</param>
+        /// <param name="textBox">Optional TextBox configuration</param>
+        /// <returns>Initialized DlgBoxViewModel instance to use by the DlgBoxUserControl.Configuration instance</returns>
+        static public DlgBoxViewModel ShowDialog_OneButton (DlgBoxType type, String title, String message, DlgBoxButton rightButton, DlgBoxTextBox textBox = null)
+        {
+            if (rightButton == null)
+            {
+                throw new ArgumentNullException ();
+            }
+
+            return new DlgBoxViewModel
+            {
+                Type = type,
+                Title = title,
+                Message = message,
+                LeftButton = null,
+                CenterButton = null,
+                RightButton = rightButton,
+                TextBox = textBox
+            };
+        }
+
+
+
+        /// <summary>
+        /// Configure and show a DlgBox message box (DlgBoxUserControl).
+        /// 
+        /// Put the returned instance to the DlgBoxUserControl.Configuration property to show the dialog box. 
+        /// </summary>
+        /// <param name="type">Dialog type</param>
+        /// <param name="title">Dialog title</param>
+        /// <param name="message">Dialog message</param>
+        /// <param name="rightButton">Right button configuration</param>
+        /// <param name="leftButton">Optional left button configuration</param>
+        /// <param name="textBox">Optional TextBox configuration</param>
+        /// <returns>Initialized DlgBoxViewModel instance to use by the DlgBoxUserControl.Configuration instance</returns>
+        static public DlgBoxViewModel ShowDialog_TwoButton (DlgBoxType type, String title, String message, DlgBoxButton rightButton, DlgBoxButton leftButton, DlgBoxTextBox textBox = null)
+        {
+            if (rightButton == null)
+            {
+                throw new ArgumentNullException ();
+            }
+
+            return new DlgBoxViewModel
+            {
+                Type = type,
+                Title = title,
+                Message = message,
+                LeftButton = leftButton,
+                CenterButton = null,
+                RightButton = rightButton,
+                TextBox = textBox
+            };
+        }
+
+
+
+        /// <summary>
+        /// Configure and show a DlgBox message box (DlgBoxUserControl).
+        /// 
+        /// Put the returned instance to the DlgBoxUserControl.Configuration property to show the dialog box. 
+        /// </summary>
+        /// <param name="type">Dialog type</param>
+        /// <param name="title">Dialog title</param>
+        /// <param name="message">Dialog message</param>
+        /// <param name="rightButton">Right button configuration</param>
         /// <param name="centerButton">Center button configuration</param>
         /// <param name="leftButton">Optional left button configuration</param>
         /// <param name="textBox">Optional TextBox configuration</param>
         /// <returns>Initialized DlgBoxViewModel instance to use by the DlgBoxUserControl.Configuration instance</returns>
-        static public DlgBoxViewModel ShowDialog (DlgBoxType type, String title, String message, DlgBoxButton rightButton, DlgBoxButton centerButton = null, DlgBoxButton leftButton = null, DlgBoxTextBox textBox = null)
+        static public DlgBoxViewModel ShowDialog_ThreeButton (DlgBoxType type, String title, String message, DlgBoxButton rightButton, DlgBoxButton centerButton, DlgBoxButton leftButton, DlgBoxTextBox textBox = null)
         {
-            if (rightButton == null)
+            if (rightButton == null || (centerButton != null && leftButton == null))
             {
-                throw new ArgumentNullException ("Param \"rightButton\" is null");
-            }
-
-            if (centerButton != null && leftButton == null)
-            {
-                throw new ArgumentNullException ("Param \"leftButton\" is null. Setup first the left button before setup the center button.");
+                throw new ArgumentNullException ();
             }
 
             return new DlgBoxViewModel

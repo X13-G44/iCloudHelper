@@ -298,7 +298,7 @@
                         <Border x:Name="OUTER_BORDER" 
                                 CornerRadius="5"
                                 Background="{DynamicResource FileTitleBtnBackgroundColor}"
-                                Padding="{TemplateBinding Padding}" 
+                                Padding="{TemplateBinding Padding}"                                 
                                 Margin="{TemplateBinding Margin}">
 
                             <Grid>
@@ -346,6 +346,10 @@
                             </DataTrigger>
 
                             <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource FileTitleBtnMouseOverColor}"/>
+                            </Trigger>
+
+                            <Trigger Property="IsFocused" Value="True">
                                 <Setter TargetName="OUTER_BORDER" Property="Background" Value="{DynamicResource FileTitleBtnMouseOverColor}"/>
                             </Trigger>
 
@@ -533,6 +537,7 @@
 
     <Window.InputBindings>
         <KeyBinding Gesture="Ctrl+A" Command="{Binding Cmd_ContextMenu_SelectAllFileTitles}" />
+        <KeyBinding Gesture="Del" Command="{Binding Cmd_ContextMenu_DeleteSelectedImageFiles}" />
         <!--<KeyBinding Key="A" Modifiers="Ctrl" Command="{Binding Cmd_ContextMenu_SelectAllFileTitles}" />-->
     </Window.InputBindings>
 

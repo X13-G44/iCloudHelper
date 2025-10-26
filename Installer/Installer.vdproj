@@ -106,12 +106,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_75B8D9FB312EA402F2AFD9DA2AF6D2C0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_889DA6C0C840427BBEBAEBD780CF2007"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -125,6 +119,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_00984985F48AA0A7E66C684E0CA7E950"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_75B8D9FB312EA402F2AFD9DA2AF6D2C0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -530,15 +530,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:iCloudHelper"
-        "ProductCode" = "8:{2A0DD13B-358D-4085-9DB1-8AE7041D1436}"
-        "PackageCode" = "8:{165DEAE7-CF79-48E6-B913-5B1F4E790A91}"
+        "ProductCode" = "8:{C4D270EA-935B-4012-90AC-0E88A7713F46}"
+        "PackageCode" = "8:{871427A8-3FC8-4C82-9C4F-CAE14F409D69}"
         "UpgradeCode" = "8:{9D42146E-AF78-4159-893A-C6F3996B4B7D}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.4.0"
+        "ProductVersion" = "8:1.4.1"
         "Manufacturer" = "8:Christian Harscher"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/X13-G44/iCloudHelper"
