@@ -12,7 +12,7 @@
         lex:ResxLocalizationProvider.DefaultAssembly="QuickSort"
         lex:ResxLocalizationProvider.DefaultDictionary="Strings"
         mc:Ignorable="d"
-        Title="Dateiauswahl" 
+        Title="QuickSort - iCloudHelper" 
         Height="800" 
         Width="1000"
         Background="{DynamicResource MainWindowBackground}"
@@ -584,7 +584,8 @@
                        FontSize="24" 
                        FontStretch="ExtraExpanded"
                        Foreground="White"
-                       Text="QuickSort - iCloudHelper" FontWeight="Light" />
+                       Text="QuickSort - iCloudHelper"
+                       FontWeight="Light" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5">
 
@@ -601,7 +602,7 @@
                                VerticalAlignment="Center" 
                                HorizontalAlignment="Center" 
                                Foreground="White"/>
-                </Button>
+                </Button>                
 
                 <!-- Maximize / Restore -->
                 <Button Width="32" 
@@ -609,6 +610,7 @@
                         Background="Transparent" 
                         BorderThickness="0"
                         Command="{Binding Cmd_ApplicationMaximizeRestore}">
+
                     <TextBlock Text="▢" 
                                FontSize="16" 
                                VerticalAlignment="Center" 

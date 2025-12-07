@@ -57,7 +57,7 @@ namespace QuickSort.View
 
             InitializeComponent ();
 
-            this.DataContext = new QuickSort.ViewModel.MainViewModel (Dispatcher, app.StartPath);
+            this.DataContext = new QuickSort.ViewModel.MainViewModel (this, Dispatcher, app.StartPath);
             this.Closing += (s, ev) => { (this.DataContext as IDisposable)?.Dispose (); };
         }
 

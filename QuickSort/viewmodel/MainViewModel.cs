@@ -60,6 +60,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 
@@ -235,13 +236,18 @@ namespace QuickSort.ViewModel
                 return new RelayCommand (
                     _ =>
                     {
-                        var mainWindow = System.Windows.Application.Current?.MainWindow;
+                        // Warning:
+                        // The Application.Current.MainWindow instance is not the same as the one, created in the MainView - Codebehind!!!
+                        //
+                        //var window = Application.Current?.MainWindow;
+                        //
+                        //
+                        //if (window != null)
+                        //{
+                        //    window.WindowState = WindowState.Minimized;
+                        //}
 
-
-                        if (mainWindow != null)
-                        {
-                            mainWindow.WindowState = WindowState.Minimized;
-                        }
+                        _Window.WindowState = WindowState.Minimized;
                     },
                     param => true
                 );
@@ -255,19 +261,31 @@ namespace QuickSort.ViewModel
                 return new RelayCommand (
                     _ =>
                     {
-                        var mainWindow = System.Windows.Application.Current?.MainWindow;
+                        // Warning:
+                        // The Application.Current.MainWindow instance is not the same as the one, created in the MainView - Codebehind!!!
+                        //
+                        //var window = Application.Current?.MainWindow;
+                        //
+                        //
+                        //if (window != null)
+                        //{
+                        //    if (window.WindowState == WindowState.Maximized)
+                        //    {
+                        //        window.WindowState = WindowState.Normal;
+                        //    }
+                        //    else
+                        //    {
+                        //        window.WindowState = WindowState.Maximized;
+                        //    }
+                        //}
 
-
-                        if (mainWindow != null)
+                        if (_Window.WindowState == WindowState.Maximized)
                         {
-                            if (mainWindow.WindowState == WindowState.Maximized)
-                            {
-                                mainWindow.WindowState = WindowState.Normal;
-                            }
-                            else
-                            {
-                                mainWindow.WindowState = WindowState.Maximized;
-                            }
+                            _Window.WindowState = WindowState.Normal;
+                        }
+                        else
+                        {
+                            _Window.WindowState = WindowState.Maximized;
                         }
                     },
                     param => true
@@ -1254,6 +1272,7 @@ namespace QuickSort.ViewModel
 
 
 
+        private MainView _Window;
         private readonly Dispatcher _Dispatcher;
 
         private int _StartSelectionStartIndex = -1;
@@ -1263,8 +1282,9 @@ namespace QuickSort.ViewModel
 
 
 
-        public MainViewModel (Dispatcher dispatcher, String path)
+        public MainViewModel (MainView window, Dispatcher dispatcher, String path)
         {
+            _Window = window;
             _Dispatcher = dispatcher;
             this.RootPath = path;
             this.FileTileStatusText = this.RootPath;
