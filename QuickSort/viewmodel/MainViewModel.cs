@@ -141,7 +141,7 @@ namespace QuickSort.ViewModel
 
                             if (prc.ExitCode == 1)
                             {
-                                // If result code is "1", then user have saved configuration.
+                                // If result code is "1", then user have load configuration.
                                 // Load configuration and update out file title list.
 
                                 ConfigurationStorage.ConfigurationStorageModel.LoadConfiguration ();

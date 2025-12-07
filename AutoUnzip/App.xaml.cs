@@ -114,6 +114,9 @@ namespace AutoUnzip
             {
                 #region Show Configuration Window
 
+                // Load system configuration.
+                ConfigurationStorage.ConfigurationStorageModel.LoadConfiguration ();
+
                 ConfigView configView = new ConfigView ();
                 configView.ShowDialog ();
 
