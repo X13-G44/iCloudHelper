@@ -66,7 +66,7 @@ namespace AutoUnzip.View
 
             this.Loaded += (s, e) =>
             {
-                // Relocate the window after it has been loaded and its size determined.
+                // Relocate the window after it has been loaded and its size known.
                 RelocateWindow ();
             };
         }

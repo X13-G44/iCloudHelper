@@ -264,16 +264,16 @@
   <data name="dlg_MissingFile" xml:space="preserve">
     <value>The file "{0}" was not found.\n\nPlease reinstall the software.</value>
   </data>
-  <data name="tbConfig_ColorGroupMode" xml:space="preserve">
-    <value>Optical grouping mode of images</value>
+  <data name="tbConfig_ImageColorGroupMode" xml:space="preserve">
+    <value>Group related images by color</value>
   </data>
-  <data name="cbConfig_ColorGroupModeOff" xml:space="preserve">
-    <value>No grouping</value>
+  <data name="cbConfig_ImageColorGroupModeOff" xml:space="preserve">
+    <value>Off</value>
   </data>
-  <data name="cbConfig_ColorGroupModeFileCreationDate" xml:space="preserve">
+  <data name="cbConfig_ImageColorGroupModeFileCreationDate" xml:space="preserve">
     <value>By image creation date</value>
   </data>
-  <data name="cbConfig_ColorGroupModeImageTakenDate" xml:space="preserve">
+  <data name="cbConfig_ImageColorGroupModeTakenDate" xml:space="preserve">
     <value>By image capture date</value>
   </data>
 </root>

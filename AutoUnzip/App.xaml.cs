@@ -4,7 +4,7 @@
 /// Project Source:	https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
-/// Date:				06.10.2025
+/// Date:				07.01.2026
 ///
 /// ////////////////////////////////////////////////////////////////////////
 /// 
@@ -329,6 +329,7 @@ namespace AutoUnzip
                 _NotifyIcon.Visible = false;
                 Shutdown ();
             });
+
             _NotifyIcon.ContextMenu = contextMenu;
         }
 

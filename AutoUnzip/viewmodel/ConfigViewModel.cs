@@ -4,7 +4,7 @@
 /// Project Source:	https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
-/// Date:				06.10.2025
+/// Date:				07.01.2026
 ///
 /// ////////////////////////////////////////////////////////////////////////
 /// 
@@ -127,10 +127,10 @@ namespace AutoUnzip.ViewModel
         }
 
         private int _ColorGroupMode;
-        public int ColorGroupMode
+        public int FileTitleImageColorGroupMode
         {
             get { return _ColorGroupMode; }
-            set { _ColorGroupMode = value; OnPropertyChanged (nameof (ColorGroupMode)); }
+            set { _ColorGroupMode = value; OnPropertyChanged (nameof (FileTitleImageColorGroupMode)); }
         }
 
         private bool _FavoriteTargetFolderCollectionAutoInsert;
@@ -257,7 +257,7 @@ namespace AutoUnzip.ViewModel
                         ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName = this.ShowImageFileName;
                         ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert = this.FavoriteTargetFolderCollectionAutoInsert;
                         ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit = this.FavoriteTargetFolderCollectionLimit;
-                        ConfigurationStorage.ConfigurationStorageModel.FileTitleGroupMode = this.ColorGroupMode;
+                        ConfigurationStorage.ConfigurationStorageModel.FileTitleImageColorGroupMode = this.FileTitleImageColorGroupMode;
 
                         ConfigurationStorage.ConfigurationStorageModel.SaveConfiguration ();
 
@@ -317,7 +317,7 @@ namespace AutoUnzip.ViewModel
             this.ShowImageFileName= ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
             this.FavoriteTargetFolderCollectionAutoInsert= ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert;
             this.FavoriteTargetFolderCollectionLimit= ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit;
-            this.ColorGroupMode = ConfigurationStorage.ConfigurationStorageModel.FileTitleGroupMode;
+            this.FileTitleImageColorGroupMode = ConfigurationStorage.ConfigurationStorageModel.FileTitleImageColorGroupMode;
 
             Assembly assembly = Assembly.GetExecutingAssembly ();
             this.AppVersionStr = $"V{assembly.GetName ().Version.ToString ()}";

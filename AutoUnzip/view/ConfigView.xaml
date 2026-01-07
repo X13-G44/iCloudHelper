@@ -411,16 +411,17 @@
                     <ColumnDefinition SharedSizeGroup="Col5"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0"
-                   Name="tbConfig_ColorGroupMode"
-                   Content="{lex:Loc}"
-                   Style="{StaticResource ConfigView_Label}"/>
+                <TextBlock Grid.Column="0"
+                           TextWrapping="Wrap"
+                           Name="tbConfig_ImageColorGroupMode"
+                           Text="{lex:Loc}"
+                           Style="{StaticResource ConfigView_TextBlock_Top}"/>
                 <ComboBox Grid.Column="2"
-                      SelectedIndex="{Binding ColorGroupMode, FallbackValue=0}"
-                      Style="{StaticResource ConfigView_ComboBox}">
-                    <ComboBoxItem Content="{lex:Loc cbConfig_ColorGroupModeOff}"/>
-                    <ComboBoxItem Content="{lex:Loc cbConfig_ColorGroupModeFileCreationDate}"/>
-                    <ComboBoxItem Content="{lex:Loc cbConfig_ColorGroupModeImageTakenDate}"/>
+                      SelectedIndex="{Binding FileTitleImageColorGroupMode, FallbackValue=0}"
+                      Style="{StaticResource ConfigView_ComboBox_Top}">
+                    <ComboBoxItem Content="{lex:Loc cbConfig_ImageColorGroupModeOff}"/>
+                    <ComboBoxItem Content="{lex:Loc cbConfig_ImageColorGroupModeFileCreationDate}"/>
+                    <ComboBoxItem Content="{lex:Loc cbConfig_ImageColorGroupModeTakenDate}"/>
                 </ComboBox>
             </Grid>
 

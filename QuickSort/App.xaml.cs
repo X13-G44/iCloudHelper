@@ -93,7 +93,8 @@ namespace QuickSort
 #warning 'Check and solve this problem'
             // Initialize main UI window.
             // We need this to do before we show the ConfigurationWindow. Without this, the application will exit, then we instantiate the mainView class!?
-            mainView = new MainView ();
+            
+//mainView = new MainView ();   // For Testing disabled
 
 
             // Load system configuration.

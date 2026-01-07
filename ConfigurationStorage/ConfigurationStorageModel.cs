@@ -1,4 +1,34 @@
-﻿using Microsoft.Win32;
+﻿/// ////////////////////////////////////////////////////////////////////////
+///
+/// Project:			iCloudHelper
+/// Project Source:	https://github.com/X13-G44/iCloudHelper
+///
+/// Author: 			Christian Harscher <info@x13-g44.com>
+/// Date:				07.01.2026
+///
+/// ////////////////////////////////////////////////////////////////////////
+/// 
+/// SPDX-License-Identifier: Apache-2.0
+/// Copyright (c) 2025 Christian Harscher (alias X13-G44)
+///
+/// This program is free software: you can redistribute it and/or modify
+/// it under the terms of the Apache License as
+/// published by the Free Software Foundation, either version 2 of the
+/// License, or (at your option) any later version.
+///
+/// This program is distributed in the hope that it will be useful,
+/// but WITHOUT ANY WARRANTY; without even the implied warranty of
+/// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+/// Apache License for more details.
+///
+/// You should have received a copy of the Apache License
+/// along with this program. If not, see <http://www.apache.org/licenses/LICENSE-2.0/>.
+///      
+/// ////////////////////////////////////////////////////////////////////////
+
+
+
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -49,7 +79,7 @@ namespace ConfigurationStorage
 
         static public int FileTitleSizeLevel { get; set; } = 1;
         static public int FileTitleSortOrder { get; set; } = 0;
-        static public int FileTitleGroupMode { get; set; } = 0;
+        static public int FileTitleImageColorGroupMode { get; set; } = 0;
 
 
 
@@ -96,7 +126,7 @@ namespace ConfigurationStorage
 
                 FileTitleSizeLevel = int.Parse ((string) keyVer.GetValue (nameof (FileTitleSizeLevel)));
                 FileTitleSortOrder = int.Parse ((string) keyVer.GetValue (nameof (FileTitleSortOrder)));
-                FileTitleGroupMode = int.Parse ((string) keyVer.GetValue (nameof (FileTitleGroupMode)));
+                FileTitleImageColorGroupMode = int.Parse ((string) keyVer.GetValue (nameof (FileTitleImageColorGroupMode)));
 
 
                 keyVer?.Close ();
@@ -151,7 +181,7 @@ namespace ConfigurationStorage
 
                 keyVer.SetValue (nameof (FileTitleSizeLevel), FileTitleSizeLevel, RegistryValueKind.ExpandString);
                 keyVer.SetValue (nameof (FileTitleSortOrder), FileTitleSortOrder, RegistryValueKind.ExpandString);
-                keyVer.SetValue (nameof (FileTitleGroupMode), FileTitleGroupMode, RegistryValueKind.ExpandString);
+                keyVer.SetValue (nameof (FileTitleImageColorGroupMode), FileTitleImageColorGroupMode, RegistryValueKind.ExpandString);
 
 
                 keyVer?.Close ();

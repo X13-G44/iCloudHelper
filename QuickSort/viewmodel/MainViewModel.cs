@@ -130,6 +130,7 @@ namespace QuickSort.ViewModel
                         bool oldShowImageFileName = ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
                         int oldFileTitleSizeLevel = ConfigurationStorage.ConfigurationStorageModel.FileTitleSizeLevel;
                         int oldFileTitleListSortOrder = ConfigurationStorage.ConfigurationStorageModel.FileTitleSortOrder;
+                        int oldFileTitleImageColorGroupMode = ConfigurationStorage.ConfigurationStorageModel.FileTitleImageColorGroupMode;
 
 
                         try
@@ -173,7 +174,8 @@ namespace QuickSort.ViewModel
                                 }
 
                                 // Sort FileTitle list.
-                                if (oldFileTitleListSortOrder != ConfigurationStorage.ConfigurationStorageModel.FileTitleSortOrder)
+                                if (oldFileTitleListSortOrder != ConfigurationStorage.ConfigurationStorageModel.FileTitleSortOrder ||
+                                    oldFileTitleImageColorGroupMode != ConfigurationStorage.ConfigurationStorageModel.FileTitleImageColorGroupMode)
                                 {
                                     FileTitleListSort ();
                                 }
@@ -1562,8 +1564,8 @@ namespace QuickSort.ViewModel
                     }
             }
 
-            // Start item color grouping.
-            switch (ConfigurationStorage.ConfigurationStorageModel.FileTitleGroupMode)
+            // Start image color grouping.
+            switch (ConfigurationStorage.ConfigurationStorageModel.FileTitleImageColorGroupMode)
             {
                 default:
                 case 0:

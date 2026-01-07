@@ -79,7 +79,14 @@ namespace AutoUnzip.ViewModel
                 return new RelayCommand (
                     _ =>
                     {
-                        _View.Close ();
+                        try
+                        {
+                            _View.Close ();
+                        }
+                        catch
+                        {
+                            ;
+                        }
                     },
                     param => true
                 );
@@ -102,7 +109,9 @@ namespace AutoUnzip.ViewModel
                             {
                                 Process.Start (app.GetQuickSortFile (), "\"" + ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath + "\"");
 
-                                _View.Close ();
+                                // Note: Instead of closing the window, we just hide it. By closing it, the fade-out animation is still running and also calls at end the close command.
+                                //_View.Close ();
+                                _View.Visibility = Visibility.Hidden;
                             }
                         }
                         catch

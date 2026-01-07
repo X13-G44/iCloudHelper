@@ -81,27 +81,27 @@ namespace AutoUnzip.Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die By image creation date ähnelt.
         /// </summary>
-        public static string cbConfig_ColorGroupModeFileCreationDate {
+        public static string cbConfig_ImageColorGroupModeFileCreationDate {
             get {
-                return ResourceManager.GetString("cbConfig_ColorGroupModeFileCreationDate", resourceCulture);
+                return ResourceManager.GetString("cbConfig_ImageColorGroupModeFileCreationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Off ähnelt.
+        /// </summary>
+        public static string cbConfig_ImageColorGroupModeOff {
+            get {
+                return ResourceManager.GetString("cbConfig_ImageColorGroupModeOff", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die By image capture date ähnelt.
         /// </summary>
-        public static string cbConfig_ColorGroupModeImageTakenDate {
+        public static string cbConfig_ImageColorGroupModeTakenDate {
             get {
-                return ResourceManager.GetString("cbConfig_ColorGroupModeImageTakenDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die No grouping ähnelt.
-        /// </summary>
-        public static string cbConfig_ColorGroupModeOff {
-            get {
-                return ResourceManager.GetString("cbConfig_ColorGroupModeOff", resourceCulture);
+                return ResourceManager.GetString("cbConfig_ImageColorGroupModeTakenDate", resourceCulture);
             }
         }
         
@@ -385,15 +385,6 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Optical grouping mode of images ähnelt.
-        /// </summary>
-        public static string tbConfig_ColorGroupMode {
-            get {
-                return ResourceManager.GetString("tbConfig_ColorGroupMode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Destination folder of the extracted image files ähnelt.
         /// </summary>
         public static string tbConfig_ExtractPath {
@@ -426,6 +417,15 @@ namespace AutoUnzip.Resources {
         public static string tbConfig_FilenameToSearch {
             get {
                 return ResourceManager.GetString("tbConfig_FilenameToSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Group related images by color ähnelt.
+        /// </summary>
+        public static string tbConfig_ImageColorGroupMode {
+            get {
+                return ResourceManager.GetString("tbConfig_ImageColorGroupMode", resourceCulture);
             }
         }
         
