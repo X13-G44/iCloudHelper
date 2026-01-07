@@ -75,6 +75,13 @@ namespace QuickSort.ViewModel
             set { _isSelected = value; OnPropertyChanged (nameof (IsSelected)); }
         }
 
+        private Brush _GroupColor = Brushes.Transparent;
+        public Brush GroupColor
+        {
+            get { return _GroupColor; }
+            set { _GroupColor = value; OnPropertyChanged (nameof (GroupColor)); }
+        }
+
         private int _Height = 100;
         public int Height
         {

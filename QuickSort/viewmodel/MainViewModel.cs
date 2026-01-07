@@ -323,6 +323,30 @@ namespace QuickSort.ViewModel
             }
         }
 
+        public RelayCommand Cmd_ClickOnFileTileStatusText
+        {
+            get
+            {
+                return new RelayCommand (
+                    item =>
+                    {
+                        try
+                        {
+                            Process.Start ("explorer.exe", this.FileTileStatusText);
+                        }
+                        catch
+                        {
+                            ;
+                        }
+                    },
+                    param =>
+                    {
+                        return String.IsNullOrEmpty (this.FileTileStatusText) == false && Directory.Exists (this.FileTileStatusText);
+                    }
+                );
+            }
+        }
+
         public RelayCommand Cmd_ClickOnFileTitleItem
         {
             get
@@ -1211,7 +1235,6 @@ namespace QuickSort.ViewModel
                         // Refresh the image buffer and update the file title list.
                         ImageFileBufferModel.RefreshBufferAsync (
                             this.RootPath,
-                            true,
                             (bufferImageFile, curCnt, maxCnt, useMultiTask) =>
                             {
                                 // Add a new image (file info object) to the file title list.
@@ -1280,6 +1303,8 @@ namespace QuickSort.ViewModel
 
         private int _RunFileTitleSortCounter = 0;
 
+        private Random _Rand = new Random ();
+
 
 
         public MainViewModel (MainView window, Dispatcher dispatcher, String path)
@@ -1296,7 +1321,6 @@ namespace QuickSort.ViewModel
             // Load the image buffer and update the file title list.
             ImageFileBufferModel.RefreshBufferAsync (
                 this.RootPath,
-                true,
                 (bufferImageFile, curCnt, maxCnt, useMultiTask) =>
                 {
                     // Add a new image (file info object) to the file title list.
@@ -1414,6 +1438,7 @@ namespace QuickSort.ViewModel
                     Width = width,
                     HideFilenameText = !ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName,
                     SizeLevel = ConfigurationStorage.ConfigurationStorageModel.FileTitleSizeLevel,
+                    GroupColor = Brushes.Transparent,
 
                     File = imageFileBufferItem.File,
 
@@ -1429,7 +1454,7 @@ namespace QuickSort.ViewModel
 
         private void FileTitleListSort ()
         {
-            // Check for and removed, none existing image files.
+            // Check for removed, none existing image files on disk.
             var querryDeletedImages = this.FileTileList.Where (x => !x.FileExists);
             foreach (var image in querryDeletedImages)
             {
@@ -1459,6 +1484,12 @@ namespace QuickSort.ViewModel
                             FileTileList.Move (FileTileList.IndexOf (sortableList[i]), i);
                         }
 
+                        // Update the group color to transparent (no grouping), because each display name has its own group.
+                        foreach (var item in FileTileList)
+                        {
+                            item.GroupColor = Brushes.Transparent;
+                        }
+
                         break;
                     }
 
@@ -1480,6 +1511,12 @@ namespace QuickSort.ViewModel
                         for (int i = 0; i < sortableList.Count; i++)
                         {
                             FileTileList.Move (FileTileList.IndexOf (sortableList[i]), i);
+                        }
+
+                        // Update the group color to transparent (no grouping), because each file has its own group.
+                        foreach (var item in FileTileList)
+                        {
+                            item.GroupColor = Brushes.Transparent;
                         }
 
                         break;
@@ -1524,6 +1561,89 @@ namespace QuickSort.ViewModel
                         break;
                     }
             }
+
+            // Start item color grouping.
+            switch (ConfigurationStorage.ConfigurationStorageModel.FileTitleGroupMode)
+            {
+                default:
+                case 0:
+                    {
+                        // No grouping.
+                        foreach (var item in FileTileList)
+                        {
+                            item.GroupColor = Brushes.Transparent;
+                        }
+                        break;
+                    }
+
+                case 1:
+                    {
+                        // Make color groups by file creation date.
+
+                        // Get list of ungrounded items in the file title list.
+                        var unGroupedFileTitleItems = this.FileTileList.Where (x => x.GroupColor == Brushes.Transparent).ToList ();
+                        foreach (var ungroupedFileTitleItem in unGroupedFileTitleItems)
+                        {
+                            // Check, if there is already an assigned color for the group.
+
+                            var equalFileTitleItems = this.FileTileList.FirstOrDefault (x => x.CreationTime.Date == ungroupedFileTitleItem.CreationTime.Date && x.GroupColor != Brushes.Transparent);
+
+
+                            if (equalFileTitleItems != null)
+                            {
+                                // There is already an assigned color for the group, so assign this color to the ungrouped item.
+                                ungroupedFileTitleItem.GroupColor = equalFileTitleItems.GroupColor;
+                            }
+                            else
+                            {
+                                Color randomColor = Color.FromRgb ((byte) _Rand.Next (64, 192), (byte) _Rand.Next (64, 192), (byte) _Rand.Next (64, 192));
+                                SolidColorBrush groupColorBrush = new SolidColorBrush (randomColor);
+
+
+                                // Assign the group color to the ungrouped item.
+                                ungroupedFileTitleItem.GroupColor = groupColorBrush;
+
+                                Debug.WriteLine ($"Generate new GroupColor for {ungroupedFileTitleItem.CreationTime.Date.ToString ()} - Color: {groupColorBrush.Color.ToString ()}");
+                            }
+                        }
+
+                        break;
+                    }
+
+                case 2:
+                    {
+                        // Make color groups by file taken date.
+
+                        // Get list of ungrounded items in the file title list.
+                        var unGroupedFileTitleItems = this.FileTileList.Where (x => x.GroupColor == Brushes.Transparent).ToList ();
+                        foreach (var ungroupedFileTitleItem in unGroupedFileTitleItems)
+                        {
+                            // Check, if there is already an assigned color for the group.
+
+                            var equalFileTitleItems = this.FileTileList.FirstOrDefault (x => x.TakenDate.Date == ungroupedFileTitleItem.TakenDate.Date && x.GroupColor != Brushes.Transparent);
+
+
+                            if (equalFileTitleItems != null)
+                            {
+                                // There is already an assigned color for the group, so assign this color to the ungrouped item.
+                                ungroupedFileTitleItem.GroupColor = equalFileTitleItems.GroupColor;
+                            }
+                            else
+                            {
+                                Color randomColor = Color.FromRgb ((byte) _Rand.Next (64, 192), (byte) _Rand.Next (64, 192), (byte) _Rand.Next (64, 192));
+                                SolidColorBrush groupColorBrush = new SolidColorBrush (randomColor);
+
+
+                                // Assign the group color to the ungrouped item.
+                                ungroupedFileTitleItem.GroupColor = groupColorBrush;
+
+                                Debug.WriteLine ($"Generate new GroupColor for {ungroupedFileTitleItem.CreationTime.Date.ToString ()} - Color: {groupColorBrush.Color.ToString ()}");
+                            }
+                        }
+
+                        break;
+                    }
+            }
         }
 
 
@@ -1559,21 +1679,21 @@ namespace QuickSort.ViewModel
                     }
             }
 
-            // Check for and removed, none existing image files.
+            // Check for and removed, none existing image files on disk.
             var querryDeletedImages = this.FileTileList.Where (x => !x.FileExists);
             foreach (var image in querryDeletedImages)
             {
                 this.FileTileList.Remove (image);
             }
 
-            // Update the image size and file name text.
-            for (int i = 0; i < this.FileTileList.Count; i++)
+            // Update the image size and file name text visibility.
+            foreach (var fileTitleItem in this.FileTileList)
             {
-                this.FileTileList[i].Height = height;
-                this.FileTileList[i].Width = width;
-                this.FileTileList[i].SizeLevel = ConfigurationStorage.ConfigurationStorageModel.FileTitleSizeLevel;
+                fileTitleItem.Height = height;
+                fileTitleItem.Width = width;
+                fileTitleItem.SizeLevel = ConfigurationStorage.ConfigurationStorageModel.FileTitleSizeLevel;
 
-                this.FileTileList[i].HideFilenameText = !ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
+                fileTitleItem.HideFilenameText = !ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
             }
         }
 

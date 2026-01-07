@@ -301,7 +301,7 @@
                                 Padding="{TemplateBinding Padding}"                                 
                                 Margin="{TemplateBinding Margin}">
 
-                            <Grid>
+                            <Grid Background="{Binding GroupColor}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
@@ -317,9 +317,10 @@
                                    Text="{Binding DisplayName}" 
                                    Margin="0,5,0,5"
                                    TextAlignment="Center" 
-                                   Foreground="{DynamicResource FileTitleBtnTextColor}" 
+                                   Foreground="{DynamicResource FileTitleBtnTextColor}"
                                    FontSize="12" 
                                    TextTrimming="CharacterEllipsis"/>
+
                             </Grid>
                         </Border>
 
@@ -532,6 +533,32 @@
             </Setter>
         </Style>
 
+        <!-- Simply Text Button-Style -->
+        <Style x:Key="SimplyTextButton" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+
+                        <TextBlock Name="PART_TEXT"
+                                   Text="{TemplateBinding Content}"
+                                   FontFamily="Segoe UI Symbol" 
+                                   FontSize="{TemplateBinding FontSize}"
+                                   FontWeight="{TemplateBinding FontWeight}"
+                                   VerticalAlignment="Center" 
+                                   HorizontalAlignment="Center" 
+                                   Foreground="{TemplateBinding Foreground}"/>
+
+                        <!--<ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" TargetName="PART_TEXT" Value="{DynamicResource CommonForegroundColor}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>-->
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </Window.Resources>
 
@@ -908,14 +935,23 @@
                             CommandParameter="{Binding}"/>
                 </StackPanel>
 
-                <TextBlock Grid.Row="1"
+                <!--<TextBlock Grid.Row="1"
                            Margin="20,10,0,0"
                            Foreground="{DynamicResource FileTitleTextForegroundColor}"
                            FontSize="12"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left" 
                            FontFamily="Segoe UI Light"                           
-                           Text="{Binding FileTileStatusText, FallbackValue='1 Bild ausgewählt'}"/>
+                           Text="{Binding FileTileStatusText, FallbackValue='1 Bild ausgewählt'}"/>-->
+                <Button Grid.Row="1"
+                        Style="{StaticResource SimplyTextButton}"
+                        Margin="20,10,0,0"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left" 
+                        Foreground="{DynamicResource FileTitleTextForegroundColor}"
+                        FontSize="12"
+                        Content="{Binding FileTileStatusText, FallbackValue='1 Bild ausgewählt'}"
+                        Command="{Binding Cmd_ClickOnFileTileStatusText}"/>
 
                 <ScrollViewer Grid.Row="2" 
                               Margin="20,20,20,20">

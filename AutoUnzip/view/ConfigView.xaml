@@ -341,7 +341,7 @@
                    Style="{StaticResource ConfigView_Label}"/>
                 <CheckBox Grid.Column="2"
                       Style="{StaticResource ConfigView_CheckBox}"
-                      IsChecked="{Binding ShowImgFileName, UpdateSourceTrigger=PropertyChanged}"/>
+                      IsChecked="{Binding ShowImageFileName, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
 
             <Grid>
@@ -416,7 +416,7 @@
                    Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_Label}"/>
                 <ComboBox Grid.Column="2"
-                      SelectedIndex="{Binding Language, FallbackValue=0}"
+                      SelectedIndex="{Binding ColorGroupMode, FallbackValue=0}"
                       Style="{StaticResource ConfigView_ComboBox}">
                     <ComboBoxItem Content="{lex:Loc cbConfig_ColorGroupModeOff}"/>
                     <ComboBoxItem Content="{lex:Loc cbConfig_ColorGroupModeFileCreationDate}"/>

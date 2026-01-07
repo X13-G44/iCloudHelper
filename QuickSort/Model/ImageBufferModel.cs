@@ -4,7 +4,7 @@
 /// Project Source:	    https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
-/// Date:				06.10.2025
+/// Date:				07.01.2026
 ///
 /// ////////////////////////////////////////////////////////////////////////
 /// 
@@ -90,18 +90,14 @@ namespace QuickSort.Model
         /// When using multiple tasks are used, the call order of callback "onImageLoad" is not linear; user must sort the images manually.
         /// </note>
         /// <param name="path">Directory to search and load the images files.</param>
-        /// <param name="forceFullLoad">Set to true to clear the full buffer and read all image files in path otherwise the buffer will only be updated with new or changed images.</param>
         /// <param name="onImageLoad">Optional callback handler, fired on each load image file.</param>
         /// <param name="onAllImagesLoad">Optional callback handler, fired at operation end (all files in directory processed).</param>
         /// <returns></returns>
-        static public Task RefreshBufferAsync (string path, bool forceFullLoad, Action<ImageFileBufferItem, int, int, bool> onImageLoad, Action<List<string>> onAllImagesLoad)
+        static public Task RefreshBufferAsync (string path, Action<ImageFileBufferItem, int, int, bool> onImageLoad, Action<List<string>> onAllImagesLoad)
         {
             string[] files;
             int filesWithHiRes = 0;
 
-
-            if (forceFullLoad == false)
-                throw new NotImplementedException ("Feature is currently not controllable, since we always use this function with this parameter set!");
 
             try
             {
@@ -126,10 +122,7 @@ namespace QuickSort.Model
                             int fileCnt = 1;
 
 
-                            //if (forceFullLoad)
-                            //{
                             _BufferList.Clear ();
-                            //}
 
                             // Load all images from the directory into our buffer list or update them.
                             foreach (var file in files)
@@ -137,102 +130,52 @@ namespace QuickSort.Model
                                 try
                                 {
                                     String fileExt = Path.GetExtension (file).ToLower ();
-                                    bool loadImageMustBeExecute = false;
-                                    //ImageFileBufferItem bufferItemToUpdate = null;
-
                                     ImageFileBufferItem newBufferItem = null;
 
 
-                                    // ++++++++++++++++++++++++ [START] ++++++++++++++++++++++++
-                                    // ++++ Feature is currently not controllable, since we always use this function with this parameter set! ++++
-                                    //
-                                    //// Check if the image is already in the buffer list and or we have to load the (new) image.
-                                    //
-                                    //START_IMAGE_IN_BUFFER_CHECK:
-                                    //
-                                    //var matchingImageBufferList = _BufferList.Where (x => x.File == newBufferItem.File).ToList ();
-                                    //if (matchingImageBufferList.Count == 0)
-                                    //{
-                                    loadImageMustBeExecute = true;
-                                    //}
-                                    //else if (matchingImageBufferList.Count == 1)
-                                    //{
-                                    //    // Image is in our buffer list, but has the file content been changed?
-                                    //    if (newBufferItem.IsEqualWith (matchingImageBufferList[0]) == false)
-                                    //    {
-                                    //        loadImageMustBeExecute = true;
-                                    //        bufferItemToUpdate = matchingImageBufferList[0];
-                                    //    }
-                                    //}
-                                    //else
-                                    //{
-                                    //    // There must be only one image in the buffer list.
-                                    //    // If there are more images (it is an error), remove all of them and reload the image.
-                                    //    matchingImageBufferList.ForEach (x => _BufferList.Remove (x));
-                                    //
-                                    //    goto START_IMAGE_IN_BUFFER_CHECK;
-                                    //}
-                                    //
-                                    // ++++++++++++++++++++++++ [END] ++++++++++++++++++++++++
-
-                                    if (loadImageMustBeExecute)
+                                    if (fileExt == ".jpg" || fileExt == ".jpeg" || fileExt == ".png" || fileExt == ".bmp" || fileExt == ".heic")
                                     {
-                                        if (fileExt == ".jpg" || fileExt == ".jpeg" || fileExt == ".png" || fileExt == ".bmp" || fileExt == ".heic")
+                                        // This approach locks the file until the application is closed; so we have tu ose a FileStream to read the data and close the file after reading.
+                                        ////BitmapImage bi = new BitmapImage (new Url (file));
+
+                                        BitmapImage bi = null;
+                                        DateTime takenDate;
+
+
+                                        using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
                                         {
-                                            // This approach locks the file until the application is closed.
-                                            ////BitmapImage bi = new BitmapImage (new Url (file));
+                                            bi = new BitmapImage ();
+                                            bi.BeginInit ();
+                                            bi.CacheOption = BitmapCacheOption.OnLoad;
+                                            bi.StreamSource = fstream;
+                                            bi.StreamSource.Flush ();
+                                            bi.EndInit ();
+                                            bi.Freeze ();
 
-                                            BitmapImage bi = null;
-                                            DateTime takenDate;
+                                            takenDate = GetTakenDate (fstream, file);
 
-
-                                            using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
-                                            {
-                                                bi = new BitmapImage ();
-                                                bi.BeginInit ();
-                                                bi.CacheOption = BitmapCacheOption.OnLoad;
-                                                bi.StreamSource = fstream;
-                                                bi.StreamSource.Flush ();
-                                                bi.EndInit ();
-                                                bi.Freeze ();
-
-                                                takenDate = GetTakenDate (fstream, file);
-
-                                                bi.StreamSource.Dispose ();
-                                            }
-
-                                            newBufferItem = new ImageFileBufferItem (file, bi, false, takenDate, System.IO.File.GetCreationTime (file));
+                                            bi.StreamSource.Dispose ();
                                         }
-                                        else
-                                        {
-                                            // Get windows default icon.
-                                            ImageSource imageSource = IconHelper.GetFileIcon (file);
-                                            BitmapImage bi = IconHelper.ConvertImageSourceToBitmapImage (imageSource);
-                                            DateTime takenDate = System.IO.File.GetCreationTime (file);
+
+                                        newBufferItem = new ImageFileBufferItem (file, bi, false, takenDate, System.IO.File.GetCreationTime (file));
+                                    }
+                                    else if (fileExt == ".ini" || fileExt == ".db")
+                                    {
+                                        // Skip ini and db files.
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        // Get windows default icon.
+                                        ImageSource imageSource = IconHelper.GetFileIcon (file);
+                                        BitmapImage bi = IconHelper.ConvertImageSourceToBitmapImage (imageSource);
+                                        DateTime takenDate = System.IO.File.GetCreationTime (file);
 
 
-                                            newBufferItem = new ImageFileBufferItem (file, bi, true, takenDate, takenDate);
-                                        }
+                                        newBufferItem = new ImageFileBufferItem (file, bi, true, takenDate, takenDate);
                                     }
 
-                                    // ++++++++++++++++++++++++ [START] ++++++++++++++++++++++++
-                                    // ++++ Feature is currently not controllable, since we always use this function with this parameter set! ++++
-                                    //
-                                    //if (bufferItemToUpdate == null)
-                                    //{
-                                    //    if (loadImageMustBeExecute)
-                                    //    {
-                                    //      // Add new image item to buffer list.
                                     _BufferList.Add (newBufferItem);
-                                    //    }
-                                    //}
-                                    //else
-                                    //{
-                                    //    // Update existing item in buffer.
-                                    //    bufferItemToUpdate = newBufferItem;
-                                    //}
-                                    //
-                                    // ++++++++++++++++++++++++ [END] ++++++++++++++++++++++++
 
                                     // Execute / fire the onImageLoad callback handler.
                                     onImageLoad?.Invoke (newBufferItem, fileCnt++, files.Length, false);
@@ -263,7 +206,7 @@ namespace QuickSort.Model
                 }
                 else
                 {
-                    #region MULTIBLE TASK VERSION
+                    #region MULTI TASK VERSION
 
 
                     return Task.Run (() =>
@@ -275,10 +218,7 @@ namespace QuickSort.Model
                             int fileCnt = 1;
 
 
-                            //if (forceFullLoad)
-                            //{
                             _BufferList.Clear ();
-                            //}
 
                             // Load all images from the directory into our buffer list or update them.
                             Parallel.ForEach (files,
@@ -288,115 +228,63 @@ namespace QuickSort.Model
                                     try
                                     {
                                         String fileExt = Path.GetExtension (file).ToLower ();
-                                        bool loadImageMustBeExecute = false;
-                                        //ImageFileBufferItem bufferItemToUpdate = null;
-
                                         ImageFileBufferItem newBufferItem = null;
+                                        bool skipFile = false;
 
 
-
-                                        // ++++++++++++++++++++++++ [START] ++++++++++++++++++++++++
-                                        // ++++ Feature is currently not controllable, since we always use this function with this parameter set! ++++
-                                        //
-                                        ////Check if the image is already in the buffer list and or we have to load the (new) image.
-                                        //  
-                                        //semaphoreBufferList.WaitOne (10000);
-                                        //
-                                        //START_IMAGE_IN_BUFFER_CHECK:
-                                        //
-                                        //var matchingImageBufferList = _BufferList.Where (x => x.File == newBufferItem.File).ToList ();
-                                        //if (matchingImageBufferList.Count == 0)
-                                        //{
-                                        loadImageMustBeExecute = true;
-                                        //}
-                                        //else if (matchingImageBufferList.Count == 1)
-                                        //{
-                                        //    // Image is in our buffer list, but has the file content changed?
-                                        //    if (newBufferItem.IsEqualWith (matchingImageBufferList[0]) == false)
-                                        //    {
-                                        //        loadImageMustBeExecute = true;
-                                        //        bufferItemToUpdate = matchingImageBufferList[0];
-                                        //    }
-                                        //}
-                                        //else
-                                        //{
-                                        //    // There must be only one image in the buffer list.
-                                        //    // If there are more images (it is an error), remove all of them and reload the image.
-                                        //    matchingImageBufferList.ForEach (x => _BufferList.Remove (x));
-                                        //
-                                        //    goto START_IMAGE_IN_BUFFER_CHECK;
-                                        //}
-                                        //
-                                        //semaphoreBufferList.Release ();
-                                        //
-                                        // ++++++++++++++++++++++++ [END] ++++++++++++++++++++++++
-
-                                        if (loadImageMustBeExecute)
+                                        if (fileExt == ".jpg" || fileExt == ".jpeg" || fileExt == ".png" || fileExt == ".bmp" || fileExt == ".heic")
                                         {
-                                            if (fileExt == ".jpg" || fileExt == ".jpeg" || fileExt == ".png" || fileExt == ".bmp" || fileExt == ".heic")
+                                            // This approach locks the file until the application is closed; so we have tu ose a FileStream to read the data and close the file after reading.
+                                            //BitmapImage bi = new BitmapImage (new Url (file));
+
+                                            BitmapImage bi = null;
+                                            DateTime takenDate;
+
+
+                                            using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
                                             {
-                                                // This approach locks the file until the application is closed.
-                                                //BitmapImage bi = new BitmapImage (new Url (file));
+                                                bi = new BitmapImage ();
+                                                bi.BeginInit ();
+                                                bi.CacheOption = BitmapCacheOption.OnLoad;
+                                                bi.StreamSource = fstream;
+                                                bi.StreamSource.Flush ();
+                                                bi.EndInit ();
+                                                bi.Freeze ();
 
-                                                BitmapImage bi = null;
-                                                DateTime takenDate;
+                                                takenDate = GetTakenDate (fstream, file);
 
-
-                                                using (var fstream = new FileStream (file, FileMode.Open, FileAccess.Read, FileShare.Read))
-                                                {
-                                                    bi = new BitmapImage ();
-                                                    bi.BeginInit ();
-                                                    bi.CacheOption = BitmapCacheOption.OnLoad;
-                                                    bi.StreamSource = fstream;
-                                                    bi.StreamSource.Flush ();
-                                                    bi.EndInit ();
-                                                    bi.Freeze ();
-
-                                                    takenDate = GetTakenDate (fstream, file);
-
-                                                    bi.StreamSource.Dispose ();
-                                                }
-
-                                                newBufferItem = new ImageFileBufferItem (file, bi, false, takenDate, System.IO.File.GetCreationTime (file));
+                                                bi.StreamSource.Dispose ();
                                             }
-                                            else
-                                            {
-                                                // Get windows default icon.
-                                                ImageSource imageSource = IconHelper.GetFileIcon (file);
-                                                BitmapImage bi = IconHelper.ConvertImageSourceToBitmapImage (imageSource);
-                                                DateTime takenDate = System.IO.File.GetCreationTime (file);
+
+                                            newBufferItem = new ImageFileBufferItem (file, bi, false, takenDate, System.IO.File.GetCreationTime (file));
+                                        }
+                                        else if (fileExt == ".ini" || fileExt == ".db")
+                                        {
+                                            // Skip ini and db files.
+                                            skipFile = true;
+                                        }
+                                        else
+                                        {
+                                            // Get windows default icon.
+                                            ImageSource imageSource = IconHelper.GetFileIcon (file);
+                                            BitmapImage bi = IconHelper.ConvertImageSourceToBitmapImage (imageSource);
+                                            DateTime takenDate = System.IO.File.GetCreationTime (file);
 
 
-                                                newBufferItem = new ImageFileBufferItem (file, bi, true, takenDate, takenDate);
-                                            }
+                                            newBufferItem = new ImageFileBufferItem (file, bi, true, takenDate, takenDate);
                                         }
 
-                                        semaphoreBufferList.WaitOne (10000);
+                                        if (skipFile == false)
+                                        {
+                                            semaphoreBufferList.WaitOne (10000);
 
-                                        // ++++++++++++++++++++++++ [START] ++++++++++++++++++++++++
-                                        // ++++ Feature is currently not controllable, since we always use this function with this parameter set! ++++
-                                        //
-                                        //if (bufferItemToUpdate == null)
-                                        //{
-                                        //    if (loadImageMustBeExecute)
-                                        //    {
-                                        //      // Add new image item to buffer list.
-                                        _BufferList.Add (newBufferItem);
-                                        //    }
-                                        //}
-                                        //else
-                                        //{
-                                        //    // Update existing item in buffer.
-                                        //    bufferItemToUpdate = newBufferItem;
-                                        //}
-                                        //
-                                        // ++++++++++++++++++++++++ [END] ++++++++++++++++++++++++
+                                            _BufferList.Add (newBufferItem);
 
-                                        semaphoreBufferList.Release ();
+                                            semaphoreBufferList.Release ();
 
-
-                                        // Execute / fire the onImageLoad callback handler.
-                                        onImageLoad?.Invoke (newBufferItem, fileCnt++, files.Length, true);
+                                            // Execute / fire the onImageLoad callback handler.
+                                            onImageLoad?.Invoke (newBufferItem, fileCnt++, files.Length, true);
+                                        }
                                     }
                                     catch (Exception ex)
                                     {
