@@ -133,6 +133,10 @@ namespace QuickSort.ViewModel
                         int oldFileTitleImageColorGroupMode = ConfigurationStorage.ConfigurationStorageModel.FileTitleImageColorGroupMode;
 
 
+                        // Save current configuration before show the configuration dialog window. So the extewrnal app AutoUnzip (hosting the Configuration View)
+                        // has the currently active data.
+                        ConfigurationStorage.ConfigurationStorageModel.SaveConfiguration ();
+
                         try
                         {
                             // Start AutoUnzip with parameter "showconfig" to show configuration dialog window.
@@ -142,7 +146,7 @@ namespace QuickSort.ViewModel
 
                             if (prc.ExitCode == 1)
                             {
-                                // If result code is "1", then user have load configuration.
+                                // If result code is "1", then user have changed and saved the configuration.
                                 // Load configuration and update out file title list.
 
                                 ConfigurationStorage.ConfigurationStorageModel.LoadConfiguration ();
