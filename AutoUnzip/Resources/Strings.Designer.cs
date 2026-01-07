@@ -19,7 +19,7 @@ namespace AutoUnzip.Resources {
     // -Klasse über ein Tool wie ResGen oder Visual Studio automatisch generiert.
     // Um einen Member hinzuzufügen oder zu entfernen, bearbeiten Sie die .ResX-Datei und führen dann ResGen
     // mit der /str-Option erneut aus, oder Sie erstellen Ihr VS-Projekt neu.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Strings {
@@ -75,6 +75,33 @@ namespace AutoUnzip.Resources {
         public static string btnConfig_SaveConfig {
             get {
                 return ResourceManager.GetString("btnConfig_SaveConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die By image creation date ähnelt.
+        /// </summary>
+        public static string cbConfig_ColorGroupModeFileCreationDate {
+            get {
+                return ResourceManager.GetString("cbConfig_ColorGroupModeFileCreationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die By image capture date ähnelt.
+        /// </summary>
+        public static string cbConfig_ColorGroupModeImageTakenDate {
+            get {
+                return ResourceManager.GetString("cbConfig_ColorGroupModeImageTakenDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No grouping ähnelt.
+        /// </summary>
+        public static string cbConfig_ColorGroupModeOff {
+            get {
+                return ResourceManager.GetString("cbConfig_ColorGroupModeOff", resourceCulture);
             }
         }
         
@@ -354,6 +381,15 @@ namespace AutoUnzip.Resources {
         public static string tbConfig_BackupRetentionPeriod {
             get {
                 return ResourceManager.GetString("tbConfig_BackupRetentionPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Optical grouping mode of images ähnelt.
+        /// </summary>
+        public static string tbConfig_ColorGroupMode {
+            get {
+                return ResourceManager.GetString("tbConfig_ColorGroupMode", resourceCulture);
             }
         }
         

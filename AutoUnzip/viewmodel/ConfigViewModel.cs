@@ -126,6 +126,13 @@ namespace AutoUnzip.ViewModel
             set { _ShowImageFileName = value; OnPropertyChanged (nameof (ShowImageFileName)); }
         }
 
+        private int _ColorGroupMode;
+        public int ColorGroupMode
+        {
+            get { return _ColorGroupMode; }
+            set { _ColorGroupMode = value; OnPropertyChanged (nameof (ColorGroupMode)); }
+        }
+
         private bool _FavoriteTargetFolderCollectionAutoInsert;
         public bool FavoriteTargetFolderCollectionAutoInsert
         {
@@ -250,6 +257,7 @@ namespace AutoUnzip.ViewModel
                         ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName = this.ShowImageFileName;
                         ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert = this.FavoriteTargetFolderCollectionAutoInsert;
                         ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit = this.FavoriteTargetFolderCollectionLimit;
+                        ConfigurationStorage.ConfigurationStorageModel.FileTitleGroupMode = this.ColorGroupMode;
 
                         ConfigurationStorage.ConfigurationStorageModel.SaveConfiguration ();
 
@@ -309,6 +317,7 @@ namespace AutoUnzip.ViewModel
             this.ShowImageFileName= ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
             this.FavoriteTargetFolderCollectionAutoInsert= ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert;
             this.FavoriteTargetFolderCollectionLimit= ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit;
+            this.ColorGroupMode = ConfigurationStorage.ConfigurationStorageModel.FileTitleGroupMode;
 
             Assembly assembly = Assembly.GetExecutingAssembly ();
             this.AppVersionStr = $"V{assembly.GetName ().Version.ToString ()}";

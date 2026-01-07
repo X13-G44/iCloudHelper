@@ -11,7 +11,7 @@
         lex:ResxLocalizationProvider.DefaultDictionary="Strings"
         mc:Ignorable="d"
         Title="{lex:Loc tbConfig_WindowTitle}"
-        Height="800" 
+        Height="850" 
         Width="710" 
         Icon="/icloud-logo-49272-Windows.ico" 
         ResizeMode="CanMinimize">
@@ -399,6 +399,29 @@
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
+                   Name="tbConfig_ColorGroupMode"
+                   Content="{lex:Loc}"
+                   Style="{StaticResource ConfigView_Label}"/>
+                <ComboBox Grid.Column="2"
+                      SelectedIndex="{Binding Language, FallbackValue=0}"
+                      Style="{StaticResource ConfigView_ComboBox}">
+                    <ComboBoxItem Content="{lex:Loc cbConfig_ColorGroupModeOff}"/>
+                    <ComboBoxItem Content="{lex:Loc cbConfig_ColorGroupModeFileCreationDate}"/>
+                    <ComboBoxItem Content="{lex:Loc cbConfig_ColorGroupModeImageTakenDate}"/>
+                </ComboBox>
             </Grid>
 
         </StackPanel>

@@ -49,6 +49,7 @@ namespace ConfigurationStorage
 
         static public int FileTitleSizeLevel { get; set; } = 1;
         static public int FileTitleSortOrder { get; set; } = 0;
+        static public int FileTitleGroupMode { get; set; } = 0;
 
 
 
@@ -95,6 +96,7 @@ namespace ConfigurationStorage
 
                 FileTitleSizeLevel = int.Parse ((string) keyVer.GetValue (nameof (FileTitleSizeLevel)));
                 FileTitleSortOrder = int.Parse ((string) keyVer.GetValue (nameof (FileTitleSortOrder)));
+                FileTitleGroupMode = int.Parse ((string) keyVer.GetValue (nameof (FileTitleGroupMode)));
 
 
                 keyVer?.Close ();
@@ -149,6 +151,7 @@ namespace ConfigurationStorage
 
                 keyVer.SetValue (nameof (FileTitleSizeLevel), FileTitleSizeLevel, RegistryValueKind.ExpandString);
                 keyVer.SetValue (nameof (FileTitleSortOrder), FileTitleSortOrder, RegistryValueKind.ExpandString);
+                keyVer.SetValue (nameof (FileTitleGroupMode), FileTitleGroupMode, RegistryValueKind.ExpandString);
 
 
                 keyVer?.Close ();
