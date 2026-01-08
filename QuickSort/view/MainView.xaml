@@ -301,7 +301,7 @@
                                 Padding="{TemplateBinding Padding}"                                 
                                 Margin="{TemplateBinding Margin}">
 
-                            <Grid Background="{Binding GroupColor}">
+                            <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
@@ -320,6 +320,14 @@
                                    Foreground="{DynamicResource FileTitleBtnTextColor}"
                                    FontSize="12" 
                                    TextTrimming="CharacterEllipsis"/>
+
+                                <Ellipse Fill="{Binding GroupColor}"
+                                         StrokeThickness="2"
+                                         Stroke="{DynamicResource FileTitleBtnTextColor}"
+                                         Width="{Binding GroupColorDiameter, FallbackValue=24}"
+                                         Height="{Binding GroupColorDiameter, FallbackValue=24}"
+                                         VerticalAlignment="Top"
+                                         HorizontalAlignment="Right"/>
 
                             </Grid>
                         </Border>
@@ -935,14 +943,6 @@
                             CommandParameter="{Binding}"/>
                 </StackPanel>
 
-                <!--<TextBlock Grid.Row="1"
-                           Margin="20,10,0,0"
-                           Foreground="{DynamicResource FileTitleTextForegroundColor}"
-                           FontSize="12"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left" 
-                           FontFamily="Segoe UI Light"                           
-                           Text="{Binding FileTileStatusText, FallbackValue='1 Bild ausgewählt'}"/>-->
                 <Button Grid.Row="1"
                         Style="{StaticResource SimplyTextButton}"
                         Margin="20,10,0,0"

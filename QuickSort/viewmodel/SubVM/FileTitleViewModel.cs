@@ -4,7 +4,7 @@
 /// Project Source:	https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
-/// Date:				06.10.2025
+/// Date:				08.01.2026
 ///
 /// ////////////////////////////////////////////////////////////////////////
 /// 
@@ -75,6 +75,20 @@ namespace QuickSort.ViewModel
             set { _isSelected = value; OnPropertyChanged (nameof (IsSelected)); }
         }
 
+        private int _Height = 128;
+        public int Height
+        {
+            get { return _Height; }
+            set { _Height = value; OnPropertyChanged (nameof (Height)); }
+        }
+
+        private int _Width = 128;
+        public int Width
+        {
+            get { return _Width; }
+            set { _Width = value; OnPropertyChanged (nameof (Width)); }
+        }
+
         private Brush _GroupColor = Brushes.Transparent;
         public Brush GroupColor
         {
@@ -82,18 +96,11 @@ namespace QuickSort.ViewModel
             set { _GroupColor = value; OnPropertyChanged (nameof (GroupColor)); }
         }
 
-        private int _Height = 100;
-        public int Height
+        private int _GroupColorDiameter = 24;
+        public int GroupColorDiameter
         {
-            get { return _Height; }
-            set { _Height = value; OnPropertyChanged (nameof (Height)); }
-        }
-
-        private int _Width = 64;
-        public int Width
-        {
-            get { return _Width; }
-            set { _Width = value; OnPropertyChanged (nameof (Width)); }
+            get { return _GroupColorDiameter; }
+            set { _GroupColorDiameter = value; OnPropertyChanged (nameof (GroupColorDiameter)); }
         }
 
         public string ToolTip

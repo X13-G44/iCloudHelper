@@ -4,7 +4,7 @@
 /// Project Source:	    https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
-/// Date:				16.10.2025
+/// Date:				08.01.2026
 ///
 /// ////////////////////////////////////////////////////////////////////////
 /// 
@@ -1658,6 +1658,7 @@ namespace QuickSort.ViewModel
         {
             int height = 128;
             int width = 128;
+            int groupColorDiameter = 24;
 
 
             switch (ConfigurationStorage.ConfigurationStorageModel.FileTitleSizeLevel)
@@ -1666,6 +1667,7 @@ namespace QuickSort.ViewModel
                     {
                         // Small symbol size.
                         height = width = 180;
+                        groupColorDiameter = 16;
                         break;
                     }
 
@@ -1674,6 +1676,7 @@ namespace QuickSort.ViewModel
                     {
                         // Middle symbol size.
                         height = width = 275;
+                        groupColorDiameter = 24;
                         break;
                     }
 
@@ -1681,6 +1684,7 @@ namespace QuickSort.ViewModel
                     {
                         // Large symbol size.
                         height = width = 560;
+                        groupColorDiameter = 32;
                         break;
                     }
             }
@@ -1697,6 +1701,7 @@ namespace QuickSort.ViewModel
             {
                 fileTitleItem.Height = height;
                 fileTitleItem.Width = width;
+                fileTitleItem.GroupColorDiameter = groupColorDiameter;
                 fileTitleItem.SizeLevel = ConfigurationStorage.ConfigurationStorageModel.FileTitleSizeLevel;
 
                 fileTitleItem.HideFilenameText = !ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
