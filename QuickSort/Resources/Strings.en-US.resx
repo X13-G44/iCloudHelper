@@ -372,4 +372,25 @@
   <data name="cmFileTitleSec_ButtonSortByFileTakeDate" xml:space="preserve">
     <value>Sort by image capture date</value>
   </data>
+  <data name="dlgFavTargFolder_ChageDisplayName" xml:space="preserve">
+    <value>Enter new Displayname</value>
+  </data>
+  <data name="dlgFavTargFolder_Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="cmFavTargFolder_ChangeDisplayName" xml:space="preserve">
+    <value>Change Displayname</value>
+  </data>
+  <data name="lInvalidDisplayNameChars" xml:space="preserve">
+    <value>Invalid Displayname. Invalid char "[0]".</value>
+  </data>
+  <data name="dlgVirtualDirRoot_ChangeDisplayName" xml:space="preserve">
+    <value>Enter new Displayname</value>
+  </data>
+  <data name="dlgVirtualDirRoot_Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="cmVirtualDirSrc_ChangeDisplayName" xml:space="preserve">
+    <value>Change Displayname</value>
+  </data>
 </root>

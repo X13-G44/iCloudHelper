@@ -40,6 +40,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Packaging;
@@ -60,6 +61,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 using System.Xml.Linq;
+using XAMLMarkupExtensions.Base;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
@@ -221,9 +223,8 @@ namespace QuickSort.ViewModel
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgAppExitFileCopyStillActive_ExitApp"),
                                                     DlgBoxButtonSymbol.Empty,
                                                     null,
-                                                    dlgBoxCfg => { App.Current.Shutdown (0); }),
-
-                                null);
+                                                    dlgBoxCfg => { App.Current.Shutdown (0); })
+                            );
                         }
                         else
                         {
@@ -242,6 +243,7 @@ namespace QuickSort.ViewModel
                 return new RelayCommand (
                     _ =>
                     {
+                        // @@@@@@@
                         // Warning:
                         // The Application.Current.MainWindow instance is not the same as the one, created in the MainView - Codebehind!!!
                         //
@@ -267,6 +269,7 @@ namespace QuickSort.ViewModel
                 return new RelayCommand (
                     _ =>
                     {
+                        // @@@@@@@
                         // Warning:
                         // The Application.Current.MainWindow instance is not the same as the one, created in the MainView - Codebehind!!!
                         //
@@ -558,6 +561,7 @@ namespace QuickSort.ViewModel
                                         Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
                                         Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
                                         Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
+                                        Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeFavoriteTargetFolderDisplayName,
                                     });
 
                                     ConfigurationStorage.ConfigurationStorageModel.LastUsedPath = selectedPath;
@@ -584,6 +588,46 @@ namespace QuickSort.ViewModel
                         if (item is FavoriteTargetFolderViewModel)
                         {
                             this.FavoriteTargetFolderList.Remove (item as FavoriteTargetFolderViewModel);
+                        }
+                    },
+                    param => true
+                );
+            }
+        }
+
+        public RelayCommand Cmd_ContextMenu_ChangeFavoriteTargetFolderDisplayName
+        {
+            get
+            {
+                return new RelayCommand (
+                    item =>
+                    {
+                        if (item is FavoriteTargetFolderViewModel)
+                        {
+                            Collection<ValidationRule> rules = new Collection<ValidationRule> ();
+
+
+                            // Generate a directory exists validation rule object. It will be later used for check the user input in the dialog box.
+                            rules.Add (new CheckInvalidCharsValidationRule () { InvalidChares = ConfigurationStorage.ConfigurationStorageModel.GetSeperatorCharsList () });
+
+
+                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_TwoButton (
+                                DlgBoxType.Question,
+                                LocalizedStrings.GetString ("lQuestion"),
+                                LocalizedStrings.GetString ("dlgFavTargFolder_ChageDisplayName"),
+
+                                new DlgBoxButton (LocalizedStrings.GetString ("dlgFileMove_Cancle"),
+                                    DlgBoxButtonSymbol.Cross,
+                                    null,
+                                    dlgBoxCfg => {; }),
+
+                                new DlgBoxButton (LocalizedStrings.GetString ("dlgFavTargFolder_Rename"),
+                                    DlgBoxButtonSymbol.Check,
+                                    item,
+                                    dlgBoxCfg => { (dlgBoxCfg.LeftButton.Parameter as FavoriteTargetFolderViewModel).DisplayName = dlgBoxCfg.TextBox.Text; }),
+
+                                new DlgBoxTextBox ((item as FavoriteTargetFolderViewModel).DisplayName, rules)
+                            );
                         }
                     },
                     param => true
@@ -633,7 +677,7 @@ namespace QuickSort.ViewModel
                                         Cmd_CreateSubDirsCommand = Cmd_ContextMenu_VirtualFirstStageCreateDirectory,
                                         Cmd_DeleteSubDirsCommand = null, // Not used for root directory.
 
-
+                                        Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeVirtualRootDirectoryItemDisplayName,
                                     });
 
                                     ConfigurationStorage.ConfigurationStorageModel.LastUsedPath = selectedPath;
@@ -670,6 +714,46 @@ namespace QuickSort.ViewModel
                             {
                                 virtRootDirItem.IsSelected = false;
                             }
+                        }
+                    },
+                    param => true
+                );
+            }
+        }
+
+        public RelayCommand Cmd_ContextMenu_ChangeVirtualRootDirectoryItemDisplayName
+        {
+            get
+            {
+                return new RelayCommand (
+                    item =>
+                    {
+                        if (item is VirtualDirectoryViewModel)
+                        {
+                            Collection<ValidationRule> rules = new Collection<ValidationRule> ();
+
+
+                            // Generate a directory exists validation rule object. It will be later used for check the user input in the dialog box.
+                            rules.Add (new CheckInvalidCharsValidationRule () { InvalidChares = ConfigurationStorage.ConfigurationStorageModel.GetSeperatorCharsList () });
+
+
+                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_TwoButton (
+                                DlgBoxType.Question,
+                                LocalizedStrings.GetString ("lQuestion"),
+                                LocalizedStrings.GetString ("dlgVirtualDirRoot_ChangeDisplayName"),
+
+                                new DlgBoxButton (LocalizedStrings.GetString ("dlgFileMove_Cancle"),
+                                    DlgBoxButtonSymbol.Cross,
+                                    null,
+                                    dlgBoxCfg => {; }),
+
+                                new DlgBoxButton (LocalizedStrings.GetString ("dlgVirtualDirRoot_Rename"),
+                                    DlgBoxButtonSymbol.Check,
+                                    item,
+                                    dlgBoxCfg => { (dlgBoxCfg.LeftButton.Parameter as VirtualDirectoryViewModel).DisplayName = dlgBoxCfg.TextBox.Text; }),
+
+                                new DlgBoxTextBox ((item as VirtualDirectoryViewModel).DisplayName, rules)
+                            );
                         }
                     },
                     param => true
@@ -779,7 +863,7 @@ namespace QuickSort.ViewModel
                                                         }
                                                     }),
 
-                                textBox: new DlgBoxTextBox (LocalizedStrings.GetString ("dlgNewFolder_NewFolder"), rules)
+                                new DlgBoxTextBox (LocalizedStrings.GetString ("dlgNewFolder_NewFolder"), rules)
                             );
                         }
                     },
@@ -837,9 +921,8 @@ namespace QuickSort.ViewModel
                                                                 LocalizedStrings.GetString ("lError"),
                                                                 LocalizedStrings.GetFormattedString ("dlgDeleteDirError_Message", selVirtDirObject.Path, ex.Message));
                                                         }
-                                                    }),
-
-                                null);
+                                                    })
+                            );
                         }
                         else
                         {
@@ -861,7 +944,8 @@ namespace QuickSort.ViewModel
                                 this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (
                                     DlgBoxType.Error,
                                     LocalizedStrings.GetString ("lError"),
-                                    LocalizedStrings.GetFormattedString ("dlgDeleteDirError_Message", selectedVirtDirObject.Path, ex.Message));
+                                    LocalizedStrings.GetFormattedString ("dlgDeleteDirError_Message", selectedVirtDirObject.Path, ex.Message)
+                                );
                             }
                         }
                     },
@@ -972,7 +1056,7 @@ namespace QuickSort.ViewModel
                                                         }
                                                     }),
 
-                                textBox: new DlgBoxTextBox (LocalizedStrings.GetString ("dlgNewFolder_NewFolder"), rules)
+                                new DlgBoxTextBox (LocalizedStrings.GetString ("dlgNewFolder_NewFolder"), rules)
                             );
                         }
                     },
@@ -1030,9 +1114,8 @@ namespace QuickSort.ViewModel
                                                                 LocalizedStrings.GetString ("lError"),
                                                                 LocalizedStrings.GetFormattedString ("dlgDeleteDirError_Message", selVirtDirObject.Path, ex.Message));
                                                         }
-                                                    }),
-
-                                null);
+                                                    })
+                            );
                         }
                         else
                         {
@@ -1054,7 +1137,8 @@ namespace QuickSort.ViewModel
                                 this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (
                                     DlgBoxType.Error,
                                     LocalizedStrings.GetString ("lError"),
-                                    LocalizedStrings.GetFormattedString ("dlgDeleteDirError_Message", selectedVirtDirObject.Path, ex.Message));
+                                    LocalizedStrings.GetFormattedString ("dlgDeleteDirError_Message", selectedVirtDirObject.Path, ex.Message)
+                                );
                             }
                         }
                     },
@@ -1174,9 +1258,8 @@ namespace QuickSort.ViewModel
                                                         }
 
                                                         FileTitleListResize ();
-                                                    }),
-
-                                null);
+                                                    })
+                            );
                         }
                     },
                     param => true
@@ -1287,7 +1370,8 @@ namespace QuickSort.ViewModel
                                         this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (
                                             DlgBoxType.Warning,
                                             LocalizedStrings.GetString ("lWarning"),
-                                            LocalizedStrings.GetFormattedString ("dlgErrorLoadingImagesFromDir_Message", errorMessageString));
+                                            LocalizedStrings.GetFormattedString ("dlgErrorLoadingImagesFromDir_Message", errorMessageString)
+                                        );
                                     }
 
                                     this.FileTitleLoadStatus_Show = false;
@@ -1373,7 +1457,8 @@ namespace QuickSort.ViewModel
                             this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialogSimply (
                                 DlgBoxType.Warning,
                                 LocalizedStrings.GetString ("lWarning"),
-                                LocalizedStrings.GetFormattedString ("dlgErrorLoadingImagesFromDir_Message", errorMessageString));
+                                LocalizedStrings.GetFormattedString ("dlgErrorLoadingImagesFromDir_Message", errorMessageString)
+                            );
                         }
 
                         this.FileTitleLoadStatus_Show = false;
@@ -1736,6 +1821,7 @@ namespace QuickSort.ViewModel
                         Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
                         Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
                         Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
+                        Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeFavoriteTargetFolderDisplayName,
                     });
                 }
             }
@@ -1777,6 +1863,8 @@ namespace QuickSort.ViewModel
 
                         Cmd_CreateSubDirsCommand = Cmd_ContextMenu_VirtualFirstStageCreateDirectory,
                         Cmd_DeleteSubDirsCommand = null, // Not used for root directory.
+
+                        Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeVirtualRootDirectoryItemDisplayName,
                     });
                 }
             }
@@ -1807,7 +1895,7 @@ namespace QuickSort.ViewModel
                         questionText,
 
                         new DlgBoxButton (LocalizedStrings.GetString ("dlgFileMove_Cancle"),
-                            DlgBoxButtonSymbol.Check,
+                            DlgBoxButtonSymbol.Cross,
                             null,
                             dlgBoxCfg => {; }),
 
@@ -1879,6 +1967,7 @@ namespace QuickSort.ViewModel
                             Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
                             Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
                             Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
+                            Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeFavoriteTargetFolderDisplayName,
                         });
                     }
                 }

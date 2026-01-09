@@ -4,7 +4,7 @@
 /// Project Source:	    https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
-/// Date:				16.10.2025
+/// Date:				09.01.2026
 ///
 /// ////////////////////////////////////////////////////////////////////////
 /// 
@@ -121,26 +121,25 @@ namespace QuickSort.View.UserControls
                 control.PART_TEXTBOX.Visibility = Visibility.Visible;
                 control.PART_TEXTBOX.Text = vm.TextBox.Text;
 
+                // Make a new binding between DlgBoxViewModel.TextBox.Text property to bind to PART_TEXTBOX.Text and
+                // also set the validation rules - this is necessary.
+                var binding = new Binding ();
+                binding.Source = vm.TextBox;
+                binding.Path = new PropertyPath ("Text");
+                binding.Mode = BindingMode.TwoWay;
+                binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+
                 if (vm.TextBox.ValidationRules.Count > 0)
                 {
-                    // Make a new binding between DlgBoxViewModel.TextBox.Text property is bind to PART_TEXTBOX.Text and
-                    // also set the validation rules.
-
-                    var binding = new Binding ();
-                    binding.Source = vm.TextBox;
-                    binding.Path = new PropertyPath ("Text");
-                    binding.Mode = BindingMode.TwoWay;
-                    binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-
                     // Add validation rules
                     foreach (var rule in vm.TextBox.ValidationRules)
                     {
                         binding.ValidationRules.Add (rule);
                     }
-
-                    // Set binding to activate them and enable the rules.
-                    BindingOperations.SetBinding (control.PART_TEXTBOX, TextBox.TextProperty, binding);
                 }
+
+                // Set binding to activate them and enable the rules.
+                BindingOperations.SetBinding (control.PART_TEXTBOX, TextBox.TextProperty, binding);
             }
 
             control.PART_BTN_LEFT.Visibility = Visibility.Hidden;

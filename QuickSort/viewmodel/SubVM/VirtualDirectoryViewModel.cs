@@ -4,7 +4,7 @@
 /// Project Source:	https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
-/// Date:				06.10.2025
+/// Date:				09.01.2026
 ///
 /// ////////////////////////////////////////////////////////////////////////
 /// 
@@ -131,7 +131,7 @@ namespace QuickSort.ViewModel
         public ICommand Cmd_ShowSubDirsCommand { get; set; } // Property will be setup during creating a new instance of this object in various functions.
         public ICommand Cmd_CreateSubDirsCommand { get; set; } // Property will be setup during creating a new instance of this object in various functions.
         public ICommand Cmd_DeleteSubDirsCommand { get; set; } // Property will be setup during creating a new instance of this object in various functions.
-
+        public ICommand Cmd_ChangeDisplayName { get; set; } // Property will be setup during creating a new instance of this object in various functions.
 
 
 

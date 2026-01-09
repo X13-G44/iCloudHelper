@@ -19,7 +19,7 @@ namespace QuickSort.Resources {
     // -Klasse über ein Tool wie ResGen oder Visual Studio automatisch generiert.
     // Um einen Member hinzuzufügen oder zu entfernen, bearbeiten Sie die .ResX-Datei und führen dann ResGen
     // mit der /str-Option erneut aus, oder Sie erstellen Ihr VS-Projekt neu.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Strings {
@@ -75,6 +75,15 @@ namespace QuickSort.Resources {
         public static string cmFavTargFolder_AddEntry2 {
             get {
                 return ResourceManager.GetString("cmFavTargFolder_AddEntry2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change Displayname ähnelt.
+        /// </summary>
+        public static string cmFavTargFolder_ChangeDisplayName {
+            get {
+                return ResourceManager.GetString("cmFavTargFolder_ChangeDisplayName", resourceCulture);
             }
         }
         
@@ -286,6 +295,15 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change Displayname ähnelt.
+        /// </summary>
+        public static string cmVirtualDirSrc_ChangeDisplayName {
+            get {
+                return ResourceManager.GetString("cmVirtualDirSrc_ChangeDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die No configuration exists!\n\nShould a new configuration be created with the following default folders?\n\nMonitored folder:\n\t{0}\n\nFolder for extracted image files:\n\t{1}\n\nBackup folder:\n\t{2} ähnelt.
         /// </summary>
         public static string dlg_CreateDefaultConfig {
@@ -430,11 +448,29 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter new Displayname ähnelt.
+        /// </summary>
+        public static string dlgFavTargFolder_ChageDisplayName {
+            get {
+                return ResourceManager.GetString("dlgFavTargFolder_ChageDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select new Favorites folder ähnelt.
         /// </summary>
         public static string dlgFavTargFolder_HelpText {
             get {
                 return ResourceManager.GetString("dlgFavTargFolder_HelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Rename ähnelt.
+        /// </summary>
+        public static string dlgFavTargFolder_Rename {
+            get {
+                return ResourceManager.GetString("dlgFavTargFolder_Rename", resourceCulture);
             }
         }
         
@@ -529,6 +565,24 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter new Displayname ähnelt.
+        /// </summary>
+        public static string dlgVirtualDirRoot_ChangeDisplayName {
+            get {
+                return ResourceManager.GetString("dlgVirtualDirRoot_ChangeDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Rename ähnelt.
+        /// </summary>
+        public static string dlgVirtualDirRoot_Rename {
+            get {
+                return ResourceManager.GetString("dlgVirtualDirRoot_Rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select folder to add ähnelt.
         /// </summary>
         public static string dlgVirtualDirSec_HelpText {
@@ -570,6 +624,15 @@ namespace QuickSort.Resources {
         public static string lInvalidDirName {
             get {
                 return ResourceManager.GetString("lInvalidDirName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Invalid Displayname. Invalid char &quot;[0]&quot;. ähnelt.
+        /// </summary>
+        public static string lInvalidDisplayNameChars {
+            get {
+                return ResourceManager.GetString("lInvalidDisplayNameChars", resourceCulture);
             }
         }
         

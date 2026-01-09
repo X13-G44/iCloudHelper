@@ -45,6 +45,10 @@ namespace ConfigurationStorage
     /// </summary>
     internal class FavoriteTargetFolderSettingItem
     {
+        public const char SEPERATOR = '?';
+
+
+
         public string Path { get; set; } = "";
         public long Date { get; set; } = 0;
         public string DisplayName { get; set; } = "";
@@ -71,7 +75,13 @@ namespace ConfigurationStorage
 
         public override string ToString ()
         {
-            return $"{Path}?{Date}?{DisplayName}?{IsPinned}";
+            if (this.Path.Contains (SEPERATOR) ||
+                this.DisplayName.Contains (SEPERATOR))
+            {
+                throw new ArgumentException ("A property of a FavoriteTargetFolderSettingItem instance holds an invalid character '?', which is used as seperator.");
+            }
+
+            return $"{Path}{SEPERATOR}{Date}{SEPERATOR}{DisplayName}{SEPERATOR}{IsPinned}";
         }
 
 
@@ -80,7 +90,7 @@ namespace ConfigurationStorage
         {
             try
             {
-                string[] elements = asString.Split ('?');
+                string[] elements = asString.Split (SEPERATOR);
 
 
                 if (elements.Length == 4)

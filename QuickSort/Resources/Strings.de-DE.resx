@@ -372,4 +372,25 @@
   <data name="cmFileTitleSec_ButtonSortByFileTakeDate" xml:space="preserve">
     <value>Nach Bildaufnahmedatum sortieren</value>
   </data>
+  <data name="dlgFavTargFolder_ChageDisplayName" xml:space="preserve">
+    <value>Geben Sie den neuen Anzeigenamen ein</value>
+  </data>
+  <data name="dlgFavTargFolder_Rename" xml:space="preserve">
+    <value>Umbenennen</value>
+  </data>
+  <data name="cmFavTargFolder_ChangeDisplayName" xml:space="preserve">
+    <value>Anzeigenamen ändern</value>
+  </data>
+  <data name="lInvalidDisplayNameChars" xml:space="preserve">
+    <value>Ungültiger Anzeigenamen. Ungültiges Zeichen "[0]".</value>
+  </data>
+  <data name="dlgVirtualDirRoot_ChangeDisplayName" xml:space="preserve">
+    <value>Geben Sie den neuen Anzeigenamen ein</value>
+  </data>
+  <data name="dlgVirtualDirRoot_Rename" xml:space="preserve">
+    <value>Umbenennen</value>
+  </data>
+  <data name="cmVirtualDirSrc_ChangeDisplayName" xml:space="preserve">
+    <value>Anzeigenamen ändern</value>
+  </data>
 </root>

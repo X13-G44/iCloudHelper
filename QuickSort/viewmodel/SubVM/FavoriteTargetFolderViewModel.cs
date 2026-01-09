@@ -4,7 +4,7 @@
 /// Project Source:	    https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
-/// Date:				06.10.2025
+/// Date:				09.01.2026
 ///
 /// ////////////////////////////////////////////////////////////////////////
 /// 
@@ -130,5 +130,6 @@ namespace QuickSort.ViewModel
         public ICommand Cmd_AddFolderFromListCommand { get; set; } // Property will be setup during creating a new instance of this object in function "Cmd_ContextMenu_AddFavoriteTargetFolderItem" and "LoadTargetFolder".
         public ICommand Cmd_RemoveFolderFromListCommand { get; set; } // Property will be setup during creating a new instance of this object in function "Cmd_ContextMenu_AddFavoriteTargetFolderItem" and "LoadTargetFolder".
         public ICommand Cmd_MoveImagesCommand { get; set; } // Property will be setup during creating a new instance of this object in function "Cmd_ContextMenu_AddFavoriteTargetFolderItem" and "LoadTargetFolder".
+        public ICommand Cmd_ChangeDisplayName { get; set; } // Property will be setup during creating a new instance of this object in function "Cmd_ContextMenu_AddFavoriteTargetFolderItem" and "LoadTargetFolder".
     }
 }

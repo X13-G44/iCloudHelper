@@ -761,6 +761,13 @@
                                                   Command="{Binding Cmd_MoveImagesCommand}"
                                                   CommandParameter="{Binding}"/>
 
+                                        <MenuItem Name="cmFavTargFolder_ChangeDisplayName" 
+                                                  Header="{lex:Loc cmFavTargFolder_ChangeDisplayName}"
+                                                  Style="{StaticResource CustomMenuItemStyle}"
+                                                  Tag="&#xE104;"
+                                                  Command="{Binding Cmd_ChangeDisplayName}"
+                                                  CommandParameter="{Binding}"/>
+
                                         <MenuItem Name="cmFavTargFolder_AddEntry" 
                                                   Header="{lex:Loc cmFavTargFolder_AddEntry}"
                                                   Style="{StaticResource CustomMenuItemStyle}"
@@ -1313,6 +1320,13 @@
                                                           Command="{Binding Cmd_MoveImagesCommand}"
                                                           CommandParameter="{Binding}"/>
 
+                                                <MenuItem Name="cmVirtualDirSrc_ChangeDisplayName" 
+                                                          Header="{lex:Loc cmFavTargFolder_ChangeDisplayName}"
+                                                          Style="{StaticResource CustomMenuItemStyle}"
+                                                          Tag="&#xE104;"
+                                                          Command="{Binding Cmd_ChangeDisplayName}"
+                                                          CommandParameter="{Binding}"/>
+
                                                 <MenuItem Header="{lex:Loc cmVirtualDirSec_OpenFolder}"
                                                           Style="{StaticResource CustomMenuItemStyle}"
                                                           Tag="&#xE19C;"
@@ -1558,13 +1572,13 @@
             <Border.ContextMenu>
 
                 <ContextMenu Style="{StaticResource CustomContextMenuStyle}" 
-                                 Visibility="{Binding VirtualRootDirectoryList.Count, Converter={StaticResource IntToVis}, ConverterParameter='visible;collapsed', FallbackValue='Visible'}">
+                             Visibility="{Binding VirtualRootDirectoryList.Count, Converter={StaticResource IntToVis}, ConverterParameter='visible;collapsed', FallbackValue='Visible'}">
 
                     <MenuItem Header="{lex:Loc cmVirtualDirSec_AddEntry}"
-                                  Style="{StaticResource CustomMenuItemStyle}"
-                                  Tag="&#xE0C5;"
-                                  Command="{Binding Cmd_ContextMenu_AddVirtualRootDirectoryItem}"
-                                  CommandParameter="{Binding}"/>
+                              Style="{StaticResource CustomMenuItemStyle}"
+                              Tag="&#xE0C5;"
+                              Command="{Binding Cmd_ContextMenu_AddVirtualRootDirectoryItem}"
+                              CommandParameter="{Binding}"/>
 
                 </ContextMenu>
 

@@ -112,7 +112,7 @@ namespace ConfigurationStorage
                 BackupPath = (string) keyVer.GetValue (nameof (BackupPath));
                 BackupRetentionCheckEnabled = bool.Parse ((string) keyVer.GetValue (nameof (BackupRetentionCheckEnabled)));
                 BackupRetentionPeriod = int.Parse ((string) keyVer.GetValue (nameof (BackupRetentionPeriod)));
-               
+
                 LastUsedPath = (string) keyVer.GetValue (nameof (LastUsedPath));
 
                 ShowMoveDlg = bool.Parse ((string) keyVer.GetValue (nameof (ShowMoveDlg)));
@@ -247,6 +247,21 @@ namespace ConfigurationStorage
             }
 
             listkey?.Close ();
+        }
+
+
+
+        static public string GetSeperatorCharsList ()
+        {
+            string sepChar = FavoriteTargetFolderSettingItem.SEPERATOR.ToString ();
+
+
+            if (FavoriteTargetFolderSettingItem.SEPERATOR.ToString () != VirtualDirectorySettingItem.SEPERATOR.ToString ())
+            {
+                sepChar += VirtualDirectorySettingItem.SEPERATOR.ToString ();
+            }
+
+            return sepChar;
         }
 
 
