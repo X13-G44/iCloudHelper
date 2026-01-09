@@ -393,4 +393,10 @@
   <data name="cmVirtualDirSrc_ChangeDisplayName" xml:space="preserve">
     <value>Change Displayname</value>
   </data>
+  <data name="cmFavTargFolder_OpenInExplorer" xml:space="preserve">
+    <value>Open in Explorer</value>
+  </data>
+  <data name="cmVirtualDirSec_OpenInExplorer" xml:space="preserve">
+    <value>Open in Explorer</value>
+  </data>
 </root>

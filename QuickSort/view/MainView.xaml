@@ -795,6 +795,13 @@
                                                   Tag="&#xE195;"
                                                   Command="{Binding Cmd_ClearTargetFolderFavorite}"/>
 
+                                        <MenuItem Name="cmFavTargFolder_OpenInExplorer" 
+                                                  Header="{lex:Loc cmFavTargFolder_OpenInExplorer}"
+                                                  Style="{StaticResource CustomMenuItemStyle}"
+                                                  Tag="&#xE138;"
+                                                  Command="{Binding Cmd_OpenDirectoryInExplorer}"
+                                                  CommandParameter="{Binding}"/>
+
                                     </ContextMenu>
                                 </Button.ContextMenu>
 
@@ -958,7 +965,8 @@
                         Foreground="{DynamicResource FileTitleTextForegroundColor}"
                         FontSize="12"
                         Content="{Binding FileTileStatusText, FallbackValue='1 Bild ausgewählt'}"
-                        Command="{Binding Cmd_ClickOnFileTileStatusText}"/>
+                        Command="{Binding Cmd_ContextMenu_OpenDirectoryInExplorer}"
+                        CommandParameter="{Binding FileTileStatusText}"/>
 
                 <ScrollViewer Grid.Row="2" 
                               Margin="20,20,20,20">
@@ -1351,6 +1359,13 @@
                                                           Command="{Binding Cmd_RemoveItemFromListCommand}"
                                                           CommandParameter="{Binding}"/>
 
+                                                <MenuItem Name="cmVirtualDirSec_OpenInExplorer" 
+                                                          Header="{lex:Loc cmVirtualDirSec_OpenInExplorer}"
+                                                          Style="{StaticResource CustomMenuItemStyle}"
+                                                          Tag="&#xE138;"
+                                                          Command="{Binding Cmd_OpenDirectoryInExplorer}"
+                                                          CommandParameter="{Binding}"/>
+
                                             </ContextMenu>
                                         </Button.ContextMenu>
 
@@ -1395,12 +1410,12 @@
                                 <DataTemplate>
 
                                     <Button Style="{StaticResource VirtualRootDirectoryButtonStyle}"
-                                    Margin="5"                                                        
+                                            Margin="5"                                                        
                                                                                                                                             
-                                    ToolTip="{Binding ToolTip}"
+                                            ToolTip="{Binding ToolTip}"
                                         
-                                    Command="{Binding DataContext.Cmd_ClickOnVirtualFirstStagDirectoryItem, RelativeSource={RelativeSource AncestorType=Window}}"
-                                    CommandParameter="{Binding}">
+                                            Command="{Binding DataContext.Cmd_ClickOnVirtualFirstStagDirectoryItem, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}">
 
                                         <Button.ContextMenu>
                                             <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
@@ -1444,6 +1459,13 @@
                                                           Style="{StaticResource CustomMenuItemStyle}"
                                                           Tag="&#xE107;"
                                                           Command="{Binding Cmd_DeleteSubDirsCommand}"
+                                                          CommandParameter="{Binding}"/>
+
+                                                <MenuItem Name="cmVirtualDirSec_OpenInExplorer" 
+                                                          Header="{lex:Loc cmVirtualDirSec_OpenInExplorer}"
+                                                          Style="{StaticResource CustomMenuItemStyle}"
+                                                          Tag="&#xE138;"
+                                                          Command="{Binding Cmd_OpenDirectoryInExplorer}"
                                                           CommandParameter="{Binding}"/>
 
                                             </ContextMenu>
@@ -1490,12 +1512,12 @@
                                 <DataTemplate>
 
                                     <Button Style="{StaticResource VirtualRootDirectoryButtonStyle}"
-                                        Margin="5"                                                        
+                                            Margin="5"                                                        
                                                                                                                                                                
-                                        ToolTip="{Binding ToolTip}"
+                                            ToolTip="{Binding ToolTip}"
                     
-                                        Command="{Binding DataContext.Cmd_ClickOnVirtualSecondStagDirectoryItem, RelativeSource={RelativeSource AncestorType=Window}}"
-                                        CommandParameter="{Binding}">
+                                            Command="{Binding DataContext.Cmd_ClickOnVirtualSecondStagDirectoryItem, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}">
 
                                         <Button.ContextMenu>
                                             <ContextMenu Style="{StaticResource CustomContextMenuStyle}">
@@ -1527,6 +1549,13 @@
                                                           Style="{StaticResource CustomMenuItemStyle}"
                                                           Tag="&#xE107;"
                                                           Command="{Binding Cmd_DeleteSubDirsCommand}"
+                                                          CommandParameter="{Binding}"/>
+
+                                                <MenuItem Name="cmVirtualDirSec_OpenInExplorer" 
+                                                          Header="{lex:Loc cmVirtualDirSec_OpenInExplorer}"
+                                                          Style="{StaticResource CustomMenuItemStyle}"
+                                                          Tag="&#xE138;"
+                                                          Command="{Binding Cmd_OpenDirectoryInExplorer}"
                                                           CommandParameter="{Binding}"/>
 
                                             </ContextMenu>

@@ -393,4 +393,10 @@
   <data name="cmVirtualDirSrc_ChangeDisplayName" xml:space="preserve">
     <value>Anzeigenamen ändern</value>
   </data>
+  <data name="cmFavTargFolder_OpenInExplorer" xml:space="preserve">
+    <value>Im Dateimanager anzeigen</value>
+  </data>
+  <data name="cmVirtualDirSec_OpenInExplorer" xml:space="preserve">
+    <value>Im Dateimanager anzeigen</value>
+  </data>
 </root>

@@ -132,6 +132,7 @@ namespace QuickSort.ViewModel
         public ICommand Cmd_CreateSubDirsCommand { get; set; } // Property will be setup during creating a new instance of this object in various functions.
         public ICommand Cmd_DeleteSubDirsCommand { get; set; } // Property will be setup during creating a new instance of this object in various functions.
         public ICommand Cmd_ChangeDisplayName { get; set; } // Property will be setup during creating a new instance of this object in various functions.
+        public ICommand Cmd_OpenDirectoryInExplorer { get; set; } // Property will be setup during creating a new instance of this object in various functions.
 
 
 

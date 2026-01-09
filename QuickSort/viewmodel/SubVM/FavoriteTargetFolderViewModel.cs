@@ -131,5 +131,6 @@ namespace QuickSort.ViewModel
         public ICommand Cmd_RemoveFolderFromListCommand { get; set; } // Property will be setup during creating a new instance of this object in function "Cmd_ContextMenu_AddFavoriteTargetFolderItem" and "LoadTargetFolder".
         public ICommand Cmd_MoveImagesCommand { get; set; } // Property will be setup during creating a new instance of this object in function "Cmd_ContextMenu_AddFavoriteTargetFolderItem" and "LoadTargetFolder".
         public ICommand Cmd_ChangeDisplayName { get; set; } // Property will be setup during creating a new instance of this object in function "Cmd_ContextMenu_AddFavoriteTargetFolderItem" and "LoadTargetFolder".
+        public ICommand Cmd_OpenDirectoryInExplorer { get; set; } // Property will be setup during creating a new instance of this object in function "Cmd_ContextMenu_AddFavoriteTargetFolderItem" and "LoadTargetFolder".
     }
 }

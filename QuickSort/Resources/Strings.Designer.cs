@@ -97,6 +97,15 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Open in Explorer ähnelt.
+        /// </summary>
+        public static string cmFavTargFolder_OpenInExplorer {
+            get {
+                return ResourceManager.GetString("cmFavTargFolder_OpenInExplorer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Remove bookmark ähnelt.
         /// </summary>
         public static string cmFavTargFolder_RemoveBookmark {
@@ -282,6 +291,15 @@ namespace QuickSort.Resources {
         public static string cmVirtualDirSec_OpenFolder {
             get {
                 return ResourceManager.GetString("cmVirtualDirSec_OpenFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Open in Explorer ähnelt.
+        /// </summary>
+        public static string cmVirtualDirSec_OpenInExplorer {
+            get {
+                return ResourceManager.GetString("cmVirtualDirSec_OpenInExplorer", resourceCulture);
             }
         }
         

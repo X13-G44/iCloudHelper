@@ -332,30 +332,6 @@ namespace QuickSort.ViewModel
             }
         }
 
-        public RelayCommand Cmd_ClickOnFileTileStatusText
-        {
-            get
-            {
-                return new RelayCommand (
-                    item =>
-                    {
-                        try
-                        {
-                            Process.Start ("explorer.exe", this.FileTileStatusText);
-                        }
-                        catch
-                        {
-                            ;
-                        }
-                    },
-                    param =>
-                    {
-                        return String.IsNullOrEmpty (this.FileTileStatusText) == false && Directory.Exists (this.FileTileStatusText);
-                    }
-                );
-            }
-        }
-
         public RelayCommand Cmd_ClickOnFileTitleItem
         {
             get
@@ -558,10 +534,15 @@ namespace QuickSort.ViewModel
                                         Path = selectedPath,
                                         AddDate = DateTime.Now.ToFileTimeUtc (),
                                         IsPinned = true,
+
                                         Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
+
                                         Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
                                         Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
+
                                         Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeFavoriteTargetFolderDisplayName,
+
+                                        Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
                                     });
 
                                     ConfigurationStorage.ConfigurationStorageModel.LastUsedPath = selectedPath;
@@ -678,6 +659,8 @@ namespace QuickSort.ViewModel
                                         Cmd_DeleteSubDirsCommand = null, // Not used for root directory.
 
                                         Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeVirtualRootDirectoryItemDisplayName,
+
+                                        Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
                                     });
 
                                     ConfigurationStorage.ConfigurationStorageModel.LastUsedPath = selectedPath;
@@ -1162,6 +1145,62 @@ namespace QuickSort.ViewModel
                         {; }
                     },
                     param => true
+                );
+            }
+        }
+
+        public RelayCommand Cmd_ContextMenu_OpenDirectoryInExplorer
+        {
+            get
+            {
+                return new RelayCommand (
+                    param =>
+                    {
+                        try
+                        {
+                            string pathToOpen = string.Empty;
+
+
+                            if (param != null && param is FavoriteTargetFolderViewModel)
+                            {
+                                pathToOpen = (param as FavoriteTargetFolderViewModel).Path;
+                            }
+                            else if (param != null && param is VirtualDirectoryViewModel)
+                            {
+                                pathToOpen = (param as VirtualDirectoryViewModel).Path;
+                            }
+                            else if (param != null && param is String)
+                            {
+                                pathToOpen = (param as String);
+                            }
+
+                            if (String.IsNullOrEmpty (pathToOpen) == false)
+                            {
+                                Process.Start ("explorer.exe", pathToOpen);
+                            }
+                        }
+                        catch
+                        {
+                            ;
+                        }
+                    },
+                    param =>
+                    {
+                        if (param != null && param is FavoriteTargetFolderViewModel)
+                        {
+                            return Directory.Exists ((param as FavoriteTargetFolderViewModel).Path);
+                        }
+                        else if (param != null && param is VirtualDirectoryViewModel)
+                        {
+                            return Directory.Exists ((param as VirtualDirectoryViewModel).Path);
+                        }
+                        else if (param != null && param is String)
+                        {
+                            return String.IsNullOrEmpty ((param as String)) == false && Directory.Exists ((param as String));
+                        }
+
+                        return false;
+                    }
                 );
             }
         }
@@ -1693,8 +1732,6 @@ namespace QuickSort.ViewModel
 
                                 // Assign the group color to the ungrouped item.
                                 ungroupedFileTitleItem.GroupColor = groupColorBrush;
-
-                                Debug.WriteLine ($"Generate new GroupColor for {ungroupedFileTitleItem.CreationTime.Date.ToString ()} - Color: {groupColorBrush.Color.ToString ()}");
                             }
                         }
 
@@ -1818,10 +1855,15 @@ namespace QuickSort.ViewModel
                         Path = path,
                         AddDate = date,
                         IsPinned = isPinned,
+
                         Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
+
                         Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
                         Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
+
                         Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeFavoriteTargetFolderDisplayName,
+
+                        Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
                     });
                 }
             }
@@ -1865,6 +1907,8 @@ namespace QuickSort.ViewModel
                         Cmd_DeleteSubDirsCommand = null, // Not used for root directory.
 
                         Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeVirtualRootDirectoryItemDisplayName,
+
+                        Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
                     });
                 }
             }
@@ -1964,10 +2008,15 @@ namespace QuickSort.ViewModel
                             Path = targetPath,
                             AddDate = DateTime.Now.ToFileTimeUtc (),
                             IsPinned = false,
+
                             Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
+
                             Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
                             Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
+
                             Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeFavoriteTargetFolderDisplayName,
+
+                            Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
                         });
                     }
                 }
@@ -2185,6 +2234,8 @@ namespace QuickSort.ViewModel
 
                                     Cmd_CreateSubDirsCommand = Cmd_ContextMenu_VirtualSecondStageCreateDirectory,
                                     Cmd_DeleteSubDirsCommand = Cmd_ContextMenu_VirtualFirstStageDeleteDirectory,
+
+                                    Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
                                 });
                             }
                         }
@@ -2231,6 +2282,8 @@ namespace QuickSort.ViewModel
 
                                     Cmd_CreateSubDirsCommand = null, // No sub directories in second stage.
                                     Cmd_DeleteSubDirsCommand = Cmd_ContextMenu_VirtualSecondStageDeleteDirectory,
+
+                                    Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
                                 });
                             }
                         }
