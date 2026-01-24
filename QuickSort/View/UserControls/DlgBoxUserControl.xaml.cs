@@ -120,6 +120,7 @@ namespace QuickSort.View.UserControls
             {
                 control.PART_TEXTBOX.Visibility = Visibility.Visible;
                 control.PART_TEXTBOX.Text = vm.TextBox.Text;
+                control.PART_TEXTBOX.SelectAll ();
 
                 // Make a new binding between DlgBoxViewModel.TextBox.Text property to bind to PART_TEXTBOX.Text and
                 // also set the validation rules - this is necessary.
