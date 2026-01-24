@@ -1812,7 +1812,7 @@ namespace QuickSort.ViewModel
             }
 
             // Check for and removed, none existing image files on disk.
-            var querryDeletedImages = this.FileTileList.Where (x => !x.FileExists);
+            var querryDeletedImages = this.FileTileList.Where (x => !x.FileExists).ToArray();
             foreach (var image in querryDeletedImages)
             {
                 this.FileTileList.Remove (image);
