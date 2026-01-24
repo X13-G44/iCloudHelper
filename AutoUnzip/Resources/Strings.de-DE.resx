@@ -276,4 +276,25 @@
   <data name="cbConfig_ImageColorGroupModeTakenDate" xml:space="preserve">
     <value>Nach Aufnahmedatum</value>
   </data>
+  <data name="tbConfig_Title5" xml:space="preserve">
+    <value>Sonstige Einstellungen [ AutoUnzip ]</value>
+  </data>
+  <data name="tbConfig_NotifyWindowPos" xml:space="preserve">
+    <value>Position des Notify Fensters</value>
+  </data>
+  <data name="cbConfig_NotifyWinPosTopLeft" xml:space="preserve">
+    <value>Oben Links</value>
+  </data>
+  <data name="cbConfig_NotifyWinPosTopRight" xml:space="preserve">
+    <value>Oben Rechts</value>
+  </data>
+  <data name="cbConfig_NotifyWinPosBottomLeft" xml:space="preserve">
+    <value>Unten Links</value>
+  </data>
+  <data name="cbConfig_NotifyWinPosBottomRight" xml:space="preserve">
+    <value>Unten Rechts</value>
+  </data>
+  <data name="tbConfig_NotifyWindowDur" xml:space="preserve">
+    <value>Anzeigedauer Notify Fensters [sec]</value>
+  </data>
 </root>

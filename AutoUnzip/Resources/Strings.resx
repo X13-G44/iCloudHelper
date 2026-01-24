@@ -276,4 +276,25 @@
   <data name="cbConfig_ImageColorGroupModeTakenDate" xml:space="preserve">
     <value>By image capture date</value>
   </data>
+  <data name="tbConfig_Title5" xml:space="preserve">
+    <value>Other Settings [ AutoUnzip ]</value>
+  </data>
+  <data name="tbConfig_NotifyWindowPos" xml:space="preserve">
+    <value>Notify window position</value>
+  </data>
+  <data name="cbConfig_NotifyWinPosTopLeft" xml:space="preserve">
+    <value>Top-Left</value>
+  </data>
+  <data name="cbConfig_NotifyWinPosTopRight" xml:space="preserve">
+    <value>Top-Right</value>
+  </data>
+  <data name="cbConfig_NotifyWinPosBottomLeft" xml:space="preserve">
+    <value>Buttom-Left</value>
+  </data>
+  <data name="cbConfig_NotifyWinPosBottomRight" xml:space="preserve">
+    <value>Buttom-Right</value>
+  </data>
+  <data name="tbConfig_NotifyWindowDur" xml:space="preserve">
+    <value>Notify window display duration [sec]</value>
+  </data>
 </root>

@@ -61,6 +61,8 @@ namespace AutoUnzip.ViewModel
 
         public ObservableCollection<BitmapImage> ExtractedFilesPreview { get; set; } = new ObservableCollection<BitmapImage> ();
 
+        public TimeSpan ShowWindowDuration { get; set; } = TimeSpan.FromSeconds (15);
+
 
 
         private string _ExtractedFileText;
@@ -145,6 +147,8 @@ namespace AutoUnzip.ViewModel
 
             this.ExtractedFileText = LocalizedStrings.GetFormattedString ("tbMain_ExtractedFileText", extractedFiles.Count);
             this.ExtractedFilesPreview.Clear ();
+
+            this.ShowWindowDuration = TimeSpan.FromSeconds (ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinDuration);
 
             SetColorTheme ();
             LoadExtractedFilesPreviewListAsync ();

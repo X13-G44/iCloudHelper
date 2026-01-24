@@ -75,14 +75,67 @@ namespace AutoUnzip.View
 
         private void RelocateWindow ()
         {
+            int pos = ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinPos;
+
             var primaryScreen = System.Windows.Forms.Screen.PrimaryScreen;
             var workingArea = primaryScreen.WorkingArea;
 
-            double newLeft = workingArea.Right - this.Width - MARGIN;
-            double newTop = workingArea.Bottom - this.Height - MARGIN;
 
-            this.Top = newTop;
-            this.Left = newLeft;
+            switch (pos)
+            {
+                default:
+                case 3:
+                    {
+                        // Bottom-Right
+
+                        double newLeft = workingArea.Right - this.Width - MARGIN;
+                        double newTop = workingArea.Bottom - this.Height - MARGIN;
+
+                        this.Top = newTop;
+                        this.Left = newLeft;
+
+                        break;
+                    }
+
+                case 2:
+                    {
+                        // Bottom-Left
+
+                        double newLeft = workingArea.Left + MARGIN;
+                        double newTop = workingArea.Bottom - this.Height - MARGIN;
+
+                        this.Top = newTop;
+                        this.Left = newLeft;
+
+                        break;
+                    }
+
+                case 1:
+                    {
+                        // Top-Right
+
+                        double newLeft = workingArea.Right - this.Width - MARGIN;
+                        double newTop = workingArea.Top + MARGIN;
+
+                        this.Top = newTop;
+                        this.Left = newLeft;
+
+                        break;
+                    }
+
+                case 0:
+                    {
+                        // Top-Left
+
+                        double newLeft = workingArea.Left + MARGIN;
+                        double newTop = workingArea.Top + MARGIN;
+
+                        this.Top = newTop;
+                        this.Left = newLeft;
+
+                        break;
+                    }
+            }
         }
     }
 }

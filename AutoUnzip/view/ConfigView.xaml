@@ -11,7 +11,7 @@
         lex:ResxLocalizationProvider.DefaultDictionary="Strings"
         mc:Ignorable="d"
         Title="{lex:Loc tbConfig_WindowTitle}"
-        Height="850" 
+        Height="950" 
         Width="710" 
         Icon="/icloud-logo-49272-Windows.ico" 
         ResizeMode="CanMinimize">
@@ -425,6 +425,67 @@
                 </ComboBox>
             </Grid>
 
+            <Label Name="tbConfig_Title5"
+                   Content="{lex:Loc}"
+                   Style="{StaticResource ConfigView_HeadLine}"/>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
+                   Name="tbConfig_NotifyWindowPos"
+                   Content="{lex:Loc}"
+                   Style="{StaticResource ConfigView_Label}"/>
+                <ComboBox Grid.Column="2"
+                      SelectedIndex="{Binding NotifyWinPos, FallbackValue=0}"
+                      Style="{StaticResource ConfigView_ComboBox}">
+                    <ComboBoxItem Content="{lex:Loc cbConfig_NotifyWinPosTopLeft}"/>
+                    <ComboBoxItem Content="{lex:Loc cbConfig_NotifyWinPosTopRight}"/>
+                    <ComboBoxItem Content="{lex:Loc cbConfig_NotifyWinPosBottomLeft}"/>
+                    <ComboBoxItem Content="{lex:Loc cbConfig_NotifyWinPosBottomRight}"/>
+                </ComboBox>
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
+                   Name="tbConfig_NotifyWindowDur"
+                   Content="{lex:Loc}"
+                   Style="{StaticResource ConfigView_Label}"/>                
+                <TextBox Grid.Column="2"
+                     Name="NOTIFYWINDOWDURATION_TEXTBOX"
+                     Style="{StaticResource ConfigView_TextBox}">
+                    <TextBox.Text>
+                        <Binding Path="NotifyWinDur" 
+                             UpdateSourceTrigger="PropertyChanged"
+                             FallbackValue='15'
+                             ValidatesOnDataErrors="True" 
+                             ValidatesOnExceptions="True">
+                            <Binding.ValidationRules>
+                                <vr:CheckIntValidationRule ValidatesOnTargetUpdated="True"
+                                                       MinValue="5"
+                                                       MaxValue="60"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
+
         </StackPanel>
 
         <Button Grid.Row="1"
@@ -451,6 +512,7 @@
                                 <Condition Binding="{Binding ElementName=EXTRACTPATH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
                                 <Condition Binding="{Binding ElementName=BACKUPPATH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
                                 <Condition Binding="{Binding ElementName=BACKUPRETENTIONPERIOD_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
+                                <Condition Binding="{Binding ElementName=NOTIFYWINDOWDURATION_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
                                 <Condition Binding="{Binding ElementName=MAXFAVTARGETFOLDERITEMS_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
 
                             </MultiDataTrigger.Conditions>

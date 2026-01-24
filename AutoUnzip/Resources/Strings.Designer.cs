@@ -133,6 +133,42 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Buttom-Left ähnelt.
+        /// </summary>
+        public static string cbConfig_NotifyWinPosBottomLeft {
+            get {
+                return ResourceManager.GetString("cbConfig_NotifyWinPosBottomLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Buttom-Right ähnelt.
+        /// </summary>
+        public static string cbConfig_NotifyWinPosBottomRight {
+            get {
+                return ResourceManager.GetString("cbConfig_NotifyWinPosBottomRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Top-Left ähnelt.
+        /// </summary>
+        public static string cbConfig_NotifyWinPosTopLeft {
+            get {
+                return ResourceManager.GetString("cbConfig_NotifyWinPosTopLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Top-Right ähnelt.
+        /// </summary>
+        public static string cbConfig_NotifyWinPosTopRight {
+            get {
+                return ResourceManager.GetString("cbConfig_NotifyWinPosTopRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die No configuration exists!\n\nShould a new configuration be created with the following default folders?\n\nMonitored folder:\n\t{0}\n\nFolder for extracted image files:\n\t{1}\n\nBackup folder:\n\t{2} ähnelt.
         /// </summary>
         public static string dlg_CreateDefaultConfig {
@@ -439,6 +475,24 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Notify window display duration [sec] ähnelt.
+        /// </summary>
+        public static string tbConfig_NotifyWindowDur {
+            get {
+                return ResourceManager.GetString("tbConfig_NotifyWindowDur", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Notify window position ähnelt.
+        /// </summary>
+        public static string tbConfig_NotifyWindowPos {
+            get {
+                return ResourceManager.GetString("tbConfig_NotifyWindowPos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Show filenames of images ähnelt.
         /// </summary>
         public static string tbConfig_ShowImgFileName {
@@ -489,6 +543,15 @@ namespace AutoUnzip.Resources {
         public static string tbConfig_Title4 {
             get {
                 return ResourceManager.GetString("tbConfig_Title4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Other Settings [ AutoUnzip ] ähnelt.
+        /// </summary>
+        public static string tbConfig_Title5 {
+            get {
+                return ResourceManager.GetString("tbConfig_Title5", resourceCulture);
             }
         }
         

@@ -81,6 +81,9 @@ namespace ConfigurationStorage
         static public int FileTitleSortOrder { get; set; } = 0;
         static public int FileTitleImageColorGroupMode { get; set; } = 0;
 
+        static public int NewImagesExtractedNotifyWinPos { get; set; } = 3;
+        static public int NewImagesExtractedNotifyWinDuration { get; set; } = 15;
+
 
 
         static public bool LoadConfiguration ()
@@ -127,6 +130,9 @@ namespace ConfigurationStorage
                 FileTitleSizeLevel = int.Parse ((string) keyVer.GetValue (nameof (FileTitleSizeLevel)));
                 FileTitleSortOrder = int.Parse ((string) keyVer.GetValue (nameof (FileTitleSortOrder)));
                 FileTitleImageColorGroupMode = int.Parse ((string) keyVer.GetValue (nameof (FileTitleImageColorGroupMode)));
+
+                NewImagesExtractedNotifyWinPos = int.Parse ((string) keyVer.GetValue (nameof (NewImagesExtractedNotifyWinPos)));
+                NewImagesExtractedNotifyWinDuration = int.Parse ((string) keyVer.GetValue (nameof (NewImagesExtractedNotifyWinDuration)));
 
 
                 keyVer?.Close ();
@@ -182,6 +188,9 @@ namespace ConfigurationStorage
                 keyVer.SetValue (nameof (FileTitleSizeLevel), FileTitleSizeLevel, RegistryValueKind.ExpandString);
                 keyVer.SetValue (nameof (FileTitleSortOrder), FileTitleSortOrder, RegistryValueKind.ExpandString);
                 keyVer.SetValue (nameof (FileTitleImageColorGroupMode), FileTitleImageColorGroupMode, RegistryValueKind.ExpandString);
+
+                keyVer.SetValue (nameof (NewImagesExtractedNotifyWinPos), NewImagesExtractedNotifyWinPos, RegistryValueKind.ExpandString);
+                keyVer.SetValue (nameof (NewImagesExtractedNotifyWinDuration), NewImagesExtractedNotifyWinDuration, RegistryValueKind.ExpandString);
 
 
                 keyVer?.Close ();

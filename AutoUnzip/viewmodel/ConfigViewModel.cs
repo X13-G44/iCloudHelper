@@ -146,7 +146,22 @@ namespace AutoUnzip.ViewModel
             get { return _FavoriteTargetFolderCollectionLimit; }
             set { _FavoriteTargetFolderCollectionLimit = value; OnPropertyChanged (nameof (FavoriteTargetFolderCollectionLimit)); }
         }
-        
+
+        private int _NotifyWinPos;
+        public int NotifyWinPos
+        {
+            get { return _NotifyWinPos; }
+            set { _NotifyWinPos = value; OnPropertyChanged (nameof (NotifyWinPos)); }
+        }
+
+        private int _NotifyWinDur;
+        public int NotifyWinDur
+        {
+            get { return _NotifyWinDur; }
+            set { _NotifyWinDur = value; OnPropertyChanged (nameof (NotifyWinDur)); }
+        }
+
+
         private string _AppVersionStr;
         public string AppVersionStr
         {
@@ -169,7 +184,7 @@ namespace AutoUnzip.ViewModel
                             {
                                 dialog.SelectedPath = this.WatchPath;
                             }
-                            
+
                             dialog.Description = LocalizedStrings.GetString ("dlg_SelectWatchPath");
 
                             if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
@@ -197,7 +212,7 @@ namespace AutoUnzip.ViewModel
                                 dialog.SelectedPath = this.ExtractPath;
                             }
 
-                            dialog.Description = LocalizedStrings.GetString("dlg_SelectExtractPath");
+                            dialog.Description = LocalizedStrings.GetString ("dlg_SelectExtractPath");
 
                             if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
                             {
@@ -224,7 +239,7 @@ namespace AutoUnzip.ViewModel
                                 dialog.SelectedPath = this.BackupPath;
                             }
 
-                            dialog.Description = LocalizedStrings.GetString("dlg_SelectBackupPath");
+                            dialog.Description = LocalizedStrings.GetString ("dlg_SelectBackupPath");
 
                             if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK)
                             {
@@ -247,7 +262,7 @@ namespace AutoUnzip.ViewModel
                         ConfigurationStorage.ConfigurationStorageModel.MonitoringPath = this.WatchPath;
                         ConfigurationStorage.ConfigurationStorageModel.MonitoringFilename = this.FilenameToSearch;
                         ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath = this.ExtractPath;
-                        ConfigurationStorage.ConfigurationStorageModel.BackupEnabled = this.BackupEnabled;                        
+                        ConfigurationStorage.ConfigurationStorageModel.BackupEnabled = this.BackupEnabled;
                         ConfigurationStorage.ConfigurationStorageModel.BackupPath = this.BackupPath;
                         ConfigurationStorage.ConfigurationStorageModel.BackupRetentionCheckEnabled = this.BackupRetentionCheckEnabled;
                         ConfigurationStorage.ConfigurationStorageModel.BackupRetentionPeriod = this.BackupRetentionPeriod;
@@ -258,6 +273,8 @@ namespace AutoUnzip.ViewModel
                         ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert = this.FavoriteTargetFolderCollectionAutoInsert;
                         ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit = this.FavoriteTargetFolderCollectionLimit;
                         ConfigurationStorage.ConfigurationStorageModel.FileTitleImageColorGroupMode = this.FileTitleImageColorGroupMode;
+                        ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinPos = this.NotifyWinPos;
+                        ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinDuration = this.NotifyWinDur;
 
                         ConfigurationStorage.ConfigurationStorageModel.SaveConfiguration ();
 
@@ -313,11 +330,13 @@ namespace AutoUnzip.ViewModel
             this.BackupRetentionPeriod = ConfigurationStorage.ConfigurationStorageModel.BackupRetentionPeriod;
             this.UseDarkModeColorTheme = ConfigurationStorage.ConfigurationStorageModel.ColorThemeId == 1 ? true : false;
             this.Language = ConfigurationStorage.ConfigurationStorageModel.LanguageId;
-            this.ShowMoveDlg= ConfigurationStorage.ConfigurationStorageModel.ShowMoveDlg;
-            this.ShowImageFileName= ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
-            this.FavoriteTargetFolderCollectionAutoInsert= ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert;
-            this.FavoriteTargetFolderCollectionLimit= ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit;
+            this.ShowMoveDlg = ConfigurationStorage.ConfigurationStorageModel.ShowMoveDlg;
+            this.ShowImageFileName = ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
+            this.FavoriteTargetFolderCollectionAutoInsert = ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert;
+            this.FavoriteTargetFolderCollectionLimit = ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit;
             this.FileTitleImageColorGroupMode = ConfigurationStorage.ConfigurationStorageModel.FileTitleImageColorGroupMode;
+            this.NotifyWinPos = ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinPos;
+            this.NotifyWinDur = ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinDuration;
 
             Assembly assembly = Assembly.GetExecutingAssembly ();
             this.AppVersionStr = $"V{assembly.GetName ().Version.ToString ()}";

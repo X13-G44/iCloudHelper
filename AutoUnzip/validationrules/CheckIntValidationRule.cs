@@ -60,13 +60,13 @@ namespace AutoUnzip.ValidationRules
             set { _ErrorMessage = value; }
         }
 
-        private int _MinValue = 0;
+        private int _MinValue = -100;
         public int MinValue
         {
             get { return _MinValue; }
             set
             {
-                if (this.MaxValue < this.MinValue)
+                if (value > this.MaxValue)
                 {
                     throw new ArgumentException ("MaxValue must be greater or equal than MinValue.");
                 }
@@ -74,13 +74,13 @@ namespace AutoUnzip.ValidationRules
             }
         }
 
-        private int _MaxValue = 1;
+        private int _MaxValue = 100;
         public int MaxValue
         {
             get { return _MaxValue; }
             set
             {
-                if (this.MaxValue < this.MinValue)
+                if (this.MinValue > value)
                 {
                     throw new ArgumentException ("MaxValue must be greater or equal than MinValue.");
                 }
