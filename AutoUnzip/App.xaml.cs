@@ -321,9 +321,10 @@ namespace AutoUnzip
                     {
                         // User closed the config window by pressing the save button --> new configuration.
 
-                        SetUiLanguage ();           // Update the UI language.
-                        Init_FileMonitoring ();     // Restart file monitoring with new settings.
-                        Init_TrayNotifyIcon ();     // Update the tray notify icon with new UI language.
+                        SetUiLanguage ();               // Update the UI language.
+                        Init_FileMonitoring ();         // Restart file monitoring with new settings.
+                        Init_TrayNotifyIcon ();         // Update the tray notify icon with new UI language.
+                        _MainWindow.OnColorTheme ();    // Trigger color theme update for main window.
                     }
                 });
             });

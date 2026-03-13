@@ -81,6 +81,13 @@ namespace AutoUnzip.View
 
 
 
+        public void OnColorTheme ()
+        {
+            (this.DataContext as ViewModel.MainViewModel).OnColorTheme ();
+        }
+
+
+
         private void RelocateWindow ()
         {
             int pos = ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinPos;

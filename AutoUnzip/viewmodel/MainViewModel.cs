@@ -152,6 +152,13 @@ namespace AutoUnzip.ViewModel
 
 
 
+        public void OnColorTheme ()
+        {
+            SetColorTheme ();
+        }
+
+
+
         private Task LoadExtractedFilesPreviewListAsync ()
         {
             return Task.Run (() =>
