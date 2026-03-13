@@ -8,7 +8,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="800"
-             Visibility="Collapsed">
+             Visibility="Collapsed"
+             SnapsToDevicePixels="True">
 
     <UserControl.Resources>
 
@@ -22,6 +23,7 @@
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -74,8 +76,7 @@
 
     </UserControl.Resources>
 
-    <Grid Background="#EF1B1D1F"
-          SnapsToDevicePixels="True">
+    <Grid Background="#EF1B1D1F">
         
         <Border BorderThickness="2"
                 BorderBrush="{DynamicResource DialogBorderBrushColor}"
@@ -83,8 +84,7 @@
                 CornerRadius="15"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
-                Padding="15" 
-                SnapsToDevicePixels="True">
+                Padding="15">
 
             <StackPanel Orientation="Horizontal">
 
@@ -131,8 +131,9 @@
                                    Text="Message"/>
 
                         <TextBox Name="PART_TEXTBOX"
+                                 Margin="0,16,0,0"
                                  Height="25"
-                                 Margin="0,8,0,0"/>
+                                 VerticalContentAlignment="Center"/>
 
                     </StackPanel>
 
