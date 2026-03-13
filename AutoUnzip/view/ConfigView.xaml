@@ -411,6 +411,26 @@
                     <ColumnDefinition SharedSizeGroup="Col5"/>
                 </Grid.ColumnDefinitions>
 
+                <TextBlock Grid.Column="0"                       
+                       TextWrapping="Wrap"
+                       Name="tbConfig_AskForDisplayName"
+                       Text="{lex:Loc}"
+                       Style="{StaticResource ConfigView_TextBlock_Top}"/>
+                <CheckBox Grid.Column="2"
+                      Style="{StaticResource ConfigView_CheckBox_Top}"
+                      IsChecked="{Binding AskForDisplayName, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>            
+            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
                 <TextBlock Grid.Column="0"
                            TextWrapping="Wrap"
                            Name="tbConfig_ImageColorGroupMode"

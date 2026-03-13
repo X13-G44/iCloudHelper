@@ -153,8 +153,8 @@ namespace QuickSort.View.UserControls
                 control.PART_BTN_LEFT.Command = new RelayCommand (
                     (param) =>
                     {
-                        vm.LeftButton.Action.Invoke (vm);
                         control.PART_DLGBOXUSERCONTROL.Visibility = Visibility.Hidden;
+                        vm.LeftButton.Action.Invoke (vm);
                     }
                 );
             }
@@ -169,8 +169,8 @@ namespace QuickSort.View.UserControls
                 control.PART_BTN_CENTER.Command = new RelayCommand (
                     (param) =>
                     {
-                        vm.CenterButton.Action.Invoke (vm);
                         control.PART_DLGBOXUSERCONTROL.Visibility = Visibility.Hidden;
+                        vm.CenterButton.Action.Invoke (vm);
                     }
                 );
             }
@@ -185,8 +185,8 @@ namespace QuickSort.View.UserControls
                 control.PART_BTN_RIGHT.Command = new RelayCommand (
                     (param) =>
                     {
-                        vm.RightButton.Action.Invoke (vm);
                         control.PART_DLGBOXUSERCONTROL.Visibility = Visibility.Hidden;
+                        vm.RightButton.Action.Invoke (vm);
                     }
                 );
             }

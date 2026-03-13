@@ -4,7 +4,7 @@
 /// Project Source:	https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
-/// Date:				07.01.2026
+/// Date:				13.03.2026
 ///
 /// ////////////////////////////////////////////////////////////////////////
 /// 
@@ -70,6 +70,7 @@ namespace ConfigurationStorage
 
         static public bool ShowMoveDlg { get; set; } = true;
         static public bool ShowImageFileName { get; set; } = true;
+        static public bool AskForDisplayNameDlg { get; set; } = true;
 
         static private StringCollection VirtualRootDirectoryCollection = new StringCollection ();
 
@@ -119,6 +120,7 @@ namespace ConfigurationStorage
 
                 ShowMoveDlg = bool.Parse ((string) keyVer.GetValue (nameof (ShowMoveDlg)));
                 ShowImageFileName = bool.Parse ((string) keyVer.GetValue (nameof (ShowImageFileName)));
+                AskForDisplayNameDlg = bool.Parse ((string) keyVer.GetValue (nameof (AskForDisplayNameDlg)));
 
                 VirtualRootDirectoryCollection = LoadList (keyVer, nameof (VirtualRootDirectoryCollection));
 
@@ -176,6 +178,7 @@ namespace ConfigurationStorage
 
                 keyVer.SetValue (nameof (ShowMoveDlg), ShowMoveDlg, RegistryValueKind.ExpandString);
                 keyVer.SetValue (nameof (ShowImageFileName), ShowImageFileName, RegistryValueKind.ExpandString);
+                keyVer.SetValue (nameof (AskForDisplayNameDlg), AskForDisplayNameDlg, RegistryValueKind.ExpandString);
 
                 SaveList (keyVer, nameof (VirtualRootDirectoryCollection), VirtualRootDirectoryCollection);
 

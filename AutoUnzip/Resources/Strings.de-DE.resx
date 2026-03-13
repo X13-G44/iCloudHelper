@@ -294,4 +294,7 @@
   <data name="cbConfig_NotifyWinPosBottomRight" xml:space="preserve">
     <value>Unten Rechts</value>
   </data>
+  <data name="tbConfig_AskForDisplayName" xml:space="preserve">
+    <value>Anzeigenamen für Favoriten abfragen</value>
+  </data>
 </root>

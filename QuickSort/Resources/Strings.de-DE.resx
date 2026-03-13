@@ -312,9 +312,6 @@
   <data name="dlgAppExitFileCopyStillActive_ExitApp" xml:space="preserve">
     <value>Ja</value>
   </data>
-  <data name="dlgDelayNotEmptyDir_Cancle" xml:space="preserve">
-    <value>Nein</value>
-  </data>
   <data name="dlgDelayNotEmptyDir_DeleteDir" xml:space="preserve">
     <value>Ja</value>
   </data>
@@ -398,5 +395,11 @@
   </data>
   <data name="cmVirtualDirSec_OpenInExplorer" xml:space="preserve">
     <value>Im Dateimanager anzeigen</value>
+  </data>
+  <data name="dlgAskForDisplayName_Message" xml:space="preserve">
+    <value>Für den Ordner "{0}" wird ein neuer Favoriten Eintrag erstellt. Sie können hierfür optional einen Anzeigenamen eingeben.</value>
+  </data>
+  <data name="dlgAskForDisplayName_OK" xml:space="preserve">
+    <value>Übernehmen</value>
   </data>
 </root>

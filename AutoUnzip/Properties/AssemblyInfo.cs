@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("")]
 [assembly: AssemblyProduct ("iCloudHelper")]
-[assembly: AssemblyCopyright ("Copyright © 2025 Christian Harscher aka X13-G44")]
+[assembly: AssemblyCopyright ("Copyright © 2026 Christian Harscher aka X13-G44")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 

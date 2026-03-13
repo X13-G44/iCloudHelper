@@ -385,6 +385,15 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ask for Favorite entries display name ähnelt.
+        /// </summary>
+        public static string tbConfig_AskForDisplayName {
+            get {
+                return ResourceManager.GetString("tbConfig_AskForDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Enable backup from iCloud archive files ähnelt.
         /// </summary>
         public static string tbConfig_BackupEnable {

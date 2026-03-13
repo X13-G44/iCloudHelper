@@ -4,12 +4,12 @@
 /// Project Source:	https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
-/// Date:				06.10.2025
+/// Date:				13.03.2026
 ///
 /// ////////////////////////////////////////////////////////////////////////
 /// 
 /// SPDX-License-Identifier: Apache-2.0
-/// Copyright (c) 2025 Christian Harscher (alias X13-G44)
+/// Copyright (c) 2026 Christian Harscher (alias X13-G44)
 ///
 /// This program is free software: you can redistribute it and/or modify
 /// it under the terms of the Apache License as

@@ -41,6 +41,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Configuration;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Packaging;
@@ -1812,7 +1813,7 @@ namespace QuickSort.ViewModel
             }
 
             // Check for and removed, none existing image files on disk.
-            var querryDeletedImages = this.FileTileList.Where (x => !x.FileExists).ToArray();
+            var querryDeletedImages = this.FileTileList.Where (x => !x.FileExists).ToArray ();
             foreach (var image in querryDeletedImages)
             {
                 this.FileTileList.Remove (image);
@@ -2002,22 +2003,68 @@ namespace QuickSort.ViewModel
                             }
                         }
 
-                        FavoriteTargetFolderList.Add (new FavoriteTargetFolderViewModel
+                        if (ConfigurationStorage.ConfigurationStorageModel.AskForDisplayNameDlg)
                         {
-                            DisplayName = Path.GetFileName (targetPath),
-                            Path = targetPath,
-                            AddDate = DateTime.Now.ToFileTimeUtc (),
-                            IsPinned = false,
+                            // Ask user for display name of new favorite target folder entry.
 
-                            Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
+                            Collection<ValidationRule> rules = new Collection<ValidationRule> ();
 
-                            Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
-                            Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
 
-                            Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeFavoriteTargetFolderDisplayName,
+                            // Generate a valid character validation rule object. It will be later used for check the user input in the dialog box.
+                            rules.Add (new CheckInvalidCharsValidationRule () { InvalidChares = ConfigurationStorage.ConfigurationStorageModel.GetSeperatorCharsList () });
 
-                            Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
-                        });
+                            this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_OneButton (
+                                DlgBoxType.Question,
+                                LocalizedStrings.GetString ("lQuestion"),
+                                LocalizedStrings.GetFormattedString ("dlgAskForDisplayName_Message", targetPath),
+
+                                new DlgBoxButton (LocalizedStrings.GetString ("dlgAskForDisplayName_OK"),
+                                                    DlgBoxButtonSymbol.Check,
+                                                    targetPath,
+                                                    dlgBoxCfg =>
+                                                    {
+                                                        FavoriteTargetFolderList.Add (new FavoriteTargetFolderViewModel
+                                                        {
+                                                            DisplayName = dlgBoxCfg.TextBox.Text,
+                                                            Path = (dlgBoxCfg.RightButton.Parameter as String),
+                                                            AddDate = DateTime.Now.ToFileTimeUtc (),
+                                                            IsPinned = false,
+
+                                                            Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
+
+                                                            Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
+                                                            Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
+
+                                                            Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeFavoriteTargetFolderDisplayName,
+
+                                                            Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
+                                                        });
+                                                    }),
+
+                                new DlgBoxTextBox (Path.GetFileName (targetPath), rules)
+                            );
+                        }
+                        else
+                        {
+                            // Don't ask user for display name of new favorite entry. Use the directory name as display name.
+
+                            FavoriteTargetFolderList.Add (new FavoriteTargetFolderViewModel
+                            {
+                                DisplayName = Path.GetFileName (targetPath),
+                                Path = targetPath,
+                                AddDate = DateTime.Now.ToFileTimeUtc (),
+                                IsPinned = false,
+
+                                Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
+
+                                Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
+                                Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
+
+                                Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeFavoriteTargetFolderDisplayName,
+
+                                Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
+                            });
+                        }
                     }
                 }
 

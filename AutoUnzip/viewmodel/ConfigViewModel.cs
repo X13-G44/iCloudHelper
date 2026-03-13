@@ -4,12 +4,12 @@
 /// Project Source:	https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
-/// Date:				07.01.2026
+/// Date:				13.03.2026
 ///
 /// ////////////////////////////////////////////////////////////////////////
 /// 
 /// SPDX-License-Identifier: Apache-2.0
-/// Copyright (c) 2025 Christian Harscher (alias X13-G44)
+/// Copyright (c) 2026 Christian Harscher (alias X13-G44)
 ///
 /// This program is free software: you can redistribute it and/or modify
 /// it under the terms of the Apache License as
@@ -140,6 +140,13 @@ namespace AutoUnzip.ViewModel
             set { _FavoriteTargetFolderCollectionAutoInsert = value; OnPropertyChanged (nameof (FavoriteTargetFolderCollectionAutoInsert)); }
         }
 
+        private bool _AskForDisplayName;
+        public bool AskForDisplayName
+        {
+            get { return _AskForDisplayName; }
+            set { _AskForDisplayName = value; OnPropertyChanged (nameof (AskForDisplayName)); }
+        }
+
         private int _FavoriteTargetFolderCollectionLimit;
         public int FavoriteTargetFolderCollectionLimit
         {
@@ -263,6 +270,7 @@ namespace AutoUnzip.ViewModel
                         ConfigurationStorage.ConfigurationStorageModel.ShowMoveDlg = this.ShowMoveDlg;
                         ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName = this.ShowImageFileName;
                         ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert = this.FavoriteTargetFolderCollectionAutoInsert;
+                        ConfigurationStorage.ConfigurationStorageModel.AskForDisplayNameDlg = this.AskForDisplayName;
                         ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit = this.FavoriteTargetFolderCollectionLimit;
                         ConfigurationStorage.ConfigurationStorageModel.FileTitleImageColorGroupMode = this.FileTitleImageColorGroupMode;
                         ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinPos = this.NotifyWinPos;
@@ -324,6 +332,7 @@ namespace AutoUnzip.ViewModel
             this.ShowMoveDlg = ConfigurationStorage.ConfigurationStorageModel.ShowMoveDlg;
             this.ShowImageFileName = ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
             this.FavoriteTargetFolderCollectionAutoInsert = ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert;
+            this.AskForDisplayName = ConfigurationStorage.ConfigurationStorageModel.AskForDisplayNameDlg;
             this.FavoriteTargetFolderCollectionLimit = ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit;
             this.FileTitleImageColorGroupMode = ConfigurationStorage.ConfigurationStorageModel.FileTitleImageColorGroupMode;
             this.NotifyWinPos = ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinPos;

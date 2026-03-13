@@ -385,11 +385,20 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die No ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die A new Favorites entry will be created for the folder &quot;{0}&quot;. You can optionally enter a display name for this. ähnelt.
         /// </summary>
-        public static string dlgDelayNotEmptyDir_Cancle {
+        public static string dlgAskForDisplayName_Message {
             get {
-                return ResourceManager.GetString("dlgDelayNotEmptyDir_Cancle", resourceCulture);
+                return ResourceManager.GetString("dlgAskForDisplayName_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Okay ähnelt.
+        /// </summary>
+        public static string dlgAskForDisplayName_OK {
+            get {
+                return ResourceManager.GetString("dlgAskForDisplayName_OK", resourceCulture);
             }
         }
         
