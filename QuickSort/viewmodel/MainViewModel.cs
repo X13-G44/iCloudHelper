@@ -4,12 +4,12 @@
 /// Project Source:	    https://github.com/X13-G44/iCloudHelper
 ///
 /// Author: 			Christian Harscher <info@x13-g44.com>
-/// Date:				08.01.2026
+/// Date:				13.03.2026
 ///
 /// ////////////////////////////////////////////////////////////////////////
 /// 
 /// SPDX-License-Identifier: Apache-2.0
-/// Copyright (c) 2025 Christian Harscher (alias X13-G44)
+/// Copyright (c) 2026 Christian Harscher (alias X13-G44)
 ///
 /// This program is free software: you can redistribute it and/or modify
 /// it under the terms of the Apache License as
@@ -1615,12 +1615,6 @@ namespace QuickSort.ViewModel
                             FileTileList.Move (FileTileList.IndexOf (sortableList[i]), i);
                         }
 
-                        // Update the group color to transparent (no grouping), because each display name has its own group.
-                        foreach (var item in FileTileList)
-                        {
-                            item.GroupColor = Brushes.Transparent;
-                        }
-
                         break;
                     }
 
@@ -1642,12 +1636,6 @@ namespace QuickSort.ViewModel
                         for (int i = 0; i < sortableList.Count; i++)
                         {
                             FileTileList.Move (FileTileList.IndexOf (sortableList[i]), i);
-                        }
-
-                        // Update the group color to transparent (no grouping), because each file has its own group.
-                        foreach (var item in FileTileList)
-                        {
-                            item.GroupColor = Brushes.Transparent;
                         }
 
                         break;

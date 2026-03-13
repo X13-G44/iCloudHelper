@@ -321,7 +321,8 @@
                                    FontSize="12" 
                                    TextTrimming="CharacterEllipsis"/>
 
-                                <Ellipse Fill="{Binding GroupColor}"
+                                <Ellipse x:Name="PART_GROUPCOLOR"
+                                         Fill="{Binding GroupColor}"
                                          StrokeThickness="2"
                                          Stroke="{DynamicResource FileTitleBtnTextColor}"
                                          Width="{Binding GroupColorDiameter, FallbackValue=24}"
@@ -378,6 +379,10 @@
 
                             <DataTrigger Binding="{Binding HideFilenameText}" Value="True">
                                 <Setter TargetName="PART_FILENAMETEXT" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding GroupColor}" Value="Transparent">
+                                <Setter TargetName="PART_GROUPCOLOR" Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
 
                             <DataTrigger Binding="{Binding IsSysIconImage}" Value="True">
