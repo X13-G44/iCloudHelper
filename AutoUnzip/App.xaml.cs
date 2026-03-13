@@ -62,6 +62,8 @@ namespace AutoUnzip
         public readonly CultureInfo SystemCultureInfo;
 
 
+        private MainWindow _MainWindow = null;
+
         private FileSystemWatcher _Watcher = null;
         private NotifyIcon _NotifyIcon = null;
 
@@ -74,9 +76,11 @@ namespace AutoUnzip
             LocalizeDictionary.Instance.Culture = CultureInfo.CurrentUICulture; // Setup default culture info.
             this.SystemCultureInfo = CultureInfo.CurrentUICulture;              // Get and store windows default culture info.
 
-
             Startup += App_Startup;
             Exit += App_Exit;
+
+            _MainWindow = new MainWindow ();
+            _MainWindow.Show ();
         }
 
 
@@ -397,8 +401,7 @@ namespace AutoUnzip
         {
             this.Dispatcher.Invoke (() =>
             {
-                this.MainWindow = new MainWindow (extractedFiles);
-                this.MainWindow.Show ();
+                (this.MainWindow as MainWindow).OnNewExtractedImages (extractedFiles);
             });
         }
 

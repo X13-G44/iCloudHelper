@@ -453,39 +453,6 @@
                 </ComboBox>
             </Grid>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition SharedSizeGroup="Col0"/>
-                    <ColumnDefinition SharedSizeGroup="Col1"/>
-                    <ColumnDefinition SharedSizeGroup="Col2"/>
-                    <ColumnDefinition SharedSizeGroup="Col3"/>
-                    <ColumnDefinition SharedSizeGroup="Col4"/>
-                    <ColumnDefinition SharedSizeGroup="Col5"/>
-                </Grid.ColumnDefinitions>
-
-                <Label Grid.Column="0"
-                   Name="tbConfig_NotifyWindowDur"
-                   Content="{lex:Loc}"
-                   Style="{StaticResource ConfigView_Label}"/>                
-                <TextBox Grid.Column="2"
-                     Name="NOTIFYWINDOWDURATION_TEXTBOX"
-                     Style="{StaticResource ConfigView_TextBox}">
-                    <TextBox.Text>
-                        <Binding Path="NotifyWinDur" 
-                             UpdateSourceTrigger="PropertyChanged"
-                             FallbackValue='15'
-                             ValidatesOnDataErrors="True" 
-                             ValidatesOnExceptions="True">
-                            <Binding.ValidationRules>
-                                <vr:CheckIntValidationRule ValidatesOnTargetUpdated="True"
-                                                       MinValue="5"
-                                                       MaxValue="60"/>
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-            </Grid>
-
         </StackPanel>
 
         <Button Grid.Row="1"
@@ -512,7 +479,6 @@
                                 <Condition Binding="{Binding ElementName=EXTRACTPATH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
                                 <Condition Binding="{Binding ElementName=BACKUPPATH_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
                                 <Condition Binding="{Binding ElementName=BACKUPRETENTIONPERIOD_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
-                                <Condition Binding="{Binding ElementName=NOTIFYWINDOWDURATION_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
                                 <Condition Binding="{Binding ElementName=MAXFAVTARGETFOLDERITEMS_TEXTBOX, Path=(Validation.HasError)}" Value="False"/>
 
                             </MultiDataTrigger.Conditions>

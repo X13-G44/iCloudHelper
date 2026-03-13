@@ -61,8 +61,6 @@ namespace AutoUnzip.ViewModel
 
         public ObservableCollection<BitmapImage> ExtractedFilesPreview { get; set; } = new ObservableCollection<BitmapImage> ();
 
-        public TimeSpan ShowWindowDuration { get; set; } = TimeSpan.FromSeconds (15);
-
 
 
         private string _ExtractedFileText;
@@ -74,26 +72,19 @@ namespace AutoUnzip.ViewModel
 
 
 
-        public RelayCommand Cmd_FadeAnimationEnded
+        private Boolean _FadeAnimationActive = false;
+
+        public Boolean FadeAnimationActive
         {
-            get
+            get { return _FadeAnimationActive; }
+            set
             {
-                return new RelayCommand (
-                    _ =>
-                    {
-                        try
-                        {
-                            _View.Close ();
-                        }
-                        catch
-                        {
-                            ;
-                        }
-                    },
-                    param => true
-                );
+                _FadeAnimationActive = value;
+                OnPropertyChanged (nameof (FadeAnimationActive));
             }
         }
+
+
 
         public RelayCommand Cmd_RunQuickSortApp
         {
@@ -111,9 +102,7 @@ namespace AutoUnzip.ViewModel
                             {
                                 Process.Start (app.GetQuickSortFile (), "\"" + ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath + "\"");
 
-                                // Note: Instead of closing the window, we just hide it. By closing it, the fade-out animation is still running and also calls at end the close command.
-                                //_View.Close ();
-                                _View.Visibility = Visibility.Hidden;
+                                this.FadeAnimationActive = false;   // Stop fade animation and hide the window.
                             }
                         }
                         catch
@@ -134,23 +123,30 @@ namespace AutoUnzip.ViewModel
 
 
         private readonly Dispatcher _Dispatcher;
-        private readonly Window _View;
-        private readonly List<String> _ExtractedFiles;
+
+        private List<String> _ExtractedFiles;
 
 
 
-        public MainViewModel (Dispatcher dispatcher, Window view, List<String> extractedFiles)
+        public MainViewModel (Dispatcher dispatcher)
         {
             _Dispatcher = dispatcher;
-            _View = view;
+
+            SetColorTheme ();
+        }
+
+
+
+        public void OnNewExtractedImages (List<String> extractedFiles)
+        {
             _ExtractedFiles = extractedFiles;
 
             this.ExtractedFileText = LocalizedStrings.GetFormattedString ("tbMain_ExtractedFileText", extractedFiles.Count);
             this.ExtractedFilesPreview.Clear ();
 
-            this.ShowWindowDuration = TimeSpan.FromSeconds (ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinDuration);
+            this.FadeAnimationActive = false;   // Stop fade animation.
+            this.FadeAnimationActive = true;    // Start fade animation.
 
-            SetColorTheme ();
             LoadExtractedFilesPreviewListAsync ();
         }
 

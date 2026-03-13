@@ -294,7 +294,4 @@
   <data name="cbConfig_NotifyWinPosBottomRight" xml:space="preserve">
     <value>Buttom-Left</value>
   </data>
-  <data name="tbConfig_NotifyWindowDur" xml:space="preserve">
-    <value>Notify window display duration [sec]</value>
-  </data>
 </root>

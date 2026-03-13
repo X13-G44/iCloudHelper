@@ -43,6 +43,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -57,18 +58,25 @@ namespace AutoUnzip.View
 
 
 
-        public MainWindow (List<String> extractedFiles)
+        public MainWindow ()
         {
             InitializeComponent ();
 
-            this.DataContext = new ViewModel.MainViewModel (Dispatcher, this, extractedFiles);
+            this.DataContext = new ViewModel.MainViewModel (Dispatcher);
             this.Opacity = 0;   // Start hidden
 
             this.Loaded += (s, e) =>
             {
-                // Relocate the window after it has been loaded and its size known.
+                // Relocate the window after it has been loaded and it size is known.
                 RelocateWindow ();
             };
+        }
+
+
+
+        public void OnNewExtractedImages (List<String> extractedFiles)
+        {
+            (this.DataContext as ViewModel.MainViewModel).OnNewExtractedImages (extractedFiles);
         }
 
 

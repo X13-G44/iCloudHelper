@@ -82,7 +82,6 @@ namespace ConfigurationStorage
         static public int FileTitleImageColorGroupMode { get; set; } = 0;
 
         static public int NewImagesExtractedNotifyWinPos { get; set; } = 3;
-        static public int NewImagesExtractedNotifyWinDuration { get; set; } = 15;
 
 
 
@@ -132,7 +131,6 @@ namespace ConfigurationStorage
                 FileTitleImageColorGroupMode = int.Parse ((string) keyVer.GetValue (nameof (FileTitleImageColorGroupMode)));
 
                 NewImagesExtractedNotifyWinPos = int.Parse ((string) keyVer.GetValue (nameof (NewImagesExtractedNotifyWinPos)));
-                NewImagesExtractedNotifyWinDuration = int.Parse ((string) keyVer.GetValue (nameof (NewImagesExtractedNotifyWinDuration)));
 
 
                 keyVer?.Close ();
@@ -190,7 +188,6 @@ namespace ConfigurationStorage
                 keyVer.SetValue (nameof (FileTitleImageColorGroupMode), FileTitleImageColorGroupMode, RegistryValueKind.ExpandString);
 
                 keyVer.SetValue (nameof (NewImagesExtractedNotifyWinPos), NewImagesExtractedNotifyWinPos, RegistryValueKind.ExpandString);
-                keyVer.SetValue (nameof (NewImagesExtractedNotifyWinDuration), NewImagesExtractedNotifyWinDuration, RegistryValueKind.ExpandString);
 
 
                 keyVer?.Close ();

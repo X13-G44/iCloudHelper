@@ -475,15 +475,6 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Notify window display duration [sec] ähnelt.
-        /// </summary>
-        public static string tbConfig_NotifyWindowDur {
-            get {
-                return ResourceManager.GetString("tbConfig_NotifyWindowDur", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Notify window position ähnelt.
         /// </summary>
         public static string tbConfig_NotifyWindowPos {

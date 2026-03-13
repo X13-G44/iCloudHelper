@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoUnzip.View"
-        xmlns:help="clr-namespace:AutoUnzip.Help"
         xmlns:lex="http://wpflocalizeextension.codeplex.com"
         lex:LocalizeDictionary.DesignCulture="en"
         lex:ResxLocalizationProvider.DefaultAssembly="AutoUnzip"
@@ -102,32 +101,41 @@
 
     </Window.Resources>
 
-    <Window.Triggers>
+    <Window.Style>
+        
+        <Style TargetType="Window">
+            <Style.Triggers>
+                
+                <DataTrigger Binding="{Binding FadeAnimationActive}" Value="True">
+                    <DataTrigger.EnterActions>
 
-        <EventTrigger RoutedEvent="Window.Loaded">
-            <EventTrigger.Actions>
-                <BeginStoryboard>
+                        <BeginStoryboard x:Name="FadeStoryboard">
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                 From="0.0" 
+                                                 To="1.0" 
+                                                 Duration="0:0:1.5"/>
+
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                 BeginTime="0:0:20"
+                                                 From="1.0" 
+                                                 To="0.0" 
+                                                 Duration="0:0:1.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+
+                    </DataTrigger.EnterActions>
                     
-                    <Storyboard help:StoryboardHelper.CompletedCommand="{Binding Path=Cmd_FadeAnimationEnded}">
+                    <DataTrigger.ExitActions>
+                        <StopStoryboard BeginStoryboardName="FadeStoryboard"/>
+                    </DataTrigger.ExitActions>
 
-                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                         From="0.1" 
-                                         To="1.0" 
-                                         Duration="0:0:1.5"/>
+                </DataTrigger>
 
-                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                         BeginTime="{Binding ShowWindowDuration}"
-                                         From="1.0" 
-                                         To="0.0" 
-                                         Duration="0:0:1.5"/>
-
-                    </Storyboard>
-
-                </BeginStoryboard>
-            </EventTrigger.Actions>
-        </EventTrigger>
-
-    </Window.Triggers>
+            </Style.Triggers>
+        </Style>
+        
+    </Window.Style>
 
     <Button Grid.Row="0"
             Style="{StaticResource MainView_Button}"

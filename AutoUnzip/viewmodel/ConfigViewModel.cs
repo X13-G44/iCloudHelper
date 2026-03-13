@@ -154,14 +154,6 @@ namespace AutoUnzip.ViewModel
             set { _NotifyWinPos = value; OnPropertyChanged (nameof (NotifyWinPos)); }
         }
 
-        private int _NotifyWinDur;
-        public int NotifyWinDur
-        {
-            get { return _NotifyWinDur; }
-            set { _NotifyWinDur = value; OnPropertyChanged (nameof (NotifyWinDur)); }
-        }
-
-
         private string _AppVersionStr;
         public string AppVersionStr
         {
@@ -274,7 +266,6 @@ namespace AutoUnzip.ViewModel
                         ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit = this.FavoriteTargetFolderCollectionLimit;
                         ConfigurationStorage.ConfigurationStorageModel.FileTitleImageColorGroupMode = this.FileTitleImageColorGroupMode;
                         ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinPos = this.NotifyWinPos;
-                        ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinDuration = this.NotifyWinDur;
 
                         ConfigurationStorage.ConfigurationStorageModel.SaveConfiguration ();
 
@@ -336,7 +327,6 @@ namespace AutoUnzip.ViewModel
             this.FavoriteTargetFolderCollectionLimit = ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit;
             this.FileTitleImageColorGroupMode = ConfigurationStorage.ConfigurationStorageModel.FileTitleImageColorGroupMode;
             this.NotifyWinPos = ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinPos;
-            this.NotifyWinDur = ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinDuration;
 
             Assembly assembly = Assembly.GetExecutingAssembly ();
             this.AppVersionStr = $"V{assembly.GetName ().Version.ToString ()}";
