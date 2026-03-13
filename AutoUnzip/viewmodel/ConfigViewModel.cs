@@ -147,6 +147,13 @@ namespace AutoUnzip.ViewModel
             set { _AskForDisplayName = value; OnPropertyChanged (nameof (AskForDisplayName)); }
         }
 
+        private bool _UseRecycleBin;
+        public bool UseRecycleBin
+        {
+            get { return _UseRecycleBin; }
+            set { _UseRecycleBin = value; OnPropertyChanged (nameof (_UseRecycleBin)); }
+        }
+
         private int _FavoriteTargetFolderCollectionLimit;
         public int FavoriteTargetFolderCollectionLimit
         {
@@ -270,7 +277,8 @@ namespace AutoUnzip.ViewModel
                         ConfigurationStorage.ConfigurationStorageModel.ShowMoveDlg = this.ShowMoveDlg;
                         ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName = this.ShowImageFileName;
                         ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert = this.FavoriteTargetFolderCollectionAutoInsert;
-                        ConfigurationStorage.ConfigurationStorageModel.AskForDisplayNameDlg = this.AskForDisplayName;
+                        ConfigurationStorage.ConfigurationStorageModel.AskForDisplayName = this.AskForDisplayName;
+                        ConfigurationStorage.ConfigurationStorageModel.UseRecycleBin = this.UseRecycleBin;
                         ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit = this.FavoriteTargetFolderCollectionLimit;
                         ConfigurationStorage.ConfigurationStorageModel.FileTitleImageColorGroupMode = this.FileTitleImageColorGroupMode;
                         ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinPos = this.NotifyWinPos;
@@ -332,7 +340,8 @@ namespace AutoUnzip.ViewModel
             this.ShowMoveDlg = ConfigurationStorage.ConfigurationStorageModel.ShowMoveDlg;
             this.ShowImageFileName = ConfigurationStorage.ConfigurationStorageModel.ShowImageFileName;
             this.FavoriteTargetFolderCollectionAutoInsert = ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionAutoInsert;
-            this.AskForDisplayName = ConfigurationStorage.ConfigurationStorageModel.AskForDisplayNameDlg;
+            this.AskForDisplayName = ConfigurationStorage.ConfigurationStorageModel.AskForDisplayName;
+            this.UseRecycleBin = ConfigurationStorage.ConfigurationStorageModel.UseRecycleBin;
             this.FavoriteTargetFolderCollectionLimit = ConfigurationStorage.ConfigurationStorageModel.FavoriteTargetFolderCollectionLimit;
             this.FileTitleImageColorGroupMode = ConfigurationStorage.ConfigurationStorageModel.FileTitleImageColorGroupMode;
             this.NotifyWinPos = ConfigurationStorage.ConfigurationStorageModel.NewImagesExtractedNotifyWinPos;

@@ -297,4 +297,7 @@
   <data name="tbConfig_AskForDisplayName" xml:space="preserve">
     <value>Ask for Favorite entries display name</value>
   </data>
+  <data name="tbConfig_UseRecycleBin" xml:space="preserve">
+    <value>Use the recycle bin to delete duplicate images</value>
+  </data>
 </root>

@@ -35,35 +35,28 @@ using QuickSort.ValidationRules;
 using QuickSort.View;
 using QuickSort.View.UserControls;
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Packaging;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Security.Cryptography;
 using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Linq;
-using XAMLMarkupExtensions.Base;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Microsoft.VisualBasic.FileIO;
+using System.Diagnostics.Eventing.Reader;
 
 
 
@@ -525,7 +518,7 @@ namespace QuickSort.ViewModel
                                 if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace (dialog.SelectedPath))
                                 {
                                     string selectedPath = dialog.SelectedPath;
-                                    string folderName = Path.GetFileName (selectedPath);
+                                    string folderName = System.IO.Path.GetFileName (selectedPath);
 
 
                                     // Create a new FavoriteTargetFolderList instance and add it to the collection.
@@ -640,7 +633,7 @@ namespace QuickSort.ViewModel
                                 if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace (dialog.SelectedPath))
                                 {
                                     string selectedPath = dialog.SelectedPath;
-                                    string folderName = Path.GetFileName (selectedPath);
+                                    string folderName = System.IO.Path.GetFileName (selectedPath);
 
 
                                     // Create a new VirtualDirectoryList instance and add it to the collection.
@@ -834,7 +827,7 @@ namespace QuickSort.ViewModel
                                                             string rootPath = srcVirtDirInstance.Path;
 
 
-                                                            Directory.CreateDirectory (Path.Combine (rootPath, dlgBoxCfg.TextBox.Text));
+                                                            Directory.CreateDirectory (System.IO.Path.Combine (rootPath, dlgBoxCfg.TextBox.Text));
 
                                                             SelectVirtuaDirectoryListItem (srcVirtDirInstance);
                                                         }
@@ -1027,7 +1020,7 @@ namespace QuickSort.ViewModel
                                                             string rootPath = srcVirtDirInstance.Path;
 
 
-                                                            Directory.CreateDirectory (Path.Combine (rootPath, dlgBoxCfg.TextBox.Text));
+                                                            Directory.CreateDirectory (System.IO.Path.Combine (rootPath, dlgBoxCfg.TextBox.Text));
 
                                                             SelectVirtuaDirectoryListItem (srcVirtDirInstance);
                                                         }
@@ -1563,7 +1556,7 @@ namespace QuickSort.ViewModel
             {
                 FileTileList.Add (new FileTitleViewModel
                 {
-                    DisplayName = Path.GetFileName (imageFileBufferItem.File),
+                    DisplayName = System.IO.Path.GetFileName (imageFileBufferItem.File),
                     Thumbnail = imageFileBufferItem.Thumbnail,
                     Height = height,
                     Width = width,
@@ -1754,7 +1747,7 @@ namespace QuickSort.ViewModel
                                 // Assign the group color to the ungrouped item.
                                 ungroupedFileTitleItem.GroupColor = groupColorBrush;
 
-                                Debug.WriteLine ($"Generate new GroupColor for {ungroupedFileTitleItem.CreationTime.Date.ToString ()} - Color: {groupColorBrush.Color.ToString ()}");
+                                Debug.WriteLine ($"Generate new GroupColor for {ungroupedFileTitleItem.CreationTime.Date} - Color: {groupColorBrush.Color}");
                             }
                         }
 
@@ -1919,8 +1912,8 @@ namespace QuickSort.ViewModel
                 if (ConfigurationStorage.ConfigurationStorageModel.ShowMoveDlg)
                 {
                     string questionText = optionalOpenTargetVirtualDirectory == null ?
-                        LocalizedStrings.GetFormattedString ("dlgFileMove_QuestionText_A", querrySelectedFileList.Count (), Path.GetFileName (targetPath)) :
-                        LocalizedStrings.GetFormattedString ("dlgFileMove_QuestionText_B", querrySelectedFileList.Count (), Path.GetFileName (targetPath));
+                        LocalizedStrings.GetFormattedString ("dlgFileMove_QuestionText_A", querrySelectedFileList.Count (), System.IO.Path.GetFileName (targetPath)) :
+                        LocalizedStrings.GetFormattedString ("dlgFileMove_QuestionText_B", querrySelectedFileList.Count (), System.IO.Path.GetFileName (targetPath));
 
                     this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_ThreeButton (
                         DlgBoxType.Question,
@@ -1991,7 +1984,7 @@ namespace QuickSort.ViewModel
                             }
                         }
 
-                        if (ConfigurationStorage.ConfigurationStorageModel.AskForDisplayNameDlg)
+                        if (ConfigurationStorage.ConfigurationStorageModel.AskForDisplayName)
                         {
                             // Ask user for display name of new favorite target folder entry.
 
@@ -2029,7 +2022,7 @@ namespace QuickSort.ViewModel
                                                         });
                                                     }),
 
-                                new DlgBoxTextBox (Path.GetFileName (targetPath), rules)
+                                new DlgBoxTextBox (System.IO.Path.GetFileName (targetPath), rules)
                             );
                         }
                         else
@@ -2038,7 +2031,7 @@ namespace QuickSort.ViewModel
 
                             FavoriteTargetFolderList.Add (new FavoriteTargetFolderViewModel
                             {
-                                DisplayName = Path.GetFileName (targetPath),
+                                DisplayName = System.IO.Path.GetFileName (targetPath),
                                 Path = targetPath,
                                 AddDate = DateTime.Now.ToFileTimeUtc (),
                                 IsPinned = false,
@@ -2069,7 +2062,7 @@ namespace QuickSort.ViewModel
                     var cts = new CancellationTokenSource ();
                     var popup = new FileMoveProcPopupNotificationViewModel ()
                     {
-                        TargetPath = Path.GetFileName (targetPath),
+                        TargetPath = System.IO.Path.GetFileName (targetPath),
                         FileCount = querrySelectedFileList_Local.Count (),
                         FileProcessed = 0,
                         CurrentFileName = "",
@@ -2082,7 +2075,7 @@ namespace QuickSort.ViewModel
 
                     foreach (var fileItem in querrySelectedFileList_Local)
                     {
-                        string targetFile = Path.Combine (targetPath, fileItem.DisplayName);
+                        string targetFile = System.IO.Path.Combine (targetPath, fileItem.DisplayName);
 
 
                         _Dispatcher.Invoke (() => popup.FileProcessed++);
@@ -2107,14 +2100,22 @@ namespace QuickSort.ViewModel
                                     {
                                         // File content is equal. Don't move the file; only delete them.
 
-                                        File.Delete (fileItem.File);
+
+                                        if (ConfigurationStorage.ConfigurationStorageModel.UseRecycleBin)
+                                        {
+                                            FileSystem.DeleteFile (fileItem.File, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                                        }
+                                        else
+                                        {
+                                            File.Delete (fileItem.File);
+                                        }
                                     }
                                     else
                                     {
                                         // File content is not equal. Copy the file and add a name postfix.
 
-                                        string randomSuffix = Path.GetRandomFileName ().Replace (".", string.Empty).Substring (0, 3); // Generate a random 3-Chars long suffix string.
-                                        string targetFilePostfix = Path.Combine (targetPath, $"{Path.GetFileNameWithoutExtension (fileItem.Filename)}_{randomSuffix}{Path.GetExtension (fileItem.Filename)}");
+                                        string randomSuffix = System.IO.Path.GetRandomFileName ().Replace (".", string.Empty).Substring (0, 3); // Generate a random 3-Chars long suffix string.
+                                        string targetFilePostfix = System.IO.Path.Combine (targetPath, $"{System.IO.Path.GetFileNameWithoutExtension (fileItem.Filename)}_{randomSuffix}{System.IO.Path.GetExtension (fileItem.Filename)}");
 
 
                                         File.Move (fileItem.File, targetFilePostfix);

@@ -565,6 +565,15 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Use the recycle bin to delete duplicate images ähnelt.
+        /// </summary>
+        public static string tbConfig_UseRecycleBin {
+            get {
+                return ResourceManager.GetString("tbConfig_UseRecycleBin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Monitored folder ähnelt.
         /// </summary>
         public static string tbConfig_WatchPath {

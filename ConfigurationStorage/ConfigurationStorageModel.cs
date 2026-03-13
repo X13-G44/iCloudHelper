@@ -70,7 +70,8 @@ namespace ConfigurationStorage
 
         static public bool ShowMoveDlg { get; set; } = true;
         static public bool ShowImageFileName { get; set; } = true;
-        static public bool AskForDisplayNameDlg { get; set; } = true;
+        static public bool AskForDisplayName { get; set; } = true;
+        static public bool UseRecycleBin { get; set; } = true;
 
         static private StringCollection VirtualRootDirectoryCollection = new StringCollection ();
 
@@ -120,7 +121,8 @@ namespace ConfigurationStorage
 
                 ShowMoveDlg = bool.Parse ((string) keyVer.GetValue (nameof (ShowMoveDlg)));
                 ShowImageFileName = bool.Parse ((string) keyVer.GetValue (nameof (ShowImageFileName)));
-                AskForDisplayNameDlg = bool.Parse ((string) keyVer.GetValue (nameof (AskForDisplayNameDlg)));
+                AskForDisplayName = bool.Parse ((string) keyVer.GetValue (nameof (AskForDisplayName)));
+                UseRecycleBin = bool.Parse ((string) keyVer.GetValue (nameof (UseRecycleBin)));
 
                 VirtualRootDirectoryCollection = LoadList (keyVer, nameof (VirtualRootDirectoryCollection));
 
@@ -178,7 +180,8 @@ namespace ConfigurationStorage
 
                 keyVer.SetValue (nameof (ShowMoveDlg), ShowMoveDlg, RegistryValueKind.ExpandString);
                 keyVer.SetValue (nameof (ShowImageFileName), ShowImageFileName, RegistryValueKind.ExpandString);
-                keyVer.SetValue (nameof (AskForDisplayNameDlg), AskForDisplayNameDlg, RegistryValueKind.ExpandString);
+                keyVer.SetValue (nameof (AskForDisplayName), AskForDisplayName, RegistryValueKind.ExpandString);
+                keyVer.SetValue (nameof (UseRecycleBin), UseRecycleBin, RegistryValueKind.ExpandString);
 
                 SaveList (keyVer, nameof (VirtualRootDirectoryCollection), VirtualRootDirectoryCollection);
 

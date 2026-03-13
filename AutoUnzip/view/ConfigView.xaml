@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoUnzip.View"
         xmlns:vr="clr-namespace:AutoUnzip.ValidationRules"
-        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+        xmlns:viewmodel="clr-namespace:AutoUnzip.ViewModel" 
+        d:DataContext="{d:DesignInstance Type=viewmodel:ConfigViewModel}"
         lex:LocalizeDictionary.DesignCulture="en"
         lex:ResxLocalizationProvider.DefaultAssembly="AutoUnzip"
         lex:ResxLocalizationProvider.DefaultDictionary="Strings"
@@ -445,6 +447,26 @@
                 </ComboBox>
             </Grid>
 
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Col0"/>
+                    <ColumnDefinition SharedSizeGroup="Col1"/>
+                    <ColumnDefinition SharedSizeGroup="Col2"/>
+                    <ColumnDefinition SharedSizeGroup="Col3"/>
+                    <ColumnDefinition SharedSizeGroup="Col4"/>
+                    <ColumnDefinition SharedSizeGroup="Col5"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"                       
+                       TextWrapping="Wrap"
+                       Name="tbConfig_UseRecycleBin"
+                       Text="{lex:Loc}"
+                       Style="{StaticResource ConfigView_TextBlock_Top}"/>
+                <CheckBox Grid.Column="2"
+                      Style="{StaticResource ConfigView_CheckBox_Top}"
+                      IsChecked="{Binding UseRecycleBin, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>            
+            
             <Label Name="tbConfig_Title5"
                    Content="{lex:Loc}"
                    Style="{StaticResource ConfigView_HeadLine}"/>
@@ -515,25 +537,21 @@
                     Orientation="Horizontal"
                     VerticalAlignment="Bottom">
 
-            <TextBlock FontSize="10"
-                           Text="Christian Harscher (info@x13-g44.com)"
-                           Margin="0,10,0,0"
-                           VerticalAlignment="Bottom"/>
-
-            <TextBlock FontSize="10"
-                           Text="{Binding AppVersionStr, FallbackValue='V1.2.0.0'}"
-                           Margin="10,10,0,0"
-                           VerticalAlignment="Bottom"/>
-
+            <TextBlock FontSize="10" 
+                       VerticalAlignment="Bottom">
+                <Run Text="Christian Harscher (info@x13-g44.com) | "/>
+                <Run Text="{Binding AppVersionStr, FallbackValue='V1.2.0.0'}"/>
+                <Run Text=" | "/>
+            </TextBlock>
+            
             <Button Style="{StaticResource SymbolButton}"
-                        Margin="10,10,0,0"
-                        Foreground="#FF0071E3"
-                        FontSize="9" 
-                        FontWeight="Light"
-                        VerticalAlignment="Bottom"
-                        Content="Project Website"
-                        Command="{Binding Cmd_OpenHomepage}"
-                        CommandParameter="{Binding}"/>
+                    Foreground="#FF0071E3"
+                    FontSize="10" 
+                    FontWeight="Light"
+                    VerticalAlignment="Bottom"
+                    Content="Project Website"
+                    Command="{Binding Cmd_OpenHomepage}"
+                    CommandParameter="{Binding}"/>
 
         </StackPanel>
 
