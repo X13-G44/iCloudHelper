@@ -394,20 +394,29 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die A new Favorites entry will be created for the folder &quot;{0}&quot;. You can optionally enter a display name for this. ähnelt.
-        /// </summary>
-        public static string dlgAskForDisplayName_Message {
-            get {
-                return ResourceManager.GetString("dlgAskForDisplayName_Message", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Okay ähnelt.
         /// </summary>
         public static string dlgAskForDisplayName_OK {
             get {
                 return ResourceManager.GetString("dlgAskForDisplayName_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die A new Favorites entry will be created for the folder &quot;{0}&quot;. You can optionally enter a display name for this. ähnelt.
+        /// </summary>
+        public static string dlgAskForDisplayNameFav_Message {
+            get {
+                return ResourceManager.GetString("dlgAskForDisplayNameFav_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die A new Root folder entry will be created for the folder &quot;{0}&quot;. You can optionally enter a display name for this. ähnelt.
+        /// </summary>
+        public static string dlgAskForDisplayNameVirtRoot_Message {
+            get {
+                return ResourceManager.GetString("dlgAskForDisplayNameVirtRoot_Message", resourceCulture);
             }
         }
         
@@ -696,6 +705,15 @@ namespace QuickSort.Resources {
         public static string lQuestion {
             get {
                 return ResourceManager.GetString("lQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Textlength must between {0} and {1}. ähnelt.
+        /// </summary>
+        public static string lTextLengthError {
+            get {
+                return ResourceManager.GetString("lTextLengthError", resourceCulture);
             }
         }
         

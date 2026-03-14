@@ -198,6 +198,7 @@ namespace QuickSort.ViewModel
         public Action<DlgBoxViewModel> Action { get; private set; }
         public String Text { get; private set; }
         public DlgBoxButtonSymbol Symbol { get; private set; }
+        public Boolean ProcessTextBoxValidationrule { get; private set; }
 
 
 
@@ -212,6 +213,22 @@ namespace QuickSort.ViewModel
             Symbol = symbol;
             Parameter = parameter;
             Action = onClick;
+
+            ProcessTextBoxValidationrule = false;
+        }
+
+        public DlgBoxButton (String text, DlgBoxButtonSymbol symbol, Object parameter, Boolean processTextBoxValidationrule, Action<DlgBoxViewModel> onClick)
+        {
+            if (String.IsNullOrEmpty (text) || onClick == null)
+            {
+                throw new ArgumentNullException ();
+            }
+
+            Text = text;
+            Symbol = symbol;
+            Parameter = parameter;
+            Action = onClick;
+            ProcessTextBoxValidationrule = processTextBoxValidationrule;
         }
     }
 

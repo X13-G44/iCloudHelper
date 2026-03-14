@@ -156,6 +156,19 @@ namespace QuickSort.View.UserControls
                     {
                         control.PART_DLGBOXUSERCONTROL.Visibility = Visibility.Hidden;
                         vm.LeftButton.Action.Invoke (vm);
+                    },
+                    (param) =>
+                    {
+                        if (vm.LeftButton.ProcessTextBoxValidationrule && vm.TextBox != null)
+                        {
+                            var bindingExpression = control.PART_TEXTBOX.GetBindingExpression (TextBox.TextProperty);
+                            if (bindingExpression != null)
+                            {
+                                return !bindingExpression.HasError;
+                            }
+                        }
+
+                        return true;
                     }
                 );
             }
@@ -172,6 +185,19 @@ namespace QuickSort.View.UserControls
                     {
                         control.PART_DLGBOXUSERCONTROL.Visibility = Visibility.Hidden;
                         vm.CenterButton.Action.Invoke (vm);
+                    },
+                    (param) =>
+                    {
+                        if (vm.CenterButton.ProcessTextBoxValidationrule && vm.TextBox != null)
+                        {
+                            var bindingExpression = control.PART_TEXTBOX.GetBindingExpression (TextBox.TextProperty);
+                            if (bindingExpression != null)
+                            {
+                                return !bindingExpression.HasError;
+                            }
+                        }
+
+                        return true;
                     }
                 );
             }
@@ -188,6 +214,19 @@ namespace QuickSort.View.UserControls
                     {
                         control.PART_DLGBOXUSERCONTROL.Visibility = Visibility.Hidden;
                         vm.RightButton.Action.Invoke (vm);
+                    },
+                    (param) => 
+                    {
+                        if (vm.RightButton.ProcessTextBoxValidationrule && vm.TextBox != null)
+                        {
+                            var bindingExpression = control.PART_TEXTBOX.GetBindingExpression (TextBox.TextProperty);
+                            if (bindingExpression != null)
+                            {
+                                return !bindingExpression.HasError;
+                            }
+                        }
+
+                        return true;
                     }
                 );
             }

@@ -103,6 +103,7 @@
     <Compile Include="ValidationRules\CheckIntValidationRule.cs" />
     <Compile Include="ValidationRules\CheckInvalidCharsValidationRule.cs" />
     <Compile Include="ValidationRules\CheckPathExistsValidationRule.cs" />
+    <Compile Include="ValidationRules\TextLengthValidationRule.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\SubVM\DlgBoxViewModel.cs" />

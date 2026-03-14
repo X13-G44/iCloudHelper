@@ -396,7 +396,7 @@
   <data name="cmVirtualDirSec_OpenInExplorer" xml:space="preserve">
     <value>Open in Explorer</value>
   </data>
-  <data name="dlgAskForDisplayName_Message" xml:space="preserve">
+  <data name="dlgAskForDisplayNameFav_Message" xml:space="preserve">
     <value>A new Favorites entry will be created for the folder "{0}". You can optionally enter a display name for this.</value>
   </data>
   <data name="dlgAskForDisplayName_OK" xml:space="preserve">
@@ -407,5 +407,11 @@
   </data>
   <data name="tbFileTitleSec_NoItemText2" xml:space="preserve">
     <value> to download and view images.</value>
+  </data>
+  <data name="dlgAskForDisplayNameVirtRoot_Message" xml:space="preserve">
+    <value>A new Root folder entry will be created for the folder "{0}". You can optionally enter a display name for this.</value>
+  </data>
+  <data name="lTextLengthError" xml:space="preserve">
+    <value>Textlength must between {0} and {1}.</value>
   </data>
 </root>

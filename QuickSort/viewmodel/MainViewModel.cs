@@ -28,6 +28,9 @@
 
 
 
+using AutoUnzip.Help;
+using ConfigurationStorage;
+using Microsoft.VisualBasic.FileIO;
 using QuickSort.Help;
 using QuickSort.Model;
 using QuickSort.Resources;
@@ -35,12 +38,13 @@ using QuickSort.ValidationRules;
 using QuickSort.View;
 using QuickSort.View.UserControls;
 using System;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
+using System.IO;
 using System.IO;
 using System.IO.Packaging;
 using System.Linq;
@@ -55,10 +59,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Linq;
-using Microsoft.VisualBasic.FileIO;
-using System.Diagnostics.Eventing.Reader;
-using AutoUnzip.Help;
-using ConfigurationStorage;
+using XAMLMarkupExtensions.Base;
 
 
 
@@ -547,26 +548,74 @@ namespace QuickSort.ViewModel
                                 if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace (dialog.SelectedPath))
                                 {
                                     string selectedPath = dialog.SelectedPath;
-                                    string folderName = System.IO.Path.GetFileName (selectedPath);
+                                    string displayName = System.IO.Path.GetFileName (selectedPath);
 
 
-                                    // Create a new FavoriteTargetFolderList instance and add it to the collection.
-                                    FavoriteTargetFolderList.Add (new FavoriteTargetFolderViewModel
+                                    if (ConfigurationStorageModel.AskForDisplayName)
                                     {
-                                        DisplayName = folderName,
-                                        Path = selectedPath,
-                                        AddDate = DateTime.Now.ToFileTimeUtc (),
-                                        IsPinned = true,
+                                        // Ask user for display name of new favorite target folder entry.
 
-                                        Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
+                                        Collection<ValidationRule> rules = new Collection<ValidationRule> ();
 
-                                        Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
-                                        Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
 
-                                        Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeFavoriteTargetFolderDisplayName,
+                                        // Generate a valid character validation rule object. It will be later used for check the user input in the dialog box.
+                                        rules.Add (new CheckInvalidCharsValidationRule () { InvalidChares = ConfigurationStorageModel.GetSeperatorCharsList () });
+                                        rules.Add (new TextLengthValidationRule () { MinLength = 1, MaxLength = 16 });
 
-                                        Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
-                                    });
+                                        this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_OneButton (
+                                            DlgBoxType.Question,
+                                            LocalizedStrings.GetString ("lQuestion"),
+                                            LocalizedStrings.GetFormattedString ("dlgAskForDisplayNameFav_Message", selectedPath),
+
+                                            new DlgBoxButton (LocalizedStrings.GetString ("dlgAskForDisplayName_OK"),
+                                                                DlgBoxButtonSymbol.Check,
+                                                                selectedPath,
+                                                                true,
+                                                                dlgBoxCfg =>
+                                                                {
+                                                                    FavoriteTargetFolderList.Add (new FavoriteTargetFolderViewModel
+                                                                    {
+                                                                        DisplayName = dlgBoxCfg.TextBox.Text,
+                                                                        Path = (dlgBoxCfg.RightButton.Parameter as String),
+                                                                        AddDate = DateTime.Now.ToFileTimeUtc (),
+                                                                        IsPinned = false,
+
+                                                                        Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
+
+                                                                        Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
+                                                                        Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
+
+                                                                        Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeFavoriteTargetFolderDisplayName,
+
+                                                                        Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
+                                                                    });
+                                                                }),
+
+                                            new DlgBoxTextBox (displayName, rules)
+                                        );
+                                    }
+                                    else
+                                    {
+                                        // Don't ask user for display name of new favorite target folder entry. Use the directory name as display name.
+
+                                        // Create a new FavoriteTargetFolderList instance and add it to the collection.
+                                        FavoriteTargetFolderList.Add (new FavoriteTargetFolderViewModel
+                                        {
+                                            DisplayName = displayName,
+                                            Path = selectedPath,
+                                            AddDate = DateTime.Now.ToFileTimeUtc (),
+                                            IsPinned = true,
+
+                                            Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
+
+                                            Cmd_AddFolderFromListCommand = Cmd_ContextMenu_AddFavoriteTargetFolderItem,
+                                            Cmd_RemoveFolderFromListCommand = Cmd_ContextMenu_RemoveFavoriteTargetFolderItem,
+
+                                            Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeFavoriteTargetFolderDisplayName,
+
+                                            Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
+                                        });
+                                    }
 
                                     ConfigurationStorageModel.LastUsedPath = selectedPath;
                                 }
@@ -613,6 +662,7 @@ namespace QuickSort.ViewModel
 
                             // Generate a directory exists validation rule object. It will be later used for check the user input in the dialog box.
                             rules.Add (new CheckInvalidCharsValidationRule () { InvalidChares = ConfigurationStorageModel.GetSeperatorCharsList () });
+                            rules.Add (new TextLengthValidationRule () { MinLength = 1, MaxLength = 16 });
 
 
                             this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_TwoButton (
@@ -628,6 +678,7 @@ namespace QuickSort.ViewModel
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgFavTargFolder_Rename"),
                                     DlgBoxButtonSymbol.Check,
                                     item,
+                                    true,
                                     dlgBoxCfg => { (dlgBoxCfg.LeftButton.Parameter as FavoriteTargetFolderViewModel).DisplayName = dlgBoxCfg.TextBox.Text; }),
 
                                 new DlgBoxTextBox ((item as FavoriteTargetFolderViewModel).DisplayName, rules)
@@ -662,29 +713,81 @@ namespace QuickSort.ViewModel
                                 if (dialog.ShowDialog () == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace (dialog.SelectedPath))
                                 {
                                     string selectedPath = dialog.SelectedPath;
-                                    string folderName = System.IO.Path.GetFileName (selectedPath);
+                                    string displayName = System.IO.Path.GetFileName (selectedPath);
 
 
-                                    // Create a new VirtualDirectoryList instance and add it to the collection.
-                                    VirtualRootDirectoryList.Add (new VirtualDirectoryViewModel
+                                    if (ConfigurationStorageModel.AskForDisplayName)
                                     {
-                                        DisplayName = folderName,
-                                        Path = selectedPath,
+                                        // Ask user for display name of new virtual root entry.
 
-                                        Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
+                                        Collection<ValidationRule> rules = new Collection<ValidationRule> ();
 
-                                        Cmd_ShowSubDirsCommand = Cmd_ContextMenu_ShowVirtualFirstStageDirectoryItem,
 
-                                        Cmd_AddToListCommand = Cmd_ContextMenu_AddVirtualRootDirectoryItem,
-                                        Cmd_RemoveItemFromListCommand = Cmd_ContextMenu_RemoveVirtualRootDirectoryItem,
+                                        // Generate a valid character validation rule object. It will be later used for check the user input in the dialog box.
+                                        rules.Add (new CheckInvalidCharsValidationRule () { InvalidChares = ConfigurationStorageModel.GetSeperatorCharsList () });
+                                        rules.Add (new TextLengthValidationRule () { MinLength = 1, MaxLength = 16 });
 
-                                        Cmd_CreateSubDirsCommand = Cmd_ContextMenu_VirtualFirstStageCreateDirectory,
-                                        Cmd_DeleteSubDirsCommand = null, // Not used for root directory.
+                                        this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_OneButton (
+                                            DlgBoxType.Question,
+                                            LocalizedStrings.GetString ("lQuestion"),
+                                            LocalizedStrings.GetFormattedString ("dlgAskForDisplayNameVirtRoot_Message", selectedPath),
 
-                                        Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeVirtualRootDirectoryItemDisplayName,
+                                            new DlgBoxButton (LocalizedStrings.GetString ("dlgAskForDisplayName_OK"),
+                                                                DlgBoxButtonSymbol.Check,
+                                                                selectedPath,
+                                                                true,
+                                                                dlgBoxCfg =>
+                                                                {
+                                                                    // Create a new VirtualDirectoryList instance and add it to the collection.
+                                                                    VirtualRootDirectoryList.Add (new VirtualDirectoryViewModel
+                                                                    {
+                                                                        DisplayName = dlgBoxCfg.TextBox.Text,
+                                                                        Path = (dlgBoxCfg.RightButton.Parameter as String),
 
-                                        Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
-                                    });
+                                                                        Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
+
+                                                                        Cmd_ShowSubDirsCommand = Cmd_ContextMenu_ShowVirtualFirstStageDirectoryItem,
+
+                                                                        Cmd_AddToListCommand = Cmd_ContextMenu_AddVirtualRootDirectoryItem,
+                                                                        Cmd_RemoveItemFromListCommand = Cmd_ContextMenu_RemoveVirtualRootDirectoryItem,
+
+                                                                        Cmd_CreateSubDirsCommand = Cmd_ContextMenu_VirtualFirstStageCreateDirectory,
+                                                                        Cmd_DeleteSubDirsCommand = null, // Not used for root directory.
+
+                                                                        Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeVirtualRootDirectoryItemDisplayName,
+
+                                                                        Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
+                                                                    });
+                                                                }),
+
+                                            new DlgBoxTextBox (displayName, rules)
+                                        );
+                                    }
+                                    else
+                                    {
+                                        // Don't ask user for display name of new virtual root entry. Use the directory name as display name.
+
+                                        // Create a new VirtualDirectoryList instance and add it to the collection.
+                                        VirtualRootDirectoryList.Add (new VirtualDirectoryViewModel
+                                        {
+                                            DisplayName = displayName,
+                                            Path = selectedPath,
+
+                                            Cmd_MoveImagesCommand = Cmd_ContextMenu_MoveImages,
+
+                                            Cmd_ShowSubDirsCommand = Cmd_ContextMenu_ShowVirtualFirstStageDirectoryItem,
+
+                                            Cmd_AddToListCommand = Cmd_ContextMenu_AddVirtualRootDirectoryItem,
+                                            Cmd_RemoveItemFromListCommand = Cmd_ContextMenu_RemoveVirtualRootDirectoryItem,
+
+                                            Cmd_CreateSubDirsCommand = Cmd_ContextMenu_VirtualFirstStageCreateDirectory,
+                                            Cmd_DeleteSubDirsCommand = null, // Not used for root directory.
+
+                                            Cmd_ChangeDisplayName = Cmd_ContextMenu_ChangeVirtualRootDirectoryItemDisplayName,
+
+                                            Cmd_OpenDirectoryInExplorer = Cmd_ContextMenu_OpenDirectoryInExplorer,
+                                        });
+                                    }
 
                                     ConfigurationStorageModel.LastUsedPath = selectedPath;
                                 }
@@ -741,6 +844,7 @@ namespace QuickSort.ViewModel
 
                             // Generate a directory exists validation rule object. It will be later used for check the user input in the dialog box.
                             rules.Add (new CheckInvalidCharsValidationRule () { InvalidChares = ConfigurationStorageModel.GetSeperatorCharsList () });
+                            rules.Add (new TextLengthValidationRule () { MinLength = 1, MaxLength = 16 });
 
 
                             this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_TwoButton (
@@ -756,6 +860,7 @@ namespace QuickSort.ViewModel
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgVirtualDirRoot_Rename"),
                                     DlgBoxButtonSymbol.Check,
                                     item,
+                                    true,
                                     dlgBoxCfg => { (dlgBoxCfg.LeftButton.Parameter as VirtualDirectoryViewModel).DisplayName = dlgBoxCfg.TextBox.Text; }),
 
                                 new DlgBoxTextBox ((item as VirtualDirectoryViewModel).DisplayName, rules)
@@ -2040,15 +2145,17 @@ namespace QuickSort.ViewModel
 
                             // Generate a valid character validation rule object. It will be later used for check the user input in the dialog box.
                             rules.Add (new CheckInvalidCharsValidationRule () { InvalidChares = ConfigurationStorageModel.GetSeperatorCharsList () });
+                            rules.Add (new TextLengthValidationRule () { MinLength = 1, MaxLength = 16 });
 
                             this.DialogBoxConfiguration = DlgBoxViewModel.ShowDialog_OneButton (
                                 DlgBoxType.Question,
                                 LocalizedStrings.GetString ("lQuestion"),
-                                LocalizedStrings.GetFormattedString ("dlgAskForDisplayName_Message", targetPath),
+                                LocalizedStrings.GetFormattedString ("dlgAskForDisplayNameFav_Message", targetPath),
 
                                 new DlgBoxButton (LocalizedStrings.GetString ("dlgAskForDisplayName_OK"),
                                                     DlgBoxButtonSymbol.Check,
                                                     targetPath,
+                                                    true,
                                                     dlgBoxCfg =>
                                                     {
                                                         FavoriteTargetFolderList.Add (new FavoriteTargetFolderViewModel
@@ -2074,7 +2181,7 @@ namespace QuickSort.ViewModel
                         }
                         else
                         {
-                            // Don't ask user for display name of new favorite entry. Use the directory name as display name.
+                            // Don't ask user for display name of new favorite target folder entry. Use the directory name as display name.
 
                             FavoriteTargetFolderList.Add (new FavoriteTargetFolderViewModel
                             {

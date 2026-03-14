@@ -396,7 +396,7 @@
   <data name="cmVirtualDirSec_OpenInExplorer" xml:space="preserve">
     <value>Im Dateimanager anzeigen</value>
   </data>
-  <data name="dlgAskForDisplayName_Message" xml:space="preserve">
+  <data name="dlgAskForDisplayNameFav_Message" xml:space="preserve">
     <value>Für den Ordner "{0}" wird ein neuer Favoriten Eintrag erstellt. Sie können hierfür optional einen Anzeigenamen eingeben.</value>
   </data>
   <data name="dlgAskForDisplayName_OK" xml:space="preserve">
@@ -407,5 +407,11 @@
   </data>
   <data name="tbFileTitleSec_NoItemText2" xml:space="preserve">
     <value> um Bilder herunterzuladen und anzeigen</value>
+  </data>
+  <data name="dlgAskForDisplayNameVirtRoot_Message" xml:space="preserve">
+    <value>Für den Ordner "{0}" wird ein neuer Zielordner Eintrag erstellt. Sie können hierfür optional einen Anzeigenamen eingeben.</value>
+  </data>
+  <data name="lTextLengthError" xml:space="preserve">
+    <value>Die Textlänge muss zwischen {0} und {1} liegen.</value>
   </data>
 </root>
