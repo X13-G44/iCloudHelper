@@ -18,7 +18,7 @@
         Topmost="True"
         AllowsTransparency="True"
         ShowInTaskbar="False" 
-        Icon="/icloud-logo-49272-Windows.ico">
+        Icon="/icloud-logo.ico">
 
     <Window.Resources>
 

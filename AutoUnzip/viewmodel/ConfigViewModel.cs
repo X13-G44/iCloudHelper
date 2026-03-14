@@ -98,6 +98,15 @@ namespace AutoUnzip.ViewModel
             set { _BackupRetentionPeriod = value; OnPropertyChanged (nameof (BackupRetentionPeriod)); }
         }
 
+        private bool _AutoRefreshMonitoringPath;
+
+        public bool AutoRefreshMonitoringPath
+        {
+            get { return _AutoRefreshMonitoringPath; }
+            set { _AutoRefreshMonitoringPath = value; OnPropertyChanged (nameof (AutoRefreshMonitoringPath)); }
+        }
+
+
         private bool _UseDarkModeColorTheme = false;
         public bool UseDarkModeColorTheme
         {
@@ -272,6 +281,7 @@ namespace AutoUnzip.ViewModel
                         ConfigurationStorage.ConfigurationStorageModel.BackupPath = this.BackupPath;
                         ConfigurationStorage.ConfigurationStorageModel.BackupRetentionCheckEnabled = this.BackupRetentionCheckEnabled;
                         ConfigurationStorage.ConfigurationStorageModel.BackupRetentionPeriod = this.BackupRetentionPeriod;
+                        ConfigurationStorage.ConfigurationStorageModel.AutoRefreshMonitoringPath = this.AutoRefreshMonitoringPath;
                         ConfigurationStorage.ConfigurationStorageModel.ColorThemeId = (int) (this.UseDarkModeColorTheme == true ? 1 : 0);
                         ConfigurationStorage.ConfigurationStorageModel.LanguageId = this.Language;
                         ConfigurationStorage.ConfigurationStorageModel.ShowMoveDlg = this.ShowMoveDlg;
@@ -334,6 +344,7 @@ namespace AutoUnzip.ViewModel
             this.BackupEnabled = ConfigurationStorage.ConfigurationStorageModel.BackupEnabled;
             this.BackupPath = ConfigurationStorage.ConfigurationStorageModel.BackupPath;
             this.BackupRetentionCheckEnabled = ConfigurationStorage.ConfigurationStorageModel.BackupRetentionCheckEnabled;
+            this.AutoRefreshMonitoringPath = ConfigurationStorage.ConfigurationStorageModel.AutoRefreshMonitoringPath;
             this.BackupRetentionPeriod = ConfigurationStorage.ConfigurationStorageModel.BackupRetentionPeriod;
             this.UseDarkModeColorTheme = ConfigurationStorage.ConfigurationStorageModel.ColorThemeId == 1 ? true : false;
             this.Language = ConfigurationStorage.ConfigurationStorageModel.LanguageId;

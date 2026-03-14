@@ -7,7 +7,9 @@
         xmlns:con="clr-namespace:QuickSort.Converter"
         xmlns:vr="clr-namespace:QuickSort.ValidationRules"
         xmlns:uc="clr-namespace:QuickSort.View.UserControls"
-        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+        xmlns:viewmodel="clr-namespace:QuickSort.ViewModel" 
+        d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
         lex:LocalizeDictionary.DesignCulture="en"
         lex:ResxLocalizationProvider.DefaultAssembly="QuickSort"
         lex:ResxLocalizationProvider.DefaultDictionary="Strings"
@@ -17,7 +19,7 @@
         Width="1000"
         Background="{DynamicResource MainWindowBackground}"
         WindowStyle="None"
-        ResizeMode="CanResizeWithGrip" Icon="/icloud-logo-49272-Windows.ico" >
+        ResizeMode="CanResizeWithGrip" Icon="/icloud-logo.ico" >
 
     <Window.Resources>
 
@@ -529,17 +531,12 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Image Source="/iCloud_white.png" 
+                        
+                        <Image Source="/rectangle_fotocloud_logo_1.png" 
                                Height="24"
                                Width="24"
                                Stretch="Fill">
                         </Image>
-
-                        <!--<ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" TargetName="PART_TEXT" Value="{DynamicResource CommonForegroundColor}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>-->
 
                     </ControlTemplate>
                 </Setter.Value>
@@ -642,7 +639,7 @@
                                VerticalAlignment="Center" 
                                HorizontalAlignment="Center" 
                                Foreground="White"/>
-                </Button>                
+                </Button>
 
                 <!-- Maximize / Restore -->
                 <Button Width="32" 
@@ -879,13 +876,13 @@
                             VerticalAlignment="Top">
 
                     <Button Style="{StaticResource SymbolButton2}" 
-                            Margin="5,0,0,0"
+                            Margin="0,0,0,0"
                             Name="ttFileTitleSec_OpenICloud"
                             ToolTip="{lex:Loc}"
                             Command="{Binding Cmd_ContextMenu_OpenICloud}"/>
 
                     <Button Style="{StaticResource SymbolButton}"
-                            Margin="5,0,0,0"
+                            Margin="15,0,0,0"
                             Foreground="{DynamicResource FileTitleBtnSelectedColor}"
                             FontSize="14" 
                             FontWeight="Light"
@@ -1002,32 +999,42 @@
                     </ItemsControl>
                 </ScrollViewer>
 
-                <Grid Grid.Row="2"
-                      Visibility="{Binding FileTileList.Count, Converter={StaticResource IntToVis}, ConverterParameter='visible;collapsed', FallbackValue='Hidden'}">
+                <StackPanel Grid.Row="2"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Visibility="{Binding FileTileList.Count, Converter={StaticResource IntToVis}, ConverterParameter='visible;collapsed', FallbackValue='Hidden'}">
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Image Grid.Row="0"
-                           Source="/fotocloud_logo.png"
-                           Opacity="0.5"
-                           Margin="0,20,0,20"
+                    <Image Source="/rectangle_fotocloud_logo_2.png"
+                           Margin="0,0,0,0"
+                           Stretch="None"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
 
-                    <TextBlock Grid.Row="1"
-                               Foreground="{DynamicResource FileTitleTextForegroundColor}"
-                               FontSize="12"                       
+                    <TextBlock Foreground="{DynamicResource FileTitleTextForegroundColor}"
+                               Margin="0,10,0,0"
+                               FontSize="12"
                                FontWeight="Light" 
                                FontStyle="Italic"
                                HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Name="tbFileTitleSec_NoItemText"
-                               Text="{lex:Loc}"/>
+                               VerticalAlignment="Center">
+                            
+                            <Run Name="tbFileTitleSec_NoItemText"
+                                 Text="{lex:Loc}"/>
 
-                </Grid>
+                            <Button Style="{StaticResource SymbolButton}"
+                                    Margin="-3,0,0,-3"
+                                    Name="btnFileTitleSec_OpenICloudUri"
+                                    Foreground="#FF0071E3"
+                                    Content="{lex:Loc}"
+                                    Command="{Binding Cmd_ContextMenu_OpenICloud}"
+                                    CommandParameter="{Binding}"/>
+                            
+                            <Run Name="tbFileTitleSec_NoItemText2" 
+                                 Text="{lex:Loc}"/>
+
+                    </TextBlock>
+
+                </StackPanel>
 
                 <Border Grid.Row="0"
                         Grid.RowSpan="3"

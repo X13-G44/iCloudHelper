@@ -59,14 +59,16 @@ namespace ConfigurationStorage
 
         static public string MonitoringFilename { get; set; } = "iCloud*.zip";
         static public string MonitoringPath { get; set; } = SpecialFolders.GetDownloadPath ();
-        static public string ExtractImagePath { get; set; } = Path.Combine (MonitoringPath, "iCloudHelper");
+        static public string ExtractImagePath { get; set; } = Path.Combine (MonitoringPath, APP_TITLE);
 
         static public bool BackupEnabled { get; set; } = true;
-        static public string BackupPath { get; set; } = Path.Combine (MonitoringPath, "iCloudHelper\\Backup");
+        static public string BackupPath { get; set; } = Path.Combine (MonitoringPath, APP_TITLE + "\\Backup");
         static public bool BackupRetentionCheckEnabled { get; set; } = true;
         static public int BackupRetentionPeriod { get; set; } = 365;
 
         static public string LastUsedPath { get; set; } = ExtractImagePath;
+
+        static public bool AutoRefreshMonitoringPath { get; set; } = true;
 
         static public bool ShowMoveDlg { get; set; } = true;
         static public bool ShowImageFileName { get; set; } = true;
@@ -105,36 +107,38 @@ namespace ConfigurationStorage
                     return false;
                 }
 
-                ColorThemeId = int.Parse ((string) keyVer.GetValue (nameof (ColorThemeId)));
-                LanguageId = int.Parse ((string) keyVer.GetValue (nameof (LanguageId)));
+                ColorThemeId = int.Parse ((string) keyVer.GetValue (nameof (ColorThemeId), "0"));
+                LanguageId = int.Parse ((string) keyVer.GetValue (nameof (LanguageId), "0"));
 
-                MonitoringFilename = (string) keyVer.GetValue (nameof (MonitoringFilename));
-                MonitoringPath = (string) keyVer.GetValue (nameof (MonitoringPath));
-                ExtractImagePath = (string) keyVer.GetValue (nameof (ExtractImagePath));
+                MonitoringFilename = (string) keyVer.GetValue (nameof (MonitoringFilename), "iCloud*.zip");
+                MonitoringPath = (string) keyVer.GetValue (nameof (MonitoringPath), SpecialFolders.GetDownloadPath ());
+                ExtractImagePath = (string) keyVer.GetValue (nameof (ExtractImagePath), Path.Combine (MonitoringPath, APP_TITLE));
 
-                BackupEnabled = bool.Parse ((string) keyVer.GetValue (nameof (BackupEnabled)));
-                BackupPath = (string) keyVer.GetValue (nameof (BackupPath));
-                BackupRetentionCheckEnabled = bool.Parse ((string) keyVer.GetValue (nameof (BackupRetentionCheckEnabled)));
-                BackupRetentionPeriod = int.Parse ((string) keyVer.GetValue (nameof (BackupRetentionPeriod)));
+                BackupEnabled = bool.Parse ((string) keyVer.GetValue (nameof (BackupEnabled), "True"));
+                BackupPath = (string) keyVer.GetValue (nameof (BackupPath), Path.Combine (MonitoringPath, APP_TITLE + "\\Backup"));
+                BackupRetentionCheckEnabled = bool.Parse ((string) keyVer.GetValue (nameof (BackupRetentionCheckEnabled), "True"));
+                BackupRetentionPeriod = int.Parse ((string) keyVer.GetValue (nameof (BackupRetentionPeriod), 365));
 
-                LastUsedPath = (string) keyVer.GetValue (nameof (LastUsedPath));
+                LastUsedPath = (string) keyVer.GetValue (nameof (LastUsedPath), ExtractImagePath);
 
-                ShowMoveDlg = bool.Parse ((string) keyVer.GetValue (nameof (ShowMoveDlg)));
-                ShowImageFileName = bool.Parse ((string) keyVer.GetValue (nameof (ShowImageFileName)));
-                AskForDisplayName = bool.Parse ((string) keyVer.GetValue (nameof (AskForDisplayName)));
-                UseRecycleBin = bool.Parse ((string) keyVer.GetValue (nameof (UseRecycleBin)));
+                AutoRefreshMonitoringPath = bool.Parse ((string) keyVer.GetValue (nameof (AutoRefreshMonitoringPath), "True"));
+
+                ShowMoveDlg = bool.Parse ((string) keyVer.GetValue (nameof (ShowMoveDlg), "True"));
+                ShowImageFileName = bool.Parse ((string) keyVer.GetValue (nameof (ShowImageFileName), "True"));
+                AskForDisplayName = bool.Parse ((string) keyVer.GetValue (nameof (AskForDisplayName), "True"));
+                UseRecycleBin = bool.Parse ((string) keyVer.GetValue (nameof (UseRecycleBin), "True"));
 
                 VirtualRootDirectoryCollection = LoadList (keyVer, nameof (VirtualRootDirectoryCollection));
 
                 FavoriteTargetFolderCollection = LoadList (keyVer, nameof (FavoriteTargetFolderCollection));
-                FavoriteTargetFolderCollectionLimit = int.Parse ((string) keyVer.GetValue (nameof (FavoriteTargetFolderCollectionLimit)));
-                FavoriteTargetFolderCollectionAutoInsert = bool.Parse ((string) keyVer.GetValue (nameof (FavoriteTargetFolderCollectionAutoInsert)));
+                FavoriteTargetFolderCollectionLimit = int.Parse ((string) keyVer.GetValue (nameof (FavoriteTargetFolderCollectionLimit), "15"));
+                FavoriteTargetFolderCollectionAutoInsert = bool.Parse ((string) keyVer.GetValue (nameof (FavoriteTargetFolderCollectionAutoInsert), "True"));
 
-                FileTitleSizeLevel = int.Parse ((string) keyVer.GetValue (nameof (FileTitleSizeLevel)));
-                FileTitleSortOrder = int.Parse ((string) keyVer.GetValue (nameof (FileTitleSortOrder)));
-                FileTitleImageColorGroupMode = int.Parse ((string) keyVer.GetValue (nameof (FileTitleImageColorGroupMode)));
+                FileTitleSizeLevel = int.Parse ((string) keyVer.GetValue (nameof (FileTitleSizeLevel), "1"));
+                FileTitleSortOrder = int.Parse ((string) keyVer.GetValue (nameof (FileTitleSortOrder), "0"));
+                FileTitleImageColorGroupMode = int.Parse ((string) keyVer.GetValue (nameof (FileTitleImageColorGroupMode),"0"));
 
-                NewImagesExtractedNotifyWinPos = int.Parse ((string) keyVer.GetValue (nameof (NewImagesExtractedNotifyWinPos)));
+                NewImagesExtractedNotifyWinPos = int.Parse ((string) keyVer.GetValue (nameof (NewImagesExtractedNotifyWinPos),"3"));
 
 
                 keyVer?.Close ();
@@ -177,6 +181,8 @@ namespace ConfigurationStorage
                 keyVer.SetValue (nameof (BackupRetentionPeriod), BackupRetentionPeriod, RegistryValueKind.ExpandString);
 
                 keyVer.SetValue (nameof (LastUsedPath), LastUsedPath, RegistryValueKind.ExpandString);
+
+                keyVer.SetValue (nameof (AutoRefreshMonitoringPath), AutoRefreshMonitoringPath, RegistryValueKind.ExpandString);
 
                 keyVer.SetValue (nameof (ShowMoveDlg), ShowMoveDlg, RegistryValueKind.ExpandString);
                 keyVer.SetValue (nameof (ShowImageFileName), ShowImageFileName, RegistryValueKind.ExpandString);

@@ -154,7 +154,7 @@
     <value>[0] images selected</value>
   </data>
   <data name="tbFileTitleSec_NoItemText" xml:space="preserve">
-    <value>No images found. Use the settings to change the source folder.</value>
+    <value>No images found. Go to </value>
   </data>
   <data name="tbFileTitleSec_LodingImages" xml:space="preserve">
     <value>Loading images... ([0]/[1])</value>
@@ -401,5 +401,11 @@
   </data>
   <data name="dlgAskForDisplayName_OK" xml:space="preserve">
     <value>Okay</value>
+  </data>
+  <data name="btnFileTitleSec_OpenICloudUri" xml:space="preserve">
+    <value>iCloud</value>
+  </data>
+  <data name="tbFileTitleSec_NoItemText2" xml:space="preserve">
+    <value> to download and view images.</value>
   </data>
 </root>

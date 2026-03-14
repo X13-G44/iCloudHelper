@@ -295,9 +295,12 @@
     <value>Buttom-Right</value>
   </data>
   <data name="tbConfig_AskForDisplayName" xml:space="preserve">
-    <value>Ask for Favorite entries display name</value>
+    <value>Ask for favorite entries display name</value>
   </data>
   <data name="tbConfig_UseRecycleBin" xml:space="preserve">
     <value>Use the recycle bin to delete duplicate images</value>
+  </data>
+  <data name="tbConfig_AutoRefreshMonitoringPath" xml:space="preserve">
+    <value>Automatically update the image overview when new images are found</value>
   </data>
 </root>

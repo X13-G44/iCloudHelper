@@ -14,6 +14,7 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,7 +27,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -52,7 +52,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icloud-logo-49272-Windows.ico</ApplicationIcon>
+    <ApplicationIcon>icloud-logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -180,9 +180,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="fotocloud_logo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.8 %28x86 und x64%29</ProductName>
@@ -195,16 +192,23 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icloud-logo-49272-Windows.ico" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\AutoUnzip\AutoUnzip.csproj">
+      <Project>{02C641CF-E0E8-43B1-ADA1-517094357957}</Project>
+      <Name>AutoUnzip</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ConfigurationStorage\ConfigurationStorage.csproj">
       <Project>{c9a7fcf6-b397-4a67-a94a-e6fd011a47d7}</Project>
       <Name>ConfigurationStorage</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="iCloud_white.png" />
+    <Resource Include="rectangle_fotocloud_logo_1.png" />
+    <Resource Include="rectangle_fotocloud_logo_2.png" />
+    <Resource Include="rectangle_fotocloud_logo_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icloud-logo.ico" />
+    <Resource Include="round_fotocloud_logo_1.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

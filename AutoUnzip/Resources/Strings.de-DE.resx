@@ -295,9 +295,12 @@
     <value>Unten Rechts</value>
   </data>
   <data name="tbConfig_AskForDisplayName" xml:space="preserve">
-    <value>Anzeigenamen für Favoriten abfragen</value>
+    <value>Anzeigenamen für Favoriten listen Eintrag abfragen</value>
   </data>
   <data name="tbConfig_UseRecycleBin" xml:space="preserve">
-    <value>Verwenden Sie den Papierkorb zum Löschen doppelter Bilder</value>
+    <value>Doppelter Bilder den Papierkorb  verschieben, anstelle zu löschen</value>
+  </data>
+  <data name="tbConfig_AutoRefreshMonitoringPath" xml:space="preserve">
+    <value>Bilderübersicht automatisch aktualisieren, wenn neue Bilder gefunden wurden</value>
   </data>
 </root>

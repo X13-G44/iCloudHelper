@@ -385,11 +385,20 @@ namespace AutoUnzip.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Ask for Favorite entries display name ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ask for favorite entries display name ähnelt.
         /// </summary>
         public static string tbConfig_AskForDisplayName {
             get {
                 return ResourceManager.GetString("tbConfig_AskForDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Automatically update the image overview when new images are found ähnelt.
+        /// </summary>
+        public static string tbConfig_AutoRefreshMonitoringPath {
+            get {
+                return ResourceManager.GetString("tbConfig_AutoRefreshMonitoringPath", resourceCulture);
             }
         }
         

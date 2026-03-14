@@ -154,7 +154,7 @@
     <value>[0] Bilder ausgewählt</value>
   </data>
   <data name="tbFileTitleSec_NoItemText" xml:space="preserve">
-    <value>Keine Bilder gefunden. Benutze die Einstellungen zum Ändern des Quellordners</value>
+    <value>Keine Bilder gefunden. Gehe zu </value>
   </data>
   <data name="tbFileTitleSec_LodingImages" xml:space="preserve">
     <value>Bilder werden geladen... ([0]/[1])</value>
@@ -401,5 +401,11 @@
   </data>
   <data name="dlgAskForDisplayName_OK" xml:space="preserve">
     <value>Übernehmen</value>
+  </data>
+  <data name="btnFileTitleSec_OpenICloudUri" xml:space="preserve">
+    <value>iCloud</value>
+  </data>
+  <data name="tbFileTitleSec_NoItemText2" xml:space="preserve">
+    <value> um Bilder herunterzuladen und anzeigen</value>
   </data>
 </root>

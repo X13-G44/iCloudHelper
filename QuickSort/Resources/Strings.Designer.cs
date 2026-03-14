@@ -61,6 +61,15 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die iCloud ähnelt.
+        /// </summary>
+        public static string btnFileTitleSec_OpenICloudUri {
+            get {
+                return ResourceManager.GetString("btnFileTitleSec_OpenICloudUri", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Add entry ähnelt.
         /// </summary>
         public static string cmFavTargFolder_AddEntry {
@@ -763,11 +772,20 @@ namespace QuickSort.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die No images found. Use the settings to change the source folder. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die No images found. Go to  ähnelt.
         /// </summary>
         public static string tbFileTitleSec_NoItemText {
             get {
                 return ResourceManager.GetString("tbFileTitleSec_NoItemText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  to download and view images. ähnelt.
+        /// </summary>
+        public static string tbFileTitleSec_NoItemText2 {
+            get {
+                return ResourceManager.GetString("tbFileTitleSec_NoItemText2", resourceCulture);
             }
         }
         
