@@ -29,7 +29,7 @@ iCloudHelper is intended for everyday users who want to simplify the process of 
 
 1. Download the installer from the [Releases](https://github.com/X13-G44/iCloudHelper/releases) section.
 2. Launch the installer and follow the on-screen instructions to complete the installation.
-3. Execute the installed app **AutoUnzip** for start monitoring and setup the configuration.
+3. Execute the installed app **AutoUnzip** to setup the configuration and start monitoring.
 
 ## Usage
 
