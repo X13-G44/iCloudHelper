@@ -4,12 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoUnzip.View"
-        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+        xmlns:viewmodel="clr-namespace:AutoUnzip.ViewModel" 
+        d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
         lex:LocalizeDictionary.DesignCulture="en"
         lex:ResxLocalizationProvider.DefaultAssembly="AutoUnzip"
         lex:ResxLocalizationProvider.DefaultDictionary="Strings"        
         mc:Ignorable="d"
-        Title="iCloudHelper" 
+        Title="iCloudHelper"        
         Height="170" 
         Width="400"
         WindowStartupLocation="CenterScreen"
@@ -100,42 +102,6 @@
         </Style>
 
     </Window.Resources>
-
-    <Window.Style>
-        
-        <Style TargetType="Window">
-            <Style.Triggers>
-                
-                <DataTrigger Binding="{Binding FadeAnimationActive}" Value="True">
-                    <DataTrigger.EnterActions>
-
-                        <BeginStoryboard x:Name="FadeStoryboard">
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                 From="0.0" 
-                                                 To="1.0" 
-                                                 Duration="0:0:1.5"/>
-
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                 BeginTime="0:0:20"
-                                                 From="1.0" 
-                                                 To="0.0" 
-                                                 Duration="0:0:1.5"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-
-                    </DataTrigger.EnterActions>
-                    
-                    <DataTrigger.ExitActions>
-                        <StopStoryboard BeginStoryboardName="FadeStoryboard"/>
-                    </DataTrigger.ExitActions>
-
-                </DataTrigger>
-
-            </Style.Triggers>
-        </Style>
-        
-    </Window.Style>
 
     <Button Grid.Row="0"
             Style="{StaticResource MainView_Button}"

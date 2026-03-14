@@ -63,18 +63,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_A88ED91964EE8D38CDB4390700D75637"
-        "OwnerKey" = "8:_2D2984E4822345438F68291F9A26A994"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A88ED91964EE8D38CDB4390700D75637"
-        "OwnerKey" = "8:_889DA6C0C840427BBEBAEBD780CF2007"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_ACEE83C8BCFE9F4157001C05C424A8C3"
         "OwnerKey" = "8:_CC651B872094D329B7A45CFF095278AD"
         "MsmSig" = "8:_UNDEFINED"
@@ -87,6 +75,42 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_CC651B872094D329B7A45CFF095278AD"
+        "OwnerKey" = "8:_D6847D3BE6FED1B998B69AE5BB508EB5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CC651B872094D329B7A45CFF095278AD"
+        "OwnerKey" = "8:_889DA6C0C840427BBEBAEBD780CF2007"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D6847D3BE6FED1B998B69AE5BB508EB5"
+        "OwnerKey" = "8:_889DA6C0C840427BBEBAEBD780CF2007"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D9B183E706915E221B8A11B01ACD317C"
+        "OwnerKey" = "8:_2D2984E4822345438F68291F9A26A994"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D9B183E706915E221B8A11B01ACD317C"
+        "OwnerKey" = "8:_889DA6C0C840427BBEBAEBD780CF2007"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D9B183E706915E221B8A11B01ACD317C"
+        "OwnerKey" = "8:_D6847D3BE6FED1B998B69AE5BB508EB5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_F141E218A4C6B3C65E245159D5A16F2B"
         "OwnerKey" = "8:_2D2984E4822345438F68291F9A26A994"
         "MsmSig" = "8:_UNDEFINED"
@@ -99,6 +123,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_F141E218A4C6B3C65E245159D5A16F2B"
+        "OwnerKey" = "8:_D6847D3BE6FED1B998B69AE5BB508EB5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_2D2984E4822345438F68291F9A26A994"
         "MsmSig" = "8:_UNDEFINED"
@@ -107,6 +137,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_889DA6C0C840427BBEBAEBD780CF2007"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_D6847D3BE6FED1B998B69AE5BB508EB5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -124,7 +160,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A88ED91964EE8D38CDB4390700D75637"
+        "OwnerKey" = "8:_D9B183E706915E221B8A11B01ACD317C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -339,37 +375,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A88ED91964EE8D38CDB4390700D75637"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ConfigurationStorage, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_A88ED91964EE8D38CDB4390700D75637"
-                    {
-                    "Name" = "8:ConfigurationStorage.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:ConfigurationStorage.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_685FBE5094824C27BEE54E39D6253815"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_ACEE83C8BCFE9F4157001C05C424A8C3"
             {
             "AssemblyRegister" = "3:1"
@@ -415,6 +420,68 @@
                     }
                 }
             "SourcePath" = "8:System.IO.Compression.FileSystem.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_685FBE5094824C27BEE54E39D6253815"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D6847D3BE6FED1B998B69AE5BB508EB5"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:AutoUnzip, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_D6847D3BE6FED1B998B69AE5BB508EB5"
+                    {
+                    "Name" = "8:AutoUnzip.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:AutoUnzip.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_685FBE5094824C27BEE54E39D6253815"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D9B183E706915E221B8A11B01ACD317C"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:ConfigurationStorage, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_D9B183E706915E221B8A11B01ACD317C"
+                    {
+                    "Name" = "8:ConfigurationStorage.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:ConfigurationStorage.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_685FBE5094824C27BEE54E39D6253815"
@@ -530,15 +597,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:iCloudHelper"
-        "ProductCode" = "8:{D87D2561-F2D4-401A-8834-BA0CC060C74A}"
-        "PackageCode" = "8:{A24CF01C-B704-45ED-8CFE-C4C8213A67FF}"
+        "ProductCode" = "8:{D0EB25C1-FAC5-49DF-8B9A-9102E6A3B52C}"
+        "PackageCode" = "8:{DDC605E9-01A8-45A8-9C77-C1D528C67CF5}"
         "UpgradeCode" = "8:{9D42146E-AF78-4159-893A-C6F3996B4B7D}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.4.2"
+        "ProductVersion" = "8:1.5.0"
         "Manufacturer" = "8:Christian Harscher"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/X13-G44/iCloudHelper"
@@ -1094,7 +1161,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2D2984E4822345438F68291F9A26A994"
             {
-            "SourcePath" = "8:..\\AutoUnzip\\obj\\Release\\AutoUnzip.exe"
+            "SourcePath" = "8:..\\AutoUnzip\\obj\\Debug\\AutoUnzip.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_685FBE5094824C27BEE54E39D6253815"
@@ -1122,7 +1189,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_889DA6C0C840427BBEBAEBD780CF2007"
             {
-            "SourcePath" = "8:..\\QuickSort\\obj\\Release\\QuickSort.exe"
+            "SourcePath" = "8:..\\QuickSort\\obj\\Debug\\QuickSort.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_685FBE5094824C27BEE54E39D6253815"

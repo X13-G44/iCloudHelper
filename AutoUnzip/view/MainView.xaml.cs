@@ -47,6 +47,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 
 
@@ -58,18 +59,46 @@ namespace AutoUnzip.View
 
 
 
+        Storyboard _Storyboard = new Storyboard ();
+
+
+
         public MainWindow ()
         {
             InitializeComponent ();
 
             this.DataContext = new ViewModel.MainViewModel (Dispatcher);
-            this.Opacity = 0;   // Start hidden
+            (this.DataContext as ViewModel.MainViewModel).StartFadeingAnimation += StartFadeing;
+            (this.DataContext as ViewModel.MainViewModel).StopFadeingAnimation += StopFadeing;
 
             this.Loaded += (s, e) =>
             {
                 // Relocate the window after it has been loaded and it size is known.
                 RelocateWindow ();
+
+                this.Opacity = 0.0;
+                this.Visibility = Visibility.Hidden;
             };
+
+            #region Prepare fading animation
+
+            DoubleAnimation fadeInAnimation = new DoubleAnimation (0.0, 1.0, new Duration (TimeSpan.FromSeconds (1.5)));
+            DoubleAnimation fadeOutAnimation = new DoubleAnimation (1.0, 0.0, new Duration (TimeSpan.FromSeconds (1.5)))
+            {
+                BeginTime = TimeSpan.FromSeconds (20)
+            };
+
+            _Storyboard.Children.Add (fadeInAnimation);
+            _Storyboard.Children.Add (fadeOutAnimation);
+            _Storyboard.Completed += (s, e) => { this.Visibility = Visibility.Hidden; };
+
+            // Set the target property for the animation
+            Storyboard.SetTarget (fadeInAnimation, this);
+            Storyboard.SetTarget (fadeOutAnimation, this);
+            Storyboard.SetTargetProperty (fadeInAnimation, new PropertyPath (OpacityProperty));
+            Storyboard.SetTargetProperty (fadeOutAnimation, new PropertyPath (OpacityProperty));
+
+            #endregion
         }
 
 
@@ -151,6 +180,24 @@ namespace AutoUnzip.View
                         break;
                     }
             }
+        }
+
+
+
+        private void StartFadeing ()
+        {
+            this.Visibility = Visibility.Visible;
+
+            _Storyboard.Begin ();
+        }
+
+
+
+        private void StopFadeing ()
+        {                
+            _Storyboard.Stop ();
+
+            this.Visibility = Visibility.Hidden;
         }
     }
 }

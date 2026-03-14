@@ -72,17 +72,8 @@ namespace AutoUnzip.ViewModel
 
 
 
-        private Boolean _FadeAnimationActive = false;
-
-        public Boolean FadeAnimationActive
-        {
-            get { return _FadeAnimationActive; }
-            set
-            {
-                _FadeAnimationActive = value;
-                OnPropertyChanged (nameof (FadeAnimationActive));
-            }
-        }
+        public event Action StartFadeingAnimation;
+        public event Action StopFadeingAnimation;
 
 
 
@@ -102,7 +93,7 @@ namespace AutoUnzip.ViewModel
                             {
                                 Process.Start (app.GetQuickSortFile (), "\"" + ConfigurationStorage.ConfigurationStorageModel.ExtractImagePath + "\"");
 
-                                this.FadeAnimationActive = false;   // Stop fade animation and hide the window.
+                                this.StopFadeingAnimation?.Invoke ();// Stop fade animation and hide the window.
                             }
                         }
                         catch
@@ -144,8 +135,7 @@ namespace AutoUnzip.ViewModel
             this.ExtractedFileText = LocalizedStrings.GetFormattedString ("tbMain_ExtractedFileText", extractedFiles.Count);
             this.ExtractedFilesPreview.Clear ();
 
-            this.FadeAnimationActive = false;   // Stop fade animation.
-            this.FadeAnimationActive = true;    // Start fade animation.
+            this.StartFadeingAnimation?.Invoke ();  // Start fade animation.
 
             LoadExtractedFilesPreviewListAsync ();
         }

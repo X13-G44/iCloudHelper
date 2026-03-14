@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("")]
 [assembly: AssemblyProduct ("iCloudHelper")]
-[assembly: AssemblyCopyright ("Copyright © 2025 Christian Harscher aka X13-G44")]
+[assembly: AssemblyCopyright ("Copyright © 2026 Christian Harscher aka X13-G44")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 
@@ -48,5 +48,5 @@ using System.Windows;
 //      Buildnummer
 //      Revision
 //
-[assembly: AssemblyVersion ("1.4.3.0")]
-[assembly: AssemblyFileVersion ("1.4.3.0")]
+[assembly: AssemblyVersion ("1.5.0.0")]
+[assembly: AssemblyFileVersion ("1.5.0.0")]
